@@ -73,7 +73,7 @@ public class TargetStorage  extends StorageDefault{
 	public TargetStorage(TargetClassifier targetClassifier, String fileLocation, TargetRepository targetRepository, 
 		                   Storage linkStorage, int limitOfPages, boolean hardFocus, boolean getBacklinks, 
 		                   int crawledFreq, int relevantFreq,  int harvestinfoFreq, int syncFreq, boolean isRefreshSync,
-                       float relevanceThreshold, TargetMonitor mnt) {
+                       float relevanceThreshold, TargetMonitor mnt, String langDetectProfilePath) {
 	    this.targetClassifier = targetClassifier;
 	    this.fileLocation = fileLocation;
 	    this.targetRepository = targetRepository;
@@ -94,14 +94,14 @@ public class TargetStorage  extends StorageDefault{
 	    this.totalOfPages = 0;
 	    this.totalOnTopicPages = 0;
       this.langDetect = new LangDetection();
-      this.langDetect.init("libs/profiles/");//This is hard coded, should be fixed
+      this.langDetect.init(langDetectProfilePath);
 			this.monitor = mnt;
 	}
 
 	public TargetStorage(String fileLocation, TargetRepository targetRepository, Storage linkStorage, 
-			int limitOfPages, boolean hardFocus, boolean getBacklinks, TargetMonitor mnt) {
+			int limitOfPages, boolean hardFocus, boolean getBacklinks, TargetMonitor mnt, String langDetectProfilePath) {
 		this(null, fileLocation, targetRepository, linkStorage, limitOfPages, hardFocus, getBacklinks, 
-          100, 100, 100, 100, true, 0.9f, mnt);
+          100, 100, 100, 100, true, 0.9f, mnt, langDetectProfilePath);
 	}
 
 	/**
@@ -222,6 +222,7 @@ public class TargetStorage  extends StorageDefault{
             String configPath = args[0];
             String modelPath = args[1];
             String dataPath = args[2];
+            String langDetectProfilePath = args[3];
             String targetConfFile = configPath + "/target_storage/target_storage.cfg";
             String linkConfFile = configPath + "/link_storage/link_storage.cfg";
 			ParameterFile config = new ParameterFile(targetConfFile);
@@ -268,7 +269,8 @@ public class TargetStorage  extends StorageDefault{
 												  dataPath + "/data_monitor/nonrelevantpages.csv");
 		    Storage targetStorage = new TargetStorage(targetClassifier,targetDirectory,targetRepository,
 					linkStorage,config.getParamInt("VISITED_PAGE_LIMIT"),config.getParamBoolean("HARD_FOCUS"),
-					config.getParamBoolean("BIPARTITE"), crawledFreq, relevantFreq, harvestinfoFreq, refreshFreq, isRefreshSync, relevanceThreshold, mnt);
+					config.getParamBoolean("BIPARTITE"), crawledFreq, relevantFreq, harvestinfoFreq, refreshFreq, isRefreshSync, relevanceThreshold, mnt,
+                    langDetectProfilePath);
 
 		    StorageBinder binder = new StorageBinder(config);
 		    binder.bind(targetStorage);

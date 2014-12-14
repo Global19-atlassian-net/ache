@@ -21,8 +21,8 @@ public class Main {
     public static void main(String... args) {
 
         if(args.length > 0) {
-            if("startCrawl".equals(args[0]) && args.length == 5) {
-                startCrawl(args[1], args[2], args[3], args[4]);
+            if("startCrawl".equals(args[0]) && args.length == 6) {
+                startCrawl(args[1], args[2], args[3], args[4], args[5]);
             } else if("buildModel".equals(args[0]) && args.length == 4) {
                 buildModel(args[1], args[2], args[3]);
             } else {
@@ -48,7 +48,8 @@ public class Main {
     private static void startCrawl(final String dataOutputPath,
                                    final String configPath,
                                    final String seedPath,
-                                   final String modelPath) {
+                                   final String modelPath,
+                                   final String langDetectProfilePath) {
 
         // set up the data directories
         createOutputPathStructure(dataOutputPath);
@@ -75,7 +76,7 @@ public class Main {
             @Override
             public void run() {
                 try {
-                    TargetStorage.main(new String[]{configPath, modelPath, dataOutputPath});
+                    TargetStorage.main(new String[]{configPath, modelPath, dataOutputPath, langDetectProfilePath});
                 } catch (Throwable t) {
                     System.err.println("Something bad happened to TargetStorage :(");
                     t.printStackTrace();
@@ -125,14 +126,14 @@ public class Main {
     private static void printUsage() {
         System.out.println("Focused Crawler");
         System.out.println();
-        System.out.println("startCrawl <data output path> <config path> <seed path> <model path>");
+        // TODO package the profiles with gradle build or mash them into the resources
+        System.out.println("startCrawl <data output path> <config path> <seed path> <model path> <lang detect profile path>");
         System.out.println("buildModel <target storage config path> <training data path> <output path>");
         System.out.println();
         System.out.println();
         System.out.println("Examples:");
-        System.out.println("    startCrawl sample_crawl conf/sample_config seeds/sample_crawl.seeds models/sample_model/");
+        System.out.println("    startCrawl sample_crawl conf/sample_config seeds/sample_crawl.seeds models/sample_model/ libs/profiles/");
         System.out.println("    buildModel conf/sample_crawl/target_storage.cfg training_data models/sample_model/");
-        System.exit(1);
     }
 
 }
