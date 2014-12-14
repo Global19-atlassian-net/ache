@@ -1,0 +1,12 @@
+package:
+    name: focused_crawler
+    version: 0.1.0
+
+build:
+    number: 0
+
+source:
+    path: ../
+
+about:
+    license: GPL 2.0
