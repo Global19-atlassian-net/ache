@@ -42,9 +42,7 @@
  */
 
 
-
 package focusedCrawler.util.string;
-
 
 
 import java.io.File;
@@ -62,20 +60,18 @@ import java.util.StringTokenizer;
 import focusedCrawler.util.ParameterFile;
 
 
-
 public class StopListArquivo extends AbstractStopList {
 
 
-        public static String PORTUGUES = "darwin"+File.separator+"contentanaliser"+File.separator+"text"+File.separator+"factory"+File.separator+"stoplist"+File.separator+"portugues.txt";
-        public static String INGLES    = "darwin"+File.separator+"contentanaliser"+File.separator+"text"+File.separator+"factory"+File.separator+"stoplist"+File.separator+"ingles.txt";
-        public static String COMPUTES  = "darwin"+File.separator+"contentanaliser"+File.separator+"text"+File.separator+"factory"+File.separator+"stoplist"+File.separator+"computes.txt";
-        public static String DEFAULT   = PORTUGUES+" "+INGLES+" "+COMPUTES;
-        public static String MARCADOR_EXCECOES       = "*** Excecoes";
-        public static String MARCADOR_IRRELEVANTES   = "*** Palavras Irrelevantes";
-        public static String MARCADOR_COMPLEMENTARES = "*** Palavras Complementares";
-        public static String MARCADOR_PREFIXOS       = "*** Prefixos";
-        public static String MARCADOR_SUFIXOS        = "*** Terminacoes Ignoraveis";
-
+    public static String PORTUGUES = "darwin" + File.separator + "contentanaliser" + File.separator + "text" + File.separator + "factory" + File.separator + "stoplist" + File.separator + "portugues.txt";
+    public static String INGLES = "darwin" + File.separator + "contentanaliser" + File.separator + "text" + File.separator + "factory" + File.separator + "stoplist" + File.separator + "ingles.txt";
+    public static String COMPUTES = "darwin" + File.separator + "contentanaliser" + File.separator + "text" + File.separator + "factory" + File.separator + "stoplist" + File.separator + "computes.txt";
+    public static String DEFAULT = PORTUGUES + " " + INGLES + " " + COMPUTES;
+    public static String MARCADOR_EXCECOES = "*** Excecoes";
+    public static String MARCADOR_IRRELEVANTES = "*** Palavras Irrelevantes";
+    public static String MARCADOR_COMPLEMENTARES = "*** Palavras Complementares";
+    public static String MARCADOR_PREFIXOS = "*** Prefixos";
+    public static String MARCADOR_SUFIXOS = "*** Terminacoes Ignoraveis";
 
 
     public StopListArquivo() {
@@ -84,236 +80,224 @@ public class StopListArquivo extends AbstractStopList {
 
         try {
 
-            inicializarArquivos( DEFAULT );
+            inicializarArquivos(DEFAULT);
 
-        }
-
-        catch(IOException ioe) {
+        } catch (IOException ioe) {
 
             ioe.printStackTrace();
 
-            System.out.println("Não conseguiu inicializar o arquivo default : "+ DEFAULT );
+            System.out.println("Não conseguiu inicializar o arquivo default : " + DEFAULT);
 
         }
 
     }
 
 
-
-    public StopListArquivo( String filenames ) throws IOException {
+    public StopListArquivo(String filenames) throws IOException {
 
         super();
 
-        inicializarArquivos( filenames );
+        inicializarArquivos(filenames);
 
     }
 
 
-
-    public StopListArquivo( ParameterFile config ) throws IOException {
+    public StopListArquivo(ParameterFile config) throws IOException {
 
         super();
 
-        inicializarArquivos( config.getParam("STOPLIST_FILES") );
+        inicializarArquivos(config.getParam("STOPLIST_FILES"));
 
     }
 
 
+    private void inicializarArquivos(String filenames) throws IOException {
 
-    private void inicializarArquivos( String filenames ) throws IOException {
-
-        StringTokenizer tokens = new StringTokenizer( filenames," " );
-
+        StringTokenizer tokens = new StringTokenizer(filenames, " ");
 
 
-        final int INICIO         = 1;
+        final int INICIO = 1;
 
-        final int EXCECOES       = INICIO + 1;
+        final int EXCECOES = INICIO + 1;
 
-        final int IRRELEVANTES   = EXCECOES + 1;
+        final int IRRELEVANTES = EXCECOES + 1;
 
         final int COMPLEMENTARES = IRRELEVANTES + 1;
 
-        final int PREFIXOS       = COMPLEMENTARES + 1;
+        final int PREFIXOS = COMPLEMENTARES + 1;
 
-        final int SUFIXOS        = PREFIXOS + 1;
+        final int SUFIXOS = PREFIXOS + 1;
 
 
+        Vector excecoes = new Vector();
 
-        Vector excecoes       = new Vector();
-
-        Vector irrelevantes   = new Vector();
+        Vector irrelevantes = new Vector();
 
         Vector complementares = new Vector();
 
-        Vector prefixos       = new Vector();
+        Vector prefixos = new Vector();
 
-        Vector sufixos        = new Vector();
+        Vector sufixos = new Vector();
 
 
+        while (tokens.hasMoreTokens())
 
-        while( tokens.hasMoreTokens() )
+        {
 
-             {
+            BufferedReader in = new BufferedReader(new FileReader(tokens.nextToken()));
 
-               BufferedReader in = new BufferedReader( new FileReader(tokens.nextToken()) );
+            try {
 
-               try {
+                int estado = INICIO;
 
-                     int estado = INICIO;
+                for (String temp = in.readLine(); temp != null; temp = in.readLine())
 
-                     for( String temp = in.readLine() ; temp != null ; temp = in.readLine() )
+                {
 
-                        {
+                    temp = temp.trim();
 
-                          temp = temp.trim();
+                    if (temp.length() > 0 && !temp.startsWith("#"))
 
-                          if( temp.length() > 0 && !temp.startsWith("#") )
+                    {
+
+                        if (temp.startsWith(MARCADOR_EXCECOES))
+
+                            estado = EXCECOES;
+
+                        else if (temp.startsWith(MARCADOR_IRRELEVANTES))
+
+                            estado = IRRELEVANTES;
+
+                        else if (temp.startsWith(MARCADOR_COMPLEMENTARES))
+
+                            estado = COMPLEMENTARES;
+
+                        else if (temp.startsWith(MARCADOR_PREFIXOS))
+
+                            estado = PREFIXOS;
+
+                        else if (temp.startsWith(MARCADOR_SUFIXOS))
+
+                            estado = SUFIXOS;
+
+                        else {
+
+                            switch (estado)
 
                             {
 
-                              if( temp.startsWith(MARCADOR_EXCECOES) )
+                                case EXCECOES:
 
-                                  estado = EXCECOES;
+                                    excecoes.addElement(temp);
 
-                              else if( temp.startsWith(MARCADOR_IRRELEVANTES) )
+                                    break;
 
-                                  estado = IRRELEVANTES;
+                                case IRRELEVANTES:
 
-                              else if( temp.startsWith(MARCADOR_COMPLEMENTARES) )
+                                    irrelevantes.addElement(temp);
 
-                                  estado = COMPLEMENTARES;
+                                    break;
 
-                              else if( temp.startsWith(MARCADOR_PREFIXOS) )
+                                case COMPLEMENTARES:
 
-                                  estado = PREFIXOS;
+                                    complementares.addElement(temp);
 
-                              else if( temp.startsWith(MARCADOR_SUFIXOS) )
+                                    break;
 
-                                  estado = SUFIXOS;
+                                case PREFIXOS:
 
-                              else {
+                                    prefixos.addElement(temp);
 
-                                     switch( estado )
+                                    break;
 
-                                           {
+                                case SUFIXOS:
 
-                                             case EXCECOES:
+                                    sufixos.addElement(temp);
 
-                                                excecoes.addElement(temp);
-
-                                                break;
-
-                                             case IRRELEVANTES:
-
-                                                irrelevantes.addElement(temp);
-
-                                                break;
-
-                                             case COMPLEMENTARES:
-
-                                                complementares.addElement(temp);
-
-                                                break;
-
-                                             case PREFIXOS:
-
-                                                prefixos.addElement(temp);
-
-                                                break;
-
-                                             case SUFIXOS:
-
-                                                sufixos.addElement(temp);
-
-                                                break;
-
-                                           }
-
-                                   }
+                                    break;
 
                             }
 
                         }
 
-                   }
+                    }
 
-               catch( IOException ioe )
+                }
 
-                   {
+            } catch (IOException ioe)
 
-                     in.close();
+            {
 
-                   }
+                in.close();
 
-               in.close();
+            }
 
-             }
+            in.close();
+
+        }
 
 
+        if (excecoes.size() > 0)
 
-        if( excecoes.size() > 0 )
+        {
 
-          {
+            String tmp[] = new String[excecoes.size()];
 
-            String tmp[] = new String[ excecoes.size() ];
+            excecoes.copyInto(tmp);
 
-            excecoes.copyInto( tmp );
+            super.setExcecoes(tmp);          // modifica o array da super classe que era nulo
 
-            super.setExcecoes( tmp );          // modifica o array da super classe que era nulo
+        }
 
-          }
+        if (irrelevantes.size() > 0)
 
-        if( irrelevantes.size() > 0 )
+        {
 
-          {
+            String tmp[] = new String[irrelevantes.size()];
 
-            String tmp[] = new String[ irrelevantes.size() ];
+            irrelevantes.copyInto(tmp);
 
-            irrelevantes.copyInto( tmp );
+            super.setIrrelevantes(tmp);          // modifica o array da super classe que era nulo
 
-            super.setIrrelevantes( tmp );          // modifica o array da super classe que era nulo
+        }
 
-          }
+        if (complementares.size() > 0)
 
-        if( complementares.size() > 0 )
+        {
 
-          {
+            String tmp[] = new String[complementares.size()];
 
-            String tmp[] = new String[ complementares.size() ];
+            complementares.copyInto(tmp);
 
-            complementares.copyInto( tmp );
+            super.setComplementares(tmp);    // modifica o array da super classe que era nulo
 
-            super.setComplementares( tmp );    // modifica o array da super classe que era nulo
+        }
 
-          }
+        if (prefixos.size() > 0)
 
-        if( prefixos.size() > 0 )
+        {
 
-          {
+            String tmp[] = new String[prefixos.size()];
 
-            String tmp[] = new String[ prefixos.size() ];
+            prefixos.copyInto(tmp);
 
-            prefixos.copyInto( tmp );
+            super.setPrefixos(tmp);       // modifica o array da super classe que era nulo
 
-            super.setPrefixos( tmp );       // modifica o array da super classe que era nulo
+        }
 
-          }
+        if (sufixos.size() > 0)
 
-        if( sufixos.size() > 0 )
+        {
 
-          {
+            String tmp[] = new String[sufixos.size()];
 
-            String tmp[] = new String[ sufixos.size() ];
+            sufixos.copyInto(tmp);
 
-            sufixos.copyInto( tmp );
+            super.setSufixos(tmp);       // modifica o array da super classe que era nulo
 
-            super.setSufixos( tmp );       // modifica o array da super classe que era nulo
-
-          }
+        }
 
     }
-
 
 
     public static void main(String[] args) throws Exception {
@@ -326,23 +310,23 @@ public class StopListArquivo extends AbstractStopList {
 
         System.out.println();
 
-        System.out.println("Palavra                      = " + palavra );
+        System.out.println("Palavra                      = " + palavra);
 
-        System.out.println("apenasNumeroEHifen           = " + stopList.apenasNumeroEHifen( palavra ) );
+        System.out.println("apenasNumeroEHifen           = " + stopList.apenasNumeroEHifen(palavra));
 
-        System.out.println("possuiCaracteresIrrelevantes = " + stopList.possuiCaracteresIrrelevantes( palavra ) );
+        System.out.println("possuiCaracteresIrrelevantes = " + stopList.possuiCaracteresIrrelevantes(palavra));
 
-        System.out.println("eExcecao                     = " + stopList.pertenceAoArray( palavra,stopList.getExcecoes() ) );
+        System.out.println("eExcecao                     = " + stopList.pertenceAoArray(palavra, stopList.getExcecoes()));
 
-        System.out.println("eIrrelevante                 = " + stopList.pertenceAoArray( palavra,stopList.getIrrelevantes() ) );
+        System.out.println("eIrrelevante                 = " + stopList.pertenceAoArray(palavra, stopList.getIrrelevantes()));
 
-        System.out.println("eComplementar                = " + stopList.pertenceAoArray( palavra,stopList.getComplementares() ) );
+        System.out.println("eComplementar                = " + stopList.pertenceAoArray(palavra, stopList.getComplementares()));
 
-        System.out.println("temPrefixo                   = " + stopList.possuiPrefixos( palavra,stopList.getPrefixos() ) );
+        System.out.println("temPrefixo                   = " + stopList.possuiPrefixos(palavra, stopList.getPrefixos()));
 
-        System.out.println("temSufixo                    = " + stopList.possuiSufixos( palavra,stopList.getSufixos() ) );
+        System.out.println("temSufixo                    = " + stopList.possuiSufixos(palavra, stopList.getSufixos()));
 
-        System.out.println("RESULTADO -> " + stopList.eIrrelevante(palavra) );
+        System.out.println("RESULTADO -> " + stopList.eIrrelevante(palavra));
 
     }
 

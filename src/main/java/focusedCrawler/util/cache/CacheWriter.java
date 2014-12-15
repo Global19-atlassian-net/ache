@@ -24,7 +24,6 @@
 package focusedCrawler.util.cache;
 
 
-
 import java.util.Enumeration;
 import java.util.Iterator;
 
@@ -32,39 +31,35 @@ import focusedCrawler.util.writer.Writer;
 import focusedCrawler.util.writer.WriterException;
 
 
-public abstract class CacheWriter implements Writer{
-
+public abstract class CacheWriter implements Writer {
 
 
     protected Cache cache;
 
 
-
-    public CacheWriter(Cache cache){
+    public CacheWriter(Cache cache) {
 
         setCache(cache);
 
     }
 
 
-
-    public void setCache(Cache cache){
+    public void setCache(Cache cache) {
 
         this.cache = cache;
 
     }
 
 
+    public void write() throws WriterException {
 
-    public void write() throws WriterException{
-
-        try{
+        try {
 
             Iterator keys = cache.getKeys();
 
-            while(keys.hasNext()) {
+            while (keys.hasNext()) {
 
-                CacheKey key = (CacheKey)keys.next();
+                CacheKey key = (CacheKey) keys.next();
 
                 write(key);
 
@@ -72,24 +67,19 @@ public abstract class CacheWriter implements Writer{
 
             finalize();
 
-        }
+        } catch (CacheException erro) {
 
-        catch (CacheException erro) {
-
-            throw new WriterException ("Não conseguiu escrever na cache: " + erro.getMessage ());
+            throw new WriterException("Nï¿½o conseguiu escrever na cache: " + erro.getMessage());
 
         }
 
     }
 
 
-
     public abstract void write(Object obj) throws WriterException;
 
 
-
     public abstract void finalize() throws WriterException;
-
 
 
 }

@@ -24,41 +24,27 @@
 package focusedCrawler.util.cache;
 
 
-
 /**
-
  * Identifica a chave da cache.
-
- * Uma chave é basicamente um objeto que possui um objeto de hash.
-
+ * <p/>
+ * Uma chave ï¿½ basicamente um objeto que possui um objeto de hash.
+ * <p/>
  * Cada dado da cache deve ter uma chave CacheKey para representa-lo
-
- * unicamente.   
-
+ * <p/>
+ * unicamente.
  *
-
  * @author Oscar Miranda
-
  * @version 1.0, 1999
-
  */
 
 public interface CacheKey extends java.io.Serializable {
 
 
-
     /**
-
      * retorna a hashKey
-
      *
-
      * @return o objeto que representa a chave de hash.
-
-     *
-
      * @see java.lang.Object
-
      */
 
     public Object hashKey();

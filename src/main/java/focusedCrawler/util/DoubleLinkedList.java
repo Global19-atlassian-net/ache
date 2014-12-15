@@ -24,9 +24,7 @@
 package focusedCrawler.util;
 
 
-
 public class DoubleLinkedList {
-
 
 
     private int size;
@@ -36,23 +34,20 @@ public class DoubleLinkedList {
     private DoubleLinkedListNode last;
 
 
-
     public DoubleLinkedList() {
 
-        size=0;
+        size = 0;
 
-        head=last=null;
+        head = last = null;
 
     }
 
 
-
-    public boolean isEmpty() { 
+    public boolean isEmpty() {
 
         return size == 0;
 
     }
-
 
 
     public DoubleLinkedListNode head() {
@@ -62,13 +57,11 @@ public class DoubleLinkedList {
     }
 
 
-
     public DoubleLinkedListNode last() {
 
         return last;
 
     }
-
 
 
     public void setHead(DoubleLinkedListNode head) {
@@ -78,7 +71,6 @@ public class DoubleLinkedList {
     }
 
 
-
     public void setLast(DoubleLinkedListNode last) {
 
         this.last = last;
@@ -86,8 +78,9 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** cria um novo no para o objeto dado e insere no final */
+    /**
+     * cria um novo no para o objeto dado e insere no final
+     */
 
     public DoubleLinkedListNode insertLast(Object obj) {
 
@@ -100,12 +93,13 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** insere o no dado no final da lista */
+    /**
+     * insere o no dado no final da lista
+     */
 
     public synchronized void insertNodeAtTheEnd(DoubleLinkedListNode newNode) {
 
-        if (size==0) {
+        if (size == 0) {
 
             head = last = newNode;
 
@@ -128,8 +122,9 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** cria um novo no para o objeto dado e insere no inicio */
+    /**
+     * cria um novo no para o objeto dado e insere no inicio
+     */
 
     public DoubleLinkedListNode insertFirst(Object obj) {
 
@@ -142,8 +137,9 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** insere o no dado no inicio */
+    /**
+     * insere o no dado no inicio
+     */
 
     public synchronized void insertNodeFirst(DoubleLinkedListNode newNode) {
 
@@ -163,7 +159,7 @@ public class DoubleLinkedList {
 
             newNode.setPrevious(null);
 
-            head=newNode;
+            head = newNode;
 
         }
 
@@ -174,31 +170,32 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** Remove o no dado desta lista, se o no nao for desta lista nao faz nada */
+    /**
+     * Remove o no dado desta lista, se o no nao for desta lista nao faz nada
+     */
 
     public synchronized void removeNode(DoubleLinkedListNode oldNode) {
 
-        if (oldNode.list()==this) {
+        if (oldNode.list() == this) {
 
             if (!isEmpty()) {
 
-                if (head==last) {
+                if (head == last) {
 
                     head = last = null;
 
-                } else if (oldNode==head) {
+                } else if (oldNode == head) {
 
                     head = oldNode.next();
 
                     head.setPrevious(null);
 
-                } else if (oldNode==last) {
+                } else if (oldNode == last) {
 
                     last = oldNode.previous();
 
                     last.setNext(null);
-                    
+
                 } else {
 
                     oldNode.previous().setNext(oldNode.next());
@@ -222,7 +219,6 @@ public class DoubleLinkedList {
     }
 
 
-
     public synchronized void moveFirst(DoubleLinkedListNode node) {
 
         removeNode(node);
@@ -232,8 +228,9 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** move o no dado para o final da lista */
+    /**
+     * move o no dado para o final da lista
+     */
 
     public synchronized void moveLast(DoubleLinkedListNode node) {
 
@@ -244,8 +241,9 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** Remove a cabeca da lista e retorna o no removido */
+    /**
+     * Remove a cabeca da lista e retorna o no removido
+     */
 
     public synchronized DoubleLinkedListNode removeHead() {
 
@@ -262,8 +260,9 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** Remove o ultimo no da lista e retorna o no removido */
+    /**
+     * Remove o ultimo no da lista e retorna o no removido
+     */
 
     public synchronized DoubleLinkedListNode removeLast() {
 
@@ -280,12 +279,13 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** representacao em string da lista */
+    /**
+     * representacao em string da lista
+     */
 
     public String toString() {
 
-        StringBuffer buf = new StringBuffer(size+10);
+        StringBuffer buf = new StringBuffer(size + 10);
 
         DoubleLinkedListNode walker = head;
 
@@ -293,7 +293,7 @@ public class DoubleLinkedList {
 
         boolean first = true;
 
-        while(walker!=null) {
+        while (walker != null) {
 
             if (first) {
 
@@ -301,7 +301,7 @@ public class DoubleLinkedList {
 
                 first = false;
 
-            } else  buf.append(",").append(walker);
+            } else buf.append(",").append(walker);
 
             walker = walker.next();
 
@@ -314,8 +314,9 @@ public class DoubleLinkedList {
     }
 
 
-
-    /** Tamanho da lista */
+    /**
+     * Tamanho da lista
+     */
 
     public int size() {
 
@@ -324,45 +325,43 @@ public class DoubleLinkedList {
     }
 
 
-
     public static void main(String args[]) {
 
         DoubleLinkedList list = new DoubleLinkedList();
 
-        DoubleLinkedListNode no1,no2,no3; 
+        DoubleLinkedListNode no1, no2, no3;
 
-        System.out.println("lista vazia : "+list);
+        System.out.println("lista vazia : " + list);
 
         no1 = list.insertFirst(new Integer(1));
 
-        System.out.println("lista um : "+list);
+        System.out.println("lista um : " + list);
 
         no2 = list.insertLast(new Integer(10));
 
-        System.out.println("lista 2 : "+list);
+        System.out.println("lista 2 : " + list);
 
         no3 = list.insertFirst(new Integer(-10));
 
-        System.out.println("lista 3 : "+list);
+        System.out.println("lista 3 : " + list);
 
         no1.removeNode();
 
-        System.out.println("lista 4 : "+list);
+        System.out.println("lista 4 : " + list);
 
         no2.removeNode();
 
-        System.out.println("lista 5 : "+list);
+        System.out.println("lista 5 : " + list);
 
         no3.removeNode();
 
-        System.out.println("lista 6 : "+list);
+        System.out.println("lista 6 : " + list);
 
         list.insertNodeFirst(no3);
 
-        System.out.println("lista 7 : "+list);
+        System.out.println("lista 7 : " + list);
 
     }
-
 
 
 }

@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage.socket;
 
 
-
 import focusedCrawler.util.ParameterFile;
 import focusedCrawler.util.cache.CacheException;
 import focusedCrawler.util.cache.FactoryException;
@@ -36,31 +35,16 @@ import focusedCrawler.util.storage.StorageFactory;
 import focusedCrawler.util.storage.StorageFactoryException;
 
 
-
-
-
-
-
-
-
-
-
-
-
 /**
-
  * Fabrica de StorageRemoteAdapter
-
  */
 
 public class StorageRemoteAdapterFactory extends AbstractStorageFactory {
 
 
-
     private String remoteHost;
 
     private int remotePort;
-
 
 
     public StorageRemoteAdapterFactory() {
@@ -70,13 +54,11 @@ public class StorageRemoteAdapterFactory extends AbstractStorageFactory {
     }
 
 
-
     public StorageRemoteAdapterFactory(ParameterFile config) throws StorageFactoryException {
 
         super(config);
 
     }
-
 
 
     private void initParams() throws StorageFactoryException {
@@ -88,17 +70,15 @@ public class StorageRemoteAdapterFactory extends AbstractStorageFactory {
     } //initParams
 
 
-
     public synchronized Storage produce() throws StorageFactoryException {
 
         initParams();
 
-        focusedCrawler.util.Log.log("SocketAdapterFactory","produce",remoteHost+":"+remotePort);
+        focusedCrawler.util.Log.log("SocketAdapterFactory", "produce", remoteHost + ":" + remotePort);
 
         return new StorageRemoteAdapter(remoteHost, remotePort);
 
     }
-
 
 
 } //class

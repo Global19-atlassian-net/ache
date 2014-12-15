@@ -32,9 +32,7 @@
  */
 
 
-
 package focusedCrawler.util;
-
 
 
 import java.io.PrintWriter;
@@ -42,21 +40,13 @@ import java.io.PrintWriter;
 import java.io.PrintStream;
 
 
-
 /**
-
- *
-
- * @author  joao
-
- * @version
-
+ * @author joao
  */
 
-public class DetailException extends Exception{
+public class DetailException extends Exception {
 
     public Throwable detail;
-
 
 
     public DetailException() {
@@ -66,7 +56,6 @@ public class DetailException extends Exception{
     }
 
 
-
     public DetailException(String newMessage) {
 
         super(newMessage);
@@ -74,15 +63,13 @@ public class DetailException extends Exception{
     }
 
 
-
-    public DetailException(String newMessage,Throwable newDetail) {
+    public DetailException(String newMessage, Throwable newDetail) {
 
         super(newMessage);
 
         this.detail = newDetail;
 
     }
-
 
 
     public DetailException(Throwable newDetail) {
@@ -94,13 +81,11 @@ public class DetailException extends Exception{
     }
 
 
-
     public void printStackTrace() {
 
         printStackTrace(System.out);
 
     }
-
 
 
     public void printStackTrace(PrintWriter pw) {
@@ -118,8 +103,7 @@ public class DetailException extends Exception{
     }
 
 
-
-    public void printStackTrace(PrintStream ps){
+    public void printStackTrace(PrintStream ps) {
 
         if (detail != null) {
 

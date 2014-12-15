@@ -24,7 +24,6 @@
 package focusedCrawler.util.cache;
 
 
-
 import java.io.ObjectOutput;
 
 import java.io.ObjectInput;
@@ -34,23 +33,14 @@ import java.io.IOException;
 import java.io.Externalizable;
 
 
-
 /**
-
  * Esta classe implementa um cacheKey default
-
+ * <p/>
  * usando um Objeto qualquer como o objeto de hash.
-
  *
-
- *
-
  * @author Oscar Miranda
-
  * @version %I%, %G%
-
  * @see focusedCrawler.util.cache.CacheKey
-
  */
 
 public class StringCacheKey implements CacheKey, Externalizable {
@@ -58,13 +48,11 @@ public class StringCacheKey implements CacheKey, Externalizable {
     private String key;
 
 
-
     public StringCacheKey(String key) {
 
-       this.key = key;
+        this.key = key;
 
     }
-
 
 
     public StringCacheKey() {
@@ -72,17 +60,10 @@ public class StringCacheKey implements CacheKey, Externalizable {
     }
 
 
-
     /**
-
      * modifica o objeto chave
-
      *
-
-     *
-
      * @param key a nova chave
-
      */
 
     public void setKey(String key) {
@@ -92,21 +73,11 @@ public class StringCacheKey implements CacheKey, Externalizable {
     }
 
 
-
     /**
-
      * retorna a chave de hash
-
      *
-
-     *
-
      * @return a chave de hash
-
-     *
-
      * @see focusedCrawler.util.cache.CacheKey
-
      */
 
     public Object hashKey() {
@@ -114,9 +85,6 @@ public class StringCacheKey implements CacheKey, Externalizable {
         return key;
 
     }
-
-
-
 
 
     public String toString() {
@@ -144,7 +112,6 @@ public class StringCacheKey implements CacheKey, Externalizable {
         this.key = new String(bytes);
 
     }
-
 
 
 }

@@ -27,34 +27,25 @@ package focusedCrawler.util.download;
 public interface ThreadDownloadFactory {
 
 
-
     /**
-
      * Cria um thread de download.
-
+     *
      * @param alvo Alvo que deve ser atacado pelo thread.
-
      * @return Um thread que e responsavel pelo download do alvo dado.
-
      */
 
     public ThreadDownload criarThread(String alvo);
 
 
-
     /**
-
      * Cria um thread de download.
-
-     * @param alvo Alvo que deve ser atacado pelo thread.
-
+     *
+     * @param alvo    Alvo que deve ser atacado pelo thread.
      * @param timeout Tempo maximo de vida do thread.
-
      * @return Um thread que e responsavel pelo download do alvo dado, no tempo desejado.
-
      */
 
-    public ThreadDownload criarThread(String alvo,int timeout);
+    public ThreadDownload criarThread(String alvo, int timeout);
 
 }
 

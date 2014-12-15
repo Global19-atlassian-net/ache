@@ -24,9 +24,6 @@
 package focusedCrawler.util.download;
 
 
-
-
-
 import java.io.InputStream;
 
 import java.io.OutputStream;
@@ -38,242 +35,234 @@ import java.util.Iterator;
 import focusedCrawler.util.Log;
 
 
-
-
-
-
 public class ProxyDownloader implements Downloader {
 
 
+    private Downloader downloader;
 
-  private Downloader downloader;
 
+    public ProxyDownloader(Downloader _downloader) {
 
+        this.downloader = _downloader;
 
-  public ProxyDownloader( Downloader _downloader) {
+    }
 
-    this.downloader = _downloader;
 
-  }
+    public void setShowNormalLog(boolean newNormalLog) throws DownloaderException {
 
+        downloader.setShowNormalLog(newNormalLog);
 
+    }
 
-  public void setShowNormalLog(boolean newNormalLog) throws DownloaderException {
+    public void setNormalLog(Log newNormalLog) throws DownloaderException {
 
-    downloader.setShowNormalLog( newNormalLog);
+        downloader.setNormalLog(newNormalLog);
 
-  }
+    }
 
-  public void setNormalLog(Log newNormalLog) throws DownloaderException {
+    public void setShowErrorLog(boolean newErrorLog) throws DownloaderException {
 
-    downloader.setNormalLog(newNormalLog);
+        downloader.setShowErrorLog(newErrorLog);
 
-  }
+    }
 
-  public void setShowErrorLog(boolean newErrorLog) throws DownloaderException {
+    public void setErrorLog(Log newErrorLog) throws DownloaderException {
 
-    downloader.setShowErrorLog(newErrorLog);
+        downloader.setErrorLog(newErrorLog);
 
-  }
+    }
 
-  public void setErrorLog(Log newErrorLog) throws DownloaderException {
+    public void setId(String newId) throws DownloaderException {
 
-    downloader.setErrorLog(newErrorLog) ;
+        downloader.setId(newId);
 
-  }
+    }
 
-  public void setId(String newId) throws DownloaderException {
+    public String getId() throws DownloaderException {
 
-    downloader.setId(newId);
+        return downloader.getId();
 
-  }
 
-  public String getId() throws DownloaderException {
+    }
 
-    return downloader.getId();
+    public void clearRequestProperties() throws DownloaderException {
 
+        downloader.clearRequestProperties();
 
+    }
 
-  }
+    public void setRequestProperty(String name, String value) throws DownloaderException {
 
-  public void clearRequestProperties() throws DownloaderException {
+        downloader.setRequestProperty(name, value);
 
-    downloader.clearRequestProperties() ;
+    }
 
-  }
+    public void setProtocol(String newProtocol) throws DownloaderException {
 
-  public void setRequestProperty(String name, String value) throws DownloaderException {
+        downloader.setProtocol(newProtocol);
 
-    downloader.setRequestProperty(name, value) ;
+    }
 
-  }
+    public String getProtocol() throws DownloaderException {
 
-  public void setProtocol(String newProtocol) throws DownloaderException {
+        return downloader.getProtocol();
 
-    downloader.setProtocol(newProtocol);
+    }
 
-  }
+    public void setMethod(String newMethod) throws DownloaderException {
 
-  public String getProtocol() throws DownloaderException {
+        downloader.setMethod(newMethod);
 
-    return downloader.getProtocol();
+    }
 
-  }
+    public String getMethod() throws DownloaderException {
 
-  public void setMethod(String newMethod) throws DownloaderException {
+        return downloader.getMethod();
 
-    downloader.setMethod(newMethod);
+    }
 
-  }
+    public void setTimeout(int timeout) throws DownloaderException {
 
-  public String getMethod() throws DownloaderException {
+        downloader.setTimeout(timeout);
 
-    return downloader.getMethod();
+    }
 
-  }
+    public int getTimeout() throws DownloaderException {
 
-  public void setTimeout(int timeout) throws DownloaderException {
+        return downloader.getTimeout();
 
-    downloader.setTimeout(timeout);
+    }
 
-  }
+    public void setUrlTarget(URL newUrlTarget) throws DownloaderException {
 
-  public int getTimeout() throws DownloaderException {
+        downloader.setUrlTarget(newUrlTarget);
 
-    return downloader.getTimeout();
+    }
 
-  }
+    public URL getUrlTarget() throws DownloaderException {
 
-  public void setUrlTarget(URL newUrlTarget) throws DownloaderException {
+        return downloader.getUrlTarget();
 
-    downloader.setUrlTarget(newUrlTarget);
+    }
 
-  }
+    public void setFollowRedirects(boolean newFollowRedirects) throws DownloaderException {
 
-  public URL getUrlTarget() throws DownloaderException {
+        downloader.setFollowRedirects(newFollowRedirects);
 
-    return downloader.getUrlTarget();
+    }
 
-  }
+    public boolean isFollowRedirects() throws DownloaderException {
 
-  public void setFollowRedirects(boolean newFollowRedirects) throws DownloaderException {
+        return downloader.isFollowRedirects();
 
-    downloader.setFollowRedirects( newFollowRedirects);
+    }
 
-  }
+    public void setFollowRedirectsTolerance(int newFollowRedirectsTolerance) throws DownloaderException {
 
-  public boolean isFollowRedirects() throws DownloaderException {
+        downloader.setFollowRedirectsTolerance(newFollowRedirectsTolerance);
 
-    return downloader.isFollowRedirects();
+    }
 
-  }
+    public int getFollowRedirectsTolerance() throws DownloaderException {
 
-  public void setFollowRedirectsTolerance(int newFollowRedirectsTolerance) throws DownloaderException {
+        return downloader.getFollowRedirectsTolerance();
 
-    downloader.setFollowRedirectsTolerance(newFollowRedirectsTolerance);
+    }
 
-  }
+    public void clearResponseProperties() throws DownloaderException {
 
-  public int getFollowRedirectsTolerance() throws DownloaderException {
+        downloader.clearResponseProperties();
 
-    return downloader.getFollowRedirectsTolerance();
+    }
 
-  }
+    public void connect() throws DownloaderException {
 
-  public void clearResponseProperties() throws DownloaderException {
+        downloader.connect();
 
-    downloader.clearResponseProperties();
+    }
 
-  }
+    public int getStatus() throws DownloaderException {
 
-  public void connect() throws DownloaderException {
+        return downloader.getStatus();
 
-    downloader.connect();
+    }
 
-  }
+    public String getResponseProtocol() throws DownloaderException {
 
-  public int getStatus() throws DownloaderException {
+        return downloader.getResponseProtocol();
 
-    return downloader.getStatus();
+    }
 
-  }
+    public int getResponseCode() throws DownloaderException {
 
-  public String getResponseProtocol() throws DownloaderException {
+        return downloader.getResponseCode();
 
-    return downloader.getResponseProtocol();
+    }
 
-  }
+    public String getResponseMessage() throws DownloaderException {
 
-  public int getResponseCode() throws DownloaderException {
+        return downloader.getResponseMessage();
 
-    return downloader.getResponseCode();
+    }
 
-  }
+    public String getContentType() throws DownloaderException {
 
-  public String getResponseMessage() throws DownloaderException {
+        return downloader.getContentType();
 
-    return downloader.getResponseMessage();
+    }
 
-  }
+    public long getLastModified() throws DownloaderException {
 
-  public String getContentType() throws DownloaderException {
+        return downloader.getLastModified();
 
-    return downloader.getContentType();
+    }
 
-  }
+    public int getContentLength() throws DownloaderException {
 
-  public long getLastModified() throws DownloaderException {
+        return downloader.getContentLength();
 
-    return downloader.getLastModified();
+    }
 
-  }
+    public String getResponseProperty(String name) throws DownloaderException {
 
-  public int getContentLength() throws DownloaderException{
+        return downloader.getResponseProperty(name);
 
-    return downloader.getContentLength() ;
+    }
 
-  }
+    public String getResponseProperty(String name, boolean caseSensitive) throws DownloaderException {
 
-  public String getResponseProperty(String name) throws DownloaderException {
+        return downloader.getResponseProperty(name, caseSensitive);
 
-    return downloader.getResponseProperty(name);
+    }
 
-  }
+    public Iterator listResponse() throws DownloaderException {
 
-  public String getResponseProperty(String name, boolean caseSensitive) throws DownloaderException {
+        return downloader.listResponse();
 
-    return downloader.getResponseProperty(name, caseSensitive);
+    }
 
-  }
+    public OutputStream getOutputStream() throws DownloaderException {
 
-  public Iterator listResponse() throws DownloaderException {
+        return downloader.getOutputStream();
 
-    return downloader.listResponse();
+    }
 
-  }
+    public InputStream getInputStream() throws DownloaderException {
 
-  public OutputStream getOutputStream() throws DownloaderException {
+        return downloader.getInputStream();
 
-    return downloader.getOutputStream();
+    }
 
-  }
+    public void close() throws DownloaderException {
 
-  public InputStream getInputStream() throws DownloaderException {
+        downloader.close();
 
-    return downloader.getInputStream();
+    }
 
-  }
+    public boolean isShutdown() throws DownloaderException {
 
-  public void close() throws DownloaderException {
+        return downloader.isShutdown();
 
-    downloader.close();
-
-  }
-
-  public boolean isShutdown() throws DownloaderException {
-
-    return downloader.isShutdown();
-
-  }
+    }
 
 }

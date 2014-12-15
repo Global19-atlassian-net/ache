@@ -24,7 +24,6 @@
 package focusedCrawler.util.cache.rmi;
 
 
-
 import java.rmi.*;
 
 import java.util.*;
@@ -32,98 +31,62 @@ import java.util.*;
 import focusedCrawler.util.cache.*;
 
 
-
-
-
-
 /**
-
  * Interface de acesso remoto RMI para implementacao
-
+ * <p/>
  * da estrutura cliente-servidor da cache remota.
-
+ * <p/>
+ * <p/>
+ * <p/>
+ * Basicamente ï¿½ uma implementacao remota da interface Cache.
  *
-
- * Basicamente é uma implementacao remota da interface Cache.
-
- *
-
- *
-
  * @author Oscar Miranda
-
  * @version %I%, %G%
-
  */
 
 public interface RemoteCacheServer extends Remote {
 
 
-
     /**
-
      * retorna o tamanho da cache
-
      *
-
-     * @return  tamanho da cache
-
+     * @return tamanho da cache
      * @throws java.rmi.RemoteException caso aconteca algum erro remoto
-
      */
 
     public int size() throws RemoteException;
 
 
-
     /**
-
      * retorna o tamanho maximo da cache. Se algum objeto novo for
-
+     * <p/>
      * inserido e a cache estiver com o tamanho maximo algum ou alguns
-
+     * <p/>
      * outros objetos deverao ser removidos para o novo objeto ser inserido.
-
      *
-
-     * @return  tamanho maximo da cache
-
+     * @return tamanho maximo da cache
      * @throws java.rmi.RemoteException caso aconteca algum erro remoto
-
      */
 
     public int getMaxSize() throws RemoteException;
 
 
-
     /**
-
      * numero de objectos que serao removidos quando acontecer uma falta.
-
      *
-
      * @return numero de objectos que serao removidos quando acontecer uma falta.
-
      * @throws java.rmi.RemoteException caso aconteca algum erro remoto
-
      */
 
     public int getRemoveQuantity() throws RemoteException;
 
 
-
     /**
-
      * muda Tamanho maximo da cache.
-
      *
-
-     * @param  newSize o novo tamanho maximo
-
+     * @param newSize o novo tamanho maximo
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
-     * @throws java.rmi.RemoteException caso aconteca algum erro remoto
-
+     * @throws java.rmi.RemoteException                 caso aconteca algum erro remoto
      */
 
     public void setMaxSize(int newSize)
@@ -131,21 +94,14 @@ public interface RemoteCacheServer extends Remote {
             throws CacheException, RemoteException;
 
 
-
     /**
-
      * Muda o numero de quantidade de objetos que devem ser removidos quando
-
+     * <p/>
      * acontece uma falta.
-
      *
-
      * @param qtd o novo numero de quantos objetos serao removidos apos uma falha.
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
-     * @throws java.rmi.RemoteException caso aconteca algum erro remoto
-
+     * @throws java.rmi.RemoteException                 caso aconteca algum erro remoto
      */
 
     public void setRemoveQuantity(int qtd)
@@ -153,117 +109,74 @@ public interface RemoteCacheServer extends Remote {
             throws CacheException, RemoteException;
 
 
-
     /**
-
      * Retorna o dado associado a cache dada.
-
      *
-
-     * @param  key   Chave que representa o objeto na cache
-
+     * @param key Chave que representa o objeto na cache
      * @return o objeto procurado ou null se nao estiver na cache.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
-     * @throws java.rmi.RemoteException caso aconteca algum erro remoto
-
+     * @throws java.rmi.RemoteException                 caso aconteca algum erro remoto
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object get(CacheKey key) throws CacheException, RemoteException;
 
 
-
     /**
-
      * Retorna um array com dados associados as caches dadas.
-
-     * @param  key   Array de chaves
-
+     *
+     * @param key Array de chaves
      * @return Retorna array de objetos, respeitando a ordem das chaves.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] get(CacheKey[] key) throws CacheException, RemoteException;
 
 
-
     /**
-
      * Coloca o dado na cache., atualiza dado se a chave ja
-
+     * <p/>
      * estiver na cache.
-
      *
-
-     * @param  key   Chave que representa o objeto na cache
-
-     * @param  data  o objeto de dados.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
+     * @param key  Chave que representa o objeto na cache
+     * @param data o objeto de dados.
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
-     * @throws java.rmi.RemoteException caso aconteca algum erro remoto
-
+     * @throws java.rmi.RemoteException                 caso aconteca algum erro remoto
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object put(CacheKey key,
 
-                    Object data) throws CacheException, RemoteException;
-
+                      Object data) throws CacheException, RemoteException;
 
 
     /**
-
      * Coloca um array de dados na cache, sobrescrevendo os valores existentes.
-
      *
-
-     * @param  key[]   Array de chaves
-
-     * @param  data[]  Array com os novos dados.
-
+     * @param key[]  Array de chaves
+     * @param data[] Array com os novos dados.
      * @return Retorna os valores que estavam na cache antes do put.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] put(CacheKey[] key, Object[] data) throws CacheException, RemoteException;
 
 
-
     /**
-
      * Retorna o dado associado a cache dada.
-
+     * <p/>
      * caso o objeto nao esteja na cache, cria um novo utilizando o ObjectFactory
-
+     * <p/>
      * e coloca na cache. se a cache estiver cheia, remove alguns dado da cache.
-
      *
-
-     * @param  key   Chave que representa o objeto na cache
-
+     * @param key Chave que representa o objeto na cache
      * @return o objeto procurado
-
-     * @see focusedCrawler.util.cache.CacheKey
-
-     * @see focusedCrawler.util.cache.ObjectFactory
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
-     * @throws java.rmi.RemoteException caso aconteca algum erro remoto
-
+     * @throws java.rmi.RemoteException                 caso aconteca algum erro remoto
+     * @see focusedCrawler.util.cache.CacheKey
+     * @see focusedCrawler.util.cache.ObjectFactory
      */
 
     public Object getUpdate(CacheKey key)
@@ -271,87 +184,57 @@ public interface RemoteCacheServer extends Remote {
             throws CacheException, RemoteException;
 
 
-
     /**
-
      * Retorna um array de dados assoaciado um array de chaves fornecido.
-
+     * <p/>
      * caso o objeto nao esteja na cache, cria um novo utilizando o ObjectFactory
-
+     * <p/>
      * e coloca na cache. se a cache estiver cheia, remove alguns dado da cache.
-
+     * <p/>
      * Observe que existe uma correspondencia entre a posicao do objeto retornado e
-
+     * <p/>
      * a posicao da chave fornecida.
-
-     * @param  key[]   Array de chaves
-
+     *
+     * @param key[] Array de chaves
      * @return Array com os objetos procurados.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
-     * @see focusedCrawler.util.cache.ObjectFactory
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
+     * @see focusedCrawler.util.cache.ObjectFactory
      */
 
     public Object[] getUpdate(CacheKey[] key) throws CacheException, RemoteException;
 
 
-
     /**
-
      * Remove o dado referente a chave dada da cache
-
      *
-
      * @return o dado removido ou null se nao existia na cache
-
      */
 
     public Object remove(CacheKey key) throws CacheException, RemoteException;
 
 
-
     /**
-
      * Remove os dados referente as chaves dadas
-
      *
-
      * @return Array com dados removidos, se um dado nao estava na cache sua posicao sera nula
-
-     *
-
      */
 
     public Object[] remove(CacheKey[] key) throws CacheException, RemoteException;
 
 
-
     /**
-
      * retorna a enumeracao das chaves desta cache
-
      */
 
     public Iterator getKeys() throws CacheException, RemoteException;
 
 
-
-
-
     /**
-
      * remove todos elementos da cache
-
      */
 
     public void clear() throws CacheException, RemoteException;
-
-
-
 
 
 }

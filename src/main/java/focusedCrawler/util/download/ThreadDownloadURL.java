@@ -23,9 +23,7 @@
 */
 
 
-
 package focusedCrawler.util.download;
-
 
 
 import java.io.*;
@@ -34,22 +32,22 @@ import java.net.*;
 
 public class ThreadDownloadURL extends ThreadDownload {
 
-    protected URL            url;
+    protected URL url;
 
-    protected URLConnection  con;
+    protected URLConnection con;
 
     protected BufferedReader bin;
 
-    protected StringBuffer   buffer;
+    protected StringBuffer buffer;
 
     private long lastModified;
 
-    public static final int  BUFFER_SIZE = 8 * 1024;    // 8k bytes.
+    public static final int BUFFER_SIZE = 8 * 1024;    // 8k bytes.
 
     public static boolean debug = false;
 
     public void debug(Object obj) {
-        if( debug ) {
+        if (debug) {
             System.out.println(obj);
         }
     }
@@ -60,10 +58,11 @@ public class ThreadDownloadURL extends ThreadDownload {
 
     /**
      * Constroi um thread com alvo ja definido, no caso, uma URL.
+     *
      * @param alvo URL que sera o alvo do thread.
      */
-    public ThreadDownloadURL(String alvo,int timeout) {
-        super(alvo,timeout);
+    public ThreadDownloadURL(String alvo, int timeout) {
+        super(alvo, timeout);
     }
 
     /**
@@ -91,29 +90,28 @@ public class ThreadDownloadURL extends ThreadDownload {
         long INICIO = System.currentTimeMillis();
         try {
             setReady(false);
-            System.out.println("TD>"+nome+" DOWNLOADING "+url);
+            System.out.println("TD>" + nome + " DOWNLOADING " + url);
             long TIME = System.currentTimeMillis();
             con = url.openConnection();
-            debug("TD>"+nome+" CONEXAO "+(System.currentTimeMillis()-TIME));
+            debug("TD>" + nome + " CONEXAO " + (System.currentTimeMillis() - TIME));
 
             // MUITO IMPORTANTE
-            System.out.println("TD>"+nome+" Colocando TIMEOUT P/"+timeout+"mls");
-            con.setRequestProperty("Timeout",""+timeout);
+            System.out.println("TD>" + nome + " Colocando TIMEOUT P/" + timeout + "mls");
+            con.setRequestProperty("Timeout", "" + timeout);
             con.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
             TIME = System.currentTimeMillis();
             input = con.getInputStream();
-            debug("TD>"+nome+" INPUT "+(System.currentTimeMillis()-TIME));
+            debug("TD>" + nome + " INPUT " + (System.currentTimeMillis() - TIME));
             lastModified = con.getLastModified();
-            debug("TD>"+nome+" Finalizando normalmente. Com ready = "+ready());
-            debug("TD>"+nome+" Download_URL OK!");
-        }catch (Exception exc) {
+            debug("TD>" + nome + " Finalizando normalmente. Com ready = " + ready());
+            debug("TD>" + nome + " Download_URL OK!");
+        } catch (Exception exc) {
             exc.printStackTrace();
-            debug("TD>"+nome+" Finalizando devido a excecao no run().");
+            debug("TD>" + nome + " Finalizando devido a excecao no run().");
             finalizar();
         }
-        System.out.println("TD>"+nome+" TEMPO TOTAL = "+(System.currentTimeMillis()-INICIO)+"mls");
+        System.out.println("TD>" + nome + " TEMPO TOTAL = " + (System.currentTimeMillis() - INICIO) + "mls");
     }
-
 
 
     /**
@@ -123,7 +121,7 @@ public class ThreadDownloadURL extends ThreadDownload {
         return (buffer != null ? buffer.toString() : null);
     }
 
-    public long getLastModified(){
+    public long getLastModified() {
         return lastModified;
     }
 
@@ -138,24 +136,24 @@ public class ThreadDownloadURL extends ThreadDownload {
             url = null;
             //buffer = null;
             if (input != null) {
-                debug("TD>"+nome+" FECHANDO InputStream!");
+                debug("TD>" + nome + " FECHANDO InputStream!");
                 input.close();
             }
             input = null;
             if (out != null) {
-                debug("TD>"+nome+" FECHANDO OutputStream!");
+                debug("TD>" + nome + " FECHANDO OutputStream!");
                 out.close();
             }
             out = null;
-            if( con != null ) {
-                debug("TD>"+nome+" FECHANDO Connection!");
-                ((HttpURLConnection)con).disconnect();
+            if (con != null) {
+                debug("TD>" + nome + " FECHANDO Connection!");
+                ((HttpURLConnection) con).disconnect();
             }
             con = null;
         } catch (Exception exc) {
             exc.printStackTrace();
         }
-        System.out.println("TD>"+nome+" FINALIZADO!");
+        System.out.println("TD>" + nome + " FINALIZADO!");
     }
 
     /**
@@ -182,7 +180,7 @@ public class ThreadDownloadURL extends ThreadDownload {
 //      }
 //      inCon.close();
 //      System.out.println(buffer.toString());
-      
+
         ThreadDownload thread = new ThreadDownloadURL("http://www.uralprofi.ru/");
 
         int cont = 0;
@@ -191,7 +189,7 @@ public class ThreadDownloadURL extends ThreadDownload {
 
         thread.start();
 
-        while( !thread.ready() && cont < maximo ) {
+        while (!thread.ready() && cont < maximo) {
 
             System.out.println("SLEEP(" + (cont++) + ")");
 

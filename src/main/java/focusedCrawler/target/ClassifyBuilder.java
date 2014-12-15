@@ -31,56 +31,56 @@ import weka.classifiers.Evaluation;
 
 public class ClassifyBuilder {
 
-	
-  public String buildClassifier(String trainFile, String outputModel) throws Exception{
-	  double max = Double.MIN_NORMAL;
-	  double cValue = 0;
-	  for (double c = 1; c > 0.1 ; c= c-0.2) {
-		  SMO classifier = new SMO();
-		  String[] argum = new String[]{"-t",trainFile, "-C", ""+c, "-v", "-d",outputModel+c};
-		  String output = Evaluation.evaluateModel(classifier, argum);
-		  int index = output.indexOf("Correctly Classified Instances");
-		  if(index >= 0){
-			  int end = output.indexOf("%",index);
-			  String line = (output.substring(index,end)).trim();
-			  line = line.substring(line.lastIndexOf(" "));
-			  double accuracy = Double.parseDouble(line.trim());
-			  if(accuracy > max){
-				  max = accuracy;
-				  cValue = c;
-			  }
-		  }	      
-	  }
-	  System.out.println("C:" + cValue);
-	  return outputModel+cValue;
-  }
-	
-  public void testClassifier(String testFile, String outputModel) throws Exception{
-	  SMO classifier = new SMO();
-	  String[] argum = new String[]{"-T",testFile,"-l",outputModel,"-i"};
-	  String output = Evaluation.evaluateModel(classifier, argum);
-	  int index = output.indexOf("F-Measure");
-	  if(index >= 0){
-		  index = output.indexOf("\n",index);
-		  int end = output.indexOf("\n",index+1);
-		  String line = (output.substring(index,end)).trim();
-		  System.out.println(line);
-		  StringTokenizer tokenizer = new StringTokenizer(line, " ");
-		  int count = 0;
-		  while(tokenizer.hasMoreTokens()){
-			  String word = tokenizer.nextToken();
-			  if(count == 2){
-				  System.out.println("PRECISION:"+word);
-			  }
-			  if(count == 3){
-				  System.out.println("RECALL:"+word);
-			  }
-			  if(count == 4){
-				  System.out.println("F-MEASURE:"+word);
-			  }
-			  count++;
-		  }	
-	  }	      
-  }
+
+    public String buildClassifier(String trainFile, String outputModel) throws Exception {
+        double max = Double.MIN_NORMAL;
+        double cValue = 0;
+        for (double c = 1; c > 0.1; c = c - 0.2) {
+            SMO classifier = new SMO();
+            String[] argum = new String[]{"-t", trainFile, "-C", "" + c, "-v", "-d", outputModel + c};
+            String output = Evaluation.evaluateModel(classifier, argum);
+            int index = output.indexOf("Correctly Classified Instances");
+            if (index >= 0) {
+                int end = output.indexOf("%", index);
+                String line = (output.substring(index, end)).trim();
+                line = line.substring(line.lastIndexOf(" "));
+                double accuracy = Double.parseDouble(line.trim());
+                if (accuracy > max) {
+                    max = accuracy;
+                    cValue = c;
+                }
+            }
+        }
+        System.out.println("C:" + cValue);
+        return outputModel + cValue;
+    }
+
+    public void testClassifier(String testFile, String outputModel) throws Exception {
+        SMO classifier = new SMO();
+        String[] argum = new String[]{"-T", testFile, "-l", outputModel, "-i"};
+        String output = Evaluation.evaluateModel(classifier, argum);
+        int index = output.indexOf("F-Measure");
+        if (index >= 0) {
+            index = output.indexOf("\n", index);
+            int end = output.indexOf("\n", index + 1);
+            String line = (output.substring(index, end)).trim();
+            System.out.println(line);
+            StringTokenizer tokenizer = new StringTokenizer(line, " ");
+            int count = 0;
+            while (tokenizer.hasMoreTokens()) {
+                String word = tokenizer.nextToken();
+                if (count == 2) {
+                    System.out.println("PRECISION:" + word);
+                }
+                if (count == 3) {
+                    System.out.println("RECALL:" + word);
+                }
+                if (count == 4) {
+                    System.out.println("F-MEASURE:" + word);
+                }
+                count++;
+            }
+        }
+    }
 
 }

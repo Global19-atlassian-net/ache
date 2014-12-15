@@ -24,35 +24,21 @@
 package focusedCrawler.util.cache;
 
 
-
 import focusedCrawler.util.DetailException;
 
 
-
 /**
-
  * Exception default da cache
-
  *
-
- *
-
- * @author  Oscar Miranda
-
+ * @author Oscar Miranda
  * @version %I%, %G%
-
  */
 
 public class CacheException extends DetailException {
 
 
-
     /**
-
      * Construtor da Classe
-
-     *
-
      */
 
     public CacheException() {
@@ -62,17 +48,10 @@ public class CacheException extends DetailException {
     }
 
 
-
     /**
-
      * Construtor da Classe
-
      *
-
-     *
-
      * @param m mensagem de erro
-
      */
 
     public CacheException(String m) {
@@ -82,13 +61,8 @@ public class CacheException extends DetailException {
     }
 
 
-
     /**
-
      * Construtor da Classe
-
-     *
-
      */
 
     public CacheException(Throwable detail) {
@@ -98,17 +72,10 @@ public class CacheException extends DetailException {
     }
 
 
-
     /**
-
      * Construtor da Classe
-
      *
-
-     *
-
      * @param m mensagem de erro
-
      */
 
     public CacheException(String m, Throwable detail) {

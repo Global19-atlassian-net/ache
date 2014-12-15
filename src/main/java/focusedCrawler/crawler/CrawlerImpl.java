@@ -46,11 +46,11 @@ import focusedCrawler.util.Page;
 
 /**
  * This class implements a crawler
- * @author lbarbosa
  *
+ * @author lbarbosa
  */
 
-public class CrawlerImpl extends Crawler{
+public class CrawlerImpl extends Crawler {
 
     private Storage linkStorage;
 
@@ -69,7 +69,7 @@ public class CrawlerImpl extends Crawler{
     protected int length;
 
     protected double relevance;
-    
+
     protected Page page;
 
     protected byte[] buffer;
@@ -77,191 +77,190 @@ public class CrawlerImpl extends Crawler{
     protected int bufferSize;
 
     protected String source;
-    
+
     protected CrawlerImpl(ThreadGroup tg, String name) {
-    	super(tg, name);
+        super(tg, name);
     }
 
-    public CrawlerImpl(){
+    public CrawlerImpl() {
     }
 
 
     public CrawlerImpl(ThreadGroup tg, String name, Storage linkStorage, Storage formStorage) {
-    	super(tg,name);
-    	setLinkStorage(linkStorage);
-    	setFormStorage(formStorage);
+        super(tg, name);
+        setLinkStorage(linkStorage);
+        setFormStorage(formStorage);
     }
-    
+
     public void setLinkStorage(Storage newLinkStorage) {
-	  linkStorage = newLinkStorage;
+        linkStorage = newLinkStorage;
     }
 
-  public Storage getLinkStorage() {
-	  return linkStorage;
-  }
-
- 
-  public void setFormStorage(Storage newFormStorage) {
-	  targetStorage = newFormStorage;
-  }
-
-  public Storage getFormStorage() {
-	  return targetStorage;
-  }
-
-  public void setDownloader(DownloaderBuffered newDownloader) {
-	  downloader = newDownloader;
-  }
-
-  public DownloaderBuffered getDownloader() {
-	  return downloader;
-  }
-
-  public void setMaxFileSize(long newMaxFileSize) throws CrawlerException {
-	  try {
-		  downloader.setMaxBufferSize((int)newMaxFileSize);
-	  }
-	  catch (DownloaderException de) {
-		  de.printStackTrace();
-		  throw new CrawlerException("Max file size reached", de );
-	  }
-  }
-
-  public long getMaxFileSize() throws CrawlerException {
-	  try {
-		  return downloader.getMaxBufferSize();
-	  }
-	  catch (DownloaderException de) {
-		  throw new CrawlerException("Could not return maxFileSize", de );
-	  }
-  }
-
-  public void setBuffer(byte[] buffer){
-	  this.buffer = buffer;
-  }
-
-  public byte[] getBuffer(){
-	  return buffer;
-  }
-
-  public Page getPage() {
-	  return page;
-  }
-
-  public void setPage(Page page) {
-	  this.page = page;
-  }
+    public Storage getLinkStorage() {
+        return linkStorage;
+    }
 
 
-  public URL getInitialURL() {
-	  return initialUrl;
-  }
+    public void setFormStorage(Storage newFormStorage) {
+        targetStorage = newFormStorage;
+    }
 
-  public boolean isShutdown() {
-	  try {
-		  return downloader.isShutdown();
-	  }catch (DownloaderException exc) {
-		  exc.printStackTrace();
-		  return false;
-	  }
-  }
+    public Storage getFormStorage() {
+        return targetStorage;
+    }
 
-  public String getHost(String prehost) {
+    public void setDownloader(DownloaderBuffered newDownloader) {
+        downloader = newDownloader;
+    }
 
-	  if (prehost.startsWith("http://www")) {
-		  prehost = prehost.substring(11, prehost.length());
-	  }else if (prehost.startsWith("http://")) {
-		  prehost = prehost.substring(7, prehost.length());
-	  }
+    public DownloaderBuffered getDownloader() {
+        return downloader;
+    }
+
+    public void setMaxFileSize(long newMaxFileSize) throws CrawlerException {
+        try {
+            downloader.setMaxBufferSize((int) newMaxFileSize);
+        } catch (DownloaderException de) {
+            de.printStackTrace();
+            throw new CrawlerException("Max file size reached", de);
+        }
+    }
+
+    public long getMaxFileSize() throws CrawlerException {
+        try {
+            return downloader.getMaxBufferSize();
+        } catch (DownloaderException de) {
+            throw new CrawlerException("Could not return maxFileSize", de);
+        }
+    }
+
+    public void setBuffer(byte[] buffer) {
+        this.buffer = buffer;
+    }
+
+    public byte[] getBuffer() {
+        return buffer;
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
+    }
+
+
+    public URL getInitialURL() {
+        return initialUrl;
+    }
+
+    public boolean isShutdown() {
+        try {
+            return downloader.isShutdown();
+        } catch (DownloaderException exc) {
+            exc.printStackTrace();
+            return false;
+        }
+    }
+
+    public String getHost(String prehost) {
+
+        if (prehost.startsWith("http://www")) {
+            prehost = prehost.substring(11, prehost.length());
+        } else if (prehost.startsWith("http://")) {
+            prehost = prehost.substring(7, prehost.length());
+        }
 //       System.out.println("prehost : " + prehost);
-	  String result = "";
-	  int last, begin;
-	  last = prehost.lastIndexOf(".");
-	  String tmp = prehost.substring(0, last);
-	  begin = tmp.lastIndexOf(".");
+        String result = "";
+        int last, begin;
+        last = prehost.lastIndexOf(".");
+        String tmp = prehost.substring(0, last);
+        begin = tmp.lastIndexOf(".");
 
-	  if (begin != -1) {
-		  result = prehost.substring(begin + 1, prehost.length());
-	  }else {
-		  last = prehost.lastIndexOf("-");
-		  if (last != -1) {
-			  tmp = prehost.substring(0, last);
-			  begin = tmp.lastIndexOf("-");
-			  if (begin != -1) {
-				  result = prehost.substring(begin, prehost.length());
-			  }else {
-				  result = prehost;
-			  }
-		  }else {
-			  result = prehost;
-		  }
-       	}
-	  return result;
-  }
+        if (begin != -1) {
+            result = prehost.substring(begin + 1, prehost.length());
+        } else {
+            last = prehost.lastIndexOf("-");
+            if (last != -1) {
+                tmp = prehost.substring(0, last);
+                begin = tmp.lastIndexOf("-");
+                if (begin != -1) {
+                    result = prehost.substring(begin, prehost.length());
+                } else {
+                    result = prehost;
+                }
+            } else {
+                result = prehost;
+            }
+        }
+        return result;
+    }
 
-     /**
-      * This method selects the next URL to be downloaded by the crawler 
-      */
-     
-     protected void selectUrl() throws CrawlerException {
+    /**
+     * This method selects the next URL to be downloaded by the crawler
+     */
 
-          long t1 = 0;
-          try {
-              //getLog().writeLog("LOG>"+getName()+"selectUrl() linkServer start(0)");
-              t1 = System.currentTimeMillis();
-              setMessage("selectUrl() linkStorage.");
-              LinkRelevance lr = ((LinkRelevance)linkStorage.select(null));
-              initialUrl = lr.getURL();
-              String host = lr.getURL().getHost();
-              host = host.substring(0,host.indexOf("."));
-              boolean number = false;
-              System.out.println(host);
-              try{Integer.parseInt(host); number = true;}catch(Exception ex){ }
-              relevance = lr.getRelevance();
-              t1 = System.currentTimeMillis()-t1;
-              System.out.println("LOG>"+getName()+">selectUrl() linkServer end("+t1+"):"+initialUrl);
-              if( initialUrl == null || number || lr.getURL().getHost().contains("fc2.com")) {
-                  throw new CrawlerException(getName()+": LinkStorage sent null!");
-              }
-              setSelectedLinks(getSelectedLinks() +1);
-              currentUrl = initialUrl;
-              setUrl(currentUrl);
-              t1 = System.currentTimeMillis();
-              System.out.println("LOG>"+getName()+">update() linkStorage end("+t1+")");
-              setMessage("");
-          }
-          catch(DataNotFoundException dnfe) {
-              throw new CrawlerException(getName()+":"+dnfe.getMessage(),dnfe.detail);
-          }
-          catch(StorageException se) {
-              throw new CrawlerException(getName()+":"+se.getMessage(),se.detail);
-          }
-          catch(CommunicationException ce) {
-              throw new CrawlerException(getName()+":"+ce.getMessage(),ce.detail);
-          }
-     }
+    protected void selectUrl() throws CrawlerException {
 
-     protected void checkUrl() throws CrawlerException {
-    	 
-     }
+        long t1 = 0;
+        try {
+            //getLog().writeLog("LOG>"+getName()+"selectUrl() linkServer start(0)");
+            t1 = System.currentTimeMillis();
+            setMessage("selectUrl() linkStorage.");
+            LinkRelevance lr = ((LinkRelevance) linkStorage.select(null));
+            initialUrl = lr.getURL();
+            String host = lr.getURL().getHost();
+            host = host.substring(0, host.indexOf("."));
+            boolean number = false;
+            System.out.println(host);
+            try {
+                Integer.parseInt(host);
+                number = true;
+            } catch (Exception ex) {
+            }
+            relevance = lr.getRelevance();
+            t1 = System.currentTimeMillis() - t1;
+            System.out.println("LOG>" + getName() + ">selectUrl() linkServer end(" + t1 + "):" + initialUrl);
+            if (initialUrl == null || number || lr.getURL().getHost().contains("fc2.com")) {
+                throw new CrawlerException(getName() + ": LinkStorage sent null!");
+            }
+            setSelectedLinks(getSelectedLinks() + 1);
+            currentUrl = initialUrl;
+            setUrl(currentUrl);
+            t1 = System.currentTimeMillis();
+            System.out.println("LOG>" + getName() + ">update() linkStorage end(" + t1 + ")");
+            setMessage("");
+        } catch (DataNotFoundException dnfe) {
+            throw new CrawlerException(getName() + ":" + dnfe.getMessage(), dnfe.detail);
+        } catch (StorageException se) {
+            throw new CrawlerException(getName() + ":" + se.getMessage(), se.detail);
+        } catch (CommunicationException ce) {
+            throw new CrawlerException(getName() + ":" + ce.getMessage(), ce.detail);
+        }
+    }
+
+    protected void checkUrl() throws CrawlerException {
+
+    }
 
 
-      /**
-       * This method downloads the URL selected in the selectURL method.
-       */
+    /**
+     * This method downloads the URL selected in the selectURL method.
+     */
 
-      protected void downloadUrl() throws CrawlerException {
-          try {            
+    protected void downloadUrl() throws CrawlerException {
+        try {
             urlFinal = getUrl();
             URLConnection conn = urlFinal.openConnection();
             InputStream in = conn.getInputStream();
-            StringBuffer   buffer = new StringBuffer();
+            StringBuffer buffer = new StringBuffer();
             BufferedReader bin = new BufferedReader(new InputStreamReader(in));
             String inputLine;
 
             try {
                 while ((inputLine = bin.readLine()) != null) {
-                	buffer.append(inputLine).append("\n");
+                    buffer.append(inputLine).append("\n");
                 }
             } catch (IOException ioe) {
                 bin.close();
@@ -316,115 +315,106 @@ public class CrawlerImpl extends Crawler{
 //                }
 //              }
 //            }
-          }
-          catch (MalformedURLException exc) {
+        } catch (MalformedURLException exc) {
             throw new CrawlerException(getName() + ":" + exc.getMessage(), exc);
-          }
-          catch (SocketException exc) {
+        } catch (SocketException exc) {
             throw new CrawlerException(getName() + ":" + exc.getMessage(), exc);
-          }
-          catch (IOException exc) {
+        } catch (IOException exc) {
             throw new CrawlerException(getName() + ":" + exc.getMessage(), exc);
-          }
+        }
 //          catch (StorageException exc) {
 //            throw new CrawlerException(getName() + ":" + exc.getMessage(), exc);
 //          }
 //          catch (CommunicationException exc) {
 //            throw new CrawlerException(getName() + ":" + exc.getMessage(), exc);
 //          }
-          catch (Exception exc) {
+        catch (Exception exc) {
             throw new CrawlerException(getName() + ":" + exc.getMessage(), exc);
-          }
         }
+    }
 
 
+    protected void handleNotFound() throws Exception {
+        setJump(true, "R>" + getName() + "> Url(insert) '" + getUrl() + "' not found.");
+    }
 
-        protected void handleNotFound() throws Exception {
-          setJump(true,"R>" + getName() + "> Url(insert) '" + getUrl() + "' not found.");
-        }
+    protected void handleRedirect() throws Exception {
+        System.out.println("R>" + getName() + ">" + getUrl() + " redirected to " +
+                urlFinal + ".");
+    }
 
-        protected void handleRedirect() throws Exception {
-          System.out.println("R>" + getName() + ">" + getUrl() + " redirected to " +
-                             urlFinal + ".");
-        }
-
-        protected void processData() throws CrawlerException {
-            setMessage("URL "+getUrl());
-			try {
-				page = new Page(getUrl(),source);
-				PaginaURL pageParser = new PaginaURL(page.getURL(), 0, 0,page.getContent().length(),page.getContent(), null);
-				page.setPageURL(pageParser);
-				if(relevance > LinkRelevance.DEFAULT_HUB_RELEVANCE && relevance < LinkRelevance.DEFAULT_AUTH_RELEVANCE){
-					page.setHub(true);
-				}
+    protected void processData() throws CrawlerException {
+        setMessage("URL " + getUrl());
+        try {
+            page = new Page(getUrl(), source);
+            PaginaURL pageParser = new PaginaURL(page.getURL(), 0, 0, page.getContent().length(), page.getContent(), null);
+            page.setPageURL(pageParser);
+            if (relevance > LinkRelevance.DEFAULT_HUB_RELEVANCE && relevance < LinkRelevance.DEFAULT_AUTH_RELEVANCE) {
+                page.setHub(true);
+            }
 //				page.setRelevance(relevance);
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-
-            setMessage(null);
-        }
-        
-        
-        protected void checkData() throws CrawlerException {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        /**
-         * In this method, the crawler sends a downloaded page to the Form Storage.
-         */
-        protected void sendData() throws CrawlerException {
+        setMessage(null);
+    }
 
-            try {
 
-                System.out.println("R>"+getName()+" send page with "+page.getURL()+" to TargetStorage .");
+    protected void checkData() throws CrawlerException {
 
-                targetStorage.insert(page);
+    }
+
+    /**
+     * In this method, the crawler sends a downloaded page to the Form Storage.
+     */
+    protected void sendData() throws CrawlerException {
+
+        try {
+
+            System.out.println("R>" + getName() + " send page with " + page.getURL() + " to TargetStorage .");
+
+            targetStorage.insert(page);
 
 //                linkStorage.insert(page);
 
-            }
+        } catch (StorageException se) {
 
-            catch( StorageException se ) {
+            se.printStackTrace();
 
-                se.printStackTrace();
+            throw new CrawlerException(getName() + ":" + se.getMessage(), se);
 
-                throw new CrawlerException(getName()+":"+se.getMessage(),se);
-
-            }
-
-            catch(CommunicationException ce) {
-                ce.printStackTrace();
-                throw new CrawlerException(getName()+":"+ce.getMessage(),ce);
-
-            }
+        } catch (CommunicationException ce) {
+            ce.printStackTrace();
+            throw new CrawlerException(getName() + ":" + ce.getMessage(), ce);
 
         }
 
-        /**
-         * This cleans all the temporary variables. 
-         */
-        
-        protected synchronized void cleanup() throws CrawlerException {
-            setUrl(null);
-            initialUrl = null;
-            currentUrl = null;
-            urlFinal = null;
-            try {
-                if( downloader != null ) {
-                    downloader.close();
-                }
+    }
+
+    /**
+     * This cleans all the temporary variables.
+     */
+
+    protected synchronized void cleanup() throws CrawlerException {
+        setUrl(null);
+        initialUrl = null;
+        currentUrl = null;
+        urlFinal = null;
+        try {
+            if (downloader != null) {
+                downloader.close();
             }
-            catch( Exception exc ) {
-                exc.printStackTrace();
-            }
-            length = 0;
-            //file.setLength(0);
-            page = null;
-            for(int i = getStatus(); i < STATES.length; i++) {
-                setPartitionTime(i,0);
-            }
+        } catch (Exception exc) {
+            exc.printStackTrace();
         }
+        length = 0;
+        //file.setLength(0);
+        page = null;
+        for (int i = getStatus(); i < STATES.length; i++) {
+            setPartitionTime(i, 0);
+        }
+    }
 
 }
 

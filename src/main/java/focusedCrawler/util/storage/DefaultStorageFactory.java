@@ -30,9 +30,7 @@
  */
 
 
-
 package focusedCrawler.util.storage;
-
 
 
 import focusedCrawler.util.ParameterFile;
@@ -42,29 +40,16 @@ import focusedCrawler.util.storage.StorageFactory;
 import focusedCrawler.util.storage.StorageFactoryException;
 
 
-
-
-
-
-
 /**
-
- *
-
- * @author  Marcelo Fernandes
-
- * @version
-
+ * @author Marcelo Fernandes
  */
 
 public class DefaultStorageFactory extends AbstractStorageFactory {
 
 
-
     private StorageFactory factory;
 
     private String factoryClassName;
-
 
 
     public DefaultStorageFactory() {
@@ -74,13 +59,11 @@ public class DefaultStorageFactory extends AbstractStorageFactory {
     } //StorageFactory
 
 
-
     public DefaultStorageFactory(ParameterFile config) {
 
         super(config);
 
     } //StorageFactory
-
 
 
     public DefaultStorageFactory(ParameterFile config, String newFactoryClassName) {
@@ -92,13 +75,11 @@ public class DefaultStorageFactory extends AbstractStorageFactory {
     } //StorageFactory
 
 
-
     public StorageFactory getFactory() {
 
         return factory;
 
     } //main
-
 
 
     public void checkFactory() throws StorageFactoryException {
@@ -125,19 +106,19 @@ public class DefaultStorageFactory extends AbstractStorageFactory {
 
             } //try
 
-            catch(ClassNotFoundException error) {
+            catch (ClassNotFoundException error) {
 
                 throw new StorageFactoryException(error);
 
             } //catch
 
-            catch(IllegalAccessException error) {
+            catch (IllegalAccessException error) {
 
                 throw new StorageFactoryException(error);
 
             } //catch
 
-            catch(InstantiationException error) {
+            catch (InstantiationException error) {
 
                 throw new StorageFactoryException(error);
 
@@ -146,7 +127,6 @@ public class DefaultStorageFactory extends AbstractStorageFactory {
         } //if
 
     }
-
 
 
     public Storage produce() throws StorageFactoryException {
@@ -158,26 +138,23 @@ public class DefaultStorageFactory extends AbstractStorageFactory {
     }
 
 
-
     /**
-
      * metodo main executavel
-
+     *
      * @param args os argumentos
-
      */
 
     public static void main(String args[]) throws focusedCrawler.util.distribution.CommunicationException,
 
-                                                focusedCrawler.util.DetailException, StorageException, StorageFactoryException {
+            focusedCrawler.util.DetailException, StorageException, StorageFactoryException {
 
-        ParameterFile config = new ParameterFile (args);
+        ParameterFile config = new ParameterFile(args);
 
         StorageFactory run = new DefaultStorageFactory(config);
 
         Storage storage = run.produce();
 
-        System.out.println ("storage: " + storage);
+        System.out.println("storage: " + storage);
 
         if (args.length > 1) {
 

@@ -24,39 +24,28 @@
 package focusedCrawler.util.cache;
 
 
-
 /**
-
  * Interface para o destruidor de objetos de cache
-
- *
-
+ * <p/>
+ * <p/>
+ * <p/>
  * Toda vez que um objeto for removido da cache
-
+ * <p/>
  * a cache chama o metodo destruct passando o objeto como parametro
-
+ * <p/>
  * para que seja feitos os controles necessarios antes que o objeto
-
+ * <p/>
  * seja perdido
-
  *
-
- *
-
  * @author Oscar Miranda
-
- * @version 1,0, 2001
-
+ * @version 1, 0, 2001
  */
 
 public interface ObjectDestroyer {
 
 
-
     /**
-
      * @param data os dados que foram removidos da cache
-
      */
 
     public void destruct(Object data) throws DestroyerException;

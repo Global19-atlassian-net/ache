@@ -24,33 +24,23 @@
 package focusedCrawler.util.storage;
 
 
-
 /**
-
- * Declaração da Classe
-
+ * Declaraï¿½ï¿½o da Classe
  *
-
  * @author Marcelo Romulo
-
  */
-
 
 
 public interface DataChecker {
 
 
-
     boolean verify(Object obj, int index);
-
 
 
     void remove(int index);
 
 
-
     String getReason();
-
 
 
 } //interface

@@ -25,28 +25,30 @@ package focusedCrawler.link.classifier;
 
 /**
  * <p>Title: </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p>Company: </p>
  *
  * @author not attributable
  * @version 1.0
  */
-public class LinkClassifierFactoryException  extends Exception {
+public class LinkClassifierFactoryException extends Exception {
 
-  public Throwable detail;
+    public Throwable detail;
 
     public LinkClassifierFactoryException() {
         super();
     }
+
     public LinkClassifierFactoryException(String message) {
         super(message);
     }
-    public LinkClassifierFactoryException(String message,Throwable detail) {
+
+    public LinkClassifierFactoryException(String message, Throwable detail) {
         super(message);
         this.detail = detail;
-   }
+    }
 }

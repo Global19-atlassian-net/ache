@@ -21,8 +21,7 @@
 ##
 ############################################################################
 */
- package focusedCrawler.util.storage;
-
+package focusedCrawler.util.storage;
 
 
 import java.sql.PreparedStatement;
@@ -34,7 +33,6 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 
 import java.sql.SQLException;
-
 
 
 import java.util.Enumeration;
@@ -49,43 +47,35 @@ import focusedCrawler.util.distribution.CommunicationException;
 public class StorageUnique extends StorageDefault {
 
 
-
     private Connection con = null;
-
 
 
     private PreparedStatement pstmt_code,
 
-                              pstmt_desc,
+    pstmt_desc,
 
-                              pstmt_ins;
-
-
+    pstmt_ins;
 
 
+    private Statement stmt_code_array;
 
-    private Statement         stmt_code_array;
+    private StringBuffer buf_code_array;
 
-    private StringBuffer      buf_code_array;
-
-    private HashMap           map_code_array;
-
+    private HashMap map_code_array;
 
 
-    private String  desc    =  "desc",
+    private String desc = "desc",
 
-                    code    =  "code",
+    code = "code",
 
-                    table   =  "table";
+    table = "table";
 
     private int maxDescSize;
 
 
-
-    public StorageUnique() throws StorageException{
+    public StorageUnique() throws StorageException {
 
     }
-
 
 
     public void setConnection(Connection _con) {
@@ -95,10 +85,9 @@ public class StorageUnique extends StorageDefault {
     }
 
 
+    public void setTable(String _table) throws StorageException {
 
-    public void setTable(String _table) throws StorageException{
-
-        if(_table==null) throw new StorageException("Must have a code field !");
+        if (_table == null) throw new StorageException("Must have a code field !");
 
         this.table = _table;
 
@@ -107,10 +96,9 @@ public class StorageUnique extends StorageDefault {
     }
 
 
+    public void setDescField(String _desc, int _maxDescSize) throws StorageException {
 
-    public void setDescField(String _desc, int _maxDescSize) throws StorageException{
-
-        if(_desc==null) throw new StorageException("Must have a desc field !");
+        if (_desc == null) throw new StorageException("Must have a desc field !");
 
         this.desc = _desc;
 
@@ -121,10 +109,9 @@ public class StorageUnique extends StorageDefault {
     }
 
 
+    public void setCodeField(String _code) throws StorageException {
 
-    public void setCodeField(String _code) throws StorageException{
-
-        if(_code==null) throw new StorageException("Must have a table !");
+        if (_code == null) throw new StorageException("Must have a table !");
 
         this.code = _code;
 
@@ -133,13 +120,11 @@ public class StorageUnique extends StorageDefault {
     }
 
 
-
     public Connection getConnection() {
 
         return con;
 
     }
-
 
 
     public int getMax() throws StorageException {
@@ -150,27 +135,23 @@ public class StorageUnique extends StorageDefault {
 
         Statement stmt = null;
 
-        try{
+        try {
 
             stmt = con.createStatement();
 
-            rs = stmt.executeQuery("SELECT MAX("+code+") FROM "+table);
+            rs = stmt.executeQuery("SELECT MAX(" + code + ") FROM " + table);
 
-            if( rs.next() ) {
+            if (rs.next()) {
 
-               result = rs.getInt(1);
+                result = rs.getInt(1);
 
             }
 
-        }
-
-        catch(SQLException e){
+        } catch (SQLException e) {
 
             throw new StorageException(e.getMessage());
 
-        }
-
-        finally {
+        } finally {
 
             try {
 
@@ -207,20 +188,17 @@ public class StorageUnique extends StorageDefault {
     }
 
 
+    private void updatePstmt() throws StorageException {
 
+        try {
 
-
-    private void updatePstmt() throws StorageException{
-
-        try{
-
-            if( pstmt_code != null ) {
+            if (pstmt_code != null) {
 
                 pstmt_code.close();
 
                 pstmt_code = null;
 
-                pstmt_code = con.prepareStatement("SELECT "+code+" FROM "+table+" WHERE "+desc+" = ?");
+                pstmt_code = con.prepareStatement("SELECT " + code + " FROM " + table + " WHERE " + desc + " = ?");
 
             }
 
@@ -228,33 +206,33 @@ public class StorageUnique extends StorageDefault {
 
                 stmt_code_array.close();
 
-                stmt_code_array=null;
+                stmt_code_array = null;
 
                 stmt_code_array = con.createStatement();
 
             }
 
-            if( pstmt_desc != null ) {
+            if (pstmt_desc != null) {
 
                 pstmt_desc.close();
 
                 pstmt_desc = null;
 
-                pstmt_desc = con.prepareStatement("SELECT "+desc+" FROM "+table+" WHERE "+code+" = ?");
+                pstmt_desc = con.prepareStatement("SELECT " + desc + " FROM " + table + " WHERE " + code + " = ?");
 
             }
 
-            if( pstmt_ins != null ) {
+            if (pstmt_ins != null) {
 
                 pstmt_ins.close();
 
                 pstmt_ins = null;
 
-                pstmt_ins  = con.prepareStatement("INSERT INTO "+table+" ("+code+", "+desc+") VALUES (?,?)");
+                pstmt_ins = con.prepareStatement("INSERT INTO " + table + " (" + code + ", " + desc + ") VALUES (?,?)");
 
             }
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
 
             throw new StorageException(e.getMessage());
 
@@ -263,40 +241,37 @@ public class StorageUnique extends StorageDefault {
     }
 
 
+    public Object insert(Object obj) throws StorageException, CommunicationException {
 
-    public Object insert(Object obj) throws StorageException, CommunicationException{
-
-        if(obj instanceof UniqueRegister){
+        if (obj instanceof UniqueRegister) {
 
             UniqueRegister register = (UniqueRegister) obj;
 
             // Testando o valor maximo do registro
 
-            if (register.getDesc().length() > maxDescSize ) {
+            if (register.getDesc().length() > maxDescSize) {
 
                 throw new StorageException("Descricao muito longa(max = " + maxDescSize + "): >>" + obj.toString());
 
             } //if
 
-            try{
+            try {
 
                 if (pstmt_ins == null) {
 
-                    pstmt_ins  = con.prepareStatement("INSERT INTO "+table+" ("+code+", "+desc+") VALUES (?,?)");
+                    pstmt_ins = con.prepareStatement("INSERT INTO " + table + " (" + code + ", " + desc + ") VALUES (?,?)");
 
                 }
 
-                pstmt_ins.setInt(1,register.getCode());
+                pstmt_ins.setInt(1, register.getCode());
 
-                pstmt_ins.setString(2,register.getDesc());
+                pstmt_ins.setString(2, register.getDesc());
 
                 pstmt_ins.executeUpdate();
 
                 pstmt_ins.clearParameters();
 
-            }
-
-            catch(SQLException e){
+            } catch (SQLException e) {
 
                 e.printStackTrace();
 
@@ -304,9 +279,7 @@ public class StorageUnique extends StorageDefault {
 
             }
 
-        }
-
-        else{
+        } else {
 
             throw new StorageException("Method must receive a com.radix.indexing.codeserver.uitl.UniqueRegister.");
 
@@ -317,18 +290,17 @@ public class StorageUnique extends StorageDefault {
     }
 
 
+    public Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
-    public Object select(Object obj) throws StorageException,DataNotFoundException, CommunicationException{
+        if (obj instanceof String) {//quer o cï¿½digo
 
-        if(obj instanceof String){//quer o código
+            return new Integer(getCode((String) obj));
 
-            return new Integer(getCode((String)obj));
+        } else if (obj instanceof Integer) {
 
-        }else if(obj instanceof Integer){
+            return getDesc(((Integer) obj).intValue());
 
-            return getDesc(((Integer)obj).intValue());
-
-        }else{
+        } else {
 
             throw new StorageException("Method must receive a String or a Integer.");
 
@@ -337,10 +309,9 @@ public class StorageUnique extends StorageDefault {
     }
 
 
+    public Object[] selectArray(Object[] obj) throws StorageException, DataNotFoundException, CommunicationException {
 
-    public Object[] selectArray(Object[] obj) throws StorageException,DataNotFoundException, CommunicationException{
-
-        if (obj.length==0) return new Object[0];
+        if (obj.length == 0) return new Object[0];
 
         if (obj[0] instanceof String) {
 
@@ -359,44 +330,39 @@ public class StorageUnique extends StorageDefault {
     }
 
 
-
-    public Enumeration selectEnumeration(Object obj) throws StorageException,DataNotFoundException, CommunicationException {
+    public Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         ResultSet rs = null;
 
         Statement stmt = null;
 
-        try{
+        try {
 
             stmt = con.createStatement();
 
-            rs = stmt.executeQuery("SELECT * FROM "+table);
+            rs = stmt.executeQuery("SELECT * FROM " + table);
 
             Vector v = new Vector();
 
-            while( rs.next() ) {
+            while (rs.next()) {
 
-                v.addElement(new UniqueRegister(rs.getString(2),rs.getInt(1)));
+                v.addElement(new UniqueRegister(rs.getString(2), rs.getInt(1)));
 
             }
 
             return v.elements();
 
-        }
-
-        catch(SQLException e){
+        } catch (SQLException e) {
 
             e.printStackTrace();
 
             throw new StorageException(e.getMessage());
 
-        }
-
-        finally {
+        } finally {
 
             try {
 
-                if( rs != null ) {
+                if (rs != null) {
 
                     rs.close();
 
@@ -404,9 +370,7 @@ public class StorageUnique extends StorageDefault {
 
                 }
 
-            }
-
-            catch (SQLException e) {
+            } catch (SQLException e) {
 
                 e.printStackTrace();
 
@@ -414,7 +378,7 @@ public class StorageUnique extends StorageDefault {
 
             try {
 
-                if( stmt != null ) {
+                if (stmt != null) {
 
                     stmt.close();
 
@@ -422,9 +386,7 @@ public class StorageUnique extends StorageDefault {
 
                 }
 
-            }
-
-            catch (SQLException e) {
+            } catch (SQLException e) {
 
                 e.printStackTrace();
 
@@ -435,27 +397,25 @@ public class StorageUnique extends StorageDefault {
     }
 
 
-
     private final static int MAX_SQL_LEN = 100;
 
-    private Object[] getCodeArray(Object[] descKeys) throws StorageException, CommunicationException  {
+    private Object[] getCodeArray(Object[] descKeys) throws StorageException, CommunicationException {
 
         int len = descKeys.length;
 
         Object[] result = new Object[len];
 
-        for(int i=0;i<len;i++) {
+        for (int i = 0; i < len; i++) {
 
             try {
 
-                result[i] = new Integer(getCode((String)descKeys[i]));
+                result[i] = new Integer(getCode((String) descKeys[i]));
 
-            } catch(DataNotFoundException e) {
+            } catch (DataNotFoundException e) {
 
                 result[i] = null;
 
             }
-
 
 
         }
@@ -481,16 +441,15 @@ public class StorageUnique extends StorageDefault {
     }
 
 
-
     private Object[] getCodeArrayInternal(Object[] descKeys) throws StorageException {
 
         ResultSet rs = null;
 
         PreparedStatement pstmt = null;
 
-        int len=descKeys.length;
+        int len = descKeys.length;
 
-        int found=0;
+        int found = 0;
 
         try {
 
@@ -506,8 +465,7 @@ public class StorageUnique extends StorageDefault {
 
             Object[] result = new Object[len];
 
-            if (len==0) return result;
-
+            if (len == 0) return result;
 
 
             //
@@ -524,7 +482,7 @@ public class StorageUnique extends StorageDefault {
 
             buf_code_array.append(" WHERE ").append(desc).append(" IN (?");
 
-            for(int i=1;i<len;i++) {
+            for (int i = 1; i < len; i++) {
 
                 buf_code_array.append(", ?");
 
@@ -533,12 +491,11 @@ public class StorageUnique extends StorageDefault {
             buf_code_array.append(")");
 
 
-
             pstmt = con.prepareStatement(buf_code_array.toString());
 
-            for(int i=0;i<len;i++) {
+            for (int i = 0; i < len; i++) {
 
-                pstmt.setString(i+1, (String) descKeys[i]);
+                pstmt.setString(i + 1, (String) descKeys[i]);
 
             }
 
@@ -546,7 +503,7 @@ public class StorageUnique extends StorageDefault {
 
             map_code_array.clear();
 
-            while(rs.next()) {
+            while (rs.next()) {
 
                 int rcode = rs.getInt(1);
 
@@ -559,8 +516,7 @@ public class StorageUnique extends StorageDefault {
             }
 
 
-
-            for(int i=len-1;i>=0;i--) {
+            for (int i = len - 1; i >= 0; i--) {
 
                 result[i] = map_code_array.get(descKeys[i]);
 
@@ -568,7 +524,7 @@ public class StorageUnique extends StorageDefault {
 
             return result;
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
 
             throw new StorageException(e.getMessage(), e);
 
@@ -578,9 +534,9 @@ public class StorageUnique extends StorageDefault {
 
             if (rs != null) {
 
-                try {rs.close(); }
-
-                catch(SQLException e) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
 
                     throw new StorageException(e.getMessage(), e);
 
@@ -590,9 +546,9 @@ public class StorageUnique extends StorageDefault {
 
             if (pstmt != null) {
 
-                try {pstmt.close();}
-
-                catch(SQLException e) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
 
                     throw new StorageException(e.getMessage(), e);
 
@@ -603,9 +559,7 @@ public class StorageUnique extends StorageDefault {
         }
 
 
-
     }
-
 
 
     private Object[] getDescArray(Object[] code) throws StorageException, CommunicationException {
@@ -614,13 +568,13 @@ public class StorageUnique extends StorageDefault {
 
         Object[] result = new Object[len];
 
-        for(int i=len-1;i>=0;i--) {
+        for (int i = len - 1; i >= 0; i--) {
 
             try {
 
                 result[i] = select(code[i]);
 
-            } catch(DataNotFoundException e) {
+            } catch (DataNotFoundException e) {
 
 //                result[i] = null;
 
@@ -633,60 +587,49 @@ public class StorageUnique extends StorageDefault {
     }
 
 
-
     /**
-
      * Return a url given a code
-
-     * @return  int code,
-
-     *          throws DataNotFoundStorageExcepiton otherwise
-
      *
-
+     * @return int code,
+     * <p/>
+     * throws DataNotFoundStorageExcepiton otherwise
      */
 
-    private int getCode(String _desc)throws StorageException,DataNotFoundException{
+    private int getCode(String _desc) throws StorageException, DataNotFoundException {
 
         ResultSet rs = null;
 
-        try{
+        try {
 
             if (pstmt_code == null) {
 
-                pstmt_code = con.prepareStatement("SELECT "+code+" FROM "+table+" WHERE "+desc+" = ?");
+                pstmt_code = con.prepareStatement("SELECT " + code + " FROM " + table + " WHERE " + desc + " = ?");
 
             }
 
-            pstmt_code.setString(1,_desc);
+            pstmt_code.setString(1, _desc);
 
             rs = pstmt_code.executeQuery();
 
-            if( rs.next() ){
+            if (rs.next()) {
 
                 return rs.getInt(1);
 
-            }
+            } else {
 
-            else {
-
-                throw new DataNotFoundException("Code not found for desc '"+_desc+"'.");
+                throw new DataNotFoundException("Code not found for desc '" + _desc + "'.");
 
             }
 
-        }
-
-        catch(SQLException e){
+        } catch (SQLException e) {
 
             e.printStackTrace();
 
             throw new StorageException(e.getMessage());
 
-        }
+        } finally {
 
-        finally {
-
-            if(rs != null) {
+            if (rs != null) {
 
                 try {
 
@@ -694,9 +637,7 @@ public class StorageUnique extends StorageDefault {
 
                     rs = null;
 
-                }
-
-                catch( SQLException sqle ) {
+                } catch (SQLException sqle) {
 
                     sqle.printStackTrace();
 
@@ -711,60 +652,49 @@ public class StorageUnique extends StorageDefault {
     }
 
 
-
-
-
     /**
-
      * Returns a url given a code
-
-     * @return  String url
-
-     *          null   If the url could not be found
-
+     *
+     * @return String url
+     * <p/>
+     * null   If the url could not be found
      */
 
-    private String getDesc(int _code) throws StorageException,DataNotFoundException{
+    private String getDesc(int _code) throws StorageException, DataNotFoundException {
 
         ResultSet rs = null;
 
-        try{
+        try {
 
             if (pstmt_desc == null) {
 
-                pstmt_desc = con.prepareStatement("SELECT "+desc+" FROM "+table+" WHERE "+code+" = ?");
+                pstmt_desc = con.prepareStatement("SELECT " + desc + " FROM " + table + " WHERE " + code + " = ?");
 
             }
 
-            pstmt_desc.setInt(1,_code);
+            pstmt_desc.setInt(1, _code);
 
             rs = pstmt_desc.executeQuery();
 
-            if(rs.next()) {
+            if (rs.next()) {
 
                 return rs.getString(1);
 
-            }
+            } else {
 
-            else {
-
-                throw new DataNotFoundException("String not found for code '"+_code+"'.");
+                throw new DataNotFoundException("String not found for code '" + _code + "'.");
 
             }
 
-        }
-
-        catch(SQLException e){
+        } catch (SQLException e) {
 
             e.printStackTrace();
 
             throw new StorageException(e.getMessage());
 
-        }
+        } finally {
 
-        finally {
-
-            if(rs != null) {
+            if (rs != null) {
 
                 try {
 
@@ -772,9 +702,7 @@ public class StorageUnique extends StorageDefault {
 
                     rs = null;
 
-                }
-
-                catch( SQLException sqle ) {
+                } catch (SQLException sqle) {
 
                     sqle.printStackTrace();
 
@@ -789,34 +717,27 @@ public class StorageUnique extends StorageDefault {
     }
 
 
-
     /**
-
      * Delete all registers of the table
-
      */
 
-    public Object remove(Object obj) throws StorageException , CommunicationException{
+    public Object remove(Object obj) throws StorageException, CommunicationException {
 
         Statement stmt = null;
 
-        try{
+        try {
 
-            stmt=con.createStatement();
+            stmt = con.createStatement();
 
-            stmt.executeUpdate("DELETE FROM "+table);
+            stmt.executeUpdate("DELETE FROM " + table);
 
-        }
-
-        catch(SQLException e){
+        } catch (SQLException e) {
 
             e.printStackTrace();
 
             throw new StorageException(e.getMessage());
 
-        }
-
-        finally {
+        } finally {
 
             if (stmt != null) {
 
@@ -824,9 +745,7 @@ public class StorageUnique extends StorageDefault {
 
                     stmt.close();
 
-                }
-
-                catch (Exception ex) {
+                } catch (Exception ex) {
 
                     ex.printStackTrace();
 
@@ -843,16 +762,13 @@ public class StorageUnique extends StorageDefault {
     }
 
 
+    public Object commit(Object obj) throws StorageException, CommunicationException {
 
-    public Object commit(Object obj) throws StorageException , CommunicationException{
-
-        try{
+        try {
 
             con.commit();
 
-        }
-
-        catch(SQLException e){
+        } catch (SQLException e) {
 
             e.printStackTrace();
 
@@ -863,18 +779,15 @@ public class StorageUnique extends StorageDefault {
         return null;
 
     }
-
 
 
     public Object rollback(Object obj) throws StorageException, CommunicationException {
 
-        try{
+        try {
 
             con.rollback();
 
-        }
-
-        catch(SQLException e){
+        } catch (SQLException e) {
 
             e.printStackTrace();
 
@@ -887,8 +800,7 @@ public class StorageUnique extends StorageDefault {
     }
 
 
-
-    public Object finalize(Object obj) throws StorageException , CommunicationException{
+    public Object finalize(Object obj) throws StorageException, CommunicationException {
 
         if (pstmt_code != null) {
 
@@ -896,12 +808,13 @@ public class StorageUnique extends StorageDefault {
 
                 pstmt_code.close();
 
-            } catch (SQLException e) { e.printStackTrace();}
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-            pstmt_code=null;
+            pstmt_code = null;
 
         }
-
 
 
         if (stmt_code_array != null) {
@@ -910,32 +823,30 @@ public class StorageUnique extends StorageDefault {
 
                 stmt_code_array.close();
 
-            }
-
-            catch (Exception ex) {
+            } catch (Exception ex) {
 
                 ex.printStackTrace();
 
             }
 
-            stmt_code_array=null;
+            stmt_code_array = null;
 
         }
 
 
-
-        if (pstmt_desc!=null) {
+        if (pstmt_desc != null) {
 
             try {
 
                 pstmt_desc.close();
 
-            } catch (SQLException e) { e.printStackTrace();}
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-            pstmt_desc=null;
+            pstmt_desc = null;
 
         }
-
 
 
         if (pstmt_ins != null) {
@@ -944,9 +855,11 @@ public class StorageUnique extends StorageDefault {
 
                 pstmt_ins.close();
 
-            } catch (SQLException e) {e.printStackTrace();}
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-            pstmt_ins=null;
+            pstmt_ins = null;
 
         }
 

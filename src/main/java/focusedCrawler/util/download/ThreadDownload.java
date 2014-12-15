@@ -30,58 +30,43 @@ import java.io.InputStream;
 public abstract class ThreadDownload extends Thread {
 
 
-
     /**
-
      * Indica o alvo que deve ser tratado pelo Thread.
-
      */
 
-    protected String  alvo;
-
+    protected String alvo;
 
 
     /**
-
      * Indica o tempo maximo que o thread tem para realizar suas atividades.
-
      */
 
     protected int timeout;
 
 
-
     /**
-
      * Indica se o thread esta pronto ou nao.
-
      */
 
     public boolean ready;
 
 
-
     /**
-
-    *  Representa qualquer informacao adicional que deva ser passada para o Thread
-
-    */
+     * Representa qualquer informacao adicional que deva ser passada para o Thread
+     */
 
     protected String complemento;
 
 
-
     /**
-
-    *  Indica se houve finalização do download por timeout
-
-    */
+     * Indica se houve finalizaï¿½ï¿½o do download por timeout
+     */
     private boolean finalizadoPorTimeout = false;
 
     protected InputStream input;
-    
+
     protected OutputStream out;
-    
+
     /**
      * Cria um thread sem alvo ou tempo definido.
      */
@@ -90,15 +75,10 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-
     /**
-
      * Cria um thread com alvo ja definido.
-
      *
-
-     * @param alvo Alvo que será utilizado pelo thread.
-
+     * @param alvo Alvo que serï¿½ utilizado pelo thread.
      */
 
     public ThreadDownload(String alvo) {
@@ -108,17 +88,11 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-
     /**
-
      * Cria um thread com alvo ja definido e timeout
-
      *
-
-     * @param alvo Alvo que será utilizado pelo thread.
-
+     * @param alvo    Alvo que serï¿½ utilizado pelo thread.
      * @param timeout Tempo de vida do thread.
-
      */
 
     public ThreadDownload(String alvo, int timeout) {
@@ -130,19 +104,12 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-
     /**
-
      * Cria um thread com alvo ja definido e timeout
-
      *
-
-     * @param alvo Alvo que será utilizado pelo thread.
-
-     * @param timeout Tempo de vida do thread.
-
+     * @param alvo        Alvo que serï¿½ utilizado pelo thread.
+     * @param timeout     Tempo de vida do thread.
      * @param complemento Complemento de informacao do thread.
-
      */
 
     public ThreadDownload(String alvo, int timeout, String complemento) {
@@ -156,25 +123,19 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-
     /**
-
      * Ajusta o alvo, onde estao os dados desejados.
-
+     *
      * @param alvo Novo alvo do thread.
-
      */
 
     public abstract void setAlvo(String alvo);
 
 
-
     /**
-
      * Ajusta o timeout de busca dos dados desejados.
-
+     *
      * @param timeout Novo tempo do thread.
-
      */
 
     public void setTimeout(int timeout) {
@@ -184,13 +145,10 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-
     /**
-
      * Ajusta a informacao adicional que o thread deve receber. Por exemplo, se o
-
+     * <p/>
      * metodo HTTP seria GET ou POST.
-
      */
 
     public void setComplemento(String complemento) {
@@ -200,13 +158,10 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-
     /**
-
      * Indica se o thread ja terminou suas atividades.
-
+     *
      * @return <code></b>true</b></code>, se ja terminou, <code></b>false</b></code>, caso contrario.
-
      */
 
     public boolean ready() {
@@ -216,13 +171,10 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-
     /**
-
      * Ajusta o estado de execucao de um thread indicando que o loop existente no run() deve ser finalizado.
-
+     *
      * @param <code></b>true</b></code>, para finalizar, <code></b>false</b></code>, caso contrario.
-
      */
 
     public void setReady(boolean newReady) {
@@ -232,15 +184,10 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-
     /**
-
      * Seta se o download foi finalizado por causa do timeout
-
      *
-
-     * @param foiTimeout <code> True </code> caso o download tenha finalizado pelo timeout, <code> false </code> caso contrário
-
+     * @param foiTimeout <code> True </code> caso o download tenha finalizado pelo timeout, <code> false </code> caso contrï¿½rio
      */
 
     protected void setFinalizadoPorTimeout(boolean foiTimeout) {
@@ -250,15 +197,10 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-
     /**
-
      * Indica se o download foi finalizado por causa do timeout
-
      *
-
-     * @return <code> True </code> caso o download tenha finalizado pelo timeout, <code> false </code> caso contrário
-
+     * @return <code> True </code> caso o download tenha finalizado pelo timeout, <code> false </code> caso contrï¿½rio
      */
 
     public boolean getFinalizadoPorTimeout() {
@@ -268,30 +210,25 @@ public abstract class ThreadDownload extends Thread {
     }
 
 
-    public InputStream getInputStream(){
-    	return input;
+    public InputStream getInputStream() {
+        return input;
     }
-    
-    public OutputStream getOutPutStream(){
-    	return out;
+
+    public OutputStream getOutPutStream() {
+        return out;
     }
 
     /**
-
      * Retorna o texto que foi recuperado pelo thread.
-
+     *
      * @return Um String que contem todos os dados coletados pelo thread.
-
      */
 
     public abstract String getDados();
 
 
-
     /**
-
      * Libera os recursos utilizados pelo thread, como Stream, conexoes com SGBD`s, etc.
-
      */
 
     public abstract void finalizar();

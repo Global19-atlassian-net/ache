@@ -35,68 +35,60 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 
-
 public class StatusUrlDownload {
-
 
 
     private URL statusUrl;
 
 
-
-    public StatusUrlDownload () {
+    public StatusUrlDownload() {
 
     } //StatusUrlDownload
 
 
-
-    public StatusUrlDownload (URL statusUrl) {
+    public StatusUrlDownload(URL statusUrl) {
 
         this.statusUrl = statusUrl;
 
     } //StatusUrlDownload
 
 
-
-    public URL getStatusUrl () {
+    public URL getStatusUrl() {
 
         return this.statusUrl;
 
     } //getStatusUrl
 
 
-
-    public void setStatusUrl (URL statusUrl) {
+    public void setStatusUrl(URL statusUrl) {
 
         this.statusUrl = statusUrl;
 
     } //setStatusUrl
 
 
-
-    public String getStatus () throws IOException {
+    public String getStatus() throws IOException {
 
         HttpURLConnection con = null;
 
         con = (HttpURLConnection) statusUrl.openConnection();
 
 
-
         String resultado = "";
 
         try {
 
-            BufferedReader bis = new BufferedReader(new InputStreamReader (con.getInputStream()));
+            BufferedReader bis = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
             String input = null;
 
-            while( (input = bis.readLine()) != null ) {
+            while ((input = bis.readLine()) != null) {
 
                 resultado += input + "\n";
 
             }
 
-            bis.close ();
+            bis.close();
 
         } //try
 
@@ -104,7 +96,7 @@ public class StatusUrlDownload {
 
             con.disconnect();
 
-            if( resultado.length() == 0 ) {
+            if (resultado.length() == 0) {
 
                 resultado = null;
 

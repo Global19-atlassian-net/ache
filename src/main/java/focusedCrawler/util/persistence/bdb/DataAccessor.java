@@ -28,18 +28,18 @@ import java.io.File;
 import focusedCrawler.util.persistence.Tuple;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityStore;
-import com.sleepycat.persist.PrimaryIndex; 
+import com.sleepycat.persist.PrimaryIndex;
 
 public class DataAccessor {
 
     // Vendor Accessors
-    PrimaryIndex<String,Tuple> registerByKey;
+    PrimaryIndex<String, Tuple> registerByKey;
 
-	 // Open the indices
-    public DataAccessor(EntityStore store)throws DatabaseException {
+    // Open the indices
+    public DataAccessor(EntityStore store) throws DatabaseException {
         // Primary key for Vendor class
-    	registerByKey = store.getPrimaryIndex(
-            String.class, Tuple.class);
+        registerByKey = store.getPrimaryIndex(
+                String.class, Tuple.class);
     }
-	
+
 }

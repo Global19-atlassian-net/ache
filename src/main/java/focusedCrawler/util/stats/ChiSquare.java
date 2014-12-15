@@ -25,42 +25,41 @@ package focusedCrawler.util.stats;
 
 public class ChiSquare {
 
-	private double ab;
-	private double aNotB;
-	private double notAB;
-	private double notAnotB;
-	
-	
-	
-	public ChiSquare(double ab, double aNotB, double notAB, double notAnotB){
-		this.ab = ab;
-		this.aNotB = aNotB;
-		this.notAB = notAB;
-		this.notAnotB = notAnotB;
-	}
+    private double ab;
+    private double aNotB;
+    private double notAB;
+    private double notAnotB;
 
-	public double calculateValue(){
-		double total = ab + aNotB + notAB + notAnotB;
-		double numerator = total*Math.pow((ab*notAnotB) - (aNotB*notAB),2);
-		double denominator = (ab+aNotB)*(ab+notAB)*(aNotB+notAnotB)*(notAB+notAnotB);
-		return numerator/denominator;
-	}
 
-	public static boolean isSignificant(double ab, double aNotB, double notAB, double notAnotB){
-		if(ab <= 5 || aNotB <= 5 || notAB <= 5 || notAnotB <= 5){
-			return false;
-		}
-		double total = ab + aNotB + notAB + notAnotB;
-		double numerator = total*Math.pow((ab*notAnotB) - (aNotB*notAB),2);
-		double denominator = (ab+aNotB)*(ab+notAB)*(aNotB+notAnotB)*(notAB+notAnotB);
-		return (numerator/denominator) > 10;
-	}
-	
-	public static void main(String[] args) {
-		ChiSquare cs = new ChiSquare(8,4667,15820,14287173);
-		System.out.println("VALUE:" + cs.calculateValue());
-		
-	}
-	
+    public ChiSquare(double ab, double aNotB, double notAB, double notAnotB) {
+        this.ab = ab;
+        this.aNotB = aNotB;
+        this.notAB = notAB;
+        this.notAnotB = notAnotB;
+    }
+
+    public double calculateValue() {
+        double total = ab + aNotB + notAB + notAnotB;
+        double numerator = total * Math.pow((ab * notAnotB) - (aNotB * notAB), 2);
+        double denominator = (ab + aNotB) * (ab + notAB) * (aNotB + notAnotB) * (notAB + notAnotB);
+        return numerator / denominator;
+    }
+
+    public static boolean isSignificant(double ab, double aNotB, double notAB, double notAnotB) {
+        if (ab <= 5 || aNotB <= 5 || notAB <= 5 || notAnotB <= 5) {
+            return false;
+        }
+        double total = ab + aNotB + notAB + notAnotB;
+        double numerator = total * Math.pow((ab * notAnotB) - (aNotB * notAB), 2);
+        double denominator = (ab + aNotB) * (ab + notAB) * (aNotB + notAnotB) * (notAB + notAnotB);
+        return (numerator / denominator) > 10;
+    }
+
+    public static void main(String[] args) {
+        ChiSquare cs = new ChiSquare(8, 4667, 15820, 14287173);
+        System.out.println("VALUE:" + cs.calculateValue());
+
+    }
+
 }
 

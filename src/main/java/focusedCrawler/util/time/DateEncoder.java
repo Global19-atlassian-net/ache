@@ -24,40 +24,34 @@
 package focusedCrawler.util.time;
 
 
-
 import java.util.Date;
 
 import java.util.Calendar;
 
 /**
-
  * Title:
-
+ * <p/>
  * Description: Encode a long date in a int and decode the int in
-
- *              a long data is usefull when you have only 4 bytes
-
- *              to store a date.
-
+ * <p/>
+ * a long data is usefull when you have only 4 bytes
+ * <p/>
+ * to store a date.
+ * <p/>
  * Copyright:    Copyright (c) 2000
-
+ * <p/>
  * Company:      radix.com
-
- * @author João Batista da Rocha Junior(joao@radix.com)
-
+ *
+ * @author Joï¿½o Batista da Rocha Junior(joao@radix.com)
  * @version 1.0
-
  */
-
 
 
 public class DateEncoder {
 
 
+    public static int encode(long date) {
 
-    public static int encode(long date){
-
-        return (int)(date/1000);
+        return (int) (date / 1000);
 
     }
 

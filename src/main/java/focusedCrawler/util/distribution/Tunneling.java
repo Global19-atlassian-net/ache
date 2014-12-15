@@ -24,7 +24,6 @@
 package focusedCrawler.util.distribution;
 
 
-
 import java.net.URL;
 
 import java.net.HttpURLConnection;
@@ -52,12 +51,7 @@ import java.net.Socket;
 import focusedCrawler.util.Log;
 
 
-
-
-
-
 public class Tunneling {
-
 
 
     private URL url;
@@ -65,11 +59,9 @@ public class Tunneling {
     private String nick;
 
 
-
     private URLConnection connection = null;
 
     private OutputStream out = null;
-
 
 
     public Tunneling(String _nick, URL _url) {
@@ -81,14 +73,13 @@ public class Tunneling {
     } //Tunneling
 
 
-
     public OutputStream openTunnel() throws IOException {
 
         connection = url.openConnection();
 
         if (connection instanceof HttpURLConnection) {
 
-            ((HttpURLConnection)connection).setRequestMethod("POST");
+            ((HttpURLConnection) connection).setRequestMethod("POST");
 
         } //if
 
@@ -103,7 +94,6 @@ public class Tunneling {
         return out;
 
     } //openTunnel
-
 
 
     public void closeTunnel() throws IOException {
@@ -145,7 +135,6 @@ public class Tunneling {
             Log.log("TUN", nick, "input closed.");
 
 
-
             if (connection instanceof HttpURLConnection) {
 
                 ((HttpURLConnection) connection).disconnect();
@@ -159,24 +148,21 @@ public class Tunneling {
     } //closeTunmel
 
 
-
-    public void send(String data) throws IOException{
+    public void send(String data) throws IOException {
 
         send(data.getBytes());
 
     } //send
 
 
-
-    public synchronized void send(byte[] data) throws IOException{
+    public synchronized void send(byte[] data) throws IOException {
 
         out.write(data, 0, data.length);
 
     } //send
 
 
-
-    public static void main(String [] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         URL url = new URL(args[0]);
 
@@ -186,13 +172,13 @@ public class Tunneling {
 
         tunel.openTunnel();
 
-        System.out.println ("abriu tunel");
+        System.out.println("abriu tunel");
 
-        if (data.equals ("file")) {
+        if (data.equals("file")) {
 
-            System.out.println("lendo arquivo" + args [2]);
+            System.out.println("lendo arquivo" + args[2]);
 
-            BufferedInputStream bis = new BufferedInputStream(new FileInputStream (args [2]));
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(args[2]));
 
             byte[] bytes = new byte[bis.available()];
 

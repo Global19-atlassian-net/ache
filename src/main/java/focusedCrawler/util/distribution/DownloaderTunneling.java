@@ -24,7 +24,6 @@
 package focusedCrawler.util.distribution;
 
 
-
 import java.io.BufferedReader;
 
 import java.io.InputStreamReader;
@@ -39,15 +38,7 @@ import focusedCrawler.util.download.DownloaderException;
 import focusedCrawler.util.download.DownloaderSocket;
 
 
-
-
-
-
-
-
-
 public class DownloaderTunneling {
-
 
 
     private String nick;
@@ -55,7 +46,6 @@ public class DownloaderTunneling {
     private URL url;
 
     private Downloader downloader = null;
-
 
 
     public DownloaderTunneling(String _nick, URL _url) throws DownloaderException {
@@ -85,15 +75,11 @@ public class DownloaderTunneling {
     }
 
 
-
-
-
     public void send(String data) throws DownloaderException {
 
         send(data.getBytes());
 
     } //send
-
 
 
     public synchronized void send(byte[] data) throws DownloaderException {
@@ -104,7 +90,7 @@ public class DownloaderTunneling {
 
             System.out.println("DEBUG");
 
-            downloader.setRequestProperty("Content-Length",""+data.length);
+            downloader.setRequestProperty("Content-Length", "" + data.length);
 
             downloader.connect();
 
@@ -115,7 +101,6 @@ public class DownloaderTunneling {
             Log.log("TUN", nick, "request done.");
 
 
-
             //Le a resposta.
 
             BufferedReader in = new BufferedReader(new InputStreamReader(downloader.getInputStream()));
@@ -124,7 +109,7 @@ public class DownloaderTunneling {
 
             System.out.println("+------- POST RESPONSE --------+");
 
-            while ( (s = in.readLine()) != null ) {
+            while ((s = in.readLine()) != null) {
 
                 System.out.println(s);
 
@@ -135,10 +120,9 @@ public class DownloaderTunneling {
             Log.log("TUN", nick, "response readed.");
 
 
-
             System.out.println(downloader.toString());
 
-            if( downloader != null ) {
+            if (downloader != null) {
 
                 downloader.close();
 
@@ -146,19 +130,16 @@ public class DownloaderTunneling {
 
             Log.log("TUN", nick, "downloader cleaned.");
 
-        }
+        } catch (IOException exc) {
 
-        catch(IOException exc) {
-
-            throw new DownloaderException("Error:"+exc.getMessage(),exc);
+            throw new DownloaderException("Error:" + exc.getMessage(), exc);
 
         }
 
     } //send
 
 
-
-    public static void main(String [] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
         URL url = new URL(args[0]);
 
@@ -167,12 +148,11 @@ public class DownloaderTunneling {
         DownloaderTunneling tunel = new DownloaderTunneling("tunnel", url);
 
 
+        System.out.println("abriu tunel");
 
-        System.out.println ("abriu tunel");
+        if (data.equals("file")) {
 
-        if (data.equals ("file")) {
-
-            System.out.println("lendo arquivo" + args [2]);
+            System.out.println("lendo arquivo" + args[2]);
 
             java.io.BufferedInputStream bis = new java.io.BufferedInputStream(new java.io.FileInputStream(args[2]));
 
@@ -190,7 +170,7 @@ public class DownloaderTunneling {
 
         } //else
 
-        System.out.println ("enviou dados");
+        System.out.println("enviou dados");
 
     } //main
 

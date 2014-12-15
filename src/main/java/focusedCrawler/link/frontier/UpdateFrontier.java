@@ -40,18 +40,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Hashtable;
 import java.io.IOException;
+
 import focusedCrawler.link.classifier.LinkClassifierException;
+
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 
 /**
  * <p> </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p> </p>
  *
  * @author Luciano Barbosa
@@ -59,14 +61,14 @@ import java.io.FileNotFoundException;
  */
 public class UpdateFrontier {
 
-  private NeighborhoodPersistent neighborhoodPersistent;
+    private NeighborhoodPersistent neighborhoodPersistent;
 
-  private PersistentHashtable urlRelevance;
+    private PersistentHashtable urlRelevance;
 
-  public UpdateFrontier(NeighborhoodPersistent neighborPers, PersistentHashtable urlRelevance) {
-    this.neighborhoodPersistent = neighborPers;
-    this.urlRelevance = urlRelevance;
-  }
+    public UpdateFrontier(NeighborhoodPersistent neighborPers, PersistentHashtable urlRelevance) {
+        this.neighborhoodPersistent = neighborPers;
+        this.urlRelevance = urlRelevance;
+    }
 
 //  public void saveFrontier() throws FileNotFoundException, IOException {
 //    System.out.println(">>>>>SAVING FONTIER:"+urlRelevance.getDirectory() + "/phash.pers" );
@@ -78,40 +80,40 @@ public class UpdateFrontier {
 //
 //  }
 
-  public void update(LinkClassifier linkClassifier) throws IOException, LinkClassifierException, CacheException {
+    public void update(LinkClassifier linkClassifier) throws IOException, LinkClassifierException, CacheException {
 //	  System.out.println(">>>> " + linkClassifier.getClass().toString());
-	  Iterator keys = urlRelevance.getKeys();
-    HashMap newCache = new HashMap();
-    while (keys.hasNext()) {
-      String key = (String)keys.next();
-      String url = URLDecoder.decode(key);
-      Integer relev = new Integer((String)urlRelevance.get(url));
-      if (url == null || relev.intValue() == -1 || relev.intValue() < 200){
-        continue;
-      }
+        Iterator keys = urlRelevance.getKeys();
+        HashMap newCache = new HashMap();
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            String url = URLDecoder.decode(key);
+            Integer relev = new Integer((String) urlRelevance.get(url));
+            if (url == null || relev.intValue() == -1 || relev.intValue() < 200) {
+                continue;
+            }
 //      System.out.println(">>>> URL:" + url);
 //      System.out.println(">>> RELEV BEFORE:" + urlRelevance.get(url));
-      LinkNeighborhood[] neighbors = neighborhoodPersistent.select(url);
-      if(neighbors == null){
+            LinkNeighborhood[] neighbors = neighborhoodPersistent.select(url);
+            if (neighbors == null) {
 //        
-      }else{
-        double maxValue = Double.MIN_VALUE;
-        for (int i = 0; i < neighbors.length; i++) {
-          neighbors[i].setURL(new URL(url));
-          LinkRelevance linkRel = linkClassifier.classify(neighbors[i]);
-          if(linkRel.getRelevance() > maxValue){
-            maxValue = linkRel.getRelevance();
-          }
-        }
+            } else {
+                double maxValue = Double.MIN_VALUE;
+                for (int i = 0; i < neighbors.length; i++) {
+                    neighbors[i].setURL(new URL(url));
+                    LinkRelevance linkRel = linkClassifier.classify(neighbors[i]);
+                    if (linkRel.getRelevance() > maxValue) {
+                        maxValue = linkRel.getRelevance();
+                    }
+                }
 //        System.out.println(">>> RELEV AFTER:" + maxValue);
-        int relevInt = (int)(maxValue);
+                int relevInt = (int) (maxValue);
 //        System.out.println(">>> RELEV AFTER:" + maxValue);
 //        System.out.println(">>>> URL:" + url + "=" + relevInt);
-        newCache.put(URLEncoder.encode(url.toString()), relevInt+"");
+                newCache.put(URLEncoder.encode(url.toString()), relevInt + "");
 //        urlRelevance.put(url.toString(), new Integer(relevInt)+"");
-      }
+            }
+        }
+        urlRelevance.updateCache(newCache);
     }
-    urlRelevance.updateCache(newCache);
-  }
 
 }

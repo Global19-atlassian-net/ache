@@ -24,29 +24,21 @@
 package focusedCrawler.util;
 
 
-
-
-
 //import java.io.PrintStream;
 
 import java.io.*;
 
 /**
-
  * versao 0.01p 14/03/98
-
  */
 
 public class SelfLoggable extends Thread {
 
 
-
     /**
-
      * Local onde as mensagens de LOG sao escritas.
-
-     * por default é System.out.
-
+     * <p/>
+     * por default ï¿½ System.out.
      */
 
     public PrintStream outLog = System.out;
@@ -54,15 +46,10 @@ public class SelfLoggable extends Thread {
 //     public FileOutputStream outLog;
 
 
-
-
-
     /**
-
      * Local onde as mensagens de ERRO sao escritas.
-
-     * por default é System.out.
-
+     * <p/>
+     * por default ï¿½ System.out.
      */
 
     public PrintStream outErr = System.out;
@@ -70,8 +57,7 @@ public class SelfLoggable extends Thread {
 //    public FileOutputStream outErr;
 
 
-
-public SelfLoggable(){
+    public SelfLoggable() {
 
 //    try{
 
@@ -86,47 +72,37 @@ public SelfLoggable(){
     }
 
     /**
-
      * Este metodo muda o local onde as mensagens de ERRO serao escritas.
-
-     * @param   out   a nova saida de Erros.
-
+     *
+     * @param out a nova saida de Erros.
      */
 
     public void setErrOutput(PrintStream out) {
 
-        if ( out != null ) this.outErr = out;
+        if (out != null) this.outErr = out;
 
-        else throw new IllegalArgumentException ("Output nao pode ser null");
+        else throw new IllegalArgumentException("Output nao pode ser null");
 
     }
 
 
-
-
-
     /**
-
      * Este metodo muda o local onde as mensagens de log serao escritas.
-
-     * @param   out   a nova saida de log.
-
+     *
+     * @param out a nova saida de log.
      */
 
     public void setLogOutput(PrintStream out) {
 
-        if ( out != null ) this.outLog = out;
+        if (out != null) this.outLog = out;
 
-        else throw new IllegalArgumentException ("Output nao pode ser null");
+        else throw new IllegalArgumentException("Output nao pode ser null");
 
     }
 
 
-
     /**
-
      * Este metodo escreve algo na saida de Log.
-
      */
 
     public void writeLog(String str) {
@@ -135,9 +111,9 @@ public SelfLoggable(){
 
 //	    String temp;
 
-            if ( print) {
+        if (print) {
 
-              outLog.println(str);
+            outLog.println(str);
 
 //            outLog.print(str+"\n\r");
 
@@ -149,27 +125,24 @@ public SelfLoggable(){
 
 //              }
 
-           }
+        }
 
 //        catch(IOException io){io.printStackTrace();}
 
     }
 
 
-
     /**
-
      * Este metodo escreve algo na saida de Erros.
-
      */
 
     public void writeErr(String str) {
 
 //        try{String temp;
 
-        if ( print) {
+        if (print) {
 
-              outErr.println(str);
+            outErr.println(str);
 
 //            outErr.print(str + "\n\r");
 
@@ -188,19 +161,15 @@ public SelfLoggable(){
     }
 
 
-
     protected boolean print = true;
 
 
-
     /**
-
      * Este metodo modifica o estado de impressao, isto e', diz se
-
+     * <p/>
      * e' para imprimir ou nao mensagens na tela.
-
-     * @param    state    o novo estado de impressao.
-
+     *
+     * @param state o novo estado de impressao.
      */
 
     public void setPrint(boolean state) {

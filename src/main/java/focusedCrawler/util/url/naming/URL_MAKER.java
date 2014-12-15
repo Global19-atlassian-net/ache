@@ -24,50 +24,45 @@
 package focusedCrawler.util.url.naming;
 
 
-
 import java.net.URL;
 
 import java.net.MalformedURLException;
 
 
-
 public class URL_MAKER {
 
-        protected static final char   COD = '#';
+    protected static final char COD = '#';
 
-        protected static final char   TIP = '#';
+    protected static final char TIP = '#';
 
-        protected static final String END = "##";
+    protected static final String END = "##";
 
 
+    public static URL make(URL base, int codigo, int tipo) throws MalformedURLException {
 
-    public static URL make( URL base,int codigo,int tipo ) throws MalformedURLException {
-
-        if( base == null )
+        if (base == null)
 
             return null;
 
-        return new URL(base,""+COD+codigo+TIP+tipo);
+        return new URL(base, "" + COD + codigo + TIP + tipo);
 
 //        return new URL(base,""+COD+codigo+TIP+tipo+END);
 
     }
 
 
+    public static String make(String base, int codigo, int tipo) {
 
-    public static String make( String base,int codigo,int tipo ) {
-
-        return base+COD+codigo+TIP+tipo;
+        return base + COD + codigo + TIP + tipo;
 
 //        return base+COD+codigo+TIP+tipo+END;
 
     }
 
 
-
     public static URL getURL(URL url) throws MalformedURLException {
 
-        if( url == null )
+        if (url == null)
 
             return null;
 
@@ -75,47 +70,43 @@ public class URL_MAKER {
 
         int pos = str.indexOf(END);
 
-        if( pos > 0 ) {
+        if (pos > 0) {
 
-            return new URL( str.substring(0,pos) );
+            return new URL(str.substring(0, pos));
 
-        }
+        } else {
 
-        else {
-
-            return new URL(url.getProtocol()+"://"+url.getHost()+url.getFile());
+            return new URL(url.getProtocol() + "://" + url.getHost() + url.getFile());
 
         }
 
     }
 
 
-
     public static int[] getCodigoETipo(URL url) {
 
-        if( url == null )
+        if (url == null)
 
             return null;
 
         String ref = url.getRef();
 
 
-
         int pos_tip = ref.indexOf(TIP);
 
-        int pos_end = ref.indexOf(END,pos_tip+1);
+        int pos_end = ref.indexOf(END, pos_tip + 1);
 
-        if( pos_tip > 0 )
+        if (pos_tip > 0)
 
-          {
+        {
 
             int x[] = null;
 
             try {
 
-                  String cod = ref.substring(0,pos_tip);
+                String cod = ref.substring(0, pos_tip);
 
-                  String tip = ref.substring(pos_tip+1,ref.length());
+                String tip = ref.substring(pos_tip + 1, ref.length());
 
 /*
 
@@ -131,120 +122,109 @@ public class URL_MAKER {
 
 */
 
-                  x = new int[]{ Integer.valueOf(cod).intValue(),Integer.valueOf(tip).intValue() };
+                x = new int[]{Integer.valueOf(cod).intValue(), Integer.valueOf(tip).intValue()};
 
-                }
+            } catch (Exception exc)
 
-            catch(Exception exc)
+            {
 
-                {
+                x = null;
 
-                  x = null;
-
-                }
+            }
 
             return x;
 
-          }
+        }
 
         return null;
 
     }
 
 
-
     public static void main(String args[]) {
 
         try {
 
-              long time = System.currentTimeMillis();
+            long time = System.currentTimeMillis();
 
-              URL url = new URL(args[0].trim());
+            URL url = new URL(args[0].trim());
 
-              System.out.println("parser_url_time = "+(System.currentTimeMillis()-time));
+            System.out.println("parser_url_time = " + (System.currentTimeMillis() - time));
 
-              long total_io = 0;
+            long total_io = 0;
 
-              long time_io  = System.currentTimeMillis();
+            long time_io = System.currentTimeMillis();
 
-              System.out.println("1."+url);
+            System.out.println("1." + url);
 
-              total_io += (System.currentTimeMillis()-time_io);
-
-
-
-              time = System.currentTimeMillis();
-
-              url = URL_MAKER.make(url,Integer.valueOf(args[1].trim()).intValue(),Integer.valueOf(args[2].trim()).intValue());
-
-              time    = (System.currentTimeMillis()-time);
-
-              time_io = System.currentTimeMillis();
-
-              System.out.println("2."+url+", time = "+time);
-
-              total_io += (System.currentTimeMillis()-time_io);
+            total_io += (System.currentTimeMillis() - time_io);
 
 
+            time = System.currentTimeMillis();
 
-              time = System.currentTimeMillis();
+            url = URL_MAKER.make(url, Integer.valueOf(args[1].trim()).intValue(), Integer.valueOf(args[2].trim()).intValue());
 
-              int[] ct = URL_MAKER.getCodigoETipo(url);
+            time = (System.currentTimeMillis() - time);
 
-              time = (System.currentTimeMillis()-time);
+            time_io = System.currentTimeMillis();
 
-              if( ct!=null )
+            System.out.println("2." + url + ", time = " + time);
 
-                {
-
-                  time_io = System.currentTimeMillis();
-
-                  System.out.println("2.cod = "+ct[0]+", tip = "+ct[1]+", time = "+time);
-
-                  total_io += (System.currentTimeMillis()-time_io);
-
-                }
-
-              else
-
-                {
-
-                  time_io = System.currentTimeMillis();
-
-                  System.out.println("2.cod e tip = null");
-
-                  total_io += (System.currentTimeMillis()-time_io);
-
-                }
+            total_io += (System.currentTimeMillis() - time_io);
 
 
+            time = System.currentTimeMillis();
 
-              time = System.currentTimeMillis();
+            int[] ct = URL_MAKER.getCodigoETipo(url);
 
-              url = URL_MAKER.getURL(url);
+            time = (System.currentTimeMillis() - time);
 
-              time = (System.currentTimeMillis()-time);
-
-              time_io = System.currentTimeMillis();
-
-              System.out.println("3."+url+", time = "+time);
-
-              total_io += (System.currentTimeMillis()-time_io);
-
-              System.out.println("4.total_io = "+total_io);
-
-            }
-
-        catch( MalformedURLException mfue )
+            if (ct != null)
 
             {
 
-              mfue.printStackTrace();
+                time_io = System.currentTimeMillis();
+
+                System.out.println("2.cod = " + ct[0] + ", tip = " + ct[1] + ", time = " + time);
+
+                total_io += (System.currentTimeMillis() - time_io);
+
+            } else
+
+            {
+
+                time_io = System.currentTimeMillis();
+
+                System.out.println("2.cod e tip = null");
+
+                total_io += (System.currentTimeMillis() - time_io);
 
             }
 
-    }
 
+            time = System.currentTimeMillis();
+
+            url = URL_MAKER.getURL(url);
+
+            time = (System.currentTimeMillis() - time);
+
+            time_io = System.currentTimeMillis();
+
+            System.out.println("3." + url + ", time = " + time);
+
+            total_io += (System.currentTimeMillis() - time_io);
+
+            System.out.println("4.total_io = " + total_io);
+
+        } catch (MalformedURLException mfue)
+
+        {
+
+            mfue.printStackTrace();
+
+        }
+
+    }
 
 
 }

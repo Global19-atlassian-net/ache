@@ -28,7 +28,6 @@ import java.net.Socket;
 import java.io.*;
 
 
-
 import java.util.Enumeration;
 
 import focusedCrawler.util.DataNotFoundException;
@@ -38,22 +37,12 @@ import focusedCrawler.util.storage.Storage;
 import focusedCrawler.util.storage.StorageException;
 
 
-
-
-
-
-
-
-
-
 public class StorageRemoteAdapter implements Storage {
-
 
 
     private String remoteHost;
 
     private int remotePort;
-
 
 
     public StorageRemoteAdapter(String remoteHost, int remotePort) {
@@ -63,7 +52,6 @@ public class StorageRemoteAdapter implements Storage {
         this.remotePort = remotePort;
 
     }
-
 
 
     class RemoteChannel {
@@ -79,7 +67,6 @@ public class StorageRemoteAdapter implements Storage {
         byte[] buffer;
 
     }
-
 
 
     private RemoteChannel getSocket() throws IOException {
@@ -101,7 +88,6 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
     private void serializeParamObject(RemoteChannel rc, Object obj) throws IOException {
 
         // convert to byte array
@@ -115,7 +101,6 @@ public class StorageRemoteAdapter implements Storage {
         oout.flush();
 
     }
-
 
 
     private void sendRequestObject(RemoteChannel rc, int method) throws IOException {
@@ -133,7 +118,6 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
     private void readResultData(RemoteChannel rc) throws IOException {
 
         // read the result object
@@ -145,7 +129,6 @@ public class StorageRemoteAdapter implements Storage {
         rc.in.readFully(rc.buffer);
 
     }
-
 
 
     private Object buildResultObject(RemoteChannel rc) throws IOException, ClassNotFoundException {
@@ -165,7 +148,6 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
     private void releaseSocket(RemoteChannel rc) throws IOException {
 
         // close connection
@@ -175,26 +157,25 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
     private Object defaultMethod(int method_id, Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
-        long t1=System.currentTimeMillis();
+        long t1 = System.currentTimeMillis();
 
-        long t2=0, t3=0, t4=0, t5=0, t6=0, t7=0;
+        long t2 = 0, t3 = 0, t4 = 0, t5 = 0, t6 = 0, t7 = 0;
 
         try {
 
-            if(Log.log) {
+            if (Log.log) {
 
-                Log.log("adapter"+remoteHost+"_"+remotePort,
+                Log.log("adapter" + remoteHost + "_" + remotePort,
 
-                        "method["+method_id+"] call_method",
+                        "method[" + method_id + "] call_method",
 
                         Thread.currentThread().getName());
 
             }
 
-            Object response=null;
+            Object response = null;
 
             RemoteChannel socket = getSocket();
 
@@ -222,7 +203,7 @@ public class StorageRemoteAdapter implements Storage {
 
                 t6 = System.currentTimeMillis();
 
-                switch(responseCode) {
+                switch (responseCode) {
 
                     case CommunicationConstants.RETURN_OK:
 
@@ -250,27 +231,32 @@ public class StorageRemoteAdapter implements Storage {
 
             }
 
-        } catch(ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
-        } catch(IOException e) {
+        } catch (IOException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
         } finally {
 
-            long tt=System.currentTimeMillis()-t1;
+            long tt = System.currentTimeMillis() - t1;
 
-            t7-=t6; t6-=t5; t5-=t4; t4-=t3; t3-=t2; t2-=t1;
+            t7 -= t6;
+            t6 -= t5;
+            t5 -= t4;
+            t4 -= t3;
+            t3 -= t2;
+            t2 -= t1;
 
-            if(Log.log) {
+            if (Log.log) {
 
-                Log.log("StorageRemoteAdapter_"+remoteHost+"_"+remotePort,
+                Log.log("StorageRemoteAdapter_" + remoteHost + "_" + remotePort,
 
-                        "method["+method_id+"] tempo="+tt,
+                        "method[" + method_id + "] tempo=" + tt,
 
-                        "t2="+t2+", t3="+t3+", t4="+t4+", t5="+t5+", t6="+t6+", t7="+t7+" "+Thread.currentThread().getName());
+                        "t2=" + t2 + ", t3=" + t3 + ", t4=" + t4 + ", t5=" + t5 + ", t6=" + t6 + ", t7=" + t7 + " " + Thread.currentThread().getName());
 
             }
 
@@ -279,16 +265,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-
-
-    public Object insert(Object obj) throws StorageException,CommunicationException {
+    public Object insert(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return defaultMethod(CommunicationConstants.METHOD_INSERT, obj);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -297,14 +280,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object[] insertArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return (Object[]) defaultMethod(CommunicationConstants.METHOD_INSERT_ARRAY, objs);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -313,38 +295,34 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object select(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         return defaultMethod(CommunicationConstants.METHOD_SELECT, obj);
 
     }
 
 
-
-    public Object[] selectArray(Object[] objs) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object[] selectArray(Object[] objs) throws StorageException, DataNotFoundException, CommunicationException {
 
         return (Object[]) defaultMethod(CommunicationConstants.METHOD_SELECT_ARRAY, objs);
 
     }
 
 
-
-    public Enumeration selectEnumeration(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         return (Enumeration) defaultMethod(CommunicationConstants.METHOD_SELECT_ENUMERATION, obj);
 
     }
 
 
-
-    public Object update(Object obj) throws StorageException,CommunicationException {
+    public Object update(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return defaultMethod(CommunicationConstants.METHOD_UPDATE, obj);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -353,14 +331,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object[] updateArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return (Object[]) defaultMethod(CommunicationConstants.METHOD_UPDATE_ARRAY, objs);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -369,14 +346,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object remove(Object obj) throws StorageException,CommunicationException {
+    public Object remove(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return defaultMethod(CommunicationConstants.METHOD_REMOVE, obj);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -385,14 +361,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object[] removeArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return (Object[]) defaultMethod(CommunicationConstants.METHOD_REMOVE_ARRAY, objs);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -401,14 +376,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object addResource(Object obj) throws StorageException,CommunicationException {
+    public Object addResource(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return defaultMethod(CommunicationConstants.METHOD_ADD_RESOURCE, obj);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -417,14 +391,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object[] addResourceArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] addResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return (Object[]) defaultMethod(CommunicationConstants.METHOD_ADD_RESOURCE_ARRAY, objs);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -433,14 +406,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object removeResource(Object obj) throws StorageException,CommunicationException {
+    public Object removeResource(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return defaultMethod(CommunicationConstants.METHOD_REMOVE_RESOURCE, obj);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -449,14 +421,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object[] removeResourceArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] removeResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return (Object[]) defaultMethod(CommunicationConstants.METHOD_REMOVE_RESOURCE_ARRAY, objs);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -465,14 +436,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object commit(Object obj) throws StorageException,CommunicationException {
+    public Object commit(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return defaultMethod(CommunicationConstants.METHOD_COMMIT, obj);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -481,14 +451,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object rollback(Object obj) throws StorageException,CommunicationException {
+    public Object rollback(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return defaultMethod(CommunicationConstants.METHOD_ROLLBACK, obj);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -497,14 +466,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object finalize(Object obj) throws StorageException,CommunicationException {
+    public Object finalize(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return defaultMethod(CommunicationConstants.METHOD_FINALIZE, obj);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 
@@ -513,14 +481,13 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object ping(Object obj) throws StorageException,CommunicationException {
+    public Object ping(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return defaultMethod(CommunicationConstants.METHOD_PING, obj);
 
-        } catch(DataNotFoundException e) {
+        } catch (DataNotFoundException e) {
 
             throw new CommunicationException(e.getMessage(), e);
 

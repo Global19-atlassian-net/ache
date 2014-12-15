@@ -28,8 +28,8 @@ import java.util.Comparator;
 
 public class FileComparator implements Comparator {
 
-	public int compare(Object arg0, Object arg1) {
-		return ((File)arg0).getName().compareTo(((File)arg1).getName());
-	}
+    public int compare(Object arg0, Object arg1) {
+        return ((File) arg0).getName().compareTo(((File) arg1).getName());
+    }
 
 }

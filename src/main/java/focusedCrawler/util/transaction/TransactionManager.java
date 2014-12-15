@@ -24,33 +24,25 @@
 package focusedCrawler.util.transaction;
 
 
-
 public interface TransactionManager {
-
 
 
     public void addResource(Object obj) throws TransactionManagerException;
 
 
-
     public void removeResource(Object obj) throws TransactionManagerException;
-
 
 
     public void commit() throws TransactionManagerException;
 
 
-
     public void rollback() throws TransactionManagerException;
 
-    
 
     public void clear() throws TransactionManagerException;
 
 
-
     public void finalize() throws TransactionManagerException;
-
 
 
     public void setLogOutput(java.io.PrintStream out);

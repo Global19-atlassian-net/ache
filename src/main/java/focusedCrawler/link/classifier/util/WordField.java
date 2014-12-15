@@ -26,9 +26,8 @@ package focusedCrawler.link.classifier.util;
 import java.io.Serializable;
 
 /**
- *
  * <p>Description: Represents the tuple: field,word</p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
  *
  * @author Luciano Barbosa
@@ -37,54 +36,54 @@ import java.io.Serializable;
 
 public class WordField implements Serializable {
 
-  private String word;
+    private String word;
 
-  private int field;
+    private int field;
 
-  public static final int URLFIELD = 0;
+    public static final int URLFIELD = 0;
 
-  public static final int ALT = 1;
+    public static final int ALT = 1;
 
-  public static final int AROUND = 2;
+    public static final int AROUND = 2;
 
-  public static final int ANCHOR = 3;
+    public static final int ANCHOR = 3;
 
-  public static final int SRC = 4;
+    public static final int SRC = 4;
 
-  public static final String[] FIELD_NAMES = new String[]{"URL","ALT","AROUND","ANCHOR","SRC"};
+    public static final String[] FIELD_NAMES = new String[]{"URL", "ALT", "AROUND", "ANCHOR", "SRC"};
 
-  public WordField(int field, String word) {
-    this.field = field;
-    this.word = word;
-   }
-
-  public void setWord(String word){
-    this.word = word;
-  }
-
-  public void setField(int field){
-    this.field = field;
-  }
-
-  public String getWord(){
-    return word;
-  }
-
-  public int getField(){
-    return field;
-  }
-
-  public String toString(){
-    return "field:"+ field + " word:" + word;
-  }
-
-  public boolean equals(WordField wordField){
-    boolean ret = false;
-    if(wordField.getWord().equals(word)){
-      ret = true;
+    public WordField(int field, String word) {
+        this.field = field;
+        this.word = word;
     }
-    return ret;
-  }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public void setField(int field) {
+        this.field = field;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public int getField() {
+        return field;
+    }
+
+    public String toString() {
+        return "field:" + field + " word:" + word;
+    }
+
+    public boolean equals(WordField wordField) {
+        boolean ret = false;
+        if (wordField.getWord().equals(word)) {
+            ret = true;
+        }
+        return ret;
+    }
 
 }
 

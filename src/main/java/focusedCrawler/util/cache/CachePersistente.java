@@ -24,7 +24,6 @@
 package focusedCrawler.util.cache;
 
 
-
 /**
 
  * Implementacao de uma cache LRU.
@@ -33,7 +32,7 @@ package focusedCrawler.util.cache;
 
  * a cache esta cheia, os objetos que serao removidos
 
- * sao aqueles usados ha mais tempo, onde apos n flush será salvo o estado
+ * sao aqueles usados ha mais tempo, onde apos n flush serï¿½ salvo o estado
 
  * atual da cahce
 
@@ -44,8 +43,6 @@ package focusedCrawler.util.cache;
  * @version %I%, %G%
 
  */
-
-
 
 
 import java.io.*;
@@ -60,13 +57,11 @@ import java.lang.reflect.*;
 import focusedCrawler.util.DoubleLinkedListNode;
 
 
-
 public class CachePersistente implements Cache {
 
     private int limite_flushs = 0;
 
     private int numero_flushs = 0;
-
 
 
     private Cache cache;
@@ -76,54 +71,45 @@ public class CachePersistente implements Cache {
     private Constructor construtorData;
 
 
-
-    private String fileName ;
+    private String fileName;
 
     /**
-
      * Construtor da Classe
-
      *
-
      * @param cache_size o tamanho maximo desta cache
-
-     * @param qt_rm a quantidade de itens removidos quando acontece uma falha
-
-     *
-
+     * @param qt_rm      a quantidade de itens removidos quando acontece uma falha
      */
 
     public CachePersistente(Cache cache, int limite_flushs, String file,
 
-      String key_classname, String data_classname) throws CacheException {
+                            String key_classname, String data_classname) throws CacheException {
 
         this.limite_flushs = limite_flushs;
 
         this.cache = cache;
 
-        try{
+        try {
 
-          Class clsKey = Class.forName(key_classname);
+            Class clsKey = Class.forName(key_classname);
 
-          Class clsData = Class.forName(data_classname);
+            Class clsData = Class.forName(data_classname);
 
 
+            this.construtorKey = clsKey.getConstructor(new Class[]{java.lang.String.class});
 
-          this.construtorKey = clsKey.getConstructor( new Class[]{java.lang.String.class});
-
-          this.construtorData = clsData.getConstructor( new Class[]{java.lang.String.class});
+            this.construtorData = clsData.getConstructor(new Class[]{java.lang.String.class});
 
         } catch (ClassNotFoundException e) {
 
             throw new CacheException("Nao foi encontrada as classes" + key_classname +
 
-                " e " + data_classname);
+                    " e " + data_classname);
 
-        } catch (NoSuchMethodException ne){
+        } catch (NoSuchMethodException ne) {
 
-            throw new CacheException("Nao existe construtor " + key_classname +"( String str)"+
+            throw new CacheException("Nao existe construtor " + key_classname + "( String str)" +
 
-                " ou " + data_classname+"( String str)");
+                    " ou " + data_classname + "( String str)");
 
         }
 
@@ -134,137 +120,99 @@ public class CachePersistente implements Cache {
     }
 
 
-
     /**
-
      * retorna o tamanho da cache
-
      *
-
-     * @return  tamanho da cache
-
+     * @return tamanho da cache
      */
 
     public int size() {
 
-      return cache.size();
+        return cache.size();
 
     }
 
 
-
     /**
-
      * retorna o tamanho maximo da cache. Se algum objeto novo for
-
+     * <p/>
      * inserido e a cache estiver com o tamanho maximo algum ou alguns
-
+     * <p/>
      * outros objetos deverao ser removidos para o novo objeto ser inserido.
-
      *
-
-     * @return  tamanho maximo da cache
-
+     * @return tamanho maximo da cache
      */
 
-    public int getMaxSize(){
+    public int getMaxSize() {
 
-      return cache.getMaxSize();
+        return cache.getMaxSize();
 
     }
 
 
-
     /**
-
      * numero de objectos que serao removidos quando acontecer uma falta.
-
      *
-
      * @return numero de objectos que serao removidos quando acontecer uma falta.
-
      */
 
-    public int getRemoveQuantity(){
+    public int getRemoveQuantity() {
 
-      return cache.getRemoveQuantity();
+        return cache.getRemoveQuantity();
 
     }
 
     /**
-
      * muda Tamanho maximo da cache.
-
      *
-
-     * @param  newSize o novo tamanho maximo
-
+     * @param newSize o novo tamanho maximo
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
      */
 
-    public void setMaxSize(int newSize) throws CacheException{
+    public void setMaxSize(int newSize) throws CacheException {
 
-      cache.setMaxSize(newSize);
+        cache.setMaxSize(newSize);
 
     }
 
     /**
-
      * Muda o numero de quantidade de objetos que devem ser removidos quando
-
+     * <p/>
      * acontece uma falta.
-
      *
-
      * @param qtd o novo numero de quantos objetos serao removidos apos uma falha.
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
      */
 
-    public void setRemoveQuantity(int qtd) throws CacheException{
+    public void setRemoveQuantity(int qtd) throws CacheException {
 
-      cache.setRemoveQuantity(qtd);
+        cache.setRemoveQuantity(qtd);
 
     }
 
     /**
-
      * Retorna o dado associado a cache dada.
-
      *
-
-     * @param  key   Chave que representa o objeto na cache
-
+     * @param key Chave que representa o objeto na cache
      * @return o objeto procurado ou null se nao estiver na cache.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
-    public Object get(CacheKey key) throws CacheException{
+    public Object get(CacheKey key) throws CacheException {
 
-      return cache.get(key);
+        return cache.get(key);
 
     }
 
 
-
     /**
-
      * Retorna um array com dados associados as caches dadas.
-
-     * @param  key   Array de chaves
-
+     *
+     * @param key Array de chaves
      * @return Retorna array de objetos, respeitando a ordem das chaves.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] get(CacheKey[] key) throws CacheException {
@@ -274,57 +222,42 @@ public class CachePersistente implements Cache {
     }
 
     /**
-
      * Retorna o dado associado a cache dada.
-
+     * <p/>
      * caso o objeto nao esteja na cache, cria um novo utilizando o ObjectFactory
-
+     * <p/>
      * e coloca na cache. se a cache estiver cheia, remove alguns dado da cache.
-
      *
-
-     * @param  key   Chave que representa o objeto na cache
-
+     * @param key Chave que representa o objeto na cache
      * @return o objeto procurado
-
-     * @see focusedCrawler.util.cache.CacheKey
-
-     * @see focusedCrawler.util.cache.ObjectFactory
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
+     * @see focusedCrawler.util.cache.ObjectFactory
      */
 
-    public Object getUpdate(CacheKey key) throws CacheException{
+    public Object getUpdate(CacheKey key) throws CacheException {
 
-      return cache.getUpdate(key);
+        return cache.getUpdate(key);
 
     }
 
 
-
     /**
-
      * Retorna um array de dados assoaciado um array de chaves fornecido.
-
+     * <p/>
      * caso o objeto nao esteja na cache, cria um novo utilizando o ObjectFactory
-
+     * <p/>
      * e coloca na cache. se a cache estiver cheia, remove alguns dado da cache.
-
+     * <p/>
      * Observe que existe uma correspondencia entre a posicao do objeto retornado e
-
+     * <p/>
      * a posicao da chave fornecida.
-
-     * @param  key[]   Array de chaves
-
+     *
+     * @param key[] Array de chaves
      * @return Array com os objetos procurados.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
-     * @see focusedCrawler.util.cache.ObjectFactory
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
+     * @see focusedCrawler.util.cache.ObjectFactory
      */
 
     public Object[] getUpdate(CacheKey[] key) throws CacheException {
@@ -334,31 +267,22 @@ public class CachePersistente implements Cache {
     }
 
 
-
     /**
-
      * Muda o ObjectFactory da cache.
-
      *
-
      * @param fac a nova fabrica de objetos
-
      * @see focusedCrawler.util.cache.ObjectFactory
-
      */
 
-    public void setFactory(ObjectFactory fac){
+    public void setFactory(ObjectFactory fac) {
 
-      cache.setFactory(fac);
+        cache.setFactory(fac);
 
     }
 
 
-
     /**
-
      * muda o destroyer
-
      */
 
     public void setDestroyer(ObjectDestroyer d) {
@@ -368,7 +292,6 @@ public class CachePersistente implements Cache {
     }
 
 
-
     public ObjectDestroyer getDestroyer() {
 
         return cache.getDestroyer();
@@ -376,105 +299,78 @@ public class CachePersistente implements Cache {
     }
 
 
-
     /**
-
      * Retorna o ObjectFactory da cache.
-
      *
-
      * @return a fabrica desta cache
-
      * @see focusedCrawler.util.cache.ObjectFactory
-
      */
 
     public ObjectFactory getFactory() {
 
-      return cache.getFactory();
+        return cache.getFactory();
 
     }
 
 
-
     /**
-
      * Remove o dado referente a chave dada da cache
-
      *
-
      * @return o dado removido ou null se nao existia na cache
-
      */
 
-    public Object remove(CacheKey key) throws CacheException{
+    public Object remove(CacheKey key) throws CacheException {
 
-      return cache.remove(key);
+        return cache.remove(key);
 
     }
 
     /**
-
      * retorna a enumeracao das chaves desta cache
-
      */
 
-    public Iterator getKeys() throws CacheException{
+    public Iterator getKeys() throws CacheException {
 
-      return cache.getKeys();
+        return cache.getKeys();
 
     }
 
 
-
     /**
-
      * Coloca o dado na cache., atualiza dado se a chave ja
-
+     * <p/>
      * estiver na cache.
-
      *
-
-     * @param  key   Chave que representa o objeto na cache
-
-     * @param  data  o objeto de dados.
-
+     * @param key  Chave que representa o objeto na cache
+     * @param data o objeto de dados.
      * @return old data or null if it does not exists in cache
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public final synchronized Object put(CacheKey key,
 
-                                       Object data) throws CacheException {
+                                         Object data) throws CacheException {
 
         DoubleLinkedListNode l =
 
-            (DoubleLinkedListNode) cache.get(key);
-
+                (DoubleLinkedListNode) cache.get(key);
 
 
         CacheEntry ce;
 
         if (l == null) {
 
-            if ( limite_flushs > 0)
+            if (limite_flushs > 0)
 
-              numero_flushs++;
+                numero_flushs++;
 
         }
 
 
+        if (limite_flushs < numero_flushs)
 
-        if ( limite_flushs < numero_flushs)
-
-          salva_estado();
-
-
-
+            salva_estado();
 
 
         return cache.put(key, data);
@@ -482,23 +378,14 @@ public class CachePersistente implements Cache {
     }
 
 
-
     /**
-
      * Coloca um array de dados na cache, sobrescrevendo os valores existentes.
-
      *
-
-     * @param  key[]   Array de chaves
-
-     * @param  data[]  Array com os novos dados.
-
+     * @param key[]  Array de chaves
+     * @param data[] Array com os novos dados.
      * @return Retorna os valores que estavam na cache antes do put.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] put(CacheKey[] key, Object[] data) throws CacheException {
@@ -508,151 +395,137 @@ public class CachePersistente implements Cache {
     }
 
 
+    public void setLimiteFlush(int limite) {
 
+        if (limite < limite_flushs) {
 
+            if (limite_flushs < numero_flushs)
 
-    public void setLimiteFlush(int limite){
+                try {
 
-      if (limite < limite_flushs) {
+                    salva_estado();
 
-        if ( limite_flushs < numero_flushs)
+                } catch (CacheException ce) {
 
-          try {
+                    System.out.println("++Nao foi possivel gravar o estado atual da cache");
 
-            salva_estado();
-
-          } catch (CacheException ce){
-
-            System.out.println("++Nao foi possivel gravar o estado atual da cache");
-
-          }
-
-      }
-
-      limite_flushs = limite;
-
-    }
-
-
-
-    public boolean salva_estado() throws CacheException{
-
-      boolean resposta = false;
-
-      try {
-
-        BufferedWriter out = new BufferedWriter( new FileWriter(fileName));
-
-        Iterator enumkeys = cache.getKeys();
-
-        while ( enumkeys.hasNext()){
-
-           Object key = enumkeys.next();
-
-           Object data = cache.get( (ObjectCacheKey) key);
-
-           System.out.println("write " + key + " " + data);
-
-           System.out.println("write " + key.toString() + " " + data.toString());
-
-           out.write(key.toString() + " " + data.toString() + "\n");
+                }
 
         }
 
-        out.close();
-
-        resposta = true;
-
-      } catch (IOException e) {
-
-            throw new CacheException("Erro ao gravar no arquivo " +fileName);
-
-      }
-
-      return resposta;
+        limite_flushs = limite;
 
     }
 
 
+    public boolean salva_estado() throws CacheException {
 
-    public boolean ler_estado() throws CacheException{
+        boolean resposta = false;
 
-      boolean resposta = false;
+        try {
 
-      try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
 
-        BufferedReader in = new BufferedReader(new FileReader(fileName));
+            Iterator enumkeys = cache.getKeys();
 
-        String str;
+            while (enumkeys.hasNext()) {
 
-        StringTokenizer st;
+                Object key = enumkeys.next();
 
-        while ((str = in.readLine()) != null) {
+                Object data = cache.get((ObjectCacheKey) key);
 
-          st = new StringTokenizer(str);
+                System.out.println("write " + key + " " + data);
 
-          if ( st.countTokens() >= 2) {
+                System.out.println("write " + key.toString() + " " + data.toString());
 
-            String str_key = st.nextToken();
+                out.write(key.toString() + " " + data.toString() + "\n");
 
-            String str_data = st.nextToken();
+            }
 
+            out.close();
 
+            resposta = true;
 
-            Object objdata = construtorData.newInstance( new Object[]{str_data});
+        } catch (IOException e) {
 
-            Object objkey = construtorKey.newInstance( new Object[]{str_key});
-
-
-
-            cache.put( new ObjectCacheKey(objkey), objdata);
-
-          }else{
-
-            throw new CacheException("Tokens menores que 2 no arquivo" +fileName);
-
-          }
+            throw new CacheException("Erro ao gravar no arquivo " + fileName);
 
         }
 
-        in.close();
-
-        resposta = true;
-
-      } catch (IOException e) {
-
-          throw new CacheException("Erro na leitura do arquivo " +fileName);
-
-      } catch (InvocationTargetException ie){
-
-        throw new CacheException("Invocacao errada");
-
-      } catch (IllegalAccessException iae){
-
-        throw new CacheException("Acesso ilegal");
-
-      } catch (InstantiationException ie ){
-
-            throw new CacheException("Tipos invalidos no arquivo " +fileName);
-
-      }
-
-      return resposta;
+        return resposta;
 
     }
 
+
+    public boolean ler_estado() throws CacheException {
+
+        boolean resposta = false;
+
+        try {
+
+            BufferedReader in = new BufferedReader(new FileReader(fileName));
+
+            String str;
+
+            StringTokenizer st;
+
+            while ((str = in.readLine()) != null) {
+
+                st = new StringTokenizer(str);
+
+                if (st.countTokens() >= 2) {
+
+                    String str_key = st.nextToken();
+
+                    String str_data = st.nextToken();
+
+
+                    Object objdata = construtorData.newInstance(new Object[]{str_data});
+
+                    Object objkey = construtorKey.newInstance(new Object[]{str_key});
+
+
+                    cache.put(new ObjectCacheKey(objkey), objdata);
+
+                } else {
+
+                    throw new CacheException("Tokens menores que 2 no arquivo" + fileName);
+
+                }
+
+            }
+
+            in.close();
+
+            resposta = true;
+
+        } catch (IOException e) {
+
+            throw new CacheException("Erro na leitura do arquivo " + fileName);
+
+        } catch (InvocationTargetException ie) {
+
+            throw new CacheException("Invocacao errada");
+
+        } catch (IllegalAccessException iae) {
+
+            throw new CacheException("Acesso ilegal");
+
+        } catch (InstantiationException ie) {
+
+            throw new CacheException("Tipos invalidos no arquivo " + fileName);
+
+        }
+
+        return resposta;
+
+    }
 
 
     /**
-
      * Remove os dados referente as chaves dadas
-
      *
-
      * @return Array com dados removidos, se um dado nao estava na cache sua posicao sera nula
-
-     *
-
      */
 
     public Object[] remove(CacheKey[] key) throws CacheException {
@@ -662,7 +535,6 @@ public class CachePersistente implements Cache {
     }
 
 
-
     public void clear() throws CacheException {
 
         throw new CacheException("metodo nao implementado");
@@ -670,44 +542,39 @@ public class CachePersistente implements Cache {
     }
 
 
-
-    public static void main (String[] args){
+    public static void main(String[] args) {
 
         try {
 
 
-
-        CacheLRU cache_urls = new CacheLRU(10, 2);
-
+            CacheLRU cache_urls = new CacheLRU(10, 2);
 
 
-        String file_name = args[1];
+            String file_name = args[1];
 
-        CachePersistente cache_per = new CachePersistente(cache_urls, 1, file_name,
+            CachePersistente cache_per = new CachePersistente(cache_urls, 1, file_name,
 
-        "java.lang.String", "java.lang.Integer");
-
-
-
-          ObjectCacheKey key = new ObjectCacheKey("http://www.hpg.com.br/");
-
-          System.out.println("get("+key+") = " + cache_per.get(key));
+                    "java.lang.String", "java.lang.Integer");
 
 
+            ObjectCacheKey key = new ObjectCacheKey("http://www.hpg.com.br/");
 
-          key = new ObjectCacheKey("http://www.fenticeira.hpg.com.br/");
+            System.out.println("get(" + key + ") = " + cache_per.get(key));
 
-          System.out.println("get("+key+") = " + cache_per.get(key));
 
-          key = new ObjectCacheKey("http://www.cosmo.hpg.com.br/");
+            key = new ObjectCacheKey("http://www.fenticeira.hpg.com.br/");
 
-          System.out.println("get("+key+") = " + cache_per.get(key));
+            System.out.println("get(" + key + ") = " + cache_per.get(key));
 
-          cache_per.salva_estado();
+            key = new ObjectCacheKey("http://www.cosmo.hpg.com.br/");
 
-        } catch (CacheException ce){
+            System.out.println("get(" + key + ") = " + cache_per.get(key));
 
-           System.out.println("Fudeu a cache!!!");
+            cache_per.salva_estado();
+
+        } catch (CacheException ce) {
+
+            System.out.println("Fudeu a cache!!!");
 
         }
 

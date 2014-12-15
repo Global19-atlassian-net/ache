@@ -27,9 +27,7 @@ package focusedCrawler.util.storage;
 import focusedCrawler.util.DetailException;
 
 
-
 public class StorageException extends DetailException {
-
 
 
     public StorageException() {
@@ -39,13 +37,11 @@ public class StorageException extends DetailException {
     }
 
 
-
     public StorageException(String message) {
 
         super(message);
 
     }
-
 
 
     public StorageException(Throwable detail) {
@@ -55,10 +51,9 @@ public class StorageException extends DetailException {
     }
 
 
+    public StorageException(String message, Throwable detail) {
 
-    public StorageException(String message,Throwable detail) {
-
-        super(message,detail);
+        super(message, detail);
 
     }
 

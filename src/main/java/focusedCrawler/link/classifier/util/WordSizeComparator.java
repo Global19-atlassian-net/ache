@@ -25,35 +25,34 @@ package focusedCrawler.link.classifier.util;
 
 import java.util.Comparator;
 
-public class WordSizeComparator implements Comparator{
-  public WordSizeComparator() {
-  }
+public class WordSizeComparator implements Comparator {
+    public WordSizeComparator() {
+    }
 
-  /**
-   * equals
-   *
-   * @param obj Object
-   * @return boolean
-   */
-  public boolean equals(Object obj) {
-    return false;
-  }
+    /**
+     * equals
+     *
+     * @param obj Object
+     * @return boolean
+     */
+    public boolean equals(Object obj) {
+        return false;
+    }
 
-  /**
-   * compare
-   *
-   * @param o1 Object
-   * @param o2 Object
-   * @return int
-   */
-  public int compare(Object o1, Object o2) {
-    if(((WordFrequency)o1).getWord().length() < ((WordFrequency)o2).getWord().length())
-      return -1;
-    else
-          if(((WordFrequency)o1).getWord().length() == ((WordFrequency)o2).getWord().length())
+    /**
+     * compare
+     *
+     * @param o1 Object
+     * @param o2 Object
+     * @return int
+     */
+    public int compare(Object o1, Object o2) {
+        if (((WordFrequency) o1).getWord().length() < ((WordFrequency) o2).getWord().length())
+            return -1;
+        else if (((WordFrequency) o1).getWord().length() == ((WordFrequency) o2).getWord().length())
             return 0;
-          else
+        else
             return 1;
 
-  }
+    }
 }

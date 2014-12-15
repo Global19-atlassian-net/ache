@@ -24,7 +24,6 @@
 package focusedCrawler.util.cache;
 
 
-
 import java.io.BufferedWriter;
 
 import java.io.IOException;
@@ -40,8 +39,7 @@ import java.util.Enumeration;
 import focusedCrawler.util.writer.WriterException;
 
 
-public class CacheFileWriter extends CacheWriter{
-
+public class CacheFileWriter extends CacheWriter {
 
 
     private PrintWriter out = null;
@@ -49,8 +47,7 @@ public class CacheFileWriter extends CacheWriter{
     private File cacheFile = null;
 
 
-
-    public CacheFileWriter(Cache cache, File cacheFile) throws WriterException{
+    public CacheFileWriter(Cache cache, File cacheFile) throws WriterException {
 
         super(cache);
 
@@ -59,16 +56,15 @@ public class CacheFileWriter extends CacheWriter{
     }
 
 
+    public void setCacheFile(File cacheFile) throws WriterException {
 
-    public void setCacheFile(File cacheFile) throws WriterException{
-
-        try{
+        try {
 
             System.out.println("CacheFileWriter> Writing data [" + cacheFile.getAbsolutePath() + "] ...");
 
             out = new PrintWriter(new BufferedWriter(new FileWriter(cacheFile)));
 
-        }catch(IOException exc){
+        } catch (IOException exc) {
 
             throw new WriterException(exc.getMessage());
 
@@ -77,38 +73,34 @@ public class CacheFileWriter extends CacheWriter{
     }
 
 
+    public void write(Object obj) throws WriterException {
 
-    public void write(Object obj) throws WriterException{
-
-        try{
-
+        try {
 
 
-            if(out==null){
+            if (out == null) {
 
                 setCacheFile(this.cacheFile);
 
             }
 
-            CacheKey key = (CacheKey)obj;
+            CacheKey key = (CacheKey) obj;
 
             Object val = cache.get(key);
 
-            if( key != null && val != null ) {
+            if (key != null && val != null) {
 
                 String strKey = key + "";
 
                 String strVal = val + "";
 
-                if( strKey.indexOf('\n') < 0 && strVal.indexOf('\n') < 0 ) {
+                if (strKey.indexOf('\n') < 0 && strVal.indexOf('\n') < 0) {
 
                     System.out.println("CacheFileWriter> ok [" + strKey + "," + strVal + "]");
 
-                    out.println(strKey+":"+strVal);
+                    out.println(strKey + ":" + strVal);
 
-                }
-
-                else {
+                } else {
 
                     System.out.println("CacheFileWriter> ignore [" + strKey + "," + strVal + "]");
 
@@ -116,7 +108,7 @@ public class CacheFileWriter extends CacheWriter{
 
             }
 
-        }catch(CacheException exc){
+        } catch (CacheException exc) {
 
             throw new WriterException(exc.getMessage());
 
@@ -125,10 +117,9 @@ public class CacheFileWriter extends CacheWriter{
     }
 
 
+    public void finalize() throws WriterException {
 
-    public void finalize() throws WriterException{
-
-        if(out!=null){
+        if (out != null) {
 
             out.close();
 

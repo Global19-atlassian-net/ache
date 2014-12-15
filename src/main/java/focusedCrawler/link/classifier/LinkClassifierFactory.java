@@ -25,11 +25,11 @@ package focusedCrawler.link.classifier;
 
 /**
  * <p>Title: </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p>Company: </p>
  *
  * @author not attributable
@@ -37,6 +37,6 @@ package focusedCrawler.link.classifier;
  */
 public interface LinkClassifierFactory {
 
-   public LinkClassifier createLinkClassifier(String className) throws LinkClassifierFactoryException;
+    public LinkClassifier createLinkClassifier(String className) throws LinkClassifierFactoryException;
 
 }

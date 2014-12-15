@@ -22,29 +22,31 @@
 ############################################################################
 */
 package focusedCrawler.util.storage;
+
 import focusedCrawler.util.DataNotFoundException;
+
 public interface GenericStorageItem extends StorageItem {
 
 
     void add(Field field);
 
 
-	void removeAll();
+    void removeAll();
 
 
-	void setValue(String fieldName, Object newValue);
+    void setValue(String fieldName, Object newValue);
 
 
-	void load(String[] fields, String[] types) throws DataNotFoundException;
+    void load(String[] fields, String[] types) throws DataNotFoundException;
 
 
-	String[] getFieldNames();
+    String[] getFieldNames();
 
 
-	Object getValue(String fieldName);
+    Object getValue(String fieldName);
 
 
-	int getTypeByName(String fieldName) throws DataNotFoundException;
+    int getTypeByName(String fieldName) throws DataNotFoundException;
 
 
 }

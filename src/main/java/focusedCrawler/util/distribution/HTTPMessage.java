@@ -24,7 +24,6 @@
 package focusedCrawler.util.distribution;
 
 
-
 import java.io.*;
 
 import java.util.*;
@@ -32,58 +31,53 @@ import java.util.*;
 import java.net.*;
 
 
-
-public class HTTPMessage{
-
+public class HTTPMessage {
 
 
     public HTTPMessage() {
 
 
-
     }
 
 
+    public String sendGET(Hashtable prop) throws MalformedURLException, IOException {
 
-    public String sendGET(Hashtable prop) throws MalformedURLException,IOException{
-
-        String url = (String)prop.get("url");
+        String url = (String) prop.get("url");
 
         String queryString = toQueryString(prop);
 
-        String urlS = url + (queryString != null ? "?"+queryString : "");
+        String urlS = url + (queryString != null ? "?" + queryString : "");
 
-        URLConnection connection=createConnection(urlS);
+        URLConnection connection = createConnection(urlS);
 
         String result;
 
         connection.setDoInput(true);
 
-        sendHeader(connection,prop);
+        sendHeader(connection, prop);
 
         result = readInput(connection);
 
-		if (connection != null && connection instanceof HttpURLConnection) {
+        if (connection != null && connection instanceof HttpURLConnection) {
 
-		    ((HttpURLConnection) connection).disconnect ();
+            ((HttpURLConnection) connection).disconnect();
 
-		}
+        }
 
         return result;
 
     }
 
 
+    public String sendPOST(Hashtable prop) throws MalformedURLException, IOException {
 
-    public String sendPOST(Hashtable prop) throws MalformedURLException,IOException {
+        String url = (String) prop.get("url");
 
-        String url = (String)prop.get("url");
+        String contentType = (String) prop.get("content-type");
 
-        String contentType = (String)prop.get("content-type");
+        String result = "";
 
-        String result="";
-
-        URLConnection connection=null;
+        URLConnection connection = null;
 
         if ("application/x-www-form-urlencoded".equals(contentType)) {
 
@@ -95,53 +89,48 @@ public class HTTPMessage{
 
             connection.setDoOutput(true);
 
-            sendHeader(connection,prop);
+            sendHeader(connection, prop);
 
-            writeOutput(queryString,connection);
+            writeOutput(queryString, connection);
 
             result = readInput(connection);
 
         }
 
-		if (connection != null && connection instanceof HttpURLConnection) {
+        if (connection != null && connection instanceof HttpURLConnection) {
 
-		    ((HttpURLConnection) connection).disconnect ();
+            ((HttpURLConnection) connection).disconnect();
 
-		}
+        }
 
         return result;
 
     }
 
 
-
-
-
     public String toQueryString(Hashtable prop) {
 
-        Enumeration e = (Enumeration)prop.get("parameterNames");
+        Enumeration e = (Enumeration) prop.get("parameterNames");
 
-        String result="";
+        String result = "";
 
         boolean first = true;
 
-        while(e.hasMoreElements()) {
+        while (e.hasMoreElements()) {
 
-            String paramName = (String)e.nextElement();
+            String paramName = (String) e.nextElement();
 
-            String[] param = (String[])prop.get(paramName);
+            String[] param = (String[]) prop.get(paramName);
 
-            for (int i=0;i<param.length;i++) {
+            for (int i = 0; i < param.length; i++) {
 
                 if (first) {
 
-                    result = paramName+"="+param[i];
+                    result = paramName + "=" + param[i];
 
                     first = false;
 
-                }
-
-                else result = result+"&"+paramName+"="+param[i];
+                } else result = result + "&" + paramName + "=" + param[i];
 
             }
 
@@ -152,26 +141,24 @@ public class HTTPMessage{
     }
 
 
-
     protected void sendHeader(URLConnection connection, Hashtable prop) {
 
-        Enumeration e = (Enumeration)prop.get("headerNames");
+        Enumeration e = (Enumeration) prop.get("headerNames");
 
-        while(e.hasMoreElements()) {
+        while (e.hasMoreElements()) {
 
-            String headerName = (String)e.nextElement();
+            String headerName = (String) e.nextElement();
 
-            String header = (String)prop.get(headerName);
+            String header = (String) prop.get(headerName);
 
-            connection.setRequestProperty(headerName,header);
+            connection.setRequestProperty(headerName, header);
 
         }
 
     }
 
 
-
-    protected URLConnection createConnection(String url) throws MalformedURLException,IOException {
+    protected URLConnection createConnection(String url) throws MalformedURLException, IOException {
 
         URL urlU = new URL(url);
 
@@ -180,18 +167,17 @@ public class HTTPMessage{
     }
 
 
-
     protected String readInput(URLConnection connection) throws IOException {
 
-        String result="";
+        String result = "";
 
         BufferedReader d = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
         String line = d.readLine();
 
-        boolean first=true;
+        boolean first = true;
 
-        while (line!=null) {
+        while (line != null) {
 
             if (first) {
 
@@ -199,9 +185,7 @@ public class HTTPMessage{
 
                 first = false;
 
-            }
-
-            else result = result+"\n"+line;
+            } else result = result + "\n" + line;
 
             line = d.readLine();
 
@@ -214,21 +198,19 @@ public class HTTPMessage{
     }
 
 
-
-    protected void writeOutput (String data, URLConnection connection) throws IOException {
+    protected void writeOutput(String data, URLConnection connection) throws IOException {
 
         byte[] dataBytes = data.getBytes();
 
-        OutputStream out = connection.getOutputStream ();
+        OutputStream out = connection.getOutputStream();
 
-        out.write (dataBytes, 0, dataBytes.length);
+        out.write(dataBytes, 0, dataBytes.length);
 
-        out.flush ();
+        out.flush();
 
-        out.close ();
+        out.close();
 
     }
-
 
 
 }

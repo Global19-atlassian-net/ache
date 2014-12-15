@@ -28,17 +28,13 @@ import java.io.IOException;
 import focusedCrawler.util.storage.Storage;
 
 
-
-
-public class StorageRemoteServer  {
-
+public class StorageRemoteServer {
 
 
     private ServerConnectionListener listener;
 
 
-
-    public StorageRemoteServer(Storage storage, int port)  throws IOException {
+    public StorageRemoteServer(Storage storage, int port) throws IOException {
 
         listener = new ServerConnectionListener(storage, port);
 
@@ -47,13 +43,11 @@ public class StorageRemoteServer  {
     }
 
 
-
     public void setStorage(Storage newStorage) {
 
         listener.setStorage(newStorage);
 
     }
-
 
 
     public Storage getStorage() {

@@ -22,177 +22,180 @@
 ############################################################################
 */
 package focusedCrawler.util.time;
-import java.util.StringTokenizer;
-public abstract class TimeItemImpl implements TimeItem {
-	protected int minimum;
-	protected int maximum;
-    protected int peso;
-	protected int timefield;
-	private int intervalo;
-	private boolean acceptAll;
-	private int [] values;
-    private boolean overflow;
-	public TimeItemImpl () {
 
-		acceptAll = false;
+import java.util.StringTokenizer;
+
+public abstract class TimeItemImpl implements TimeItem {
+    protected int minimum;
+    protected int maximum;
+    protected int peso;
+    protected int timefield;
+    private int intervalo;
+    private boolean acceptAll;
+    private int[] values;
+    private boolean overflow;
+
+    public TimeItemImpl() {
+
+        acceptAll = false;
 
         intervalo = 0;
 
         overflow = false;
 
-        setVariables ();
+        setVariables();
 
-	} //TimeItemImpl
-
-
-	public TimeItemImpl (String frequencia) throws TimeItemException {
-
-        this ();
-
-		int tamanho = frequencia.length ();
-
-		if ((frequencia != null) && (tamanho > 0)) {
-
-			if (frequencia.charAt (0) == '*') {
-
-				if (tamanho > 2) {
-
-					setValues (new Integer (frequencia.substring (2, tamanho)).intValue ());
-
-				} //if
-
-				else {
-
-					acceptAll = true;
-
-				}
-
-			} //if
-
-			else {
-
-				StringTokenizer stValues = new StringTokenizer (frequencia, " ,", false);
-
-				int [] tempValues = new int [stValues.countTokens ()];
-
-				int contador = 0;
-
-				while (stValues.hasMoreTokens ()) {
-
-					tempValues [contador] = new Integer (stValues.nextToken ()).intValue ();
-
-					contador ++;
-
-				} //while
-
-				setValues (tempValues);
-
-			} //else
-
-		} //if
-
-	} //TimeItemImpl
+    } //TimeItemImpl
 
 
-    protected abstract void setVariables ();
+    public TimeItemImpl(String frequencia) throws TimeItemException {
+
+        this();
+
+        int tamanho = frequencia.length();
+
+        if ((frequencia != null) && (tamanho > 0)) {
+
+            if (frequencia.charAt(0) == '*') {
+
+                if (tamanho > 2) {
+
+                    setValues(new Integer(frequencia.substring(2, tamanho)).intValue());
+
+                } //if
+
+                else {
+
+                    acceptAll = true;
+
+                }
+
+            } //if
+
+            else {
+
+                StringTokenizer stValues = new StringTokenizer(frequencia, " ,", false);
+
+                int[] tempValues = new int[stValues.countTokens()];
+
+                int contador = 0;
+
+                while (stValues.hasMoreTokens()) {
+
+                    tempValues[contador] = new Integer(stValues.nextToken()).intValue();
+
+                    contador++;
+
+                } //while
+
+                setValues(tempValues);
+
+            } //else
+
+        } //if
+
+    } //TimeItemImpl
 
 
-    public boolean overflow () {
+    protected abstract void setVariables();
+
+
+    public boolean overflow() {
 
         return this.overflow;
 
     } //overflow
 
 
-	public int getMinimum () {
+    public int getMinimum() {
 
-		return this.minimum;
+        return this.minimum;
 
-	} //getMinimum
-
-
-	public int getMaximum () {
-
-		return this.maximum;
-
-	} //getMaximum
+    } //getMinimum
 
 
-	public int getPeso () {
+    public int getMaximum() {
 
-		return this.peso;
+        return this.maximum;
 
-	} //getPeso
-
-
-	public void setValues (int [] values) throws TimeItemException {
-
-		if (values == null) {
-
-			throw new TimeItemException ("Valores nulo!!!");
-
-		} //if
-
-		if (values.length == 0) {
-
-			throw new TimeItemException ("Valores com tamanho 0!!!");
-
-		} //if
-
-		for (int contador = 0; contador < values.length; contador ++) {
-
-			if (values [contador] < 0) {
-
-				throw new TimeItemException ("Valor [" + contador + "] negativo: " + values [contador]);
-
-			} //if
-
-		} //for
-
-		this.values = values;
-
-	}
+    } //getMaximum
 
 
-	public void setValues (int intervalo) throws TimeItemException {
+    public int getPeso() {
 
-		if (intervalo < 1) {
+        return this.peso;
 
-			throw new TimeItemException ("Intervalo deve ser maior que 0: " + intervalo);
-
-		} //if
-
-		this.intervalo = intervalo;
-
-	} //if
+    } //getPeso
 
 
-	public boolean isAcceptAll () {
+    public void setValues(int[] values) throws TimeItemException {
 
-		return this.acceptAll;
+        if (values == null) {
 
-	} //isAcceptAll
+            throw new TimeItemException("Valores nulo!!!");
+
+        } //if
+
+        if (values.length == 0) {
+
+            throw new TimeItemException("Valores com tamanho 0!!!");
+
+        } //if
+
+        for (int contador = 0; contador < values.length; contador++) {
+
+            if (values[contador] < 0) {
+
+                throw new TimeItemException("Valor [" + contador + "] negativo: " + values[contador]);
+
+            } //if
+
+        } //for
+
+        this.values = values;
+
+    }
 
 
-	public void setIsAcceptAll (boolean acceptAll) {
+    public void setValues(int intervalo) throws TimeItemException {
 
-		this.acceptAll = acceptAll;
+        if (intervalo < 1) {
 
-	} //setIsAcceptAll
+            throw new TimeItemException("Intervalo deve ser maior que 0: " + intervalo);
+
+        } //if
+
+        this.intervalo = intervalo;
+
+    } //if
+
+
+    public boolean isAcceptAll() {
+
+        return this.acceptAll;
+
+    } //isAcceptAll
+
+
+    public void setIsAcceptAll(boolean acceptAll) {
+
+        this.acceptAll = acceptAll;
+
+    } //setIsAcceptAll
 
 
     // Transforma o valor original em outro na escala do campo do tempo
 
-    protected long transformValue (long value) {
+    protected long transformValue(long value) {
 
         return value;
 
     } //transformValue
 
 
-    // Retorna o primeiro valor válido
+    // Retorna o primeiro valor vï¿½lido
 
-    protected int getFirstValue () {
+    protected int getFirstValue() {
 
         if (isAcceptAll() || (intervalo != 0)) {
 
@@ -200,20 +203,20 @@ public abstract class TimeItemImpl implements TimeItem {
 
         } //if
 
-        return values [0];
+        return values[0];
 
     } //getFirstValue
 
 
-    // Retorna o tempo existente entre o 1o. e o 2o. parâmetro
+    // Retorna o tempo existente entre o 1o. e o 2o. parï¿½metro
 
-    protected long timeBetween (long firstTime, long lastTime) {
+    protected long timeBetween(long firstTime, long lastTime) {
 
         if (lastTime >= firstTime) {
 
             this.overflow = false;
 
-            return (lastTime - firstTime) * getPeso ();
+            return (lastTime - firstTime) * getPeso();
 
         } //if
 
@@ -221,35 +224,35 @@ public abstract class TimeItemImpl implements TimeItem {
 
             this.overflow = true;
 
-            return ((getMaximum () - firstTime +1) + (lastTime - getMinimum ())) * getPeso ();
+            return ((getMaximum() - firstTime + 1) + (lastTime - getMinimum())) * getPeso();
 
         } //else
 
     } //timeBetween
 
 
-    // retorna o tempo decorrido de value até o próximo válido
+    // retorna o tempo decorrido de value atï¿½ o prï¿½ximo vï¿½lido
 
-	public long nextTimeMillis (long value, boolean overflow) {
+    public long nextTimeMillis(long value, boolean overflow) {
 
-        // Se aceita todos, esse campo não determina tempo
+        // Se aceita todos, esse campo nï¿½o determina tempo
 
-		if (isAcceptAll ()) {
+        if (isAcceptAll()) {
 
             this.overflow = false;
 
-			return 0;
+            return 0;
 
-		} //if
+        } //if
 
 
-        // Realizando transformação no valor original
+        // Realizando transformaï¿½ï¿½o no valor original
 
-        value = transformValue (value);
+        value = transformValue(value);
 
         if (overflow) {
 
-            value ++;
+            value++;
 
         } //if
 
@@ -258,35 +261,35 @@ public abstract class TimeItemImpl implements TimeItem {
 
         if (intervalo != 0) {
 
-            return timeBetween (value, value + (value % intervalo));
+            return timeBetween(value, value + (value % intervalo));
 
         } //else
 
 
         // Testando o caso de valores fixos. Ex.: 2,5,20
 
-		for (int contador = 0; contador < values.length; contador ++) {
+        for (int contador = 0; contador < values.length; contador++) {
 
-   			if (value <= values [contador]) {
+            if (value <= values[contador]) {
 
                 this.overflow = false;
 
-  				return timeBetween (value, values [contador]);
+                return timeBetween(value, values[contador]);
 
             } //if
 
-		} //for
+        } //for
 
-        // Se chegou aqui, então ocorre overflow no caso de valores fixos
+        // Se chegou aqui, entï¿½o ocorre overflow no caso de valores fixos
 
-	    return timeBetween (value, getFirstValue ());
+        return timeBetween(value, getFirstValue());
 
-	} //nextTimeMillis
+    } //nextTimeMillis
 
 
-    public String toString () {
+    public String toString() {
 
-        if (isAcceptAll ()) {
+        if (isAcceptAll()) {
 
             return "*";
 
@@ -300,9 +303,9 @@ public abstract class TimeItemImpl implements TimeItem {
 
         String resultado = "";
 
-		for (int contador = 0; contador < values.length; contador ++) {
+        for (int contador = 0; contador < values.length; contador++) {
 
-            if ("".equals (resultado)) {
+            if ("".equals(resultado)) {
 
                 resultado += values[contador];
 

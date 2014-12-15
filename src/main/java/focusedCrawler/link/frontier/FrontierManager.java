@@ -30,110 +30,110 @@ import java.net.URL;
 
 /**
  * This class manages the crawler frontier
+ *
  * @author Luciano Barbosa
  * @version 1.0
  */
 
 public class FrontierManager {
 
-	private PriorityQueueLink priorityQueue;
+    private PriorityQueueLink priorityQueue;
 
-	private FrontierTargetRepositoryBaseline frontier;
+    private FrontierTargetRepositoryBaseline frontier;
 
-	private int linksToLoad;
+    private int linksToLoad;
 
-	public FrontierManager(PriorityQueueLink priorityQueue, FrontierTargetRepositoryBaseline frontier, int linksToLoad) throws
-		FrontierPersistentException {
+    public FrontierManager(PriorityQueueLink priorityQueue, FrontierTargetRepositoryBaseline frontier, int linksToLoad) throws
+            FrontierPersistentException {
 
-		this.priorityQueue = priorityQueue;
-		this.frontier = frontier;
-		this.linksToLoad = linksToLoad;
-		this.loadQueue(linksToLoad);
-	}
+        this.priorityQueue = priorityQueue;
+        this.frontier = frontier;
+        this.linksToLoad = linksToLoad;
+        this.loadQueue(linksToLoad);
+    }
 
-	public void setPolicy(boolean random){
-		this.frontier.setPolicy(random);
-	}
-  
-	public FrontierTargetRepositoryBaseline getFrontierPersistent(){
-		return this.frontier;
-	}
+    public void setPolicy(boolean random) {
+        this.frontier.setPolicy(random);
+    }
 
-	public void loadQueue() throws FrontierPersistentException {
-		loadQueue(linksToLoad);
-	}
+    public FrontierTargetRepositoryBaseline getFrontierPersistent() {
+        return this.frontier;
+    }
 
-	public void clearFrontier(){
-		priorityQueue.clear();
-		System.out.println("###QUEUE:" + priorityQueue.size());
-	}
+    public void loadQueue() throws FrontierPersistentException {
+        loadQueue(linksToLoad);
+    }
 
-	private void loadQueue(int numberOfLinks) throws FrontierPersistentException {
-		priorityQueue.clear();
-		LinkRelevance[] links = frontier.select(numberOfLinks);
-		for (int i = 0; i < links.length; i++) {
-			priorityQueue.insert(links[i]);
-		}
-	}
+    public void clearFrontier() {
+        priorityQueue.clear();
+        System.out.println("###QUEUE:" + priorityQueue.size());
+    }
 
-	public boolean isRelevant(LinkRelevance elem) throws FrontierPersistentException{
-		boolean result = false;
-		Integer value = frontier.exist(elem);
-		if(value == null  && elem.getRelevance() > 0 && !elem.getURL().toString().endsWith("pdf") &&
-				!elem.getURL().toString().endsWith("jpg") && !elem.getURL().toString().endsWith("gif") &&
-				!elem.getURL().toString().endsWith("ps") && !elem.getURL().toString().endsWith("css") ){
-			result = true;
-		}
-		return result;
-	}
-  
-	public void insert(LinkRelevance[] linkRelevance) throws
-		FrontierPersistentException {
-		for (int i = 0; i < linkRelevance.length; i++) {
-			LinkRelevance elem = linkRelevance[i];
-			boolean insert = isRelevant(elem);
-			if (insert) {
-				frontier.insert(elem);
-			}
-		}
-	}
+    private void loadQueue(int numberOfLinks) throws FrontierPersistentException {
+        priorityQueue.clear();
+        LinkRelevance[] links = frontier.select(numberOfLinks);
+        for (int i = 0; i < links.length; i++) {
+            priorityQueue.insert(links[i]);
+        }
+    }
 
-	public boolean insert(LinkRelevance linkRelevance) throws  FrontierPersistentException {
-		boolean insert = isRelevant(linkRelevance);
-		if (insert) {
-			insert = frontier.insert(linkRelevance);
-		}
-		return insert;
-	}
+    public boolean isRelevant(LinkRelevance elem) throws FrontierPersistentException {
+        boolean result = false;
+        Integer value = frontier.exist(elem);
+        if (value == null && elem.getRelevance() > 0 && !elem.getURL().toString().endsWith("pdf") &&
+                !elem.getURL().toString().endsWith("jpg") && !elem.getURL().toString().endsWith("gif") &&
+                !elem.getURL().toString().endsWith("ps") && !elem.getURL().toString().endsWith("css")) {
+            result = true;
+        }
+        return result;
+    }
 
-  
-	public LinkRelevance nextURL() throws FrontierPersistentException {
+    public void insert(LinkRelevance[] linkRelevance) throws
+            FrontierPersistentException {
+        for (int i = 0; i < linkRelevance.length; i++) {
+            LinkRelevance elem = linkRelevance[i];
+            boolean insert = isRelevant(elem);
+            if (insert) {
+                frontier.insert(elem);
+            }
+        }
+    }
 
-		URL url = null;
-		LinkRelevance linkRelev = (LinkRelevance)priorityQueue.pop();
-    
-		if(linkRelev != null){
-			boolean limit =  false;
-			do{
-				limit = frontier.reachLimit(linkRelev.getURL());
-				if(!limit){
-					url = linkRelev.getURL();
-					frontier.delete(linkRelev);
-				}else{
-					frontier.delete(linkRelev);
-					linkRelev = (LinkRelevance)priorityQueue.pop();
-				}
-			}while(limit && priorityQueue.size() > 0);
-			int value = (int)linkRelev.getRelevance()/100;
-			System.out.println(">>>>>URL:" + linkRelev.getURL() + " REL:" + value);
-			System.out.println(">>>RELEV:" + linkRelev.getRelevance());
-		}
-		else{
-			System.out.println("LOADED: " + linksToLoad);
-			loadQueue(linksToLoad);
-		}
-		return linkRelev;
-	}
+    public boolean insert(LinkRelevance linkRelevance) throws FrontierPersistentException {
+        boolean insert = isRelevant(linkRelevance);
+        if (insert) {
+            insert = frontier.insert(linkRelevance);
+        }
+        return insert;
+    }
+
+
+    public LinkRelevance nextURL() throws FrontierPersistentException {
+
+        URL url = null;
+        LinkRelevance linkRelev = (LinkRelevance) priorityQueue.pop();
+
+        if (linkRelev != null) {
+            boolean limit = false;
+            do {
+                limit = frontier.reachLimit(linkRelev.getURL());
+                if (!limit) {
+                    url = linkRelev.getURL();
+                    frontier.delete(linkRelev);
+                } else {
+                    frontier.delete(linkRelev);
+                    linkRelev = (LinkRelevance) priorityQueue.pop();
+                }
+            } while (limit && priorityQueue.size() > 0);
+            int value = (int) linkRelev.getRelevance() / 100;
+            System.out.println(">>>>>URL:" + linkRelev.getURL() + " REL:" + value);
+            System.out.println(">>>RELEV:" + linkRelev.getRelevance());
+        } else {
+            System.out.println("LOADED: " + linksToLoad);
+            loadQueue(linksToLoad);
+        }
+        return linkRelev;
+    }
 
 }
 

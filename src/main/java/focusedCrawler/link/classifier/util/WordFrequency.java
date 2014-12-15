@@ -24,55 +24,51 @@
 package focusedCrawler.link.classifier.util;
 
 
-
-
-
 public class WordFrequency {
 
-  private String word;
+    private String word;
 
-  private int frequency;
+    private int frequency;
 
-  public WordFrequency(String word, int frequency) {
-    this.word = word;
-    this.frequency = frequency;
-  }
+    public WordFrequency(String word, int frequency) {
+        this.word = word;
+        this.frequency = frequency;
+    }
 
-  public String getWord(){
-    return word;
-  }
+    public String getWord() {
+        return word;
+    }
 
-  public int getFrequency(){
-    return frequency;
-  }
+    public int getFrequency() {
+        return frequency;
+    }
 
-  public void setFrequency(int freq){
-    this.frequency = freq;
-  }
+    public void setFrequency(int freq) {
+        this.frequency = freq;
+    }
 
 
+    public void setWord(String newWord) {
+        word = newWord;
+    }
 
-  public void setWord(String newWord){
-    word = newWord;
-  }
+    public void incrementFrequncy(int freq) {
+        frequency = frequency + freq;
+    }
 
-  public void incrementFrequncy(int freq){
-    frequency = frequency + freq;
-  }
+    public boolean equals(WordFrequency wordFrequency) {
+        return this.getWord().equals(wordFrequency.getWord());
+    }
 
-  public boolean equals(WordFrequency wordFrequency){
-    return this.getWord().equals(wordFrequency.getWord());
-  }
+    public String toString() {
+        return getWord() + ":" + getFrequency();
+    }
 
-  public String toString(){
-    return getWord() + ":" + getFrequency();
-  }
-
-  public static void main(String[] args) {
-    java.util.Set set = new java.util.HashSet();
-    set.add(new WordFrequency("test",1));
-    boolean exist = set.contains(new WordFrequency("test",64));
-    System.out.println("EXIST:"+exist);
-  }
+    public static void main(String[] args) {
+        java.util.Set set = new java.util.HashSet();
+        set.add(new WordFrequency("test", 1));
+        boolean exist = set.contains(new WordFrequency("test", 64));
+        System.out.println("EXIST:" + exist);
+    }
 }
 

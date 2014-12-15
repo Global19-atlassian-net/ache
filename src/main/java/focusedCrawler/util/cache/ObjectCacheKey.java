@@ -24,23 +24,14 @@
 package focusedCrawler.util.cache;
 
 
-
 /**
-
  * Esta classe implementa um cacheKey default
-
+ * <p/>
  * usando um Objeto qualquer como o objeto de hash.
-
  *
-
- *
-
  * @author Oscar Miranda
-
  * @version %I%, %G%
-
  * @see focusedCrawler.util.cache.CacheKey
-
  */
 
 public class ObjectCacheKey implements CacheKey, java.io.Serializable {
@@ -48,13 +39,11 @@ public class ObjectCacheKey implements CacheKey, java.io.Serializable {
     private Object key;
 
 
-
     public ObjectCacheKey(Object key) {
 
-       this.key = key;
+        this.key = key;
 
     }
-
 
 
     public ObjectCacheKey() {
@@ -62,59 +51,38 @@ public class ObjectCacheKey implements CacheKey, java.io.Serializable {
     }
 
 
-
     /**
-
      * modifica o objeto chave
-
      *
-
-     *
-
      * @param key a nova chave
-
      */
 
     public void setKey(Object key) {
 
         this.key = key;
 
-    } 
-
+    }
 
 
     /**
-
      * retorna a chave de hash
-
      *
-
-     *
-
      * @return a chave de hash
-
-     *
-
      * @see focusedCrawler.util.cache.CacheKey
-
      */
 
     public Object hashKey() {
 
         return key;
 
-    } 
+    }
 
-    
-
-    
 
     public String toString() {
 
         return "" + key;
 
     }
-
 
 
 }

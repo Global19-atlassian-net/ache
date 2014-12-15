@@ -44,7 +44,7 @@ import focusedCrawler.util.ParameterFile;
 
 public class DownloaderURL extends DownloaderAbstract {
 
-	private int maxBlockedCount;
+    private int maxBlockedCount;
 
     private int blockedCount;
 
@@ -63,8 +63,8 @@ public class DownloaderURL extends DownloaderAbstract {
     public DownloaderURL(ParameterFile paramFile) throws DownloaderException {
         super(paramFile);
         String str = paramFile.getParam("DOWNLOADER_MAX_BLOCKED_THREADS");
-        if( str == null ) {
-            throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_MAX_BLOCKED_THREADS' parameter");
+        if (str == null) {
+            throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_MAX_BLOCKED_THREADS' parameter");
         }
         maxBlockedCount = Integer.valueOf(str.trim()).intValue();
         blockedCount = 0;
@@ -76,55 +76,54 @@ public class DownloaderURL extends DownloaderAbstract {
 
     protected void connect(int depth) throws DownloaderException {
         try {
-            if( depth > getFollowRedirectsTolerance() ) {
+            if (depth > getFollowRedirectsTolerance()) {
                 setStatus(Downloader.LOOP);
                 String message = "Too many redirects.";
                 logError(message);
                 throw new DownloaderException(message);
             }
             setStatus(Downloader.UNKNOWN);
-            connect(getUrlTarget(),depth);
-        }catch(MalformedURLException exc) {
+            connect(getUrlTarget(), depth);
+        } catch (MalformedURLException exc) {
             setStatus(Downloader.FAIL_REDIRECT);
-            String message = "Malformed."+exc.getMessage();
+            String message = "Malformed." + exc.getMessage();
             logError(message);
-            throw new DownloaderException(message,exc);
-        }catch(InterruptedIOException exc) {
+            throw new DownloaderException(message, exc);
+        } catch (InterruptedIOException exc) {
             setStatus(Downloader.FAIL_TIMEOUT);
-            String message = "Timeout expired."+exc.getMessage();
+            String message = "Timeout expired." + exc.getMessage();
             logError(message);
-            throw new DownloaderException(message,exc);
-        }catch(IOException exc) {
+            throw new DownloaderException(message, exc);
+        } catch (IOException exc) {
             setStatus(Downloader.FAIL_IO);
-            String message = "IO Error."+exc.getMessage();
+            String message = "IO Error." + exc.getMessage();
             logError(message);
-            throw new DownloaderException(message,exc);
+            throw new DownloaderException(message, exc);
         }
 
     }
 
-    
-    protected void connect(URL url,int depth) throws IOException, InterruptedIOException, MalformedURLException, DownloaderException {
-        logAll("connect("+depth+")>"+url);
-        if( (!"http".equals(url.getProtocol())) && (!"https".equals(url.getProtocol())) ) {
+
+    protected void connect(URL url, int depth) throws IOException, InterruptedIOException, MalformedURLException, DownloaderException {
+        logAll("connect(" + depth + ")>" + url);
+        if ((!"http".equals(url.getProtocol())) && (!"https".equals(url.getProtocol()))) {
             setStatus(Downloader.FAIL_PROTOCOL);
-            String message = "Invalid protocol. "+url.getProtocol();
+            String message = "Invalid protocol. " + url.getProtocol();
             logError(message);
             throw new DownloaderException(message);
         }
-        threadDown = new ThreadDownloadURL(url.toString(),getTimeout());
+        threadDown = new ThreadDownloadURL(url.toString(), getTimeout());
         threadDown.start();
 //        SocketCreator sc = new SocketCreator(getId()+"_call_"+(count++));
 //        sc.setTarget(host,port);
 //        sc.start();
         try {
-        	threadDown.join(getTimeout());
-            logNormal("join("+threadDown.getName()+") finished");
-        }
-        catch(InterruptedException exc) {
+            threadDown.join(getTimeout());
+            logNormal("join(" + threadDown.getName() + ") finished");
+        } catch (InterruptedException exc) {
             blockedCount++;
             threadDown.finalizar();
-            String message = "SocketCreator join().(num="+blockedCount+",max="+maxBlockedCount+")";
+            String message = "SocketCreator join().(num=" + blockedCount + ",max=" + maxBlockedCount + ")";
             logError(message);
             throw new DownloaderException(message);
         }
@@ -148,9 +147,9 @@ public class DownloaderURL extends DownloaderAbstract {
 //        }
 //        pout.println();
 //        pout.flush();
-        
-        
-        in = new PushbackInputStream(threadDown.getInputStream(),1024);
+
+
+        in = new PushbackInputStream(threadDown.getInputStream(), 1024);
         setStatus(Downloader.OK);
 //        if( Downloader.METHOD_GET.equals(getMethod()) ) {
 //            readInput(depth);
@@ -161,37 +160,31 @@ public class DownloaderURL extends DownloaderAbstract {
     }
 
 
-
-    
-
-
     protected void processResponse(String str) throws DownloaderException {
 
-        if( str.indexOf(Downloader.PROTOCOL) >= 0 ) {
+        if (str.indexOf(Downloader.PROTOCOL) >= 0) {
 
             int pos = str.indexOf(' ');
 
-            setResponseProperty(Downloader.RESPONSE_PROTOCOL,str.substring(0,pos).trim());
+            setResponseProperty(Downloader.RESPONSE_PROTOCOL, str.substring(0, pos).trim());
 
             setResponseProperty(Downloader.RESPONSE_CODE,
 
-                str.substring(pos+1,pos = (str.indexOf(' ',pos+1) > 0 ? str.indexOf(' ',pos+1) : str.length())).trim()
+                    str.substring(pos + 1, pos = (str.indexOf(' ', pos + 1) > 0 ? str.indexOf(' ', pos + 1) : str.length())).trim()
 
             );
-            if( pos < str.length() ) {
-                setResponseProperty(Downloader.RESPONSE_MESSAGE,str.substring(pos+1).trim());
+            if (pos < str.length()) {
+                setResponseProperty(Downloader.RESPONSE_MESSAGE, str.substring(pos + 1).trim());
+            } else {
+                setResponseProperty(Downloader.RESPONSE_MESSAGE, "UNKNOWN");
             }
-            else {
-                setResponseProperty(Downloader.RESPONSE_MESSAGE,"UNKNOWN");
-            }
-        }else {
+        } else {
             int pos = str.indexOf(':');
-            if ( pos > 0 ) {
-                setResponseProperty(str.substring(0,pos).trim(),str.substring(pos+1).trim());
+            if (pos > 0) {
+                setResponseProperty(str.substring(0, pos).trim(), str.substring(pos + 1).trim());
             }
         }
     }
-
 
 
     public OutputStream getOutputStream() throws DownloaderException {
@@ -199,18 +192,16 @@ public class DownloaderURL extends DownloaderAbstract {
     }
 
 
-
     public InputStream getInputStream() throws DownloaderException {
         return in;
     }
-
 
 
     public void close() throws DownloaderException {
 
         try {
 
-            if( out != null ) {
+            if (out != null) {
 
                 out.close();
 
@@ -218,7 +209,7 @@ public class DownloaderURL extends DownloaderAbstract {
 
             }
 
-            if( in != null ) {
+            if (in != null) {
 
                 in.close();
 
@@ -226,24 +217,21 @@ public class DownloaderURL extends DownloaderAbstract {
 
             }
 
-            if( threadDown != null ) {
+            if (threadDown != null) {
 
-            	threadDown.finalizar();
-                
+                threadDown.finalizar();
+
                 threadDown = null;
 
             }
 
-        }
-
-        catch(IOException ioe) {
-          ioe.printStackTrace();
-           // throw new DownloaderException(ioe.getMessage(),ioe);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            // throw new DownloaderException(ioe.getMessage(),ioe);
 
         }
 
     }
-
 
 
     public boolean isShutdown() throws DownloaderException {
@@ -263,28 +251,24 @@ public class DownloaderURL extends DownloaderAbstract {
                     down.setUrlTarget(new URL(args[i]));
                     down.connect();
                     System.out.println(down);
-                    if( down.getStatus() == Downloader.OK ) {
+                    if (down.getStatus() == Downloader.OK) {
                         System.out.println("+------- CONTENT -------+");
                         InputStream in = new java.io.BufferedInputStream(down.getInputStream());
                         int c;
-                        while( (c = in.read()) != -1 ) {
-                            System.out.print((char)c);
+                        while ((c = in.read()) != -1) {
+                            System.out.print((char) c);
                         }
                         System.out.println("\n+-----------------------+");
+                    } else {
+                        System.out.println("FAIL=" + down.getStatus() + ":" + down.getUrlTarget());
                     }
-                    else {
-                        System.out.println("FAIL="+down.getStatus()+":"+down.getUrlTarget());
-                    }
-                }
-                catch(Exception exc) {
+                } catch (Exception exc) {
                     exc.printStackTrace();
-                }
-                finally {
+                } finally {
                     down.close();
                 }
             }
-        }
-        catch(Exception exc) {
+        } catch (Exception exc) {
             exc.printStackTrace();
         }
         System.exit(0);

@@ -22,19 +22,20 @@
 ############################################################################
 */
 package focusedCrawler.util.cache.rmi;
+
 import focusedCrawler.util.cache.*;
 
 public class RemoteCacheLRUServer {
     public static void main(String args[]) throws Exception {
-        int                   cs = 100000;
-        int                   fs = 90000;
-        int                   rmi_port = 7654;
-        String                name = "cache_server_termo";
-        CacheLRU              cache = new CacheLRU(cs, fs);
-        RemoteCacheServerImpl server = new RemoteCacheServerImpl(cache, name, 
+        int cs = 100000;
+        int fs = 90000;
+        int rmi_port = 7654;
+        String name = "cache_server_termo";
+        CacheLRU cache = new CacheLRU(cs, fs);
+        RemoteCacheServerImpl server = new RemoteCacheServerImpl(cache, name,
                 rmi_port);
         System.out.println("servidor instanciado.");
-    } 
+    }
 }
 
 

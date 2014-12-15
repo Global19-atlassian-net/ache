@@ -45,144 +45,144 @@ import focusedCrawler.util.parser.PaginaURL;
 
 /**
  * This class is responsible to manage the info in the graph (backlinks and outlinks).
- * @author lbarbosa
  *
+ * @author lbarbosa
  */
 
 public class BipartiteGraphManager {
 
-	private FrontierManager frontierManager;
-	
-	private BacklinkSurfer surfer;
-	
-	private LinkClassifier backlinkClassifier;
-	
-	private LinkClassifier outlinkClassifier;
+    private FrontierManager frontierManager;
 
-	private BipartiteGraphRep rep;
-	
-	private int count = 0;
+    private BacklinkSurfer surfer;
 
-  //Data structure for stop conditions //////////////////////////
-  private int maxPages = 100; //Maximum number of pages per each domain
-  private HashMap<String, Integer> domainCounter;//Count number of pages for each domain
-  ///////////////////////////////////////////////////////////////
-	
-	private final int pagesToCommit = 100;
-	
-	public BipartiteGraphManager(FrontierManager frontierManager, BipartiteGraphRep rep, LinkClassifier outlinkClassifier) throws IOException, ClassNotFoundException{
-		this.frontierManager = frontierManager;
-		this.outlinkClassifier = outlinkClassifier;
-		this.rep = rep;
-    this.domainCounter = new HashMap<String, Integer>();
-	}
-	
-	public BipartiteGraphManager(FrontierManager frontierManager, BipartiteGraphRep rep, LinkClassifier outlinkClassifier, LinkClassifier backlinkClassifier) throws IOException, ClassNotFoundException{
-		this.frontierManager = frontierManager;
-		this.outlinkClassifier = outlinkClassifier;
-		this.backlinkClassifier = backlinkClassifier;
-		this.rep = rep;
-    this.domainCounter = new HashMap<String, Integer>();
-	}
+    private LinkClassifier backlinkClassifier;
 
-  public void setMaxPages(int max){
-    this.maxPages = max;
-  }
+    private LinkClassifier outlinkClassifier;
 
-	public void setBacklinkSurfer(BacklinkSurfer surfer){
-		this.surfer = surfer;
-	}
-	
-	public void setBacklinkClassifier(LinkClassifier classifier){
-		this.backlinkClassifier = classifier;
-	}
+    private BipartiteGraphRep rep;
 
-	public void setOutlinkClassifier(LinkClassifier classifier){
-		this.outlinkClassifier = classifier;
-	}
+    private int count = 0;
 
-	
-	public BipartiteGraphRep getRepository(){
-		return this.rep;
-	}
-	
-	public String insertOutlinks(Page page) throws IOException, FrontierPersistentException, LinkClassifierException{
-		String outLinks = page.getIdentifier() + "\t1.0\t" + String.valueOf(System.currentTimeMillis() / 1000L);
-		PaginaURL parsedPage = page.getPageURL();
-		parsedPage.setRelevance(page.getRelevance());
-		LinkRelevance[] linksRelevance = outlinkClassifier.classify(parsedPage);
-    ArrayList<LinkRelevance> temp = new ArrayList<LinkRelevance>();
-		HashSet<String> relevantURLs = new HashSet<String>();
-		for (int i = 0; i < linksRelevance.length; i++) {
-			if(frontierManager.isRelevant(linksRelevance[i])){
-				String url = linksRelevance[i].getURL().toString();
-        if(!relevantURLs.contains(url)){
-          String domain = linksRelevance[i].getTopLevelDomainName();
-          Integer domainCount = domainCounter.get(domain);
-          if (domainCount == null)
-            domainCount = 0;
-          if (domainCount < maxPages){//Stop Condition
-            domainCount++;
-            domainCounter.put(domain, domainCount);
-				    relevantURLs.add(url);
-            temp.add(linksRelevance[i]);
-				    outLinks += "\t" + url;
-          }
+    //Data structure for stop conditions //////////////////////////
+    private int maxPages = 100; //Maximum number of pages per each domain
+    private HashMap<String, Integer> domainCounter;//Count number of pages for each domain
+    ///////////////////////////////////////////////////////////////
+
+    private final int pagesToCommit = 100;
+
+    public BipartiteGraphManager(FrontierManager frontierManager, BipartiteGraphRep rep, LinkClassifier outlinkClassifier) throws IOException, ClassNotFoundException {
+        this.frontierManager = frontierManager;
+        this.outlinkClassifier = outlinkClassifier;
+        this.rep = rep;
+        this.domainCounter = new HashMap<String, Integer>();
+    }
+
+    public BipartiteGraphManager(FrontierManager frontierManager, BipartiteGraphRep rep, LinkClassifier outlinkClassifier, LinkClassifier backlinkClassifier) throws IOException, ClassNotFoundException {
+        this.frontierManager = frontierManager;
+        this.outlinkClassifier = outlinkClassifier;
+        this.backlinkClassifier = backlinkClassifier;
+        this.rep = rep;
+        this.domainCounter = new HashMap<String, Integer>();
+    }
+
+    public void setMaxPages(int max) {
+        this.maxPages = max;
+    }
+
+    public void setBacklinkSurfer(BacklinkSurfer surfer) {
+        this.surfer = surfer;
+    }
+
+    public void setBacklinkClassifier(LinkClassifier classifier) {
+        this.backlinkClassifier = classifier;
+    }
+
+    public void setOutlinkClassifier(LinkClassifier classifier) {
+        this.outlinkClassifier = classifier;
+    }
+
+
+    public BipartiteGraphRep getRepository() {
+        return this.rep;
+    }
+
+    public String insertOutlinks(Page page) throws IOException, FrontierPersistentException, LinkClassifierException {
+        String outLinks = page.getIdentifier() + "\t1.0\t" + String.valueOf(System.currentTimeMillis() / 1000L);
+        PaginaURL parsedPage = page.getPageURL();
+        parsedPage.setRelevance(page.getRelevance());
+        LinkRelevance[] linksRelevance = outlinkClassifier.classify(parsedPage);
+        ArrayList<LinkRelevance> temp = new ArrayList<LinkRelevance>();
+        HashSet<String> relevantURLs = new HashSet<String>();
+        for (int i = 0; i < linksRelevance.length; i++) {
+            if (frontierManager.isRelevant(linksRelevance[i])) {
+                String url = linksRelevance[i].getURL().toString();
+                if (!relevantURLs.contains(url)) {
+                    String domain = linksRelevance[i].getTopLevelDomainName();
+                    Integer domainCount = domainCounter.get(domain);
+                    if (domainCount == null)
+                        domainCount = 0;
+                    if (domainCount < maxPages) {//Stop Condition
+                        domainCount++;
+                        domainCounter.put(domain, domainCount);
+                        relevantURLs.add(url);
+                        temp.add(linksRelevance[i]);
+                        outLinks += "\t" + url;
+                    }
+                }
+            }
         }
-			}
-		}
-    
-    LinkRelevance[] filteredLinksRelevance = temp.toArray(new LinkRelevance[relevantURLs.size()]);
-		LinkNeighborhood[] lns = parsedPage.getLinkNeighboor();
-		for (int i = 0; i < lns.length; i++) {
-			if(!relevantURLs.contains(lns[i].getLink().toString())){
-				lns[i] = null;
-			}
-		}
-		rep.insertOutlinks(page.getURL(), lns);
-		frontierManager.insert(filteredLinksRelevance);
-		if(count == pagesToCommit){
-			rep.commit();
-			count = 0;
-		}
-		count++;
-		return outLinks;
-	}
-	
-	public void insertBacklinks(Page page) throws IOException, FrontierPersistentException, LinkClassifierException{
-		URL url = page.getURL();
-		BackLinkNeighborhood[] links = rep.getBacklinks(url);
-		if(links == null || (links != null && links.length < 10)){
-			links = surfer.getLNBacklinks(url);	
-		}
-		if(links != null && links.length > 0){
-			LinkRelevance[] linksRelevance = new LinkRelevance[links.length];
-			for (int i = 0; i < links.length; i++){
-				if(links[i] != null){
-					LinkNeighborhood ln = new LinkNeighborhood(new URL(links[i].getLink()));
-					String title = links[i].getTitle();
-					if(title != null){
-						StringTokenizer tokenizer = new StringTokenizer(title," ");
-						Vector<String> anchorTemp = new Vector<String>();
-						while(tokenizer.hasMoreTokens()){
-							 anchorTemp.add(tokenizer.nextToken());
-			   		  	}
-			   		  	String[] aroundArray = new String[anchorTemp.size()];
-			   		  	anchorTemp.toArray(aroundArray);
-			   		  	ln.setAround(aroundArray);
-					}
-					linksRelevance[i] = backlinkClassifier.classify(ln);
-				}
-			}
-			frontierManager.insert(linksRelevance);
-		}
-		URL normalizedURL = new URL(url.getProtocol(), url.getHost(), "/"); 
-		rep.insertBacklinks(normalizedURL, links);
-		if(count == pagesToCommit){
-			rep.commit();
-			count = 0;
-		}
-		count++;
-	}
+
+        LinkRelevance[] filteredLinksRelevance = temp.toArray(new LinkRelevance[relevantURLs.size()]);
+        LinkNeighborhood[] lns = parsedPage.getLinkNeighboor();
+        for (int i = 0; i < lns.length; i++) {
+            if (!relevantURLs.contains(lns[i].getLink().toString())) {
+                lns[i] = null;
+            }
+        }
+        rep.insertOutlinks(page.getURL(), lns);
+        frontierManager.insert(filteredLinksRelevance);
+        if (count == pagesToCommit) {
+            rep.commit();
+            count = 0;
+        }
+        count++;
+        return outLinks;
+    }
+
+    public void insertBacklinks(Page page) throws IOException, FrontierPersistentException, LinkClassifierException {
+        URL url = page.getURL();
+        BackLinkNeighborhood[] links = rep.getBacklinks(url);
+        if (links == null || (links != null && links.length < 10)) {
+            links = surfer.getLNBacklinks(url);
+        }
+        if (links != null && links.length > 0) {
+            LinkRelevance[] linksRelevance = new LinkRelevance[links.length];
+            for (int i = 0; i < links.length; i++) {
+                if (links[i] != null) {
+                    LinkNeighborhood ln = new LinkNeighborhood(new URL(links[i].getLink()));
+                    String title = links[i].getTitle();
+                    if (title != null) {
+                        StringTokenizer tokenizer = new StringTokenizer(title, " ");
+                        Vector<String> anchorTemp = new Vector<String>();
+                        while (tokenizer.hasMoreTokens()) {
+                            anchorTemp.add(tokenizer.nextToken());
+                        }
+                        String[] aroundArray = new String[anchorTemp.size()];
+                        anchorTemp.toArray(aroundArray);
+                        ln.setAround(aroundArray);
+                    }
+                    linksRelevance[i] = backlinkClassifier.classify(ln);
+                }
+            }
+            frontierManager.insert(linksRelevance);
+        }
+        URL normalizedURL = new URL(url.getProtocol(), url.getHost(), "/");
+        rep.insertBacklinks(normalizedURL, links);
+        if (count == pagesToCommit) {
+            rep.commit();
+            count = 0;
+        }
+        count++;
+    }
 
 }

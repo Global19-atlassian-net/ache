@@ -43,18 +43,18 @@ public class StorageBinder extends AbstractStorageBinder {
         if (getConfig() != null) {
             try {
                 focusedCrawler.util.storage.StorageBinder binder = (focusedCrawler.util.storage.StorageBinder) Class.forName(getConfig().getParam("STORAGE_BINDER_CLASSNAME")).newInstance();
-                 //System.out.println("Storage Binder class : " + getConfig().getParam("STORAGE_BINDER_CLASSNAME"));
+                //System.out.println("Storage Binder class : " + getConfig().getParam("STORAGE_BINDER_CLASSNAME"));
                 binder.setConfig(getConfig());
                 binder.bind(storage);
 
             } //try
-            catch(ClassNotFoundException error) {
+            catch (ClassNotFoundException error) {
                 throw new StorageBinderException(error);
             } //catch
-            catch(IllegalAccessException error) {
+            catch (IllegalAccessException error) {
                 throw new StorageBinderException(error);
             } //catch
-            catch(InstantiationException error) {
+            catch (InstantiationException error) {
                 throw new StorageBinderException(error);
             } //catch
         } //if

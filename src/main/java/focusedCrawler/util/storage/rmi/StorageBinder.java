@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage.rmi;
 
 
-
 import java.rmi.RemoteException;
 
 import java.rmi.RMISecurityManager;
@@ -42,13 +41,11 @@ import focusedCrawler.util.storage.StorageBinderException;
 public class StorageBinder extends AbstractStorageBinder {
 
 
-
     public StorageBinder() {
 
         super();
 
     }
-
 
 
     public StorageBinder(ParameterFile config) {
@@ -58,28 +55,26 @@ public class StorageBinder extends AbstractStorageBinder {
     }
 
 
-
     public void bind(Storage storage) throws StorageBinderException {
 
         String host = getConfig().getParam("RMI_STORAGE_SERVER_HOST");
 
-        int    port = Integer.valueOf(getConfig().getParam("RMI_STORAGE_SERVER_PORT")).intValue();
+        int port = Integer.valueOf(getConfig().getParam("RMI_STORAGE_SERVER_PORT")).intValue();
 
         String name = getConfig().getParam("RMI_STORAGE_SERVER_NAME");
-
 
 
         try {
 
             System.out.println("Creating Server (" + host + "," + port + "," + name + ") " + new java.util.Date());
 
-            if( System.getSecurityManager() == null ) {
+            if (System.getSecurityManager() == null) {
 
                 System.setSecurityManager(new RMISecurityManager());
 
             }
 
-            StorageRemote obj = new StorageRemoteImpl(storage,port);
+            StorageRemote obj = new StorageRemoteImpl(storage, port);
 
             Registry registry = registry = LocateRegistry.createRegistry(port);
 
@@ -89,7 +84,7 @@ public class StorageBinder extends AbstractStorageBinder {
 
         } //try
 
-        catch(RemoteException error) {
+        catch (RemoteException error) {
 
             throw new StorageBinderException(error);
 

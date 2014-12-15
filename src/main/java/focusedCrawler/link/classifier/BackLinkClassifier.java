@@ -6,7 +6,7 @@ import focusedCrawler.util.parser.BackLinkNeighborhood;
 
 public interface BackLinkClassifier {
 
-	public LinkRelevance classify(BackLinkNeighborhood ln) throws LinkClassifierException;
+    public LinkRelevance classify(BackLinkNeighborhood ln) throws LinkClassifierException;
 
 }
 

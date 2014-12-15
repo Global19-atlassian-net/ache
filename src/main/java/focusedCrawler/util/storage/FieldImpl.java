@@ -27,75 +27,66 @@ package focusedCrawler.util.storage;
 public class FieldImpl implements Field {
 
 
-
     private String name;
 
-	private int type;
+    private int type;
 
-	private Object value;
-
-
-
-	public FieldImpl() {
-
-	}
+    private Object value;
 
 
+    public FieldImpl() {
 
-	public FieldImpl(String _name, int _type) {
-
-		name = _name;
-
-		type = _type;
-
-	}
+    }
 
 
+    public FieldImpl(String _name, int _type) {
 
-	public String getName() {
+        name = _name;
 
-	    return name;
+        type = _type;
 
-	}
-
-
-
-	public void setName(String newName) {
-
-		name = newName;
-
-	}
+    }
 
 
+    public String getName() {
 
-	public int getType() {
+        return name;
 
-		return type;
-
-	}
-
+    }
 
 
-	public void setType(int newType) {
+    public void setName(String newName) {
 
-		type = newType;
+        name = newName;
 
-	}
-
-
-
-	public Object getValue() {
-
-		return value;
-
-	}
+    }
 
 
+    public int getType() {
 
-	public void setValue(Object newValue) {
+        return type;
 
-		value = newValue;
+    }
 
-	}
+
+    public void setType(int newType) {
+
+        type = newType;
+
+    }
+
+
+    public Object getValue() {
+
+        return value;
+
+    }
+
+
+    public void setValue(Object newValue) {
+
+        value = newValue;
+
+    }
 
 }

@@ -24,11 +24,9 @@
 package focusedCrawler.util.storage;
 
 
-
 import focusedCrawler.util.DetailException;
 
 public class StorageBinderException extends DetailException {
-
 
 
     public StorageBinderException(String newMessage) {
@@ -38,13 +36,11 @@ public class StorageBinderException extends DetailException {
     }
 
 
-
-    public StorageBinderException(String newMessage,Throwable newDetail) {
+    public StorageBinderException(String newMessage, Throwable newDetail) {
 
         super(newMessage, newDetail);
 
     }
-
 
 
     public StorageBinderException(Throwable newDetail) {

@@ -39,64 +39,64 @@ import focusedCrawler.util.vsm.VSMElement;
 import focusedCrawler.util.vsm.VSMElementComparator;
 import focusedCrawler.util.vsm.VSMVector;
 
-public class CreateTCSVMLight extends CreateTCWekaInput{
+public class CreateTCSVMLight extends CreateTCWekaInput {
 
-	private VSMVector[] unlabeledExamples = null;
-	   
+    private VSMVector[] unlabeledExamples = null;
+
     public CreateTCSVMLight(File dir, File dirTest, StopList stoplist, int numOfElems) throws SAXException,
-		MalformedURLException, IOException {
-    		super(dir,dirTest,stoplist,numOfElems);
+            MalformedURLException, IOException {
+        super(dir, dirTest, stoplist, numOfElems);
     }
-    
+
     public String[] centroid2Weka(String output, String unlabelDir) throws FileNotFoundException,
-    		IOException, SAXException {
-    	File[] unlabFiles = new File(unlabelDir).listFiles();
-    	unlabeledExamples = createVSM(unlabFiles, stoplist,false);
-    	FileOutputStream fout = new FileOutputStream(output,false);
-    	DataOutputStream dout = new DataOutputStream( fout );
-    	Vector<String> attributes = new Vector<String>(); 
-    	StringBuffer tail = new StringBuffer();
-    	Vector bestWordsForm  = new Vector(df.values());
-    	Collections.sort(bestWordsForm, new VSMElementComparator());
-    	
-    	for (int i = 0; i < positiveExamples.length; i++) {
-    		VSMVector formTemp = positiveExamples[i];
+            IOException, SAXException {
+        File[] unlabFiles = new File(unlabelDir).listFiles();
+        unlabeledExamples = createVSM(unlabFiles, stoplist, false);
+        FileOutputStream fout = new FileOutputStream(output, false);
+        DataOutputStream dout = new DataOutputStream(fout);
+        Vector<String> attributes = new Vector<String>();
+        StringBuffer tail = new StringBuffer();
+        Vector bestWordsForm = new Vector(df.values());
+        Collections.sort(bestWordsForm, new VSMElementComparator());
+
+        for (int i = 0; i < positiveExamples.length; i++) {
+            VSMVector formTemp = positiveExamples[i];
 //    		formTemp.squaredNormalization();
-    		tail.append("1 ");
-    		for(int j=0; j<=numOfFeatures && j < bestWordsForm.size(); j++){
-    			VSMElement elem = (VSMElement)bestWordsForm.elementAt(j);
-    			if(elem.getWeight() > minDF){
-    				VSMElement elemForm = formTemp.getElement(elem.getWord());
-    				if (elemForm != null){
-    					tail.append(j+1);
-    					tail.append(":");
-    					tail.append((int)elemForm.getWeight());
-    					tail.append(" ");
-    				}
-    			}
-    		}
-    		tail.append("\n");
-    	}
-    	if(negativeExamples != null){
-        	for (int i = 0; i < negativeExamples.length; i++) {
-        		VSMVector formTemp = negativeExamples[i];
+            tail.append("1 ");
+            for (int j = 0; j <= numOfFeatures && j < bestWordsForm.size(); j++) {
+                VSMElement elem = (VSMElement) bestWordsForm.elementAt(j);
+                if (elem.getWeight() > minDF) {
+                    VSMElement elemForm = formTemp.getElement(elem.getWord());
+                    if (elemForm != null) {
+                        tail.append(j + 1);
+                        tail.append(":");
+                        tail.append((int) elemForm.getWeight());
+                        tail.append(" ");
+                    }
+                }
+            }
+            tail.append("\n");
+        }
+        if (negativeExamples != null) {
+            for (int i = 0; i < negativeExamples.length; i++) {
+                VSMVector formTemp = negativeExamples[i];
 //        		formTemp.squaredNormalization();
-        		tail.append("-1 ");
-        		for(int j=0; j<=numOfFeatures && j < bestWordsForm.size(); j++){
-        			VSMElement elem = (VSMElement)bestWordsForm.elementAt(j);
-        			if(elem.getWeight() > minDF){
-        				VSMElement elemForm = formTemp.getElement(elem.getWord());
-        				if (elemForm != null){
-        					tail.append(j+1);
-        					tail.append(":");
-        					tail.append((int)elemForm.getWeight());
-        					tail.append(" ");
-        				}
-        			}
-        		}
-        		tail.append("\n");
-        	}
-    	}
+                tail.append("-1 ");
+                for (int j = 0; j <= numOfFeatures && j < bestWordsForm.size(); j++) {
+                    VSMElement elem = (VSMElement) bestWordsForm.elementAt(j);
+                    if (elem.getWeight() > minDF) {
+                        VSMElement elemForm = formTemp.getElement(elem.getWord());
+                        if (elemForm != null) {
+                            tail.append(j + 1);
+                            tail.append(":");
+                            tail.append((int) elemForm.getWeight());
+                            tail.append(" ");
+                        }
+                    }
+                }
+                tail.append("\n");
+            }
+        }
 
 //    	for (int i = 0; i < unlabeledExamples.length; i++) {
 //    		VSMVector formTemp = unlabeledExamples[i];
@@ -116,99 +116,95 @@ public class CreateTCSVMLight extends CreateTCWekaInput{
 //    		}
 //    		tail.append("\n");
 //    	}
-    	
-    	dout.writeBytes(tail.toString());
-    	dout.close();
-    	if(positiveTestExamples != null){
-    		createTestFile(output, bestWordsForm);
-    	}
-  
-    	String[] atts = new String[attributes.size()];
-    	attributes.toArray(atts);
-    	return atts;
+
+        dout.writeBytes(tail.toString());
+        dout.close();
+        if (positiveTestExamples != null) {
+            createTestFile(output, bestWordsForm);
+        }
+
+        String[] atts = new String[attributes.size()];
+        attributes.toArray(atts);
+        return atts;
     }
 
     private void createTestFile(String output, Vector bestWordsForm) throws
-    FileNotFoundException, IOException {
-    	
-    	FileOutputStream fout = new FileOutputStream(output+"_test",false);
-    	DataOutputStream dout = new DataOutputStream( fout );
-    	StringBuffer tail = new StringBuffer();
+            FileNotFoundException, IOException {
 
-    	for (int i = 0; i < positiveTestExamples.length; i++) {
-    		VSMVector formTemp = positiveTestExamples[i];
-//    		formTemp.squaredNormalization();
-    		tail.append("1 ");
-    		for(int j=0; j<=numOfFeatures && j < bestWordsForm.size(); j++){
-    			VSMElement elem = (VSMElement)bestWordsForm.elementAt(j);
-    			if(elem.getWeight() > minDF){
-    				VSMElement elemForm = formTemp.getElement(elem.getWord());
-    				if (elemForm != null){
-    					tail.append(j+1);
-    					tail.append(":");
-    					tail.append(elemForm.getWeight());
-    					tail.append(" ");
-    				}
-    			}
-    		}
-    		tail.append("\n");
-    	}
+        FileOutputStream fout = new FileOutputStream(output + "_test", false);
+        DataOutputStream dout = new DataOutputStream(fout);
+        StringBuffer tail = new StringBuffer();
 
-    	for (int i = 0; i < negativeTestExamples.length; i++) {
-    		VSMVector formTemp = negativeTestExamples[i];
+        for (int i = 0; i < positiveTestExamples.length; i++) {
+            VSMVector formTemp = positiveTestExamples[i];
 //    		formTemp.squaredNormalization();
-    		tail.append("-1 ");
-    		for(int j=0; j<=numOfFeatures && j < bestWordsForm.size(); j++){
-    			VSMElement elem = (VSMElement)bestWordsForm.elementAt(j);
-    			if(elem.getWeight() > minDF){
-    				VSMElement elemForm = formTemp.getElement(elem.getWord());
-    				if (elemForm != null){
-    					tail.append(j+1);
-    					tail.append(":");
-    					tail.append(elemForm.getWeight());
-    					tail.append(" ");
-    				}
-    			}
-    		}
-    		tail.append("\n");
-    	}
-    	dout.writeBytes(tail.toString());
-    	dout.close();
+            tail.append("1 ");
+            for (int j = 0; j <= numOfFeatures && j < bestWordsForm.size(); j++) {
+                VSMElement elem = (VSMElement) bestWordsForm.elementAt(j);
+                if (elem.getWeight() > minDF) {
+                    VSMElement elemForm = formTemp.getElement(elem.getWord());
+                    if (elemForm != null) {
+                        tail.append(j + 1);
+                        tail.append(":");
+                        tail.append(elemForm.getWeight());
+                        tail.append(" ");
+                    }
+                }
+            }
+            tail.append("\n");
+        }
+
+        for (int i = 0; i < negativeTestExamples.length; i++) {
+            VSMVector formTemp = negativeTestExamples[i];
+//    		formTemp.squaredNormalization();
+            tail.append("-1 ");
+            for (int j = 0; j <= numOfFeatures && j < bestWordsForm.size(); j++) {
+                VSMElement elem = (VSMElement) bestWordsForm.elementAt(j);
+                if (elem.getWeight() > minDF) {
+                    VSMElement elemForm = formTemp.getElement(elem.getWord());
+                    if (elemForm != null) {
+                        tail.append(j + 1);
+                        tail.append(":");
+                        tail.append(elemForm.getWeight());
+                        tail.append(" ");
+                    }
+                }
+            }
+            tail.append("\n");
+        }
+        dout.writeBytes(tail.toString());
+        dout.close();
     }
 
-   
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		  StopList st = null;
-	      try {
-	        st = new focusedCrawler.util.string.StopListArquivo(args[0]);
-	      }
-	      catch (IOException ex) {
 
-	      }
-	    File dir = new File(args[1]);
-	    File dirTest = null;
-	    try{
-	    	dirTest = new File(args[3]);
-	    }catch(Exception e){
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        StopList st = null;
+        try {
+            st = new focusedCrawler.util.string.StopListArquivo(args[0]);
+        } catch (IOException ex) {
 
-	    }
-	    try {
-	      CreateTCSVMLight createwekainput = new CreateTCSVMLight(dir, dirTest, st,1000);
-	      createwekainput.centroid2Weka(args[2],args[4]);
-	    }
-	    catch (MalformedURLException ex1) {
-	      ex1.printStackTrace();
-	    }
-	    catch (IOException ex1) {
-	      ex1.printStackTrace();
-	    }
-	    catch (SAXException ex1) {
-	      ex1.printStackTrace();
-	    }
+        }
+        File dir = new File(args[1]);
+        File dirTest = null;
+        try {
+            dirTest = new File(args[3]);
+        } catch (Exception e) {
 
-	}
+        }
+        try {
+            CreateTCSVMLight createwekainput = new CreateTCSVMLight(dir, dirTest, st, 1000);
+            createwekainput.centroid2Weka(args[2], args[4]);
+        } catch (MalformedURLException ex1) {
+            ex1.printStackTrace();
+        } catch (IOException ex1) {
+            ex1.printStackTrace();
+        } catch (SAXException ex1) {
+            ex1.printStackTrace();
+        }
+
+    }
 
 }

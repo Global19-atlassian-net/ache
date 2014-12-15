@@ -22,21 +22,25 @@
 ############################################################################
 */
 package focusedCrawler.util.distribution.rmi;
+
 import java.rmi.Remote;
 
 import focusedCrawler.util.cache.FactoryException;
 import focusedCrawler.util.cache.ObjectFactory;
 import focusedCrawler.util.distribution.rmi.RemoteCacheKey;
 import focusedCrawler.util.distribution.rmi.RemoteObjectFactory;
+
 public class RemoteObjectGenerator {
     private RemoteCacheKey key;
     private ObjectFactory factory;
+
     public RemoteObjectGenerator(RemoteCacheKey key) {
         this.key = key;
-        factory = new RemoteObjectFactory ();
+        factory = new RemoteObjectFactory();
     } //RemoteObjectGenerator
+
     public synchronized Remote getObject() throws FactoryException {
-        return (Remote) factory.produce (key);
+        return (Remote) factory.produce(key);
     } //getObject
 }
 

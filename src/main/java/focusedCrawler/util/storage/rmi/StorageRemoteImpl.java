@@ -36,19 +36,10 @@ import focusedCrawler.util.storage.Storage;
 import focusedCrawler.util.storage.StorageException;
 
 
-
-
-
-
-
-
-
 public class StorageRemoteImpl extends UnicastRemoteObject implements StorageRemote {
 
 
-
     private Storage storage;
-
 
 
     public StorageRemoteImpl(Storage storage, int port) throws RemoteException {
@@ -60,13 +51,11 @@ public class StorageRemoteImpl extends UnicastRemoteObject implements StorageRem
     }
 
 
-
     public void setStorage(Storage newStorage) {
 
         storage = newStorage;
 
     }
-
 
 
     public Storage getStorage() {
@@ -76,136 +65,119 @@ public class StorageRemoteImpl extends UnicastRemoteObject implements StorageRem
     }
 
 
-
-    public Object insert(Object obj) throws StorageException,CommunicationException,RemoteException {
+    public Object insert(Object obj) throws StorageException, CommunicationException, RemoteException {
 
         return storage.insert(obj);
 
     }
 
 
-
-    public Object[] insertArray(Object[] objs) throws StorageException,CommunicationException,RemoteException {
+    public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException, RemoteException {
 
         return storage.insertArray(objs);
 
     }
 
 
-
-    public Object select(Object obj) throws StorageException,DataNotFoundException,CommunicationException,RemoteException {
+    public Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException, RemoteException {
 
         return storage.select(obj);
 
     }
 
 
-
-    public Object[] selectArray(Object[] objs) throws StorageException,DataNotFoundException,CommunicationException,RemoteException {
+    public Object[] selectArray(Object[] objs) throws StorageException, DataNotFoundException, CommunicationException, RemoteException {
 
         return storage.selectArray(objs);
 
     }
 
 
-
-    public Enumeration selectEnumeration(Object obj) throws StorageException,DataNotFoundException,CommunicationException,RemoteException {
+    public Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException, RemoteException {
 
         return storage.selectEnumeration(obj);
 
     }
 
 
-
-    public Object update(Object obj) throws StorageException,CommunicationException,RemoteException {
+    public Object update(Object obj) throws StorageException, CommunicationException, RemoteException {
 
         return storage.update(obj);
 
     }
 
 
-
-    public Object[] updateArray(Object[] objs) throws StorageException,CommunicationException,RemoteException {
+    public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException, RemoteException {
 
         return storage.updateArray(objs);
 
     }
 
 
-
-    public Object remove(Object obj) throws StorageException,CommunicationException,RemoteException {
+    public Object remove(Object obj) throws StorageException, CommunicationException, RemoteException {
 
         return storage.remove(obj);
 
     }
 
 
-
-    public Object[] removeArray(Object[] objs) throws StorageException,CommunicationException,RemoteException {
+    public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException, RemoteException {
 
         return storage.removeArray(objs);
 
     }
 
 
-
-    public Object addResource(Object obj) throws StorageException,CommunicationException,RemoteException {
+    public Object addResource(Object obj) throws StorageException, CommunicationException, RemoteException {
 
         return storage.addResource(obj);
 
     }
 
 
-
-    public Object[] addResourceArray(Object[] objs) throws StorageException,CommunicationException,RemoteException {
+    public Object[] addResourceArray(Object[] objs) throws StorageException, CommunicationException, RemoteException {
 
         return storage.addResourceArray(objs);
 
     }
 
 
-
-    public Object removeResource(Object obj) throws StorageException,CommunicationException,RemoteException {
+    public Object removeResource(Object obj) throws StorageException, CommunicationException, RemoteException {
 
         return storage.removeResource(obj);
 
     }
 
 
-
-    public Object[] removeResourceArray(Object[] objs) throws StorageException,CommunicationException,RemoteException {
+    public Object[] removeResourceArray(Object[] objs) throws StorageException, CommunicationException, RemoteException {
 
         return storage.removeResourceArray(objs);
 
     }
 
 
-
-    public Object commit(Object obj) throws StorageException,CommunicationException,RemoteException {
+    public Object commit(Object obj) throws StorageException, CommunicationException, RemoteException {
 
         return storage.commit(obj);
 
     }
 
 
-
-    public Object rollback(Object obj) throws StorageException,CommunicationException,RemoteException {
+    public Object rollback(Object obj) throws StorageException, CommunicationException, RemoteException {
 
         return storage.rollback(obj);
 
     }
 
 
-
-    public Object finalize(Object obj) throws StorageException,CommunicationException,RemoteException {
+    public Object finalize(Object obj) throws StorageException, CommunicationException, RemoteException {
 
         return storage.finalize(obj);
 
     }
 
 
-
-    public Object ping(Object obj) throws StorageException,CommunicationException,RemoteException {
+    public Object ping(Object obj) throws StorageException, CommunicationException, RemoteException {
 
         return storage.ping(obj);
 

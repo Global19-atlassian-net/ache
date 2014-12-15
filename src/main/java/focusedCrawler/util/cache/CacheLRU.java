@@ -26,18 +26,16 @@ package focusedCrawler.util.cache;
 import focusedCrawler.util.DoubleLinkedListNode;
 
 /**
-
  * Implementacao de uma cache LRU.
  * nesta cache quando um dado novo vai ser inserido e
  * a cache esta cheia, os objetos que serao removidos
  * sao aqueles usados ha mais tempo.
-
- * <BR> A implementação baseia-se na cache FIFO so que
- * quando um dado é consultado ele vai para o inicio da fila
+ * <p/>
+ * <BR> A implementaï¿½ï¿½o baseia-se na cache FIFO so que
+ * quando um dado ï¿½ consultado ele vai para o inicio da fila
  * isso garante que quando a cache estiver cheia e
  * um dado novo for inserido, os dados removidos(os do final da lista)
- * serão os utilizados há mais tempo(cache LRU).
- *
+ * serï¿½o os utilizados hï¿½ mais tempo(cache LRU).
  */
 
 public class CacheLRU extends CacheFIFO {
@@ -45,10 +43,8 @@ public class CacheLRU extends CacheFIFO {
     /**
      * Construtor da Classe
      *
-     *
      * @param cache_size o tamanho maximo desta cache
-     * @param qt_rm a quantidade de itens removidos quando acontece uma falha
-     *
+     * @param qt_rm      a quantidade de itens removidos quando acontece uma falha
      */
 
     public CacheLRU(int cache_size, int qt_rm) {
@@ -57,7 +53,7 @@ public class CacheLRU extends CacheFIFO {
 
     /**
      * Construtor da Classe
-     *
+     * <p/>
      * coloca a quantidade de itens removidos quando ha falha
      * em metade do tamanho da cache dado + 1
      *
@@ -81,7 +77,7 @@ public class CacheLRU extends CacheFIFO {
      * Atualiza estruturas da cache quando o objeto for encontrado na cache.
      * move o elemento encontrado para o inicio da lista(cache LRU).
      *
-     * @param l o no da lista ligada que o qual dado foi encontrado
+     * @param l  o no da lista ligada que o qual dado foi encontrado
      * @param ce a entry que foi achada
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
      * @see focusedCrawler.util.DoubleLinkedListNode
@@ -89,11 +85,10 @@ public class CacheLRU extends CacheFIFO {
      */
 
     protected synchronized void dataFound(DoubleLinkedListNode l,
-                             CacheEntry ce) throws CacheException {
+                                          CacheEntry ce) throws CacheException {
         l.moveFirst();
         updateList(ce);
     }
-
 
 
     /**
@@ -112,11 +107,10 @@ public class CacheLRU extends CacheFIFO {
     }
 
 
-
     /**
      * Atualiza estruturas da cache quando o objeto nao for encontrado na cache.
      *
-     * @param l o no da lista ligada do dado novo
+     * @param l  o no da lista ligada do dado novo
      * @param ce a entry nova
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
      * @see focusedCrawler.util.DoubleLinkedListNode
@@ -125,7 +119,7 @@ public class CacheLRU extends CacheFIFO {
 
     protected synchronized void dataIsNew(DoubleLinkedListNode l,
 
-                             CacheEntry ce) throws CacheException {
+                                          CacheEntry ce) throws CacheException {
 
         updateList(ce);
 

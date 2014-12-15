@@ -38,11 +38,11 @@ import java.net.URLEncoder;
 
 /**
  * <p> </p>
- *
+ * <p/>
  * <p>Description: This class stores a page in the file system</p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p> </p>
  *
  * @author Luciano Barbosa
@@ -50,55 +50,54 @@ import java.net.URLEncoder;
  */
 public class TargetFileRepository implements TargetRepository {
 
-  private String location;
-  
-  public TargetFileRepository(){
-	  
-  }
-  
-  public TargetFileRepository(String loc){
-	  this.location = loc;
-  }
+    private String location;
 
-  /**
-   * The method inserts a page with its respective crawl number.
-   */
-  public boolean insert(Target target, int counter) {
-	    boolean contain = false;
-	    String id = target.getIdentifier();
-	    FileOutputStream fout;
-	    try {
-	    	URL url = new URL(id);
-	    	String host = url.getHost();
-	    	File dir = new File(location + File.separator + URLEncoder.encode(host));
-	    	if(!dir.exists()){
-	    		dir.mkdir();
-	    	}
-	    	fout = new FileOutputStream(dir.toString() + File.separator +  URLEncoder.encode(id) + "_" + counter);
-	        Writer out = new OutputStreamWriter(fout, "UTF8");
-	        out.write(target.getSource());
-	        out.close();
-	    }
-	    catch (IOException ex) {
-	      ex.printStackTrace();
-	    }
-	    return contain;
-  }
-  
-  public boolean insert(Target target) {
-    boolean contain = false;
-    String id = target.getIdentifier();
-    FileOutputStream fout;
-    try {
-    	URL url = new URL(id);
-    	String host = url.getHost();
-    	File dir = new File(location + File.separator + URLEncoder.encode(host));
-    	if(!dir.exists()){
-    		dir.mkdir();
-    	}
+    public TargetFileRepository() {
 
-		FileWriter fw = new FileWriter(dir.toString() + File.separator +  URLEncoder.encode(id));
-		BufferedWriter bw = new BufferedWriter(fw);
+    }
+
+    public TargetFileRepository(String loc) {
+        this.location = loc;
+    }
+
+    /**
+     * The method inserts a page with its respective crawl number.
+     */
+    public boolean insert(Target target, int counter) {
+        boolean contain = false;
+        String id = target.getIdentifier();
+        FileOutputStream fout;
+        try {
+            URL url = new URL(id);
+            String host = url.getHost();
+            File dir = new File(location + File.separator + URLEncoder.encode(host));
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            fout = new FileOutputStream(dir.toString() + File.separator + URLEncoder.encode(id) + "_" + counter);
+            Writer out = new OutputStreamWriter(fout, "UTF8");
+            out.write(target.getSource());
+            out.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return contain;
+    }
+
+    public boolean insert(Target target) {
+        boolean contain = false;
+        String id = target.getIdentifier();
+        FileOutputStream fout;
+        try {
+            URL url = new URL(id);
+            String host = url.getHost();
+            File dir = new File(location + File.separator + URLEncoder.encode(host));
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+
+            FileWriter fw = new FileWriter(dir.toString() + File.separator + URLEncoder.encode(id));
+            BufferedWriter bw = new BufferedWriter(fw);
 //    	fout = new FileOutputStream(dir.toString() + File.separator +  URLEncoder.encode(id));
 //    	Writer out = new OutputStreamWriter(fout, "UTF8");
 //    	out.write(target.getSource());
@@ -106,17 +105,16 @@ public class TargetFileRepository implements TargetRepository {
 //    	DataOutputStream dout = new DataOutputStream( fout );
 //    	dout.writeBytes(target.getSource());
 //    	dout.close();
-		bw.write(target.getSource());
-		bw.close();
+            bw.write(target.getSource());
+            bw.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return contain;
     }
-    catch (IOException ex) {
-      ex.printStackTrace();
-    }
-    return contain;
-  }
 
-  public String getLocation(){
-	  return location;
-  }
-  
+    public String getLocation() {
+        return location;
+    }
+
 }

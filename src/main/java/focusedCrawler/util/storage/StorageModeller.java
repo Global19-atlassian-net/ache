@@ -24,20 +24,16 @@
 package focusedCrawler.util.storage;
 
 
-
 import focusedCrawler.util.DataNotFoundException;
 import focusedCrawler.util.distribution.CommunicationException;
-
 
 
 public class StorageModeller extends StorageDefault {
 
 
-
     private Storage modeller;
 
     private Storage storage;
-
 
 
     public StorageModeller() {
@@ -76,30 +72,29 @@ public class StorageModeller extends StorageDefault {
 
     }
 
-    public Object[] insertArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException {
 
         return modeller.insertArray(objs);
 
     }
 
-    public Object[] updateArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException {
 
         return modeller.updateArray(objs);
 
     }
 
-    public Object[] removeArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException {
 
         return modeller.removeArray(objs);
 
     }
 
-    public Object commit(Object obj) throws StorageException,CommunicationException {
+    public Object commit(Object obj) throws StorageException, CommunicationException {
 
         return storage.commit(modeller.commit(obj));
 
     }
-
 
 
 }

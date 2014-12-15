@@ -24,36 +24,36 @@
 package focusedCrawler.util;
 
 
-
 import java.io.OutputStream;
 
 import java.io.IOException;
 
 
-
 /**
-
  * OutputStream que ignora todas as chamadas
-
  */
 
 public class NullOutputStream extends OutputStream {
 
 
+    public void write(int b) throws IOException {
+    }
 
-    public void write(int b) throws IOException { }
-
-    public void write(byte b[]) throws IOException {}
+    public void write(byte b[]) throws IOException {
+    }
 
     public void write(byte b[],
 
-                   int off,
+                      int off,
 
-                   int len) throws IOException {}
+                      int len) throws IOException {
+    }
 
-    public void flush() throws IOException {}
+    public void flush() throws IOException {
+    }
 
-    public void close() throws IOException {}
+    public void close() throws IOException {
+    }
 
 }
 

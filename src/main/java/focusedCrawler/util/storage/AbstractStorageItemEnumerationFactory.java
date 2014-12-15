@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage;
 
 
-
 import focusedCrawler.util.ParameterFile;
 import focusedCrawler.util.cache.CacheException;
 import focusedCrawler.util.cache.FactoryException;
@@ -35,28 +34,14 @@ import focusedCrawler.util.storage.StorageFactory;
 import focusedCrawler.util.storage.StorageFactoryException;
 
 
-
-
-
-
-
-
-
-
-
-
 /**
-
  * Fabrica de StorageRemoteAdapter
-
  */
 
 public abstract class AbstractStorageItemEnumerationFactory implements StorageItemEnumerationFactory {
 
 
-
     private ParameterFile config;
-
 
 
     public AbstractStorageItemEnumerationFactory() {
@@ -66,13 +51,11 @@ public abstract class AbstractStorageItemEnumerationFactory implements StorageIt
     }
 
 
-
     public AbstractStorageItemEnumerationFactory(ParameterFile config) {
 
         setConfig(config);
 
     }
-
 
 
     public ParameterFile getConfig() {
@@ -82,13 +65,11 @@ public abstract class AbstractStorageItemEnumerationFactory implements StorageIt
     } //getConfig
 
 
-
     public void setConfig(ParameterFile newConfig) {
 
         this.config = newConfig;
 
     } //setConfig
-
 
 
 } //class

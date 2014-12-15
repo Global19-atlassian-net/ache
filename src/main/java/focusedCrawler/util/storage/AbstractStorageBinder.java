@@ -24,21 +24,17 @@
 package focusedCrawler.util.storage;
 
 
-
 import focusedCrawler.util.ParameterFile;
 
 public abstract class AbstractStorageBinder implements StorageBinder {
 
 
-
     private ParameterFile config;
-
 
 
     public AbstractStorageBinder() {
 
     }
-
 
 
     public AbstractStorageBinder(ParameterFile config) {
@@ -48,7 +44,6 @@ public abstract class AbstractStorageBinder implements StorageBinder {
     }
 
 
-
     public ParameterFile getConfig() {
 
         return config;
@@ -56,13 +51,11 @@ public abstract class AbstractStorageBinder implements StorageBinder {
     } //getConfig
 
 
-
     public void setConfig(ParameterFile newConfig) {
 
         this.config = newConfig;
 
     } //setConfig
-
 
 
 }

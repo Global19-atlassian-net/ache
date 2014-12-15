@@ -24,7 +24,6 @@
 package focusedCrawler.util.cache;
 
 
-
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -33,26 +32,23 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 
-
 /**
- * Implementação de uma cache estática.
+ * Implementaï¿½ï¿½o de uma cache estï¿½tica.
  * Para guardar dados em uma hashtable.
- * Esta cache é basicamente uma interface para uma hashtable.
- *
+ * Esta cache ï¿½ basicamente uma interface para uma hashtable.
  */
 
 public class StaticCache implements Cache {
 
-    private int           FLUSH_SIZE;
-    private int           MAX_SIZE;
-    private Hashtable     cache;
+    private int FLUSH_SIZE;
+    private int MAX_SIZE;
+    private Hashtable cache;
     private ObjectFactory factory;
     private ObjectDestroyer destroyer;
 
     public StaticCache() {
         this(1000);
     }
-
 
 
     public StaticCache(int init_size) {
@@ -68,7 +64,6 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
      * @see focusedCrawler.util.cache.Cache#setFactory()
      */
@@ -80,11 +75,8 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#getFactory()
-
      */
 
     public ObjectFactory getFactory() {
@@ -94,11 +86,8 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#maxSize()
-
      */
 
     public int getMaxSize() {
@@ -108,11 +97,8 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#setMaxSize()
-
      */
 
     public synchronized void setMaxSize(int newSize) throws CacheException {
@@ -124,11 +110,8 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#setRemoveQuantity()
-
      */
 
     public void setRemoveQuantity(int qtd) {
@@ -140,7 +123,6 @@ public class StaticCache implements Cache {
     }
 
 
-
     public int getRemoveQuantity() {
 
         return FLUSH_SIZE;
@@ -148,22 +130,19 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#removeQuantity()
-
      */
 
     public int removeQuantity() throws CacheException {
 
         int cont = 0;
 
-        if( cache != null ) {
+        if (cache != null) {
 
             Enumeration e = cache.keys();
 
-            while( cont < FLUSH_SIZE && e.hasMoreElements() ) {
+            while (cont < FLUSH_SIZE && e.hasMoreElements()) {
 
                 Object old = cache.remove(e.nextElement());
 
@@ -179,18 +158,15 @@ public class StaticCache implements Cache {
 
         }
 
-        System.out.println("StaticCache> removi "+cont+" elementos.");
+        System.out.println("StaticCache> removi " + cont + " elementos.");
 
         return cont;
 
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#size()
-
      */
 
     public int size() {
@@ -200,11 +176,8 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#get()
-
      */
 
     public final synchronized Object get(CacheKey key) throws CacheException {
@@ -214,26 +187,20 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * Retorna um array com dados associados as caches dadas.
-
-     * @param  key   Array de chaves
-
+     *
+     * @param key Array de chaves
      * @return Retorna array de objetos, respeitando a ordem das chaves.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] get(CacheKey[] key) throws CacheException {
 
         Object[] data = new Object[key.length];
 
-        for(int i=key.length-1;i>=0;i--){
+        for (int i = key.length - 1; i >= 0; i--) {
 
             data[i] = get(key[i]);
 
@@ -244,11 +211,8 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#put()
-
      */
 
     public final synchronized Object put(CacheKey key, Object data) throws CacheException {
@@ -258,32 +222,23 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * Coloca um array de dados na cache, sobrescrevendo os valores existentes.
-
      *
-
-     * @param  key[]   Array de chaves
-
-     * @param  data[]  Array com os novos dados.
-
+     * @param key[]  Array de chaves
+     * @param data[] Array com os novos dados.
      * @return Retorna os valores que estavam na cache antes do put.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] put(CacheKey[] key, Object[] data) throws CacheException {
 
         Object[] curData = new Object[key.length];
 
-        for(int i=key.length-1;i>=0;i--){
+        for (int i = key.length - 1; i >= 0; i--) {
 
-            curData[i] = put(key[i],data[i]);
+            curData[i] = put(key[i], data[i]);
 
         }
 
@@ -292,13 +247,9 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#getUpdate()
-
      */
-
 
 
     int contadorDeAcertos = 0;
@@ -306,45 +257,38 @@ public class StaticCache implements Cache {
     int contadorDeErros = 0;
 
 
-
-    public int getContadorDeAcertos(){
+    public int getContadorDeAcertos() {
 
         return contadorDeAcertos;
 
     }
 
 
-
-    public int getContadorDeErros(){
+    public int getContadorDeErros() {
 
         return contadorDeErros;
 
     }
 
 
-
     long tempoTotalDeAcerto = 0;
 
 
-
-    public long getTempoDeAcerto(){
+    public long getTempoDeAcerto() {
 
         return tempoTotalDeAcerto;
 
     }
 
 
-
     long tempoTotalDeProduce = 0;
 
 
-
-    public long getTempoProduce(){
+    public long getTempoProduce() {
 
         return tempoTotalDeProduce;
 
     }
-
 
 
     public synchronized Object getUpdate(CacheKey key) throws CacheException {
@@ -369,9 +313,9 @@ public class StaticCache implements Cache {
 
             tempoTotalDeProduce += (System.currentTimeMillis() - tempoDeProduce);
 
-            if( cache.size() > MAX_SIZE ) {
+            if (cache.size() > MAX_SIZE) {
 
-                System.out.println("StaticCache> ESTOURO, size = "+cache.size()+", inseri "+retorno);
+                System.out.println("StaticCache> ESTOURO, size = " + cache.size() + ", inseri " + retorno);
 
                 removeQuantity();
 
@@ -379,9 +323,7 @@ public class StaticCache implements Cache {
 
             contadorDeErros++;
 
-        }
-
-        else
+        } else
 
             contadorDeAcertos++;
 
@@ -390,29 +332,22 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * Retorna um array de dados assoaciado um array de chaves fornecido.
-
+     * <p/>
      * caso o objeto nao esteja na cache, cria um novo utilizando o ObjectFactory
-
+     * <p/>
      * e coloca na cache. se a cache estiver cheia, remove alguns dado da cache.
-
+     * <p/>
      * Observe que existe uma correspondencia entre a posicao do objeto retornado e
-
+     * <p/>
      * a posicao da chave fornecida.
-
-     * @param  key[]   Array de chaves
-
+     *
+     * @param key[] Array de chaves
      * @return Array com os objetos procurados.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
-     * @see focusedCrawler.util.cache.ObjectFactory
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
+     * @see focusedCrawler.util.cache.ObjectFactory
      */
 
     public Object[] getUpdate(CacheKey[] key) throws CacheException {
@@ -423,7 +358,7 @@ public class StaticCache implements Cache {
 
         int faltando_size = 0;
 
-        for(int i=key.length-1;i>=0;i--){
+        for (int i = key.length - 1; i >= 0; i--) {
 
             data[i] = get(key[i]);
 
@@ -434,7 +369,6 @@ public class StaticCache implements Cache {
             }
 
         }
-
 
 
         if (faltando_size > 0) {
@@ -449,15 +383,15 @@ public class StaticCache implements Cache {
 
             CacheKey[] keyFaltando = new CacheKey[faltando_size];
 
-            for(int i=0;i<faltando_size;i++) {
+            for (int i = 0; i < faltando_size; i++) {
 
-                keyFaltando[i] =  key[faltando[i]];
+                keyFaltando[i] = key[faltando[i]];
 
             }
 
             Object[] dataFaltando = factory.produce(keyFaltando);
 
-            for(int i=0;i<faltando_size;i++) {
+            for (int i = 0; i < faltando_size; i++) {
 
                 data[faltando[i]] = dataFaltando[i];
 
@@ -466,19 +400,13 @@ public class StaticCache implements Cache {
         }
 
 
-
         return data;
 
     }
 
 
-
-
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#remove()
-
      */
 
     public Object remove(CacheKey key) throws CacheException {
@@ -488,24 +416,17 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * Remove os dados referente as chaves dadas
-
      *
-
      * @return Array com dados removidos, se um dado nao estava na cache sua posicao sera nula
-
-     *
-
      */
 
     public Object[] remove(CacheKey[] key) throws CacheException {
 
         Object[] data = new Object[key.length];
 
-        for(int i=key.length-1;i>=0;i--){
+        for (int i = key.length - 1; i >= 0; i--) {
 
             data[i] = remove(key[i]);
 
@@ -516,11 +437,8 @@ public class StaticCache implements Cache {
     }
 
 
-
     /**
-
      * @see focusedCrawler.util.cache.Cache#getKeys()
-
      */
 
     public Iterator getKeys() throws CacheException {
@@ -530,13 +448,11 @@ public class StaticCache implements Cache {
     }
 
 
-
     public void setDestroyer(ObjectDestroyer destroyer) {
 
         this.destroyer = destroyer;
 
     }
-
 
 
     public ObjectDestroyer getDestroyer() {
@@ -546,18 +462,17 @@ public class StaticCache implements Cache {
     }
 
 
-
     public void clear() throws CacheException {
 
         Enumeration keys = cache.keys();
 
-        while(keys.hasMoreElements()) {
+        while (keys.hasMoreElements()) {
 
             Object key = keys.nextElement();
 
             Object old = cache.remove(key);
 
-            if ( destroyer != null) {
+            if (destroyer != null) {
 
                 destroyer.destruct(old);
 
@@ -566,9 +481,6 @@ public class StaticCache implements Cache {
         }
 
     }
-
-
-
 
 
 }

@@ -24,24 +24,19 @@
 package focusedCrawler.util.loader;
 
 
-
 public interface Loader {
 
 
-
-	Loadable getLoadable ();
-
+    Loadable getLoadable();
 
 
-	void setLoadable (Loadable loadable);
+    void setLoadable(Loadable loadable);
 
 
-
-	void load () throws LoaderException;
-
+    void load() throws LoaderException;
 
 
-	void load (Object objeto) throws LoaderException;
+    void load(Object objeto) throws LoaderException;
 
 }
 

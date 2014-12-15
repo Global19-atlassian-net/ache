@@ -35,7 +35,6 @@ import java.rmi.RemoteException;
 import java.rmi.Remote;
 
 
-
 public class LookupThread extends Thread {
 
     private Registry reg;
@@ -51,7 +50,6 @@ public class LookupThread extends Thread {
     private Exception erro;
 
 
-
     public LookupThread(Registry reg, String lookup) {
 
         this.reg = reg;
@@ -63,7 +61,6 @@ public class LookupThread extends Thread {
     } //LookupThread
 
 
-
     public Remote getRemoteObject() {
 
         return resultado;
@@ -71,29 +68,25 @@ public class LookupThread extends Thread {
     } //LookupThread
 
 
-
-    public boolean getFinished () {
+    public boolean getFinished() {
 
         return this.finished;
 
     } //getFinished
 
 
-
-    public boolean getFound () {
+    public boolean getFound() {
 
         return this.found;
 
     } //getFound
 
 
-
-    public Exception getError () {
+    public Exception getError() {
 
         return this.erro;
 
     } //getError
-
 
 
     public void run() {
@@ -110,19 +103,19 @@ public class LookupThread extends Thread {
 
         } //try
 
-        catch(AccessException erro) {
+        catch (AccessException erro) {
 
             this.erro = erro;
 
         } //catch
 
-        catch(NotBoundException erro) {
+        catch (NotBoundException erro) {
 
             this.erro = erro;
 
         } //catch
 
-        catch(RemoteException erro) {
+        catch (RemoteException erro) {
 
             this.erro = erro;
 

@@ -24,25 +24,17 @@
 package focusedCrawler.util.string;
 
 
-
 import java.util.*;
 
 
-
 /**
-
- * Conjunto de funcoes comuns usadas na manipulação de strings
-
+ * Conjunto de funcoes comuns usadas na manipulaï¿½ï¿½o de strings
  *
-
- * @author Marcelo Rômulo
-
+ * @author Marcelo Rï¿½mulo
  * @version 1.0, 29/07/99
-
  */
 
 public class FuncoesString {
-
 
 
     // retorna true se o caracter eh de palavra(letra, digito, hifen ou "*")
@@ -51,83 +43,70 @@ public class FuncoesString {
 
         boolean result;
 
-	    if (Character.isLetterOrDigit(ch)) {
+        if (Character.isLetterOrDigit(ch)) {
 
-	        result = true;
+            result = true;
 
-	    }
+        } else if (ch == '-') {
 
-	    else if (ch == '-') {
+            result = true;
 
-	        result = true;
+        } else if (ch == '*') {
 
-	    }
+            result = true;
 
-	    else if (ch == '*') {
+        } else {
 
-	        result = true;
-
-	    }
-
-	    else {
-
-	        result = false;
-
-	    }
-
-	    return result;
-
-    }
-
-
-
-   /**
-
-     * @param str       String original
-
-     * @param strOld    A String que deve ser substituida
-
-     * @param strNew    A nova string
-
-     * @return          Retorna a string original substituido strOld por strNew
-
-     */
-
-    public static String replace(String str,String strOld,String strNew){
-
-        int iAnt=0,iPos=0;
-
-        StringBuffer  strChanged=new StringBuffer();
-
-        iPos =  str.indexOf(strOld,iAnt);
-
-        while(iPos!=-1){
-
-            strChanged.append(str.substring(iAnt,iPos)+strNew);
-
-            iAnt=iPos+strOld.length();
-
-            iPos =  str.indexOf(strOld,iAnt);
+            result = false;
 
         }
 
-        return  strChanged.append(str.substring(iAnt,str.length())).toString();
+        return result;
 
     }
 
 
+    /**
+     * @param str    String original
+     * @param strOld A String que deve ser substituida
+     * @param strNew A nova string
+     * @return Retorna a string original substituido strOld por strNew
+     */
 
-    public static boolean in(char[] array, char c){
+    public static String replace(String str, String strOld, String strNew) {
 
-    	for(int i=array.length-1;i > -1 ; --i){
+        int iAnt = 0, iPos = 0;
 
-     		if(array[i]==c)
+        StringBuffer strChanged = new StringBuffer();
 
-       			return true;
+        iPos = str.indexOf(strOld, iAnt);
 
-     	}
+        while (iPos != -1) {
 
-      	return false;
+            strChanged.append(str.substring(iAnt, iPos) + strNew);
+
+            iAnt = iPos + strOld.length();
+
+            iPos = str.indexOf(strOld, iAnt);
+
+        }
+
+        return strChanged.append(str.substring(iAnt, str.length())).toString();
+
+    }
+
+
+    public static boolean in(char[] array, char c) {
+
+        for (int i = array.length - 1; i > -1; --i) {
+
+            if (array[i] == c)
+
+                return true;
+
+        }
+
+        return false;
 
     }
 

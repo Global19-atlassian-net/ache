@@ -24,13 +24,11 @@
 package focusedCrawler.util.distribution.rmi;
 
 
-
 import focusedCrawler.util.ParameterFile;
 import focusedCrawler.util.cache.CacheKey;
 
 
 public class RemoteCacheKey implements CacheKey {
-
 
 
     private String hostname;
@@ -40,17 +38,15 @@ public class RemoteCacheKey implements CacheKey {
     private String objectname;
 
 
-
     public RemoteCacheKey(ParameterFile config, String paramhostname, String paramport, String paramobjectname) {
 
-        setHostname (config.getParam (paramhostname));
+        setHostname(config.getParam(paramhostname));
 
-        setPort (new Integer (config.getParam (paramport)).intValue());
+        setPort(new Integer(config.getParam(paramport)).intValue());
 
-        setObjectname (config.getParam (paramobjectname));
+        setObjectname(config.getParam(paramobjectname));
 
     } //RemoteCacheKey
-
 
 
     public RemoteCacheKey(String hostname, int port, String objectname) {
@@ -64,7 +60,6 @@ public class RemoteCacheKey implements CacheKey {
     } //RemoteCacheKey
 
 
-
     public Object hashKey() {
 
         return hostname + ":" + port + "/" + objectname;
@@ -72,53 +67,46 @@ public class RemoteCacheKey implements CacheKey {
     } //hashKey
 
 
-
-    public String getHostname () {
+    public String getHostname() {
 
         return this.hostname;
 
     } //getHostname
 
 
-
-    public void setHostname (String hostname) {
+    public void setHostname(String hostname) {
 
         this.hostname = hostname;
 
     } //setHostname
 
 
-
-    public int getPort () {
+    public int getPort() {
 
         return this.port;
 
     } //getPort
 
 
-
-    public void setPort (int port) {
+    public void setPort(int port) {
 
         this.port = port;
 
     } //setPort
 
 
-
-    public String getObjectname () {
+    public String getObjectname() {
 
         return this.objectname;
 
     } //getObjectname
 
 
-
-    public void setObjectname (String objectname) {
+    public void setObjectname(String objectname) {
 
         this.objectname = objectname;
 
     } //getObjectname
-
 
 
     public String toString() {

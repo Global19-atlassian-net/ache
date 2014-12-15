@@ -21,8 +21,7 @@
 ##
 ############################################################################
 */
- package focusedCrawler.util.storage;
-
+package focusedCrawler.util.storage;
 
 
 import java.util.Enumeration;
@@ -33,8 +32,7 @@ import focusedCrawler.util.DataNotFoundException;
 import focusedCrawler.util.distribution.CommunicationException;
 
 
-public class SynchronizedStorage implements Storage  {
-
+public class SynchronizedStorage implements Storage {
 
 
     private Object mutex;
@@ -42,11 +40,8 @@ public class SynchronizedStorage implements Storage  {
     private Storage storage;
 
 
-
     /**
-
      * Contrutor
-
      */
 
     public SynchronizedStorage(Storage storage) {
@@ -58,11 +53,8 @@ public class SynchronizedStorage implements Storage  {
     }
 
 
-
     /**
-
      * Contrutor
-
      */
 
     public SynchronizedStorage(Storage storage, Object mutex) {
@@ -74,10 +66,9 @@ public class SynchronizedStorage implements Storage  {
     }
 
 
-
     public Object insert(Object obj) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.insert(obj);
 
@@ -86,10 +77,9 @@ public class SynchronizedStorage implements Storage  {
     }
 
 
-
     public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.insertArray(objs);
 
@@ -98,10 +88,9 @@ public class SynchronizedStorage implements Storage  {
     }
 
 
-
     public Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.select(obj);
 
@@ -111,7 +100,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object[] selectArray(Object[] objs) throws StorageException, DataNotFoundException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.selectArray(objs);
 
@@ -121,7 +110,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.selectEnumeration(obj);
 
@@ -131,7 +120,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object update(Object obj) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.update(obj);
 
@@ -141,7 +130,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.updateArray(objs);
 
@@ -151,7 +140,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object remove(Object obj) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.remove(obj);
 
@@ -161,7 +150,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.removeArray(objs);
 
@@ -171,7 +160,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object addResource(Object obj) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.addResource(obj);
 
@@ -181,7 +170,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object[] addResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.addResourceArray(objs);
 
@@ -191,7 +180,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object removeResource(Object obj) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.removeResource(obj);
 
@@ -201,7 +190,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object[] removeResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.removeResourceArray(objs);
 
@@ -211,7 +200,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object commit(Object obj) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.commit(obj);
 
@@ -221,7 +210,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object rollback(Object obj) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.rollback(obj);
 
@@ -231,7 +220,7 @@ public class SynchronizedStorage implements Storage  {
 
     public Object finalize(Object obj) throws StorageException, CommunicationException {
 
-        synchronized(mutex) {
+        synchronized (mutex) {
 
             return storage.finalize(obj);
 
@@ -244,9 +233,6 @@ public class SynchronizedStorage implements Storage  {
         return storage.ping(obj);
 
     }
-
-
-
 
 
 }

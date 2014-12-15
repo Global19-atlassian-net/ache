@@ -22,16 +22,26 @@
 ############################################################################
 */
 package focusedCrawler.util.time;
+
 public interface TimeItem extends java.io.Serializable {
-	int getTimeField ();
-	int getMinimum ();
-	int getMaximum ();
-    int getPeso ();
-	void setValues (int [] values) throws TimeItemException;
-	void setValues (int intervalo) throws TimeItemException;
-	boolean isAcceptAll ();
-	void setIsAcceptAll (boolean acceptAll);
-	long nextTimeMillis (long value, boolean found);
-    boolean overflow ();
+    int getTimeField();
+
+    int getMinimum();
+
+    int getMaximum();
+
+    int getPeso();
+
+    void setValues(int[] values) throws TimeItemException;
+
+    void setValues(int intervalo) throws TimeItemException;
+
+    boolean isAcceptAll();
+
+    void setIsAcceptAll(boolean acceptAll);
+
+    long nextTimeMillis(long value, boolean found);
+
+    boolean overflow();
 }
 

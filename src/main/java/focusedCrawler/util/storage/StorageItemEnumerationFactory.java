@@ -24,31 +24,24 @@
 package focusedCrawler.util.storage;
 
 
-
 import focusedCrawler.util.ParameterFile;
 
 public interface StorageItemEnumerationFactory {
 
 
-
     /**
-
      * Produce a storage
-
+     *
      * @return a storage
-
      */
 
     StorageItemEnumeration produce() throws StorageItemEnumerationFactoryException;
 
 
-
     ParameterFile getConfig();
 
 
-
     void setConfig(ParameterFile newConfig);
-
 
 
 } //StorageItemEnumerationFactory

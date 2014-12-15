@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage.thread;
 
 
-
 import java.util.Enumeration;
 
 import focusedCrawler.util.distribution.CommunicationException;
@@ -35,14 +34,12 @@ import focusedCrawler.util.storage.StorageException;
 public class StorageThread extends StorageDefault {
 
 
-
     // thread que armazenara os objetos
 
     private ThreadStorage thread;
 
 
-
-    public StorageThread (ThreadStorage _Thread) {
+    public StorageThread(ThreadStorage _Thread) {
 
         this.thread = _Thread;
 
@@ -51,8 +48,7 @@ public class StorageThread extends StorageDefault {
     } //Storage
 
 
-
-    public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException{
+    public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException {
 
         thread.addResourceArray(objs);
 
@@ -61,8 +57,7 @@ public class StorageThread extends StorageDefault {
     } //insertArray
 
 
-
-    public Object insert(Object obj) throws StorageException, CommunicationException{
+    public Object insert(Object obj) throws StorageException, CommunicationException {
 
         thread.addResource(obj);
 
@@ -71,8 +66,7 @@ public class StorageThread extends StorageDefault {
     } //insert
 
 
-
-    public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException{
+    public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException {
 
         thread.addResourceArray(objs);
 
@@ -81,8 +75,7 @@ public class StorageThread extends StorageDefault {
     } //updateArray
 
 
-
-    public Object update(Object obj) throws StorageException, CommunicationException{
+    public Object update(Object obj) throws StorageException, CommunicationException {
 
         thread.addResource(obj);
 
@@ -91,8 +84,7 @@ public class StorageThread extends StorageDefault {
     } //update
 
 
-
-    public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException{
+    public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException {
 
         thread.removeResourceArray(objs);
 
@@ -101,15 +93,13 @@ public class StorageThread extends StorageDefault {
     } //removeArray
 
 
-
-    public Object remove(Object obj) throws StorageException, CommunicationException{
+    public Object remove(Object obj) throws StorageException, CommunicationException {
 
         thread.removeResource(obj);
 
         return null;
 
     } //remove
-
 
 
     public Object finalize(Object obj) throws StorageException, CommunicationException {
@@ -119,7 +109,6 @@ public class StorageThread extends StorageDefault {
         return obj;
 
     } //finalize
-
 
 
     public Object commit(Object obj) throws StorageException, CommunicationException {
@@ -133,13 +122,11 @@ public class StorageThread extends StorageDefault {
     } //commit
 
 
-
     public Object rollback(Object obj) throws StorageException, CommunicationException {
 
         return obj;
 
     } //commit
-
 
 
 }

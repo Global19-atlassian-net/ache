@@ -42,14 +42,13 @@ import org.xml.sax.InputSource;
 import focusedCrawler.util.Page;
 
 
-
 /**
  * <p>Title: </p>
- *
+ * <p/>
  * <p>Description: This class gets words related to links: url, anchor and around</p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p>Company: </p>
  *
  * @author not attributable
@@ -57,77 +56,75 @@ import focusedCrawler.util.Page;
  */
 public class ParserLink {
 
-  private HashMap map;
+    private HashMap map;
 
-  public ParserLink() {
-    map = new HashMap();
-  }
-
-  public void extractLinks(Page page, String[] features) throws IOException,
-      SAXException {
-
-    String content = page.getContent();
-    DOMParser parser = new DOMParser();
-
-   parser.parse(new InputSource(new BufferedReader(new StringReader(content))));
-   Document doc = parser.getDocument();
-  }
-
-  public void extract(String file) throws IOException, SAXException {
-
-    DOMParser parser = new DOMParser();
-    parser.parse(file);
-    Document doc = parser.getDocument();
-    parse(doc);
-    Vector words = new Vector();
-    NodeList list = doc.getElementsByTagName("a");
-    for (int i = 0; i < list.getLength(); i++) {
-      parse(list.item(i));
+    public ParserLink() {
+        map = new HashMap();
     }
 
-  }
+    public void extractLinks(Page page, String[] features) throws IOException,
+            SAXException {
 
-  public void parse(Node node) {
-    NamedNodeMap attrs = node.getAttributes();
-    String nodeName = node.getNodeName();
-    String textBefore = "";
-    String url = "";
-    if(Node.TEXT_NODE == node.getNodeType()){
-      textBefore = node.getNodeValue().trim();
+        String content = page.getContent();
+        DOMParser parser = new DOMParser();
+
+        parser.parse(new InputSource(new BufferedReader(new StringReader(content))));
+        Document doc = parser.getDocument();
     }
-//    if(nodeName.equals("A")){
-      if (attrs != null) {
-        for (int i = 0; i < attrs.getLength(); i++) {
-          Node attr = attrs.item(i);
-          String attrName = ( (attr.getNodeName().trim()).toLowerCase());
-          String attrValue = ( (attr.getNodeValue().trim()).toLowerCase());
-          if(attrName.equals("href")){
-            url = attrValue;
-          }
-          System.out.println("TEST");
+
+    public void extract(String file) throws IOException, SAXException {
+
+        DOMParser parser = new DOMParser();
+        parser.parse(file);
+        Document doc = parser.getDocument();
+        parse(doc);
+        Vector words = new Vector();
+        NodeList list = doc.getElementsByTagName("a");
+        for (int i = 0; i < list.getLength(); i++) {
+            parse(list.item(i));
         }
-      }
+
+    }
+
+    public void parse(Node node) {
+        NamedNodeMap attrs = node.getAttributes();
+        String nodeName = node.getNodeName();
+        String textBefore = "";
+        String url = "";
+        if (Node.TEXT_NODE == node.getNodeType()) {
+            textBefore = node.getNodeValue().trim();
+        }
+//    if(nodeName.equals("A")){
+        if (attrs != null) {
+            for (int i = 0; i < attrs.getLength(); i++) {
+                Node attr = attrs.item(i);
+                String attrName = ((attr.getNodeName().trim()).toLowerCase());
+                String attrValue = ((attr.getNodeValue().trim()).toLowerCase());
+                if (attrName.equals("href")) {
+                    url = attrValue;
+                }
+                System.out.println("TEST");
+            }
+        }
 //    }
 
-    NodeList children = node.getChildNodes();
-      if (children != null) {
-        int len = children.getLength();
-        for (int i = 0; i < len; i++){
-          parse(children.item(i));
+        NodeList children = node.getChildNodes();
+        if (children != null) {
+            int len = children.getLength();
+            for (int i = 0; i < len; i++) {
+                parse(children.item(i));
+            }
         }
-      }
 
-  }
+    }
 
 
-  public static void main(String[] args) {
-    ParserLink parserlink = new ParserLink();
-    try {
-      parserlink.extract(args[0]);
+    public static void main(String[] args) {
+        ParserLink parserlink = new ParserLink();
+        try {
+            parserlink.extract(args[0]);
+        } catch (SAXException ex) {
+        } catch (IOException ex) {
+        }
     }
-    catch (SAXException ex) {
-    }
-    catch (IOException ex) {
-    }
-  }
 }

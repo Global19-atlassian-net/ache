@@ -28,7 +28,7 @@ import java.util.HashMap;
 /**
  * <p>Description: An instance represents the features used by the
  * link classifier to classify a link</p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
  *
  * @author Luciano Barbosa
@@ -37,59 +37,59 @@ import java.util.HashMap;
 
 public class Instance {
 
-  private HashMap featureHash;
-  private String[] features;
-  private double[] values;
-  private double valueClassification;
+    private HashMap featureHash;
+    private String[] features;
+    private double[] values;
+    private double valueClassification;
 
-  public Instance(String[] features) {
-    this.setFeatures(features);
-  }
-
-  public void setClassification(String feat, double value){
-    this.valueClassification = value;
-  }
-
-  public void setFeatures(String[] features){
-    this.features = features;
-    values = new double[features.length];
-    featureHash = new HashMap(features.length);
-    for (int i = 0; i < features.length; i++) {
-      featureHash.put(features[i],new Integer(i));
+    public Instance(String[] features) {
+        this.setFeatures(features);
     }
-  }
 
-  public void setValue(String feat, Double val){
-    Integer index = (Integer)featureHash.get(feat);
-    if(index != null){
-      values[index.intValue()] = val.doubleValue();
+    public void setClassification(String feat, double value) {
+        this.valueClassification = value;
     }
-  }
 
-  public String[] getFeatures(){
-    return features;
-  }
-
-  public double[] getValues(){
-    return values;
-  }
-
-  public HashMap getHash(){
-    return featureHash;
-  }
-
-  public boolean checkFeature(String feat){
-    boolean exist = false;
-    if(featureHash.get(feat) != null){
-      exist = true;
+    public void setFeatures(String[] features) {
+        this.features = features;
+        values = new double[features.length];
+        featureHash = new HashMap(features.length);
+        for (int i = 0; i < features.length; i++) {
+            featureHash.put(features[i], new Integer(i));
+        }
     }
-    return exist;
-  }
 
-  public String toString(){
+    public void setValue(String feat, Double val) {
+        Integer index = (Integer) featureHash.get(feat);
+        if (index != null) {
+            values[index.intValue()] = val.doubleValue();
+        }
+    }
 
-    StringBuffer temp = new StringBuffer();
-    for (int i = 0; i < features.length; i++) {
+    public String[] getFeatures() {
+        return features;
+    }
+
+    public double[] getValues() {
+        return values;
+    }
+
+    public HashMap getHash() {
+        return featureHash;
+    }
+
+    public boolean checkFeature(String feat) {
+        boolean exist = false;
+        if (featureHash.get(feat) != null) {
+            exist = true;
+        }
+        return exist;
+    }
+
+    public String toString() {
+
+        StringBuffer temp = new StringBuffer();
+        for (int i = 0; i < features.length; i++) {
 //      if(values[i] > 0 && features[i].indexOf("text") == -1 && features[i].indexOf("title") == -1){
 
 //        temp.append(features[i]);
@@ -98,19 +98,19 @@ public class Instance {
 
 //      }
 
-      temp.append(features[i]);
-      temp.append(" ");
+            temp.append(features[i]);
+            temp.append(" ");
 
-      temp.append((int)values[i]);
-      temp.append(",");
-    }
+            temp.append((int) values[i]);
+            temp.append(",");
+        }
 
 //    temp.append(attributeClassification);
 
 //    temp.append(" ");
-    temp.append((int)valueClassification);
-    return temp.toString();
-  }
+        temp.append((int) valueClassification);
+        return temp.toString();
+    }
 
 }
 

@@ -24,8 +24,6 @@
 package focusedCrawler.util.storage.distribution;
 
 
-
-
 import java.rmi.RemoteException;
 
 import java.util.Enumeration;
@@ -41,7 +39,6 @@ import focusedCrawler.util.storage.StorageFactoryException;
 public class StorageRemoteAdapterReconnect extends StorageDefault {
 
 
-
     private int tryNumber = 1;
 
     private long delayAfterException = 2000;
@@ -51,17 +48,13 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     private Storage storage;
 
 
-
     public StorageRemoteAdapterReconnect() {
 
     } //StorageRemoteAdapterReconnect
 
 
-
     /**
-
      * Retorna o numero de tentativas de reconexao
-
      */
 
     public int getTryNumber() {
@@ -71,11 +64,8 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     } //getTryNumber
 
 
-
     /**
-
      * Altera o numero de tentativas de reconexao
-
      */
 
     public void setTryNumber(int _tryNumber) {
@@ -85,11 +75,8 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     } //setTryNumber
 
 
-
     /**
-
      * Retorna o tempo de sleep do processo apos um erro de comunicacao
-
      */
 
     public long getDelayAfterException() {
@@ -99,11 +86,8 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     } //getDelayAfterException
 
 
-
     /**
-
      * Altera o tempo de sleep do processo apos um erro de comunicacao
-
      */
 
     public void setDelayAfterException(long _delayAfterException) {
@@ -113,11 +97,8 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     } //setDelayAfterException
 
 
-
     /**
-
      * Retorna a fabrica de storage
-
      */
 
     public StorageFactory getStorageFactory() {
@@ -127,11 +108,8 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     } //getStorageFactory
 
 
-
     /**
-
      * Altera a fabrica de storage
-
      */
 
     public void setStorageFactory(StorageFactory _factory) {
@@ -141,18 +119,15 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     } //setStorageFactory
 
 
-
     /**
-
      * Metodo auxiliar para dormir a thread
-
      */
 
     private void sleep() {
 
         try {
 
-            System.out.println("Dormindo "+ getDelayAfterException() + " mls");
+            System.out.println("Dormindo " + getDelayAfterException() + " mls");
 
             Thread.sleep(getDelayAfterException());
 
@@ -167,11 +142,8 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     } //sleep
 
 
-
     /**
-
      * Cria o storage
-
      */
 
     private synchronized void testStorage() throws CommunicationException {
@@ -185,7 +157,6 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     } //testStorage
 
 
-
     private synchronized void createStorage() throws CommunicationException {
 
         try {
@@ -194,7 +165,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
         } //try
 
-        catch(StorageFactoryException error) {
+        catch (StorageFactoryException error) {
 
             throw new CommunicationException("Nao conseguiu criar objeto: " + error.getMessage());
 
@@ -203,8 +174,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     } //createStorage
 
 
-
-    public Object insert(Object obj) throws StorageException,CommunicationException {
+    public Object insert(Object obj) throws StorageException, CommunicationException {
 
         try {
 
@@ -218,7 +188,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -230,7 +200,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -245,8 +215,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object[] insertArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
@@ -260,7 +229,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -272,7 +241,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -287,8 +256,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object select(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         try {
 
@@ -302,7 +270,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -314,7 +282,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -329,8 +297,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object[] selectArray(Object[] objs) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object[] selectArray(Object[] objs) throws StorageException, DataNotFoundException, CommunicationException {
 
         try {
 
@@ -344,7 +311,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -356,7 +323,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -371,8 +338,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Enumeration selectEnumeration(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         try {
 
@@ -386,7 +352,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -398,7 +364,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -413,8 +379,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object update(Object obj) throws StorageException,CommunicationException {
+    public Object update(Object obj) throws StorageException, CommunicationException {
 
         try {
 
@@ -428,7 +393,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -440,7 +405,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -455,8 +420,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object[] updateArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
@@ -470,7 +434,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -482,7 +446,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -497,8 +461,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object remove(Object obj) throws StorageException,CommunicationException {
+    public Object remove(Object obj) throws StorageException, CommunicationException {
 
         try {
 
@@ -512,7 +475,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -524,7 +487,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -539,8 +502,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object[] removeArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
@@ -554,7 +516,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -566,7 +528,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -581,8 +543,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object addResource(Object obj) throws StorageException,CommunicationException {
+    public Object addResource(Object obj) throws StorageException, CommunicationException {
 
         try {
 
@@ -596,7 +557,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -608,7 +569,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -623,8 +584,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object[] addResourceArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] addResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
@@ -638,7 +598,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -650,7 +610,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -665,8 +625,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object removeResource(Object obj) throws StorageException,CommunicationException {
+    public Object removeResource(Object obj) throws StorageException, CommunicationException {
 
         try {
 
@@ -680,7 +639,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -692,7 +651,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -707,8 +666,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object[] removeResourceArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] removeResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
@@ -722,7 +680,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -734,7 +692,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -749,8 +707,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object commit(Object obj) throws StorageException,CommunicationException {
+    public Object commit(Object obj) throws StorageException, CommunicationException {
 
         try {
 
@@ -764,7 +721,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -776,7 +733,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -791,8 +748,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object rollback(Object obj) throws StorageException,CommunicationException {
+    public Object rollback(Object obj) throws StorageException, CommunicationException {
 
         try {
 
@@ -806,7 +762,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -818,7 +774,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -833,8 +789,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object finalize(Object obj) throws StorageException,CommunicationException {
+    public Object finalize(Object obj) throws StorageException, CommunicationException {
 
         try {
 
@@ -848,7 +803,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -860,7 +815,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 
@@ -875,8 +830,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
     }
 
 
-
-    public Object ping(Object obj) throws StorageException,CommunicationException {
+    public Object ping(Object obj) throws StorageException, CommunicationException {
 
         try {
 
@@ -890,7 +844,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
             writeLog("Erro de comunicacao: " + error.getMessage());
 
-            for (int counter=0; counter < getTryNumber(); counter++) {
+            for (int counter = 0; counter < getTryNumber(); counter++) {
 
                 try {
 
@@ -902,7 +856,7 @@ public class StorageRemoteAdapterReconnect extends StorageDefault {
 
                 } //try
 
-                catch(CommunicationException error1) {
+                catch (CommunicationException error1) {
 
                     writeLog("Erro de comunicacao: " + error.getMessage());
 

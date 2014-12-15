@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage;
 
 
-
 import java.util.Vector;
 
 import focusedCrawler.util.DataNotFoundException;
@@ -35,7 +34,6 @@ import focusedCrawler.util.distribution.CommunicationException;
 public class StorageCollection extends SelfLoggable implements Storage {
 
 
-
     private static int serialNumber = 0;
 
     private int number;
@@ -43,15 +41,12 @@ public class StorageCollection extends SelfLoggable implements Storage {
     private int itemCounter = 0;
 
 
-
     private long idleTime;
 
     private Long pingTime;
 
 
-
     private Vector vStorage;
-
 
 
     public StorageCollection() {
@@ -69,7 +64,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //StorageCollection
 
 
-
     public int size() {
 
         return vStorage.size();
@@ -77,13 +71,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //size
 
 
-
-    public Storage getStorage (int index) {
+    public Storage getStorage(int index) {
 
         return (Storage) vStorage.elementAt(index);
 
     } //getStorage
-
 
 
     public int getNumber() {
@@ -93,13 +85,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //getNumber
 
 
-
     public int getItemCounter() {
 
         return this.itemCounter;
 
     } //getItemCounter
-
 
 
     public void setItemCounter(int newItemCounter) {
@@ -109,12 +99,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //setItemCounter
 
 
+    public Object addResource(Object obj) throws StorageException, CommunicationException {
 
-    public Object addResource (Object obj) throws StorageException, CommunicationException {
+        if (!(obj instanceof Storage)) {
 
-        if (! (obj instanceof Storage)) {
-
-            throw new StorageException ("Tipo invalido: " + obj.getClass(), new Throwable ());
+            throw new StorageException("Tipo invalido: " + obj.getClass(), new Throwable());
 
         } //if
 
@@ -125,10 +114,9 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //addResource
 
 
+    public Object[] addResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
-    public Object[] addResourceArray (Object[] objs) throws StorageException, CommunicationException {
-
-        for (int counter=0; counter < objs.length; counter++) {
+        for (int counter = 0; counter < objs.length; counter++) {
 
             addResource(objs[counter]);
 
@@ -139,8 +127,7 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //addResourceArray
 
 
-
-    public Object removeResource (Object obj) throws StorageException, CommunicationException {
+    public Object removeResource(Object obj) throws StorageException, CommunicationException {
 
         vStorage.remove(obj);
 
@@ -149,10 +136,9 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //removeResource
 
 
+    public Object[] removeResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
-    public Object[] removeResourceArray (Object[] objs) throws StorageException, CommunicationException {
-
-        for (int counter=0; counter < objs.length; counter++) {
+        for (int counter = 0; counter < objs.length; counter++) {
 
             removeResource(objs[counter]);
 
@@ -163,8 +149,7 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //removeResourceArray
 
 
-
-    public Object select(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         Object result = null;
 
@@ -181,8 +166,7 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //select
 
 
-
-    public Object[] selectArray(Object[] objs) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object[] selectArray(Object[] objs) throws StorageException, DataNotFoundException, CommunicationException {
 
         Object[] result = null;
 
@@ -199,8 +183,7 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //selectArray
 
 
-
-    public java.util.Enumeration selectEnumeration(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public java.util.Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         java.util.Enumeration result = null;
 
@@ -217,7 +200,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //selectEnumeration
 
 
-
     public Object insert(Object obj) throws StorageException, CommunicationException {
 
         idleTime = System.currentTimeMillis() - idleTime;
@@ -232,7 +214,9 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
         sTimes.append(getItemCounter());
 
-        sTimes.append("):idle="); sTimes.append(idleTime); sTimes.append(",");
+        sTimes.append("):idle=");
+        sTimes.append(idleTime);
+        sTimes.append(",");
 
         for (int counter = 0; counter < size; counter++) {
 
@@ -242,9 +226,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
             time = System.currentTimeMillis() - time;
 
-            sTimes.append("T("); sTimes.append(counter);
+            sTimes.append("T(");
+            sTimes.append(counter);
 
-            sTimes.append(")="); sTimes.append(time);
+            sTimes.append(")=");
+            sTimes.append(time);
 
             sTimes.append(",");
 
@@ -252,12 +238,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
         } //for
 
-        sTimes.append("Total="); sTimes.append(total);
-
+        sTimes.append("Total=");
+        sTimes.append(total);
 
 
         Log.log("Collection", Integer.toString(getNumber()), sTimes.toString());
-
 
 
         incrementCounter();
@@ -267,7 +252,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
         return null;
 
     } //insert
-
 
 
     public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException {
@@ -287,7 +271,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //insertArray
 
 
-
     public Object remove(Object obj) throws StorageException, CommunicationException {
 
         idleTime = System.currentTimeMillis() - idleTime;
@@ -302,7 +285,9 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
         sTimes.append(getItemCounter());
 
-        sTimes.append("):idle="); sTimes.append(idleTime); sTimes.append(",");
+        sTimes.append("):idle=");
+        sTimes.append(idleTime);
+        sTimes.append(",");
 
         for (int counter = 0; counter < size; counter++) {
 
@@ -312,9 +297,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
             time = System.currentTimeMillis() - time;
 
-            sTimes.append("T("); sTimes.append(counter);
+            sTimes.append("T(");
+            sTimes.append(counter);
 
-            sTimes.append(")="); sTimes.append(time);
+            sTimes.append(")=");
+            sTimes.append(time);
 
             sTimes.append(",");
 
@@ -322,12 +309,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
         } //for
 
-        sTimes.append("Total="); sTimes.append(total);
-
+        sTimes.append("Total=");
+        sTimes.append(total);
 
 
         Log.log("Collection", Integer.toString(getNumber()), sTimes.toString());
-
 
 
         incrementCounter();
@@ -337,7 +323,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
         return null;
 
     } //remove
-
 
 
     public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException {
@@ -357,7 +342,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //removeArray
 
 
-
     public Object update(Object obj) throws StorageException, CommunicationException {
 
         idleTime = System.currentTimeMillis() - idleTime;
@@ -372,7 +356,9 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
         sTimes.append(getItemCounter());
 
-        sTimes.append("):idle="); sTimes.append(idleTime); sTimes.append(",");
+        sTimes.append("):idle=");
+        sTimes.append(idleTime);
+        sTimes.append(",");
 
         for (int counter = 0; counter < size; counter++) {
 
@@ -382,9 +368,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
             time = System.currentTimeMillis() - time;
 
-            sTimes.append("T("); sTimes.append(counter);
+            sTimes.append("T(");
+            sTimes.append(counter);
 
-            sTimes.append(")="); sTimes.append(time);
+            sTimes.append(")=");
+            sTimes.append(time);
 
             sTimes.append(",");
 
@@ -392,12 +380,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
         } //for
 
-        sTimes.append("Total="); sTimes.append(total);
-
+        sTimes.append("Total=");
+        sTimes.append(total);
 
 
         Log.log("Collection", Integer.toString(getNumber()), sTimes.toString());
-
 
 
         incrementCounter();
@@ -407,7 +394,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
         return null;
 
     } //remove
-
 
 
     public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException {
@@ -427,7 +413,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //removeArray
 
 
-
     public Object commit(Object obj) throws StorageException, CommunicationException {
 
         idleTime = System.currentTimeMillis() - idleTime;
@@ -442,7 +427,9 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
         sTimes.append(getItemCounter());
 
-        sTimes.append("):idle="); sTimes.append(idleTime); sTimes.append(",");
+        sTimes.append("):idle=");
+        sTimes.append(idleTime);
+        sTimes.append(",");
 
         for (int counter = 0; counter < size; counter++) {
 
@@ -452,9 +439,11 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
             time = System.currentTimeMillis() - time;
 
-            sTimes.append("T("); sTimes.append(counter);
+            sTimes.append("T(");
+            sTimes.append(counter);
 
-            sTimes.append(")="); sTimes.append(time);
+            sTimes.append(")=");
+            sTimes.append(time);
 
             sTimes.append(",");
 
@@ -462,8 +451,8 @@ public class StorageCollection extends SelfLoggable implements Storage {
 
         } //for
 
-        sTimes.append("Total="); sTimes.append(total);
-
+        sTimes.append("Total=");
+        sTimes.append(total);
 
 
         Log.log("Collection", Integer.toString(getNumber()), sTimes.toString());
@@ -475,7 +464,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
         return null;
 
     } //commit
-
 
 
     public Object rollback(Object obj) throws StorageException, CommunicationException {
@@ -497,7 +485,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //rollback
 
 
-
     public Object finalize(Object obj) throws StorageException, CommunicationException {
 
         Object result = null;
@@ -515,7 +502,6 @@ public class StorageCollection extends SelfLoggable implements Storage {
         return null;
 
     } //finalize
-
 
 
     public Object ping(Object obj) throws StorageException, CommunicationException {
@@ -539,10 +525,9 @@ public class StorageCollection extends SelfLoggable implements Storage {
     } //ping
 
 
-
     public void incrementCounter() throws StorageException, CommunicationException {
 
-        setItemCounter(getItemCounter() +1);
+        setItemCounter(getItemCounter() + 1);
 
     }
 

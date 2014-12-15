@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage.rmi;
 
 
-
 import java.rmi.NotBoundException;
 
 import focusedCrawler.util.ParameterFile;
@@ -43,41 +42,16 @@ import focusedCrawler.util.storage.rmi.StorageRemote;
 import focusedCrawler.util.storage.rmi.StorageRemoteAdapter;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
-
  * Classe executavel para testar o acesso RMI ao servidor de cache de termos.
-
- *
-
  */
 
 public class StorageRemoteAdapterFactory extends AbstractStorageFactory {
 
 
-
     private RemoteCacheKey key;
 
     private RemoteObjectGenerator generator;
-
 
 
     public StorageRemoteAdapterFactory() {
@@ -87,7 +61,6 @@ public class StorageRemoteAdapterFactory extends AbstractStorageFactory {
     }
 
 
-
     public StorageRemoteAdapterFactory(ParameterFile config) throws StorageFactoryException {
 
         super(config);
@@ -95,15 +68,13 @@ public class StorageRemoteAdapterFactory extends AbstractStorageFactory {
     }
 
 
-
     private void initParams() throws StorageFactoryException {
 
-        this.key = new RemoteCacheKey (getConfig(), "RMI_STORAGE_SERVER_HOST", "RMI_STORAGE_SERVER_PORT", "RMI_STORAGE_SERVER_NAME");
+        this.key = new RemoteCacheKey(getConfig(), "RMI_STORAGE_SERVER_HOST", "RMI_STORAGE_SERVER_PORT", "RMI_STORAGE_SERVER_NAME");
 
         this.generator = new RemoteObjectGenerator(key);
 
     } //initParams
-
 
 
     public synchronized Storage produce() throws StorageFactoryException {
@@ -112,20 +83,19 @@ public class StorageRemoteAdapterFactory extends AbstractStorageFactory {
 
             initParams();
 
-            focusedCrawler.util.Log.log("RMIAdapterFactory","produce",""+key);
+            focusedCrawler.util.Log.log("RMIAdapterFactory", "produce", "" + key);
 
-            return new StorageRemoteAdapter ((StorageRemote) generator.getObject());
+            return new StorageRemoteAdapter((StorageRemote) generator.getObject());
 
         } //try
 
         catch (FactoryException erro) {
 
-            throw new StorageFactoryException ("Nao conseguiu acessar o objeto: " + erro.getMessage());
+            throw new StorageFactoryException("Nao conseguiu acessar o objeto: " + erro.getMessage());
 
         } //catch
 
     } //getCache
-
 
 
 } //class

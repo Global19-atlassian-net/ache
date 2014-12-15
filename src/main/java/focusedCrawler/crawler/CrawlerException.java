@@ -25,28 +25,30 @@ package focusedCrawler.crawler;
 
 /**
  * <p>Description: Exception thrown by the crawler</p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p>Company: </p>
  *
  * @author not attributable
  * @version 1.0
  */
 
-public class CrawlerException extends Exception{
+public class CrawlerException extends Exception {
 
-   public Throwable detail;
+    public Throwable detail;
 
-   public CrawlerException() {
-       super();
-   }
-   public CrawlerException(String message) {
-       super(message);
-   }
-   public CrawlerException(String message,Throwable detail) {
-       super(message);
-       this.detail = detail;
-   }
+    public CrawlerException() {
+        super();
+    }
+
+    public CrawlerException(String message) {
+        super(message);
+    }
+
+    public CrawlerException(String message, Throwable detail) {
+        super(message);
+        this.detail = detail;
+    }
 
 }

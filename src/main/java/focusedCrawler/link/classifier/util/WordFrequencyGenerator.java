@@ -34,113 +34,106 @@ import focusedCrawler.link.classifier.builder.wrapper.WrapperLevelWordsFile;
 
 public class WordFrequencyGenerator {
 
-  HashMap[] mapping = new HashMap[WordField.FIELD_NAMES.length];
+    HashMap[] mapping = new HashMap[WordField.FIELD_NAMES.length];
 
-  public WordFrequencyGenerator() {
-    for (int i = 0; i < mapping.length; i++) {
-      mapping[i] = new HashMap();
+    public WordFrequencyGenerator() {
+        for (int i = 0; i < mapping.length; i++) {
+            mapping[i] = new HashMap();
+        }
     }
-  }
 
-  public void storeWordsFromFile(Vector lines, int weight) {
-    weight = 1;
-      for (int i = 0; i < lines.size(); i++) {
-        Vector line = (Vector)lines.elementAt(i);
-        for(int j = 0; j < line.size(); j++){
+    public void storeWordsFromFile(Vector lines, int weight) {
+        weight = 1;
+        for (int i = 0; i < lines.size(); i++) {
+            Vector line = (Vector) lines.elementAt(i);
+            for (int j = 0; j < line.size(); j++) {
 
-          Vector words = (Vector)line.elementAt(j);
-          HashMap hashmap = mapping[j];
-          for(int l=0; l < words.size();l++){
-            String word = (String)words.elementAt(l);
-            if(word.equals("www") || word.equals("com") || word.equals("htm") || word.equals("the")){
-              continue;
+                Vector words = (Vector) line.elementAt(j);
+                HashMap hashmap = mapping[j];
+                for (int l = 0; l < words.size(); l++) {
+                    String word = (String) words.elementAt(l);
+                    if (word.equals("www") || word.equals("com") || word.equals("htm") || word.equals("the")) {
+                        continue;
+                    }
+                    if (!hashmap.containsKey(word)) {
+                        hashmap.put(word, new WordFrequency(word, 1 * weight));
+                    } else {
+                        WordFrequency tempWF = (WordFrequency) hashmap.get(word);
+                        hashmap.put(word, new WordFrequency(word, (tempWF.getFrequency() + 1) * weight));
+                    }
+                }
             }
-            if(!hashmap.containsKey(word)){
-              hashmap.put(word, new WordFrequency(word,1*weight));
-            }else{
-              WordFrequency tempWF = (WordFrequency) hashmap.get(word);
-              hashmap.put(word, new WordFrequency(word, (tempWF.getFrequency() + 1)*weight));
-            }
-         }
-      }
+        }
     }
-  }
 
-  public Vector[] sort(){
-    Vector[] sortLists = new Vector[WordField.FIELD_NAMES.length];
-    for (int i = 0; i < mapping.length; i++) {
-      HashMap hashmap = mapping[i];
-      sortLists[i] = new Vector(hashmap.values());
-      Collections.sort(sortLists[i],new WordFrequencyComparator());
+    public Vector[] sort() {
+        Vector[] sortLists = new Vector[WordField.FIELD_NAMES.length];
+        for (int i = 0; i < mapping.length; i++) {
+            HashMap hashmap = mapping[i];
+            sortLists[i] = new Vector(hashmap.values());
+            Collections.sort(sortLists[i], new WordFrequencyComparator());
 //      System.out.println("VECTOR"+sortLists[i]);
-      for (int j = 0; j < sortLists[i].size(); j++) {
-        WordFrequency temp = (WordFrequency)sortLists[i].elementAt(j);
+            for (int j = 0; j < sortLists[i].size(); j++) {
+                WordFrequency temp = (WordFrequency) sortLists[i].elementAt(j);
 //        System.out.println("FIELD:" + WordField.FIELD_NAMES[i] + " " + temp.getWord() + " " +  temp.getFrequency() );
-      }
+            }
+        }
+        return sortLists;
     }
-    return sortLists;
-  }
 
 
+    public static void main(String[] args) {
 
-  public static void main(String[] args) {
+        WordFrequencyGenerator sort = new WordFrequencyGenerator();
 
-    WordFrequencyGenerator sort = new WordFrequencyGenerator();
+        WrapperLevelWordsFile wrapper = new WrapperLevelWordsFile();
 
-    WrapperLevelWordsFile wrapper = new WrapperLevelWordsFile();
+        try {
 
-    try {
+            Vector lines = wrapper.wrapperFile(args[0]);
 
-      Vector lines = wrapper.wrapperFile(args[0]);
+            FilterData filterData = new FilterData(50, 2);
 
-      FilterData filterData = new FilterData(50,2);
+            sort.storeWordsFromFile(lines, 1);
 
-      sort.storeWordsFromFile(lines,1);
-
-      Vector[] lists = sort.sort();
+            Vector[] lists = sort.sort();
 
 //          Vector[] lists = sort.storeWordsFromFile(lines);
 
-      for (int i = 0; i < lists.length; i++) {
+            for (int i = 0; i < lists.length; i++) {
 
-        System.out.println("FIELD:" + WordField.FIELD_NAMES[i]);
+                System.out.println("FIELD:" + WordField.FIELD_NAMES[i]);
 
-        Vector result = filterData.filter(lists[i]);
+                Vector result = filterData.filter(lists[i]);
 
-        Collections.sort(result,new WordFrequencyComparator());
+                Collections.sort(result, new WordFrequencyComparator());
 
-        System.out.println("");
+                System.out.println("");
 
-        for (int  j = 0; j < result.size() && j < 15; j++) {
+                for (int j = 0; j < result.size() && j < 15; j++) {
 
-          WordFrequency temp = (WordFrequency)result.elementAt(j);
+                    WordFrequency temp = (WordFrequency) result.elementAt(j);
 
 //          if(temp.getFrequency() > 10){
 
-            System.out.println(temp.getWord() + " " + temp.getFrequency() + " ");
+                    System.out.println(temp.getWord() + " " + temp.getFrequency() + " ");
 
 //          }
 
+                }
+
+                System.out.println("");
+
+            }
+
+
+        } catch (FileNotFoundException ex) {
+
+        } catch (IOException ex) {
+
         }
 
-        System.out.println("");
-
-     }
-
-
-
     }
-
-    catch (FileNotFoundException ex) {
-
-    }
-
-    catch (IOException ex) {
-
-    }
-
-  }
-
 
 
 }

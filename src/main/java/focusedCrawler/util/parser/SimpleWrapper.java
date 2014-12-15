@@ -31,6 +31,7 @@ import java.util.Vector;
  * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2003</p>
  * <p>Company: </p>
+ *
  * @author not attributable
  * @version 1.0
  */
@@ -40,7 +41,7 @@ public class SimpleWrapper {
     private String iniPattern;
 
     private String middlePattern;
-    
+
     private String endPattern;
 
     public SimpleWrapper(String initial, String end) {
@@ -49,29 +50,29 @@ public class SimpleWrapper {
     }
 
     public SimpleWrapper(String initial, String middle, String end) {
-    	this(initial,end);
-    	this.middlePattern = middle;
+        this(initial, end);
+        this.middlePattern = middle;
     }
 
-    public String[] filterMultipleStrings(String content){
-    	Vector filteredStrings = new Vector();
+    public String[] filterMultipleStrings(String content) {
+        Vector filteredStrings = new Vector();
         int count = 0;
         int indexIni = content.indexOf(iniPattern);
-        while(indexIni != -1){
-        	
-            content = content.substring(indexIni+iniPattern.length(),content.length());
+        while (indexIni != -1) {
+
+            content = content.substring(indexIni + iniPattern.length(), content.length());
             int indexEnd = content.indexOf(endPattern);
-            if(indexEnd < 0) break;
+            if (indexEnd < 0) break;
             String field = null;
-            if(middlePattern != null){
-            	int indexMid = content.indexOf(middlePattern);
-            	field = content.substring(indexMid+middlePattern.length(),indexEnd);
-            }else{
-            	field = content.substring(0,indexEnd);	
+            if (middlePattern != null) {
+                int indexMid = content.indexOf(middlePattern);
+                field = content.substring(indexMid + middlePattern.length(), indexEnd);
+            } else {
+                field = content.substring(0, indexEnd);
             }
-            
+
             filteredStrings.add(field);
-            content = content.substring(indexEnd+endPattern.length(),content.length());
+            content = content.substring(indexEnd + endPattern.length(), content.length());
             indexIni = content.indexOf(iniPattern);
             count++;
         }
@@ -81,13 +82,13 @@ public class SimpleWrapper {
         return recs;
     }
 
-    public String filterString(String content){
+    public String filterString(String content) {
         String filteredString = null;
         int indexIni = content.indexOf(iniPattern);
-        content = content.substring(indexIni+iniPattern.length(),content.length());
+        content = content.substring(indexIni + iniPattern.length(), content.length());
         int indexEnd = content.indexOf(endPattern);
-        if(indexEnd > 0) {
-            filteredString = content.substring(0,indexEnd);
+        if (indexEnd > 0) {
+            filteredString = content.substring(0, indexEnd);
         }
         return filteredString;
 

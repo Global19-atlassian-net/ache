@@ -32,22 +32,20 @@
 package focusedCrawler.util.time;
 
 
-
 public class TimeItemException extends Exception {
 
 
+    public TimeItemException() {
 
-	public TimeItemException () {
+        super();
 
-		super();
+    }
 
-	}
+    public TimeItemException(String message) {
 
-	public TimeItemException (String message) {
+        super(message);
 
-		super(message);
-
-	}
+    }
 
 }
 

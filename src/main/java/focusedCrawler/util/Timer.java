@@ -24,15 +24,13 @@
 package focusedCrawler.util;
 
 
-
 public class Timer {
 
     private long time;
 
-    private int contador=0;
+    private int contador = 0;
 
-    private long total=0;
-
+    private long total = 0;
 
 
     public void reset() {
@@ -41,7 +39,6 @@ public class Timer {
 
     }
 
-    
 
     public void clear() {
 
@@ -52,16 +49,13 @@ public class Timer {
     }
 
 
-
     /**
-
-     * retorna o tempo em ms entre o ultimo reset e a hora que o metodo for chamado. 
-
+     * retorna o tempo em ms entre o ultimo reset e a hora que o metodo for chamado.
      */
 
     public long check() {
 
-        long diff = System.currentTimeMillis()-time;
+        long diff = System.currentTimeMillis() - time;
 
         contador++;
 
@@ -72,15 +66,13 @@ public class Timer {
     }
 
 
-
     public long media() {
 
-      if (contador>0) return total/contador;
+        if (contador > 0) return total / contador;
 
-      else return 0;
+        else return 0;
 
     }
-
 
 
     public int contador() {
@@ -90,13 +82,11 @@ public class Timer {
     }
 
 
-
     public long total() {
 
         return total;
 
     }
-
 
 
     public Timer() {
@@ -107,7 +97,6 @@ public class Timer {
 
     }
 
-    
 
     public String mediaString() {
 
@@ -116,32 +105,30 @@ public class Timer {
     }
 
 
-
     public static String toString(long diff) {
 
-        if (diff==0) return "0";
+        if (diff == 0) return "0";
 
-        long ms = diff%1000;
+        long ms = diff % 1000;
 
-        long seg = (diff/1000)%60;
+        long seg = (diff / 1000) % 60;
 
-        long min = (diff/60000)%60;
+        long min = (diff / 60000) % 60;
 
-        long h =   (diff/3600000)%60;
+        long h = (diff / 3600000) % 60;
 
-        long dia = diff/216000000;
-
+        long dia = diff / 216000000;
 
 
         String str = null;
 
-        if (dia>1) str = dia + "dias";
+        if (dia > 1) str = dia + "dias";
 
-        else if (dia==1) str = "1dia";
+        else if (dia == 1) str = "1dia";
 
-        if (h>0) {
+        if (h > 0) {
 
-            if (str!=null) str += " ";
+            if (str != null) str += " ";
 
             else str = "";
 
@@ -149,9 +136,9 @@ public class Timer {
 
         }
 
-        if (min>0) {
+        if (min > 0) {
 
-            if (str!=null) str += " ";
+            if (str != null) str += " ";
 
             else str = "";
 
@@ -159,9 +146,9 @@ public class Timer {
 
         }
 
-        if (seg>0) {
+        if (seg > 0) {
 
-            if (str!=null) str += " ";
+            if (str != null) str += " ";
 
             else str = "";
 
@@ -169,9 +156,9 @@ public class Timer {
 
         }
 
-        if (ms>0) {
+        if (ms > 0) {
 
-            if (str!=null) str += " ";
+            if (str != null) str += " ";
 
             else str = "";
 
@@ -184,7 +171,6 @@ public class Timer {
     }
 
 
-
     public String toString() {
 
         return toString(check());
@@ -192,14 +178,13 @@ public class Timer {
     }
 
 
-
     public static void main(String args[]) {
 
-        long sleep=0;
+        long sleep = 0;
 
-        if (args.length>0) {
+        if (args.length > 0) {
 
-            sleep=Integer.parseInt(args[0]);
+            sleep = Integer.parseInt(args[0]);
 
             System.out.println("Tempo esperado " + Timer.toString(sleep));
 
@@ -207,9 +192,10 @@ public class Timer {
 
         Timer t = new Timer();
 
-        try { Thread.currentThread().sleep(sleep); }
-
-        catch(InterruptedException ie) { }
+        try {
+            Thread.currentThread().sleep(sleep);
+        } catch (InterruptedException ie) {
+        }
 
         System.out.println("Tempo passado depois da inicializacao " + t);
 

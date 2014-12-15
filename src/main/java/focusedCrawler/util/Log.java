@@ -25,15 +25,11 @@
 package focusedCrawler.util;
 
 
-
 import java.io.*;
 
 import java.util.Calendar;
 
 import java.util.GregorianCalendar;
-
-
-
 
 
 //teste
@@ -48,18 +44,16 @@ public class Log
 
     private PrintStream logOut = System.out;
 
-    private static Log logDefault = new Log (System.out);
+    private static Log logDefault = new Log(System.out);
 
     public static boolean log = false;
 
 
-
     static {
 
-        log = Boolean.valueOf(System.getProperty("log","false")).booleanValue();
+        log = Boolean.valueOf(System.getProperty("log", "false")).booleanValue();
 
     }
-
 
 
     public Log() {
@@ -69,53 +63,47 @@ public class Log
     }
 
 
-
     public Log(String filename) {
 
-        if ( filename != null && !filename.equals("")) {
+        if (filename != null && !filename.equals("")) {
 
-          try {
+            try {
 
-            logOut = new PrintStream ( new FileOutputStream( filename));
+                logOut = new PrintStream(new FileOutputStream(filename));
 
-          } catch ( FileNotFoundException fnfe){
+            } catch (FileNotFoundException fnfe) {
 
-            throw new IllegalArgumentException ("nome de arquivo invalido :" +fnfe.getMessage());
+                throw new IllegalArgumentException("nome de arquivo invalido :" + fnfe.getMessage());
 
-          }
+            }
 
         } else {
 
-          throw new IllegalArgumentException ("nome de arquivo invalido");
+            throw new IllegalArgumentException("nome de arquivo invalido");
 
         }
 
     }
 
 
-
     public Log(PrintStream printstream) {
 
-       logOut = printstream;
+        logOut = printstream;
 
     }
 
 
+    public static Log getLogDefault() {
 
-    public static Log getLogDefault(){
-
-      return logDefault;
+        return logDefault;
 
     }
-
 
 
     /**
-
-     *  Escreve o string dado em um arquivo.
-
-     *  @deprecated este metodo será substituido pelo metodo logMessage
-
+     * Escreve o string dado em um arquivo.
+     *
+     * @deprecated este metodo serï¿½ substituido pelo metodo logMessage
      */
 
     public void writeLine(String str)
@@ -126,67 +114,61 @@ public class Log
 
         logOut.flush();
 
-   }
+    }
 
 
+    public synchronized void logMessage(Object obj, String objectName, String action) {
 
-    public synchronized void logMessage (Object obj, String objectName, String action) {
-
-        logMessage (obj.getClass().getName(), objectName, action);
-
-    } //logMessage
-
-
-
-    public synchronized void logMessage (String classNick, String objectName, String action) {
-
-        log (classNick, objectName, action, logOut);
+        logMessage(obj.getClass().getName(), objectName, action);
 
     } //logMessage
 
 
+    public synchronized void logMessage(String classNick, String objectName, String action) {
 
-    public synchronized static void log (Object obj, String objectName, String action) {
+        log(classNick, objectName, action, logOut);
 
-        log (obj.getClass().getName(), objectName, action);
+    } //logMessage
+
+
+    public synchronized static void log(Object obj, String objectName, String action) {
+
+        log(obj.getClass().getName(), objectName, action);
 
     }//log
 
 
+    public synchronized static void log(String classNick, String objectName, String action) {
 
-    public synchronized static void log (String classNick, String objectName, String action) {
-
-        log (classNick, objectName, action, System.out);
+        log(classNick, objectName, action, System.out);
 
     } //Log
 
 
+    public synchronized static void log(String classNick, String objectName, String action, PrintStream logStream) {
 
-    public synchronized static void log (String classNick, String objectName, String action, PrintStream logStream) {
-
-        logStream.println ("[" + getData () + "] [" + classNick + "] [" + objectName + "] [" + action + "]");
+        logStream.println("[" + getData() + "] [" + classNick + "] [" + objectName + "] [" + action + "]");
 
         logStream.flush();
 
     } //Log
 
 
+    public static String getData() {
 
-    public static String getData () {
+        Calendar calendar = new GregorianCalendar();
 
-        Calendar calendar = new GregorianCalendar ();
+        String day_of_month = new Integer(calendar.get(Calendar.DAY_OF_MONTH)).toString();
 
-        String day_of_month = new Integer (calendar.get (Calendar.DAY_OF_MONTH)).toString();
+        String month = getMonth(calendar.get(Calendar.MONTH));
 
-        String month = getMonth (calendar.get (Calendar.MONTH));
+        String year = new Integer(calendar.get(Calendar.YEAR)).toString();
 
-        String year = new Integer (calendar.get (Calendar.YEAR)).toString();
+        String hour = new Integer(calendar.get(Calendar.HOUR_OF_DAY)).toString();
 
-        String hour = new Integer (calendar.get (Calendar.HOUR_OF_DAY)).toString();
+        String minute = new Integer(calendar.get(Calendar.MINUTE)).toString();
 
-        String minute = new Integer (calendar.get (Calendar.MINUTE)).toString();
-
-        String second = new Integer (calendar.get (Calendar.SECOND)).toString();
+        String second = new Integer(calendar.get(Calendar.SECOND)).toString();
 
 //        String milissecond = new Integer (calendar.get (Calendar.MILLISECOND)).toString ();
 
@@ -195,43 +177,51 @@ public class Log
     } //getData
 
 
-
-    public static String getMonth (int month) {
+    public static String getMonth(int month) {
 
         switch (month) {
 
-            case Calendar.JANUARY:   return "JAN";
+            case Calendar.JANUARY:
+                return "JAN";
 
-            case Calendar.FEBRUARY:  return "FEB";
+            case Calendar.FEBRUARY:
+                return "FEB";
 
-            case Calendar.MARCH:     return "MAR";
+            case Calendar.MARCH:
+                return "MAR";
 
-            case Calendar.APRIL:     return "APR";
+            case Calendar.APRIL:
+                return "APR";
 
-            case Calendar.MAY:       return "MAY";
+            case Calendar.MAY:
+                return "MAY";
 
-            case Calendar.JUNE:      return "JUN";
+            case Calendar.JUNE:
+                return "JUN";
 
-            case Calendar.JULY:      return "JUL";
+            case Calendar.JULY:
+                return "JUL";
 
-            case Calendar.AUGUST:    return "AUG";
+            case Calendar.AUGUST:
+                return "AUG";
 
-            case Calendar.SEPTEMBER: return "SET";
+            case Calendar.SEPTEMBER:
+                return "SET";
 
-            case Calendar.OCTOBER:   return "OCT";
+            case Calendar.OCTOBER:
+                return "OCT";
 
-            case Calendar.NOVEMBER:  return "NOV";
+            case Calendar.NOVEMBER:
+                return "NOV";
 
-            case Calendar.DECEMBER:  return "DEC";
+            case Calendar.DECEMBER:
+                return "DEC";
 
         } //switch
 
         return "";
 
     } //getMonth
-
-
-
 
 
     static public void main(String[] args) {

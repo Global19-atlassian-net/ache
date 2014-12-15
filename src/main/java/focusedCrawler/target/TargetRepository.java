@@ -24,13 +24,14 @@
 package focusedCrawler.target;
 
 import focusedCrawler.util.Target;
+
 /**
  * <p> </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p> </p>
  *
  * @author Luciano Barbosa
@@ -38,8 +39,8 @@ import focusedCrawler.util.Target;
  */
 public interface TargetRepository {
 
-  public boolean insert(Target target);
-  
-  public boolean insert(Target target, int num);
-  
+    public boolean insert(Target target);
+
+    public boolean insert(Target target, int num);
+
 }

@@ -24,7 +24,6 @@
 package focusedCrawler.util.download;
 
 
-
 import java.io.InputStream;
 
 import java.io.InterruptedIOException;
@@ -46,11 +45,7 @@ import java.net.URL;
 import focusedCrawler.util.ParameterFile;
 
 
-
-
-
 public class DownloaderSocket extends DownloaderAbstract {
-
 
 
     private int maxBlockedCount;
@@ -66,7 +61,6 @@ public class DownloaderSocket extends DownloaderAbstract {
     private PushbackInputStream in;
 
 
-
     public DownloaderSocket() throws DownloaderException {
 
         super();
@@ -80,16 +74,15 @@ public class DownloaderSocket extends DownloaderAbstract {
     }
 
 
-
     public DownloaderSocket(ParameterFile paramFile) throws DownloaderException {
 
         super(paramFile);
 
         String str = paramFile.getParam("DOWNLOADER_MAX_BLOCKED_THREADS");
 
-        if( str == null ) {
+        if (str == null) {
 
-            throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_MAX_BLOCKED_THREADS' parameter");
+            throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_MAX_BLOCKED_THREADS' parameter");
 
         }
 
@@ -102,7 +95,6 @@ public class DownloaderSocket extends DownloaderAbstract {
     }
 
 
-
     public void connect() throws DownloaderException {
 
         connect(0);
@@ -110,12 +102,11 @@ public class DownloaderSocket extends DownloaderAbstract {
     }
 
 
-
     protected void connect(int depth) throws DownloaderException {
 
         try {
 
-            if( depth > getFollowRedirectsTolerance() ) {
+            if (depth > getFollowRedirectsTolerance()) {
 
                 setStatus(Downloader.LOOP);
 
@@ -129,120 +120,110 @@ public class DownloaderSocket extends DownloaderAbstract {
 
             setStatus(Downloader.UNKNOWN);
 
-            connect(getUrlTarget(),depth);
+            connect(getUrlTarget(), depth);
 
-        }
-
-        catch(MalformedURLException exc) {
+        } catch (MalformedURLException exc) {
 
             setStatus(Downloader.FAIL_REDIRECT);
 
-            String message = "Malformed."+exc.getMessage();
+            String message = "Malformed." + exc.getMessage();
 
             logError(message);
 
-            throw new DownloaderException(message,exc);
+            throw new DownloaderException(message, exc);
 
-        }
-
-        catch(InterruptedIOException exc) {
+        } catch (InterruptedIOException exc) {
 
             setStatus(Downloader.FAIL_TIMEOUT);
 
-            String message = "Timeout expired."+exc.getMessage();
+            String message = "Timeout expired." + exc.getMessage();
 
             logError(message);
 
-            throw new DownloaderException(message,exc);
+            throw new DownloaderException(message, exc);
 
-        }
-
-        catch(IOException exc) {
+        } catch (IOException exc) {
 
             setStatus(Downloader.FAIL_IO);
 
-            String message = "IO Error."+exc.getMessage();
+            String message = "IO Error." + exc.getMessage();
 
             logError(message);
 
-            throw new DownloaderException(message,exc);
+            throw new DownloaderException(message, exc);
 
         }
 
     }
 
 
+    protected void connect(URL url, int depth) throws IOException, InterruptedIOException, MalformedURLException, DownloaderException {
 
-    protected void connect(URL url,int depth) throws IOException, InterruptedIOException, MalformedURLException, DownloaderException {
-
-        logAll("connect("+depth+")>"+url);
-        if( !"http".equals(url.getProtocol()) ) {
+        logAll("connect(" + depth + ")>" + url);
+        if (!"http".equals(url.getProtocol())) {
             setStatus(Downloader.FAIL_PROTOCOL);
-            String message = "Invalid protocol. "+url.getProtocol();
+            String message = "Invalid protocol. " + url.getProtocol();
             logError(message);
             throw new DownloaderException(message);
         }
         String host = url.getHost();
         int port = url.getPort() == -1 ? 80 : url.getPort();
-        SocketCreator sc = new SocketCreator(getId()+"_call_"+(count++));
-        sc.setTarget(host,port);
+        SocketCreator sc = new SocketCreator(getId() + "_call_" + (count++));
+        sc.setTarget(host, port);
         sc.start();
         try {
             sc.join(getTimeout());
-            logNormal("join("+sc.getName()+") finished");
-        }
-        catch(InterruptedException exc) {
+            logNormal("join(" + sc.getName() + ") finished");
+        } catch (InterruptedException exc) {
             blockedCount++;
             sc.close = true;
-            String message = "SocketCreator join().(num="+blockedCount+",max="+maxBlockedCount+")";
+            String message = "SocketCreator join().(num=" + blockedCount + ",max=" + maxBlockedCount + ")";
             logError(message);
             throw new DownloaderException(message);
         }
-        if( !sc.available ) {
+        if (!sc.available) {
             blockedCount++;
             sc.close = true;
-            String message = "SocketCreator blocked.(num="+blockedCount+",max="+maxBlockedCount+")";
+            String message = "SocketCreator blocked.(num=" + blockedCount + ",max=" + maxBlockedCount + ")";
             logError(message);
             throw new DownloaderException(message);
         }
-        if( sc.exc != null ) {
+        if (sc.exc != null) {
             blockedCount++;
             sc.close = true;
-            String message = "SocketCreator error.(num="+blockedCount+",max="+maxBlockedCount+")";
+            String message = "SocketCreator error.(num=" + blockedCount + ",max=" + maxBlockedCount + ")";
             logError(message);
-            throw new DownloaderException(message,sc.exc);
+            throw new DownloaderException(message, sc.exc);
         }
         socket = sc.socket;
         socket.setSoTimeout(getTimeout());
         out = socket.getOutputStream();
         PrintWriter pout = new PrintWriter(out);
         String file = url.getFile();
-        if( file.length() == 0 ) {
+        if (file.length() == 0) {
             file = "/";
         }
-        System.out.println(">>>>>URL"+url.toString());
-        String str = getMethod()+" "+file+" "+getProtocol();
-        logNormal("Request>"+str);
-        pout.println( str );
-        str = "Host: "+host+":"+port;
-        logNormal("Request>"+str);
-        pout.println( str );
+        System.out.println(">>>>>URL" + url.toString());
+        String str = getMethod() + " " + file + " " + getProtocol();
+        logNormal("Request>" + str);
+        pout.println(str);
+        str = "Host: " + host + ":" + port;
+        logNormal("Request>" + str);
+        pout.println(str);
         for (int i = 0; i < requestNames.size(); i++) {
-            str = requestNames.elementAt(i)+": "+requestValues.elementAt(i);
-            logNormal("Request>"+str);
-            pout.println( str );
+            str = requestNames.elementAt(i) + ": " + requestValues.elementAt(i);
+            logNormal("Request>" + str);
+            pout.println(str);
         }
         pout.println();
         pout.flush();
-        in = new PushbackInputStream(socket.getInputStream(),1024);
-        if( Downloader.METHOD_GET.equals(getMethod()) ) {
+        in = new PushbackInputStream(socket.getInputStream(), 1024);
+        if (Downloader.METHOD_GET.equals(getMethod())) {
             readInput(depth);
-        }
-        else {
+        } else {
             setStatus(Downloader.UNKNOWN);
         }
     }
-
 
 
     protected void readInput(int depth) throws DownloaderException, IOException {
@@ -253,7 +234,7 @@ public class DownloaderSocket extends DownloaderAbstract {
 
         StringBuffer input = new StringBuffer();
 
-        while( !stop ) {
+        while (!stop) {
 
             input.setLength(0);
 
@@ -261,9 +242,9 @@ public class DownloaderSocket extends DownloaderAbstract {
 
             int i = 0;
 
-            while(  (c = in.read()) != '\n' && c != -1 ) {
+            while ((c = in.read()) != '\n' && c != -1) {
 
-                input.append((char)c);
+                input.append((char) c);
 
                 i++;
 
@@ -271,15 +252,14 @@ public class DownloaderSocket extends DownloaderAbstract {
 
             String header = input.toString().trim();
 
-            logNormal("Response>"+header);
-            if( header.indexOf(Downloader.PROTOCOL) < 0 && header.indexOf(":") < 0 ) { // respondem corretamente tivemos que colocar este if.
-                if( first ) { // caso não haja cabeçário deve-se retornar o InputStream.
-                    logNormal("unread>"+input);
+            logNormal("Response>" + header);
+            if (header.indexOf(Downloader.PROTOCOL) < 0 && header.indexOf(":") < 0) { // respondem corretamente tivemos que colocar este if.
+                if (first) { // caso nï¿½o haja cabeï¿½ï¿½rio deve-se retornar o InputStream.
+                    logNormal("unread>" + input);
                     in.unread(input.append('\n').toString().getBytes());
                 }
                 stop = true;
-            }
-            else {
+            } else {
                 first = false;
                 processResponse(header);
             }
@@ -289,98 +269,90 @@ public class DownloaderSocket extends DownloaderAbstract {
 
         setStatus(Downloader.OK);
 
-        if( (""+java.net.HttpURLConnection.HTTP_MOVED_PERM).equals(getResponseProperty(Downloader.RESPONSE_CODE)) ||
+        if (("" + java.net.HttpURLConnection.HTTP_MOVED_PERM).equals(getResponseProperty(Downloader.RESPONSE_CODE)) ||
 
-            (""+java.net.HttpURLConnection.HTTP_MOVED_TEMP).equals(getResponseProperty(Downloader.RESPONSE_CODE)) ) {
+                ("" + java.net.HttpURLConnection.HTTP_MOVED_TEMP).equals(getResponseProperty(Downloader.RESPONSE_CODE))) {
 
             logNormal("Redirected!");
 
-            if( isFollowRedirects() ) {
+            if (isFollowRedirects()) {
 
 
                 close();
-                String redirect = getResponseProperty("Location",false);
+                String redirect = getResponseProperty("Location", false);
 
-                if( redirect == null ) {
+                if (redirect == null) {
 
                     setStatus(Downloader.FAIL_REDIRECT);
 
-                    throw new DownloaderException(getUrlTarget()+" redirected to nowhere.");
+                    throw new DownloaderException(getUrlTarget() + " redirected to nowhere.");
 
                 }
 
-                if( redirect.indexOf("http://") >= 0 ) { // redirecionamento absoluto
+                if (redirect.indexOf("http://") >= 0) { // redirecionamento absoluto
 
                     setUrlTarget(new URL(redirect));
 
-                }
+                } else { // redirecionamento relativo.
 
-                else { // redirecionamento relativo.
+                    if (!redirect.startsWith("/")) {
 
-                    if( !redirect.startsWith("/") ) {
-
-                        redirect = "/"+redirect;
+                        redirect = "/" + redirect;
 
                     }
 
-                    setUrlTarget(new URL(getUrlTarget().getProtocol()+"://"+getUrlTarget().getHost()+redirect));
+                    setUrlTarget(new URL(getUrlTarget().getProtocol() + "://" + getUrlTarget().getHost() + redirect));
 
                 }
 
                 clearResponseProperties();
 
-                connect(depth+1);
+                connect(depth + 1);
 
             }
 
         }
 
     }
-
 
 
     protected void processResponse(String str) throws DownloaderException {
 
-        if( str.indexOf(Downloader.PROTOCOL) >= 0 ) {
+        if (str.indexOf(Downloader.PROTOCOL) >= 0) {
 
             int pos = str.indexOf(' ');
 
-            setResponseProperty(Downloader.RESPONSE_PROTOCOL,str.substring(0,pos).trim());
+            setResponseProperty(Downloader.RESPONSE_PROTOCOL, str.substring(0, pos).trim());
 
             setResponseProperty(Downloader.RESPONSE_CODE,
 
-                str.substring(pos+1,pos = (str.indexOf(' ',pos+1) > 0 ? str.indexOf(' ',pos+1) : str.length())).trim()
+                    str.substring(pos + 1, pos = (str.indexOf(' ', pos + 1) > 0 ? str.indexOf(' ', pos + 1) : str.length())).trim()
 
             );
 
-            if( pos < str.length() ) {
+            if (pos < str.length()) {
 
-                setResponseProperty(Downloader.RESPONSE_MESSAGE,str.substring(pos+1).trim());
+                setResponseProperty(Downloader.RESPONSE_MESSAGE, str.substring(pos + 1).trim());
 
-            }
+            } else {
 
-            else {
-
-                setResponseProperty(Downloader.RESPONSE_MESSAGE,"UNKNOWN");
+                setResponseProperty(Downloader.RESPONSE_MESSAGE, "UNKNOWN");
 
             }
 
-        }
-
-        else {
+        } else {
 
             int pos = str.indexOf(':');
 
-            if ( pos > 0 ) {
+            if (pos > 0) {
 
-                setResponseProperty(str.substring(0,pos).trim(),str.substring(pos+1).trim());
+                setResponseProperty(str.substring(0, pos).trim(), str.substring(pos + 1).trim());
 
             }
 
         }
 
     }
-
 
 
     public OutputStream getOutputStream() throws DownloaderException {
@@ -390,20 +362,17 @@ public class DownloaderSocket extends DownloaderAbstract {
     }
 
 
-
     public InputStream getInputStream() throws DownloaderException {
 
-        if( getStatus() == Downloader.UNKNOWN && Downloader.METHOD_POST.equals(getMethod()) ) {
+        if (getStatus() == Downloader.UNKNOWN && Downloader.METHOD_POST.equals(getMethod())) {
 
             try {
 
                 readInput(0);
 
-            }
+            } catch (Exception exc) {
 
-            catch(Exception exc) {
-
-                throw new DownloaderException("Error:"+exc.getMessage(),exc);
+                throw new DownloaderException("Error:" + exc.getMessage(), exc);
 
             }
 
@@ -414,12 +383,11 @@ public class DownloaderSocket extends DownloaderAbstract {
     }
 
 
-
     public void close() throws DownloaderException {
 
         try {
 
-            if( out != null ) {
+            if (out != null) {
 
                 out.close();
 
@@ -427,7 +395,7 @@ public class DownloaderSocket extends DownloaderAbstract {
 
             }
 
-            if( in != null ) {
+            if (in != null) {
 
                 in.close();
 
@@ -435,7 +403,7 @@ public class DownloaderSocket extends DownloaderAbstract {
 
             }
 
-            if( socket != null ) {
+            if (socket != null) {
 
                 socket.shutdownOutput();
 
@@ -447,16 +415,13 @@ public class DownloaderSocket extends DownloaderAbstract {
 
             }
 
-        }
-
-        catch(IOException ioe) {
-          ioe.printStackTrace();
-           // throw new DownloaderException(ioe.getMessage(),ioe);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            // throw new DownloaderException(ioe.getMessage(),ioe);
 
         }
 
     }
-
 
 
     public boolean isShutdown() throws DownloaderException {
@@ -464,7 +429,6 @@ public class DownloaderSocket extends DownloaderAbstract {
         return blockedCount > maxBlockedCount;
 
     }
-
 
 
     class SocketCreator extends Thread {
@@ -476,13 +440,11 @@ public class DownloaderSocket extends DownloaderAbstract {
         public Socket socket;
 
 
-
         public boolean available;
 
         public boolean close;
 
         public Exception exc;
-
 
 
         public SocketCreator(String id) {
@@ -498,15 +460,13 @@ public class DownloaderSocket extends DownloaderAbstract {
         }
 
 
-
-        public void setTarget(String host,int port) {
+        public void setTarget(String host, int port) {
 
             this.host = host;
 
             this.port = port;
 
         }
-
 
 
         public void run() {
@@ -517,31 +477,29 @@ public class DownloaderSocket extends DownloaderAbstract {
 
                 available = false;
 
-                logNormal(getName()+" before socket.");
+                logNormal(getName() + " before socket.");
 
-                socket = new Socket(host,port);
+                socket = new Socket(host, port);
 
-                logNormal(getName()+" after socket. "+(System.currentTimeMillis()-t)+" mls");
+                logNormal(getName() + " after socket. " + (System.currentTimeMillis() - t) + " mls");
 
                 available = true;
 
-                if( close ) {
+                if (close) {
 
-                    logError(getName()+" dead creator closing socket.");
+                    logError(getName() + " dead creator closing socket.");
 
                     socket.close();
 
-                    logError(getName()+" dead creator socket closed. "+(System.currentTimeMillis()-t)+" mls");
+                    logError(getName() + " dead creator socket closed. " + (System.currentTimeMillis() - t) + " mls");
 
                 }
 
-            }
+            } catch (Exception exc) {
 
-            catch(Exception exc) {
+                if (close) {
 
-                if( close ) {
-
-                    logError(getName()+" dead creator exception. "+(System.currentTimeMillis()-t)+" mls. msg '"+exc.getMessage()+"'");
+                    logError(getName() + " dead creator exception. " + (System.currentTimeMillis() - t) + " mls. msg '" + exc.getMessage() + "'");
 
                 }
 
@@ -554,16 +512,15 @@ public class DownloaderSocket extends DownloaderAbstract {
     }
 
 
-
     public static void main(String[] args) {
 
         try {
 
-            if(args[0].equals("host")) {
+            if (args[0].equals("host")) {
 
                 java.net.ServerSocket server = new java.net.ServerSocket(8080);
 
-                while(true) {
+                while (true) {
 
                     java.net.Socket soc = server.accept();
 
@@ -571,7 +528,7 @@ public class DownloaderSocket extends DownloaderAbstract {
 
                     int c;
 
-                    while(true) {
+                    while (true) {
 
                         String ln = in.readLine();
 
@@ -582,7 +539,6 @@ public class DownloaderSocket extends DownloaderAbstract {
                         System.out.println("request> " + ln);
 
                     }
-
 
 
                     java.io.PrintWriter out = new java.io.PrintWriter(soc.getOutputStream());
@@ -617,14 +573,13 @@ public class DownloaderSocket extends DownloaderAbstract {
 
                     System.out.print("data> '");
 
-                    while( (p = in.read()) != -1 ) {
+                    while ((p = in.read()) != -1) {
 
-                        System.out.print("["+p+"]"+(char)p);
+                        System.out.print("[" + p + "]" + (char) p);
 
                     }
 
                     System.out.println("'");
-
 
 
                     soc.close();
@@ -647,7 +602,7 @@ public class DownloaderSocket extends DownloaderAbstract {
 
                     System.out.println(down);
 
-                    if( down.getStatus() == Downloader.OK ) {
+                    if (down.getStatus() == Downloader.OK) {
 
                         System.out.println("+------- CONTENT -------+");
 
@@ -655,31 +610,25 @@ public class DownloaderSocket extends DownloaderAbstract {
 
                         int c;
 
-                        while( (c = in.read()) != -1 ) {
+                        while ((c = in.read()) != -1) {
 
-                            System.out.print((char)c);
+                            System.out.print((char) c);
 
                         }
 
                         System.out.println("\n+-----------------------+");
 
-                    }
+                    } else {
 
-                    else {
-
-                        System.out.println("FAIL="+down.getStatus()+":"+down.getUrlTarget());
+                        System.out.println("FAIL=" + down.getStatus() + ":" + down.getUrlTarget());
 
                     }
 
-                }
-
-                catch(Exception exc) {
+                } catch (Exception exc) {
 
                     exc.printStackTrace();
 
-                }
-
-                finally {
+                } finally {
 
                     down.close();
 
@@ -687,9 +636,7 @@ public class DownloaderSocket extends DownloaderAbstract {
 
             }
 
-        }
-
-        catch(Exception exc) {
+        } catch (Exception exc) {
 
             exc.printStackTrace();
 

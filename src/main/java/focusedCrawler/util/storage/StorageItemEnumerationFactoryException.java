@@ -24,11 +24,9 @@
 package focusedCrawler.util.storage;
 
 
-
 import focusedCrawler.util.DetailException;
 
 public class StorageItemEnumerationFactoryException extends DetailException {
-
 
 
     public StorageItemEnumerationFactoryException(String newMessage) {
@@ -38,13 +36,11 @@ public class StorageItemEnumerationFactoryException extends DetailException {
     }
 
 
-
-    public StorageItemEnumerationFactoryException(String newMessage,Throwable newDetail) {
+    public StorageItemEnumerationFactoryException(String newMessage, Throwable newDetail) {
 
         super(newMessage, newDetail);
 
     }
-
 
 
     public StorageItemEnumerationFactoryException(Throwable newDetail) {

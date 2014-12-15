@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage.rmi;
 
 
-
 import java.rmi.Remote;
 
 import java.rmi.RemoteException;
@@ -36,126 +35,90 @@ import focusedCrawler.util.distribution.CommunicationException;
 import focusedCrawler.util.storage.StorageException;
 
 
-
-
-
-
-
-
 public interface StorageRemote extends Remote {
 
 
-
     /**
-
      * Insercao de elementos.
-
      */
 
-    Object insert(Object obj) throws StorageException,CommunicationException,RemoteException;
+    Object insert(Object obj) throws StorageException, CommunicationException, RemoteException;
 
-    Object[] insertArray(Object[] objs) throws StorageException,CommunicationException,RemoteException;
-
+    Object[] insertArray(Object[] objs) throws StorageException, CommunicationException, RemoteException;
 
 
     /**
-
      * Selecao de elementos.
-
      */
 
-    Object select(Object obj) throws StorageException,DataNotFoundException,CommunicationException,RemoteException;
+    Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException, RemoteException;
 
-    Object[] selectArray(Object[] objs) throws StorageException,DataNotFoundException,CommunicationException,RemoteException;
+    Object[] selectArray(Object[] objs) throws StorageException, DataNotFoundException, CommunicationException, RemoteException;
 
-    Enumeration selectEnumeration(Object obj) throws StorageException,DataNotFoundException,CommunicationException,RemoteException;
-
+    Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException, RemoteException;
 
 
     /**
-
      * Atualizacao de elementos.
-
      */
 
-    Object update(Object obj) throws StorageException,CommunicationException,RemoteException;
+    Object update(Object obj) throws StorageException, CommunicationException, RemoteException;
 
-    Object[] updateArray(Object[] objs) throws StorageException,CommunicationException,RemoteException;
-
+    Object[] updateArray(Object[] objs) throws StorageException, CommunicationException, RemoteException;
 
 
     /**
-
      * Remocao de elementos.
-
      */
 
-    Object remove(Object obj) throws StorageException,CommunicationException,RemoteException;
+    Object remove(Object obj) throws StorageException, CommunicationException, RemoteException;
 
-    Object[] removeArray(Object[] objs) throws StorageException,CommunicationException,RemoteException;
-
+    Object[] removeArray(Object[] objs) throws StorageException, CommunicationException, RemoteException;
 
 
     /**
-
      * Adiciona os recursos.
-
      */
 
-    Object addResource(Object obj) throws StorageException,CommunicationException,RemoteException;
+    Object addResource(Object obj) throws StorageException, CommunicationException, RemoteException;
 
-    Object[] addResourceArray(Object[] objs) throws StorageException,CommunicationException,RemoteException;
-
+    Object[] addResourceArray(Object[] objs) throws StorageException, CommunicationException, RemoteException;
 
 
     /**
-
      * Remove recursos.
-
      */
 
-    Object removeResource(Object obj) throws StorageException,CommunicationException,RemoteException;
+    Object removeResource(Object obj) throws StorageException, CommunicationException, RemoteException;
 
-    Object[] removeResourceArray(Object[] objs) throws StorageException,CommunicationException,RemoteException;
-
+    Object[] removeResourceArray(Object[] objs) throws StorageException, CommunicationException, RemoteException;
 
 
     /**
-
      * Realiza o commit de um estado.
-
      */
 
-    Object commit(Object obj) throws StorageException,CommunicationException,RemoteException;
-
+    Object commit(Object obj) throws StorageException, CommunicationException, RemoteException;
 
 
     /**
-
      * Realiza o rollback em caso de problemas.
-
      */
 
-    Object rollback(Object obj) throws StorageException,CommunicationException,RemoteException;
-
+    Object rollback(Object obj) throws StorageException, CommunicationException, RemoteException;
 
 
     /**
-
      * Finaliza um Storage.
-
      */
 
-    Object finalize(Object obj) throws StorageException,CommunicationException,RemoteException;
-
+    Object finalize(Object obj) throws StorageException, CommunicationException, RemoteException;
 
 
     /**
-
      * Utilizado para acessar o objeto
-
      */
 
-    Object ping(Object obj) throws StorageException,CommunicationException,RemoteException;
+    Object ping(Object obj) throws StorageException, CommunicationException, RemoteException;
 
 }

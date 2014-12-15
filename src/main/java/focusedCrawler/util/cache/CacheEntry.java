@@ -24,47 +24,39 @@
 package focusedCrawler.util.cache;
 
 
-
 import focusedCrawler.util.*;
 
 
-
 /**
-
  * Tupla de dado de uma cache com a chave e o dado associado
-
+ * <p/>
  * a chave.
-
  *
-
  * @author Oscar Miranda
-
  * @version %I%, %G%
-
  * @see focusedCrawler.util.cache.CacheFIFO
-
  */
 
 public class CacheEntry {
 
     CacheKey key;
 
-    Object   dado;
+    Object dado;
 
-    int      hits;
+    int hits;
 
-    long     init_time;
+    long init_time;
 
-    long     timestamp;
+    long timestamp;
 
-    int      index;
-
+    int index;
 
 
     // global init
 
-    { clear(); }
-
+    {
+        clear();
+    }
 
 
     public int getHits() {
@@ -74,7 +66,6 @@ public class CacheEntry {
     }
 
 
-
     public void incHits() {
 
         hits++;
@@ -82,13 +73,11 @@ public class CacheEntry {
     }
 
 
-
     public void incHits(int inc) {
 
-        hits+= inc;
+        hits += inc;
 
     }
-
 
 
     public void setHits(int val) {
@@ -98,13 +87,11 @@ public class CacheEntry {
     }
 
 
-
     public long getTimestamp() {
 
         return timestamp;
 
     }
-
 
 
     public void setTimestamp() {
@@ -114,7 +101,6 @@ public class CacheEntry {
     }
 
 
-
     public void hit() {
 
         hits++;
@@ -122,7 +108,6 @@ public class CacheEntry {
         timestamp = System.currentTimeMillis();
 
     }
-
 
 
     public void clear() {
@@ -142,21 +127,11 @@ public class CacheEntry {
     }
 
 
-
     /**
-
      * Modifica o valor da chave
-
      *
-
-     *
-
      * @param key a nova chave
-
-     *
-
      * @see focusedCrawler.util.cache.CacheKey
-
      */
 
     public void setKey(CacheKey key) {
@@ -166,43 +141,24 @@ public class CacheEntry {
     }
 
 
-
     /**
-
      * retorna a chave desta entry.
-
      *
-
-     *
-
      * @return a chave desta entry
-
-     *
-
      * @see focusedCrawler.util.cache.CacheKey
-
      */
 
     public CacheKey getKey() {
 
         return key;
 
-    } 
-
+    }
 
 
     /**
-
      * modifica o valor do dado
-
      *
-
-     *
-
      * @param data o novo dado
-
-     *
-
      */
 
     public void setData(Object data) {
@@ -212,19 +168,10 @@ public class CacheEntry {
     }
 
 
-
     /**
-
      * retorna o dado desta entry
-
      *
-
-     *
-
      * @return o dado
-
-     *
-
      */
 
     public Object getData() {
@@ -233,7 +180,6 @@ public class CacheEntry {
 
     }
 
-    
 
     public long tempo_de_vida() {
 
@@ -242,33 +188,22 @@ public class CacheEntry {
     }
 
 
-
     /**
-
      * retorna uma representacao String da chave.
-
      *
-
-     *
-
      * @return representacao em String desta entry
-
-     *
-
      */
 
     public String toString() {
 
-        return "[" + key + "=" + dado + ", hits=" + hits + ", idx="+index
+        return "[" + key + "=" + dado + ", hits=" + hits + ", idx=" + index
 
                 + ", TS=" + timestamp + ", INIT=" + init_time
 
-                + ", lifetime=" + Timer.toString(tempo_de_vida())+ "]";
+                + ", lifetime=" + Timer.toString(tempo_de_vida()) + "]";
 
 
-
-    } 
-
+    }
 
 
 }

@@ -13,17 +13,16 @@ import java.util.concurrent.Executors;
 
 /**
  * <p>Description: This is the main entry point for working with the components of the focusedCrawler </p>
- *
  */
 
 public class Main {
 
     public static void main(String... args) {
 
-        if(args.length > 0) {
-            if("startCrawl".equals(args[0]) && args.length == 6) {
+        if (args.length > 0) {
+            if ("startCrawl".equals(args[0]) && args.length == 6) {
                 startCrawl(args[1], args[2], args[3], args[4], args[5]);
-            } else if("buildModel".equals(args[0]) && args.length == 4) {
+            } else if ("buildModel".equals(args[0]) && args.length == 4) {
                 buildModel(args[1], args[2], args[3]);
             } else {
                 printUsage();
@@ -101,7 +100,7 @@ public class Main {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void createOutputPathStructure(String dataOutputPath) {
         File dataOutput = new File(dataOutputPath);
-        if(dataOutput.exists()) {
+        if (dataOutput.exists()) {
             System.out.println("Data output path already exists, deleting everything");
             dataOutput.delete();
         }

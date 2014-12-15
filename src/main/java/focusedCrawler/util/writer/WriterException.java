@@ -24,23 +24,20 @@
 package focusedCrawler.util.writer;
 
 
-public class WriterException extends Exception{
-
+public class WriterException extends Exception {
 
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
 
-
-	public WriterException(){
+    public WriterException() {
 
         super();
 
     }
-
 
 
     public WriterException(String message) {

@@ -35,16 +35,20 @@ public class StorageCollectionTransaction extends StorageCollection {
     private long OCIOSO;
     private long TEMPO_TOTAL;
     private DataChecker checker;
+
     public StorageCollectionTransaction(int transactionSize) {
         super();
         this.transactionSize = transactionSize;
     } //StorageCollectionTransaction
+
     public DataChecker getChecker() {
         return checker;
     } //getChecker
+
     public void setChecker(DataChecker checker) {
         this.checker = checker;
     } //setChecker
+
     public Object addResource(Object obj) throws StorageException, CommunicationException {
         if (obj instanceof Storage) {
             return super.addResource(obj);
@@ -55,7 +59,7 @@ public class StorageCollectionTransaction extends StorageCollection {
     } //addStorage
 
 
-    public synchronized Object insert(Object obj) throws StorageException, CommunicationException{
+    public synchronized Object insert(Object obj) throws StorageException, CommunicationException {
 
         if (checker != null) {
 
@@ -75,7 +79,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (StorageException error) {
 
-            treatError("insert",error);
+            treatError("insert", error);
 
             throw new StorageException(error);
 
@@ -83,7 +87,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (CommunicationException error) {
 
-            treatError("insert",error);
+            treatError("insert", error);
 
             throw new StorageException(error);
 
@@ -91,7 +95,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (Exception error) {
 
-            treatError("insert",error);
+            treatError("insert", error);
 
             error.printStackTrace();
 
@@ -104,7 +108,7 @@ public class StorageCollectionTransaction extends StorageCollection {
     } //insert
 
 
-    public synchronized Object update(Object obj) throws StorageException, CommunicationException{
+    public synchronized Object update(Object obj) throws StorageException, CommunicationException {
 
         if (checker != null) {
 
@@ -124,7 +128,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (StorageException error) {
 
-            treatError("update",error);
+            treatError("update", error);
 
             throw new StorageException(error);
 
@@ -132,7 +136,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (CommunicationException error) {
 
-            treatError("update",error);
+            treatError("update", error);
 
             throw new StorageException(error);
 
@@ -140,7 +144,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (Exception error) {
 
-            treatError("update",error);
+            treatError("update", error);
 
             error.printStackTrace();
 
@@ -173,7 +177,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (StorageException error) {
 
-            treatError("remove",error);
+            treatError("remove", error);
 
             throw new StorageException(error);
 
@@ -181,7 +185,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (CommunicationException error) {
 
-            treatError("remove",error);
+            treatError("remove", error);
 
             throw new StorageException(error);
 
@@ -189,7 +193,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (Exception error) {
 
-            treatError("remove",error);
+            treatError("remove", error);
 
             error.printStackTrace();
 
@@ -210,9 +214,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
 
     /**
-
      * Fecha a transacao
-
      */
 
     public synchronized Object commit(Object obj) throws StorageException, CommunicationException {
@@ -227,13 +229,13 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         catch (CommunicationException error) {
 
-            treatError("commit",error);
+            treatError("commit", error);
 
         } //catch
 
         catch (StorageException error) {
 
-            treatError("commit",error);
+            treatError("commit", error);
 
         } //catch
 
@@ -248,7 +250,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
     private void treatError(String reason, Exception exc) throws StorageException {
 
-        for (int counter =0; counter < size(); counter++) {
+        for (int counter = 0; counter < size(); counter++) {
 
             try {
 
@@ -276,7 +278,7 @@ public class StorageCollectionTransaction extends StorageCollection {
 
         exc.printStackTrace();
 
-        Log.log("Transaction", Integer.toString(getNumber()), "rollback: treat exception " + reason + "("+exc.getMessage()+") on transaction " + transactionCounter);
+        Log.log("Transaction", Integer.toString(getNumber()), "rollback: treat exception " + reason + "(" + exc.getMessage() + ") on transaction " + transactionCounter);
 
     } //treatError
 

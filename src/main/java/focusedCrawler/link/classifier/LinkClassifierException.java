@@ -24,23 +24,22 @@
 package focusedCrawler.link.classifier;
 
 /**
- *
  * <p> </p>
- *
+ * <p/>
  * <p>Description: Exception thrown by the LinkClassifier</p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p> </p>
  *
  * @author Luciano Barbosa
  * @version 1.0
  */
 
-public class LinkClassifierException extends Exception{
+public class LinkClassifierException extends Exception {
 
-  public LinkClassifierException(String message) {
-    super(message);
-  }
+    public LinkClassifierException(String message) {
+        super(message);
+    }
 
 }

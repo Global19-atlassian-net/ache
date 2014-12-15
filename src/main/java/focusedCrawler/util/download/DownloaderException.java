@@ -24,7 +24,6 @@
 package focusedCrawler.util.download;
 
 
-
 /**
 
  * @author Thiago Santos.
@@ -34,13 +33,10 @@ package focusedCrawler.util.download;
  */
 
 
-
 import focusedCrawler.util.DetailException;
 
 
-
 public class DownloaderException extends DetailException {
-
 
 
     public DownloaderException() {
@@ -55,9 +51,9 @@ public class DownloaderException extends DetailException {
 
     }
 
-    public DownloaderException(String message,Throwable detail) {
+    public DownloaderException(String message, Throwable detail) {
 
-        super(message,detail);
+        super(message, detail);
 
     }
 

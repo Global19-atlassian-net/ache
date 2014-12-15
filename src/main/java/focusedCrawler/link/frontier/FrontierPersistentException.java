@@ -24,23 +24,22 @@
 package focusedCrawler.link.frontier;
 
 /**
- *
  * <p> </p>
- *
+ * <p/>
  * <p>Description:Exception thrown by the FrontierPersistent </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p> </p>
  *
  * @author Luciano Barbosa
  * @version 1.0
  */
 
-public class FrontierPersistentException extends Exception{
+public class FrontierPersistentException extends Exception {
 
-  public FrontierPersistentException(String message) {
-    super(message);
-  }
+    public FrontierPersistentException(String message) {
+        super(message);
+    }
 
 }

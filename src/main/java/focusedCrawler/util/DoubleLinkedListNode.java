@@ -24,19 +24,14 @@
 package focusedCrawler.util;
 
 
-
 /**
-
  * Lista Duplamente Ligada.
-
+ *
  * @author Oscar Miranda
-
- * @date   19/05/1999
-
+ * @date 19/05/1999
  */
 
 public class DoubleLinkedListNode {
-
 
 
     private Object data;
@@ -46,7 +41,6 @@ public class DoubleLinkedListNode {
     private DoubleLinkedListNode next;
 
     private DoubleLinkedListNode previous;
-
 
 
     public DoubleLinkedListNode(Object data, DoubleLinkedListNode ant, DoubleLinkedListNode prox, DoubleLinkedList list) {
@@ -62,13 +56,11 @@ public class DoubleLinkedListNode {
     }
 
 
-
-    public DoubleLinkedListNode(Object data,  DoubleLinkedList list) {
+    public DoubleLinkedListNode(Object data, DoubleLinkedList list) {
 
         this(data, null, null, list);
 
     }
-
 
 
     public DoubleLinkedListNode(Object data, DoubleLinkedListNode ant, DoubleLinkedListNode prox) {
@@ -77,14 +69,12 @@ public class DoubleLinkedListNode {
 
     }
 
-    
 
     public DoubleLinkedListNode(Object data) {
 
         this(data, null, null);
 
     }
-
 
 
     public DoubleLinkedListNode() {
@@ -94,11 +84,11 @@ public class DoubleLinkedListNode {
     }
 
 
-
     /************************************/
 
-    /************************************/
-
+    /**
+     * ********************************
+     */
 
 
     public DoubleLinkedListNode next() {
@@ -108,7 +98,6 @@ public class DoubleLinkedListNode {
     }
 
 
-
     public DoubleLinkedListNode previous() {
 
         return previous;
@@ -116,13 +105,11 @@ public class DoubleLinkedListNode {
     }
 
 
-
     public DoubleLinkedList list() {
 
         return list;
 
     }
-
 
 
     public Object data() {
@@ -133,8 +120,9 @@ public class DoubleLinkedListNode {
 
     /**************************/
 
-    /**************************/
-
+    /**
+     * **********************
+     */
 
 
     public void setData(Object data) {
@@ -144,13 +132,11 @@ public class DoubleLinkedListNode {
     }
 
 
-
     public void setNext(DoubleLinkedListNode p) {
 
         next = p;
 
     }
-
 
 
     public void setPrevious(DoubleLinkedListNode ant) {
@@ -160,7 +146,6 @@ public class DoubleLinkedListNode {
     }
 
 
-
     public void setList(DoubleLinkedList list) {
 
         this.list = list;
@@ -168,42 +153,35 @@ public class DoubleLinkedListNode {
     }
 
 
-
     public String toString() {
 
-        if (data==null) return null;
+        if (data == null) return null;
 
         else return data.toString();
 
     }
 
 
-
     /**
-
      * Remove o no da lista.
-
+     * <p/>
      * Retorna o head da lista.
-
      */
 
     public void removeNode() {
 
-        if (list!=null) list.removeNode(this);
+        if (list != null) list.removeNode(this);
 
     }
 
 
-
     /**
-
      * Move este no para o inicio da lista
-
      */
 
     public void moveFirst() {
 
-        if (list!=null) {
+        if (list != null) {
 
             list.moveFirst(this);
 
@@ -212,16 +190,13 @@ public class DoubleLinkedListNode {
     }
 
 
-
     /**
-
      * Move este no para o final da lista
-
      */
 
     public void moveLast() {
 
-        if (list!=null) {
+        if (list != null) {
 
             list.moveLast(this);
 
@@ -230,28 +205,27 @@ public class DoubleLinkedListNode {
     }
 
 
-
     public static void main(String args[]) {
 
 /**
 
-        DoubleLinkedList list = new DoubleLinkedList();
+ DoubleLinkedList list = new DoubleLinkedList();
 
-        System.out.println("lista vazia : "+list);
+ System.out.println("lista vazia : "+list);
 
-        list.setData(new Integer(1));
+ list.setData(new Integer(1));
 
-        System.out.println("lista um : "+list);
+ System.out.println("lista um : "+list);
 
-        list.insertLast(new Integer(10));
+ list.insertLast(new Integer(10));
 
-        System.out.println("lista 2 : "+list);
+ System.out.println("lista 2 : "+list);
 
-        list.insertFirst(new Integer(-10));
+ list.insertFirst(new Integer(-10));
 
-        System.out.println("lista 3 : "+list);
+ System.out.println("lista 3 : "+list);
 
-**/
+ **/
 
     }
 

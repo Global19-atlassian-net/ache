@@ -30,33 +30,34 @@ import focusedCrawler.util.parser.PaginaURL;
 
 /**
  * <p>Description: </p>
+ *
  * @author Luciano Barbosa
  * @version 1.0
  */
 
-public class Page implements Serializable, Target{
+public class Page implements Serializable, Target {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	private boolean auth = false;
-	
-	private boolean hub = false;
-	
-	private URL url;
+    private boolean auth = false;
+
+    private boolean hub = false;
+
+    private URL url;
 
     private String content;
-    
+
     private String cleanContent;
 
     private double relevance;
 
     private PaginaURL pageURL;
-    
+
     private String encoding;
-    
+
     public Page() {
 
     }
@@ -67,79 +68,79 @@ public class Page implements Serializable, Target{
     }
 
 
-    public URL getURL(){
+    public URL getURL() {
         return url;
     }
 
-    public String getDomainName(){
+    public String getDomainName() {
         String domain = url.getHost();
         return domain.startsWith("www.") ? domain.substring(4) : domain;
     }
 
-    public String getContent(){
+    public String getContent() {
         return content;
     }
 
-    public String getCleanContent(){
+    public String getCleanContent() {
         return cleanContent;
     }
-    
-    public void setContent(String cont){
+
+    public void setContent(String cont) {
         this.content = cont.toLowerCase();
     }
 
-    public void setCleanContent(String cont){
+    public void setCleanContent(String cont) {
         this.cleanContent = cont.toLowerCase();
     }
 
-    public void setPageURL(PaginaURL page){
+    public void setPageURL(PaginaURL page) {
         this.pageURL = page;
     }
 
-    public void setRelevance(double rel){
+    public void setRelevance(double rel) {
         this.relevance = rel;
     }
 
-    public double getRelevance(){
+    public double getRelevance() {
         return this.relevance;
     }
 
     public String getIdentifier() {
-    	return this.url.toString();
+        return this.url.toString();
     }
 
     public String getSource() {
-    	return this.content;
+        return this.content;
     }
 
-    public PaginaURL getPageURL(){
+    public PaginaURL getPageURL() {
         return this.pageURL;
     }
 
-    public void setEncoding(String enc){
+    public void setEncoding(String enc) {
         this.encoding = enc;
     }
 
-    public String getEncoding(){
+    public String getEncoding() {
         return this.encoding;
     }
 
-	public boolean isAuth() {
-		return auth;
-	}
+    public boolean isAuth() {
+        return auth;
+    }
 
-	public void setAuth(boolean auth) {
-		this.auth = auth;
-	}
+    public void setAuth(boolean auth) {
+        this.auth = auth;
+    }
 
-	public boolean isHub() {
-		return hub;
-	}
+    public boolean isHub() {
+        return hub;
+    }
 
-	public void setHub(boolean hub) {
-		this.hub = hub;
-	}
+    public void setHub(boolean hub) {
+        this.hub = hub;
+    }
 
-    
+
 }
 

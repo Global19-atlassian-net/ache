@@ -24,13 +24,14 @@
 package focusedCrawler.target;
 
 import focusedCrawler.util.Target;
+
 /**
  * <p> </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p> </p>
  *
  * @author Luciano Barbosa
@@ -38,8 +39,8 @@ import focusedCrawler.util.Target;
  */
 public interface TargetClassifier {
 
-  public boolean classify(Target target) throws TargetClassifierException;
-  
-  public double[] distributionForInstance(Target target) throws TargetClassifierException;
+    public boolean classify(Target target) throws TargetClassifierException;
+
+    public double[] distributionForInstance(Target target) throws TargetClassifierException;
 
 }

@@ -24,17 +24,14 @@
 package focusedCrawler.util.url.naming;
 
 
-
 public class Map {
 
 
+    protected String[] ids;   // identificador do atributo que fica diretamente na url
 
-        protected String[] ids;   // identificador do atributo que fica diretamente na url
+    protected String[] names; // nome do atributo utilizado para identifica-los apos um <code>resolve()</code>
 
-        protected String[] names; // nome do atributo utilizado para identifica-los apos um <code>resolve()</code>
-
-        protected String[] types; // tipo do objeto, utilizado para reconstrucao do mesmo
-
+    protected String[] types; // tipo do objeto, utilizado para reconstrucao do mesmo
 
 
     public Map() {
@@ -42,17 +39,15 @@ public class Map {
     }
 
 
+    public Map(String[] ids, String[] names, String[] types) {
 
-    public Map(String[] ids,String[] names,String[] types) {
-
-        this.ids   = ids;
+        this.ids = ids;
 
         this.names = names;
 
         this.types = types;
 
     }
-
 
 
     public String[] getIds() {
@@ -74,7 +69,6 @@ public class Map {
     }
 
 
-
     public void setIds(String[] newIds) {
 
         this.ids = newIds;
@@ -92,7 +86,6 @@ public class Map {
         this.types = newTypes;
 
     }
-
 
 
     public String idAt(int index) {
@@ -114,110 +107,92 @@ public class Map {
     }
 
 
-
 //--- Funcoes de identificacao dos mapeamentos entre os identificadores, tipos, e nomes. -----//
 
     /**
-
-    *   Dado o nome retorna seu id.
-
-    */
+     * Dado o nome retorna seu id.
+     */
 
     public String getNameForId(String id) {
 
-        return getBijecao(id,ids,names);
+        return getBijecao(id, ids, names);
 
     }
 
 
-
     /**
-
-    *   Dado o tipo retorna seu id.
-
-    */
+     * Dado o tipo retorna seu id.
+     */
 
     public String getTypeForId(String id) {
 
-        return getBijecao(id,ids,types);
+        return getBijecao(id, ids, types);
 
     }
 
 
-
     /**
-
-    *   Dado o id retorna seu nome.
-
-    */
+     * Dado o id retorna seu nome.
+     */
 
     public String getIdForName(String name) {
 
-        return getBijecao(name,names,ids);
+        return getBijecao(name, names, ids);
 
     }
 
 
-
     /**
-
-    *   Dado o tipo retorna seu nome.
-
-    */
+     * Dado o tipo retorna seu nome.
+     */
 
     public String getTypeForName(String name) {
 
-        return getBijecao(name,names,types);
+        return getBijecao(name, names, types);
 
     }
 
 
-
     /**
+     * Retorna o resultado de uma bijecao entre arrays de elementos, buscando pelo valor do primeiro parametro.
+     */
 
-    *   Retorna o resultado de uma bijecao entre arrays de elementos, buscando pelo valor do primeiro parametro.
-
-    */
-
-    private String getBijecao(String obj,String[] dominio,String[] imagem) {
+    private String getBijecao(String obj, String[] dominio, String[] imagem) {
 
         String resultado = null;
 
-        if( obj != null )
+        if (obj != null)
 
-          {
+        {
 
             boolean achou = false;
 
-            for( int i = 0; i < dominio.length && !achou; i++ )
+            for (int i = 0; i < dominio.length && !achou; i++)
 
-               {
+            {
 
-                 if( dominio[i].equals(obj) )
+                if (dominio[i].equals(obj))
 
-                   {
+                {
 
-                     resultado = imagem[i];
+                    resultado = imagem[i];
 
-                     achou = true;
+                    achou = true;
 
-                   }
+                }
 
-               }
+            }
 
-          }
+        }
 
         return resultado;
 
     }
 
 
-
     /**
-
-    *   Metodo que indica o padrao que deve ser utilizado para a codificacao dos objetos na URL.
-
-    */
+     * Metodo que indica o padrao que deve ser utilizado para a codificacao dos objetos na URL.
+     */
 
     public String formatString(Object obj) {
 
@@ -226,157 +201,133 @@ public class Map {
     }
 
 
-
     /**
+     * Dados o identificador do objeto e sua representacao em String, determina o tipo do objeto e o instancia.
+     * <p/>
+     * Para a generalizacao desta classe necessecita-se apenas reescrever tal metodo para aceitar outro tipos
+     * <p/>
+     * de objetos.
+     */
 
-    *   Dados o identificador do objeto e sua representacao em String, determina o tipo do objeto e o instancia.
+    protected Object parseForId(String id, String value) {
 
-    *   Para a generalizacao desta classe necessecita-se apenas reescrever tal metodo para aceitar outro tipos
-
-    *   de objetos.
-
-    */
-
-    protected Object parseForId(String id,String value) {
-
-        return parseFromType(getTypeForId(id),value);
+        return parseFromType(getTypeForId(id), value);
 
     }
 
 
-
     /**
+     * Dados o nome do objeto e sua representacao em String, determina o tipo do objeto e o instancia.
+     * <p/>
+     * Para a generalizacao desta classe necessecita-se apenas reescrever tal metodo para aceitar outro tipos
+     * <p/>
+     * de objetos.
+     */
 
-    *   Dados o nome do objeto e sua representacao em String, determina o tipo do objeto e o instancia.
+    protected Object parseForName(String name, String value) {
 
-    *   Para a generalizacao desta classe necessecita-se apenas reescrever tal metodo para aceitar outro tipos
-
-    *   de objetos.
-
-    */
-
-    protected Object parseForName(String name,String value) {
-
-        return parseFromType(getTypeForName(name),value);
+        return parseFromType(getTypeForName(name), value);
 
     }
-
 
 
     public static final Integer ERRO_INTEGER = new Integer(-1);
 
-    public static final Long    ERRO_LONG    = new Long(-1);
+    public static final Long ERRO_LONG = new Long(-1);
 
     public static final Boolean ERRO_BOOLEAN = null;
 
-    public static final String  ERRO_STRING  = null;
+    public static final String ERRO_STRING = null;
 
     /**
+     * Dados o tipo do objeto e sua representacao em String, o instancia o objeto.
+     * <p/>
+     * Para a generalizacao desta classe necessecita-se apenas reescrever tal metodo para aceitar outro tipos
+     * <p/>
+     * de objetos.
+     */
 
-    *   Dados o tipo do objeto e sua representacao em String, o instancia o objeto.
-
-    *   Para a generalizacao desta classe necessecita-se apenas reescrever tal metodo para aceitar outro tipos
-
-    *   de objetos.
-
-    */
-
-    protected Object parseFromType(String type,String value) {
+    protected Object parseFromType(String type, String value) {
 
         Object resultado = null;
 
-        if( "java.lang.Integer".equals(type) )
+        if ("java.lang.Integer".equals(type))
 
-          {
-
-            try {
-
-                  resultado = new Integer(value);
-
-                }
-
-            catch(Exception exc)
-
-                {
-
-                  exc.printStackTrace();
-
-                  resultado = ERRO_INTEGER;
-
-                }
-
-          }
-
-        else if( "java.lang.Long".equals(type) )
-
-          {
+        {
 
             try {
 
-                  resultado = new Long(value);
+                resultado = new Integer(value);
 
-                }
+            } catch (Exception exc)
 
-            catch(Exception exc)
+            {
 
-                {
+                exc.printStackTrace();
 
-                  exc.printStackTrace();
+                resultado = ERRO_INTEGER;
 
-                  resultado = ERRO_LONG;
+            }
 
-                }
+        } else if ("java.lang.Long".equals(type))
 
-          }
-
-        else if( "java.lang.Boolean".equals(type) )
-
-          {
+        {
 
             try {
 
-                  resultado = new Boolean(value);
+                resultado = new Long(value);
 
-                }
+            } catch (Exception exc)
 
-            catch(Exception exc)
+            {
 
-                {
+                exc.printStackTrace();
 
-                  exc.printStackTrace();
+                resultado = ERRO_LONG;
 
-                  resultado = ERRO_BOOLEAN;
+            }
 
-                }
+        } else if ("java.lang.Boolean".equals(type))
 
-          }
-
-        else if( "java.lang.String".equals(type) )
-
-          {
+        {
 
             try {
 
-                  resultado = new String(value);
+                resultado = new Boolean(value);
 
-                }
+            } catch (Exception exc)
 
-            catch(Exception exc)
+            {
 
-                {
+                exc.printStackTrace();
 
-                  exc.printStackTrace();
+                resultado = ERRO_BOOLEAN;
 
-                  resultado = ERRO_STRING;
+            }
 
-                }
+        } else if ("java.lang.String".equals(type))
 
-          }
+        {
+
+            try {
+
+                resultado = new String(value);
+
+            } catch (Exception exc)
+
+            {
+
+                exc.printStackTrace();
+
+                resultado = ERRO_STRING;
+
+            }
+
+        }
 
         return resultado;
 
     }
-
 
 
 }

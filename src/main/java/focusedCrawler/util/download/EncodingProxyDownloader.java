@@ -22,49 +22,57 @@
 ############################################################################
 */
 package focusedCrawler.util.download;
+
 import java.net.URL;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class EncodingProxyDownloader extends ExtractorProxyDownloader {
-  private char[] charBufferFile;
-  //private ByteToCharConverter conversor;
-  public EncodingProxyDownloader( Downloader _downloader, String _encoding) throws DownloaderException{
-    super( _downloader);
-    setEncoding(_encoding);
-  }
-  public EncodingProxyDownloader( Downloader _downloader, String _encoding, int _max) throws DownloaderException{
-    super( _downloader, _max);
-    setEncoding(_encoding);
-  }
-  public void setEncoding(String _encoding) throws DownloaderException {
-    //try {
-      //this.conversor = ByteToCharConverter.getConverter(_encoding);
-    //} catch (UnsupportedEncodingException uee){
-      //throw new DownloaderException("Encoding nao suportado : " + _encoding, uee );
-    //}
-  }
-  public String getEncoding() {
-      return null;
-  }
-  public void setMaxBufferSize(int max) throws DownloaderException {
-    super.setMaxBufferSize (max );
-     // caso o tamanho seja invalido a super classe levantara excecao
-    this.charBufferFile = new char[ max];
-  }
-  protected int extractBytes( InputStream input, byte[] buffer) throws IOException{
-     int extract_length = super.extractBytes( input, buffer);
-     return convertTo( buffer, extract_length);
-  }
-  private int convertTo (byte[] buffer, int bflength ) throws IOException{
-      int length = bflength;
-      //try {
-        int contentLength =  -1; //conversor.convert(buffer, 0, bflength, charBufferFile, 0, charBufferFile.length);
+    private char[] charBufferFile;
+
+    //private ByteToCharConverter conversor;
+    public EncodingProxyDownloader(Downloader _downloader, String _encoding) throws DownloaderException {
+        super(_downloader);
+        setEncoding(_encoding);
+    }
+
+    public EncodingProxyDownloader(Downloader _downloader, String _encoding, int _max) throws DownloaderException {
+        super(_downloader, _max);
+        setEncoding(_encoding);
+    }
+
+    public void setEncoding(String _encoding) throws DownloaderException {
+        //try {
+        //this.conversor = ByteToCharConverter.getConverter(_encoding);
+        //} catch (UnsupportedEncodingException uee){
+        //throw new DownloaderException("Encoding nao suportado : " + _encoding, uee );
+        //}
+    }
+
+    public String getEncoding() {
+        return null;
+    }
+
+    public void setMaxBufferSize(int max) throws DownloaderException {
+        super.setMaxBufferSize(max);
+        // caso o tamanho seja invalido a super classe levantara excecao
+        this.charBufferFile = new char[max];
+    }
+
+    protected int extractBytes(InputStream input, byte[] buffer) throws IOException {
+        int extract_length = super.extractBytes(input, buffer);
+        return convertTo(buffer, extract_length);
+    }
+
+    private int convertTo(byte[] buffer, int bflength) throws IOException {
+        int length = bflength;
+        //try {
+        int contentLength = -1; //conversor.convert(buffer, 0, bflength, charBufferFile, 0, charBufferFile.length);
 
         for (int contFile = 0; contFile < contentLength; contFile++) {
 
-          buffer[contFile] = (byte) charBufferFile[contFile];
+            buffer[contFile] = (byte) charBufferFile[contFile];
 
         }
 
@@ -78,26 +86,26 @@ public class EncodingProxyDownloader extends ExtractorProxyDownloader {
 //
 //      }
 
-      return length;
+        return length;
 
-  }
+    }
 
 
-  /**
+    /**
 
-   *
+     *
 
-   */
+     */
 
-  static public void main(String[] args) {
+    static public void main(String[] args) {
 
         try {
 
-            if(args[0].equals("host")) {
+            if (args[0].equals("host")) {
 
                 java.net.ServerSocket server = new java.net.ServerSocket(8080);
 
-                while(true) {
+                while (true) {
 
                     java.net.Socket soc = server.accept();
 
@@ -105,7 +113,7 @@ public class EncodingProxyDownloader extends ExtractorProxyDownloader {
 
                     int c;
 
-                    while(true) {
+                    while (true) {
 
                         String ln = in.readLine();
 
@@ -150,9 +158,9 @@ public class EncodingProxyDownloader extends ExtractorProxyDownloader {
 
                     System.out.print("data> '");
 
-                    while( (p = in.read()) != -1 ) {
+                    while ((p = in.read()) != -1) {
 
-                        System.out.print("["+p+"]"+(char)p);
+                        System.out.print("[" + p + "]" + (char) p);
 
                     }
 
@@ -166,8 +174,7 @@ public class EncodingProxyDownloader extends ExtractorProxyDownloader {
             }
 
 
-
-            Downloader down = new EncodingProxyDownloader( new DownloaderSocket(new focusedCrawler.util.ParameterFile(args)), "utf-8");
+            Downloader down = new EncodingProxyDownloader(new DownloaderSocket(new focusedCrawler.util.ParameterFile(args)), "utf-8");
 
             for (int i = 1; i < args.length; i++) {
 
@@ -181,7 +188,7 @@ public class EncodingProxyDownloader extends ExtractorProxyDownloader {
 
                     System.out.println(down);
 
-                    if( down.getStatus() == Downloader.OK ) {
+                    if (down.getStatus() == Downloader.OK) {
 
                         System.out.println("+------- CONTENT -------+");
 
@@ -189,31 +196,25 @@ public class EncodingProxyDownloader extends ExtractorProxyDownloader {
 
                         int c;
 
-                        while( (c = in.read()) != -1 ) {
+                        while ((c = in.read()) != -1) {
 
-                            System.out.print((char)c);
+                            System.out.print((char) c);
 
                         }
 
                         System.out.println("\n+-----------------------+");
 
-                    }
+                    } else {
 
-                    else {
-
-                        System.out.println("FAIL="+down.getStatus()+":"+down.getUrlTarget());
+                        System.out.println("FAIL=" + down.getStatus() + ":" + down.getUrlTarget());
 
                     }
 
-                }
-
-                catch(Exception exc) {
+                } catch (Exception exc) {
 
                     exc.printStackTrace();
 
-                }
-
-                finally {
+                } finally {
 
                     down.close();
 
@@ -221,9 +222,7 @@ public class EncodingProxyDownloader extends ExtractorProxyDownloader {
 
             }
 
-        }
-
-        catch(Exception exc) {
+        } catch (Exception exc) {
 
             exc.printStackTrace();
 
@@ -231,7 +230,7 @@ public class EncodingProxyDownloader extends ExtractorProxyDownloader {
 
         System.exit(0);
 
-  }
+    }
 
 }
 

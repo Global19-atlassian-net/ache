@@ -24,17 +24,14 @@
 package focusedCrawler.util.cache;
 
 
-
 import focusedCrawler.util.loader.LoaderException;
 
 public class CacheFileLoaderString extends CacheLoader {
 
 
-
     public CacheFileLoaderString() {
 
     }
-
 
 
     public CacheFileLoaderString(Cache cache) {
@@ -44,20 +41,19 @@ public class CacheFileLoaderString extends CacheLoader {
     }
 
 
-
-    public void load (Object objeto) throws LoaderException {
+    public void load(Object objeto) throws LoaderException {
 
         String s = (String) objeto;
 
         String first = s.substring(0, s.indexOf(":"));
 
-        String second = s.substring(s.indexOf(":") +1);
+        String second = s.substring(s.indexOf(":") + 1);
 
         try {
 
             if (Math.random() <= 0.05) {
 
-                System.out.println("load: first="+first+" second="+second+" "+((Cache) getLoadable()).size());
+                System.out.println("load: first=" + first + " second=" + second + " " + ((Cache) getLoadable()).size());
 
             }
 
@@ -67,10 +63,9 @@ public class CacheFileLoaderString extends CacheLoader {
 
         catch (CacheException erro) {
 
-            throw new LoaderException ("Não conseguiu carregar a cache: " + erro.getMessage ());
+            throw new LoaderException("Nï¿½o conseguiu carregar a cache: " + erro.getMessage());
 
         } //catch
-
 
 
     }

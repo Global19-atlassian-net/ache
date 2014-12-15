@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage;
 
 
-
 import java.io.DataInputStream;
 
 import java.io.DataOutputStream;
@@ -34,161 +33,113 @@ import java.io.IOException;
 public interface StorageItem {
 
 
-
     /**
-
      * Define o status de insercao
-
      */
 
-    String UNDEFINED_TYPE = new String(new byte[] {0});
-
+    String UNDEFINED_TYPE = new String(new byte[]{0});
 
 
     /**
-
      * Define o status de insercao
-
      */
 
     String INSERT_TYPE = "i";
 
 
-
     /**
-
      * Define o status de atualizacao
-
      */
 
     String UPDATE_TYPE = "u";
 
 
-
     /**
-
      * Define o status de remocao
-
      */
 
     String REMOVE_TYPE = "r";
 
 
-
     /**
-
      * Retorna o status do item de armazenamento
-
      */
 
     String getStatus();
 
 
-
     /**
-
      * Altera o status do item de armazenamento
-
      */
 
     void setStatus(String newStatus);
 
 
-
     /**
-
      * Retorna o codigo da pagina
-
      */
 
     int getCode();
 
 
-
     /**
-
      * Altera o codigo da pagina
-
      */
 
     void setCode(int _code);
 
 
-
     /**
-
-     * Retorna se gravará o status do item
-
+     * Retorna se gravarï¿½ o status do item
      */
 
     boolean isToWriteStatus();
 
 
-
     /**
-
-     * Altera se gravará o status do item
-
+     * Altera se gravarï¿½ o status do item
      */
 
     void setToWriteStatus(boolean newToWriteStatus);
 
 
-
     /**
-
-     * Retorna se gravará o código do item
-
+     * Retorna se gravarï¿½ o cï¿½digo do item
      */
 
     boolean isToWriteCode();
 
 
-
     /**
-
-     * Altera se gravará o código do item
-
+     * Altera se gravarï¿½ o cï¿½digo do item
      */
 
     void setToWriteCode(boolean newToWriteCode);
 
 
-
     /**
-
-     * Escreve a representação binária do item
-
+     * Escreve a representaï¿½ï¿½o binï¿½ria do item
      */
 
     int writeObject(DataOutputStream out) throws IOException;
 
 
-
     /**
-
-     * Lê a representação binária do item
-
+     * Lï¿½ a representaï¿½ï¿½o binï¿½ria do item
      */
 
     int readObject(DataInputStream in) throws IOException;
 
 
-
     /**
-
-     * Retorna o tamanho da representação em bytes
-
+     * Retorna o tamanho da representaï¿½ï¿½o em bytes
      */
 
     int getByteArraySize();
 
 
-
     /**
-
      * Copia os dados de um item para outro
-
      */
 
     void copy(StorageItem destiny);

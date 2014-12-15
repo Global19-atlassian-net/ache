@@ -24,31 +24,23 @@
 /*--- formatted by Jindent 2.1, (www.c-lab.de/~jindent) ---*/
 
 
-
 package focusedCrawler.util.download;
 
 
-
 /**
-
  * Classe responsavel pela criacao de um Thread de download para URL`s.
-
+ *
  * @author Thiago Santos 17/11/1999
-
  */
 
 public class ThreadDownloadFactoryURL implements ThreadDownloadFactory {
 
 
-
     /**
-
      * Cria um thread de download para URL.
-
+     *
      * @param alvo URL alvo.
-
      * @return Um thread que e responsavel pelo download da URL dada.
-
      */
 
     public ThreadDownload criarThread(String alvo) {
@@ -58,16 +50,14 @@ public class ThreadDownloadFactoryURL implements ThreadDownloadFactory {
     }
 
 
+    public ThreadDownload criarThread(String alvo, int timeout) {
 
-    public ThreadDownload criarThread(String alvo,int timeout) {
-
-        return new ThreadDownloadURL(alvo,timeout);
+        return new ThreadDownloadURL(alvo, timeout);
 
     }
 
 
-
-    public static void main(String args[]){
+    public static void main(String args[]) {
 
         String url = args[0];
 
@@ -75,53 +65,50 @@ public class ThreadDownloadFactoryURL implements ThreadDownloadFactory {
 
         ThreadDownloadFactoryURL t = new ThreadDownloadFactoryURL();
 
-        while(true){
+        while (true) {
 
 
+            try {
 
-        try {
+                ThreadDownload t1 = t.criarThread(url, timeout);
 
-            ThreadDownload t1 = t.criarThread(url,timeout);
+                t1.start();
 
-            t1.start();
+                long INICIO = System.currentTimeMillis();
 
-            long INICIO = System.currentTimeMillis();
+                long TEMPO = 0;
 
-            long TEMPO  = 0;
+                long MAXIMO = timeout;
 
-            long MAXIMO = timeout;
+                boolean ok = true;
 
-            boolean ok = true;
+                while (!t1.ready() && ok) {
 
-            while( !t1.ready() && ok ) {
+                    Thread.sleep(100);
 
-                Thread.sleep(100);
+                    TEMPO = (System.currentTimeMillis() - INICIO);
 
-                TEMPO = (System.currentTimeMillis()-INICIO);
+                    ok = TEMPO < MAXIMO;
 
-                ok = TEMPO < MAXIMO;
+                    System.out.println("Dormindo TEMPO " + TEMPO);
 
-                System.out.println("Dormindo TEMPO "+TEMPO);
+                }
+
+                t1.setReady(true);
+
+                System.out.println(ok ? "TEMPO OK" : "TEMPO ESTOURADO");
+
+                System.out.println("Tempo total = " + TEMPO);
+
+                System.out.println("DADOS ->" + t1.getDados());
+
+            } catch (Exception exc) {
+
+                exc.printStackTrace();
 
             }
 
-            t1.setReady(true);
-
-            System.out.println( ok ? "TEMPO OK" : "TEMPO ESTOURADO" );
-
-            System.out.println( "Tempo total = " + TEMPO );
-
-            System.out.println("DADOS ->"+t1.getDados());
-
         }
-
-        catch(Exception exc) {
-
-            exc.printStackTrace();
-
-        }
-
-      }
 
     }
 
@@ -133,7 +120,7 @@ public class ThreadDownloadFactoryURL implements ThreadDownloadFactory {
 
 
 
-/*--- formatting done in "Convenção de Codificação do Radix" style on 11-17-1999 ---*/
+/*--- formatting done in "Convenï¿½ï¿½o de Codificaï¿½ï¿½o do Radix" style on 11-17-1999 ---*/
 
 
 

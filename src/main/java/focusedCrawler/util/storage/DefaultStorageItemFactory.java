@@ -30,9 +30,7 @@
  */
 
 
-
 package focusedCrawler.util.storage;
-
 
 
 import focusedCrawler.util.ParameterFile;
@@ -42,29 +40,16 @@ import focusedCrawler.util.storage.StorageItemFactory;
 import focusedCrawler.util.storage.StorageItemFactoryException;
 
 
-
-
-
-
-
 /**
-
- *
-
- * @author  Marcelo Fernandes
-
- * @version
-
+ * @author Marcelo Fernandes
  */
 
 public class DefaultStorageItemFactory extends AbstractStorageItemFactory {
 
 
-
     private StorageItemFactory factory;
 
     private String factoryClassName;
-
 
 
     public DefaultStorageItemFactory() {
@@ -74,13 +59,11 @@ public class DefaultStorageItemFactory extends AbstractStorageItemFactory {
     } //StorageFactory
 
 
-
     public DefaultStorageItemFactory(ParameterFile config) {
 
         super(config);
 
     } //StorageFactory
-
 
 
     public DefaultStorageItemFactory(ParameterFile config, String newFactoryClassName) {
@@ -92,13 +75,11 @@ public class DefaultStorageItemFactory extends AbstractStorageItemFactory {
     } //StorageFactory
 
 
-
     public StorageItemFactory getFactory() {
 
         return factory;
 
     } //main
-
 
 
     public void checkFactory() throws StorageItemFactoryException {
@@ -125,19 +106,19 @@ public class DefaultStorageItemFactory extends AbstractStorageItemFactory {
 
             } //try
 
-            catch(ClassNotFoundException error) {
+            catch (ClassNotFoundException error) {
 
                 throw new StorageItemFactoryException(error);
 
             } //catch
 
-            catch(IllegalAccessException error) {
+            catch (IllegalAccessException error) {
 
                 throw new StorageItemFactoryException(error);
 
             } //catch
 
-            catch(InstantiationException error) {
+            catch (InstantiationException error) {
 
                 throw new StorageItemFactoryException(error);
 
@@ -146,7 +127,6 @@ public class DefaultStorageItemFactory extends AbstractStorageItemFactory {
         } //if
 
     }
-
 
 
     public StorageItem produce() throws StorageItemFactoryException {
@@ -158,7 +138,6 @@ public class DefaultStorageItemFactory extends AbstractStorageItemFactory {
     }
 
 
-
     public StorageItem[] produce(int size) throws StorageItemFactoryException {
 
         checkFactory();
@@ -168,24 +147,21 @@ public class DefaultStorageItemFactory extends AbstractStorageItemFactory {
     }
 
 
-
     /**
-
      * metodo main executavel
-
+     *
      * @param args os argumentos
-
      */
 
     public static void main(String args[]) throws StorageItemFactoryException {
 
-        ParameterFile config = new ParameterFile (args);
+        ParameterFile config = new ParameterFile(args);
 
         StorageItemFactory factory = new DefaultStorageItemFactory(config);
 
         StorageItem item = factory.produce();
 
-        System.out.println ("item: " + item);
+        System.out.println("item: " + item);
 
     }
 

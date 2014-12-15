@@ -38,71 +38,71 @@ public class MonthDayTimeItem extends TimeItemImpl {
     private HashSet hs31;
 
 
-	public MonthDayTimeItem () {
+    public MonthDayTimeItem() {
 
-        super ();
+        super();
 
-        hs30 = new HashSet ();
+        hs30 = new HashSet();
 
-        hs31 = new HashSet ();
+        hs31 = new HashSet();
 
-        hs31.add (new Integer (Calendar.JANUARY));
+        hs31.add(new Integer(Calendar.JANUARY));
 
-        hs31.add (new Integer (Calendar.MARCH));
+        hs31.add(new Integer(Calendar.MARCH));
 
-        hs30.add (new Integer (Calendar.APRIL));
+        hs30.add(new Integer(Calendar.APRIL));
 
-        hs31.add (new Integer (Calendar.MAY));
+        hs31.add(new Integer(Calendar.MAY));
 
-        hs30.add (new Integer (Calendar.JUNE));
+        hs30.add(new Integer(Calendar.JUNE));
 
-        hs31.add (new Integer (Calendar.JULY));
+        hs31.add(new Integer(Calendar.JULY));
 
-        hs31.add (new Integer (Calendar.AUGUST));
+        hs31.add(new Integer(Calendar.AUGUST));
 
-        hs30.add (new Integer (Calendar.SEPTEMBER));
+        hs30.add(new Integer(Calendar.SEPTEMBER));
 
-        hs31.add (new Integer (Calendar.OCTOBER));
+        hs31.add(new Integer(Calendar.OCTOBER));
 
-        hs30.add (new Integer (Calendar.NOVEMBER));
+        hs30.add(new Integer(Calendar.NOVEMBER));
 
-        hs31.add (new Integer (Calendar.DECEMBER));
+        hs31.add(new Integer(Calendar.DECEMBER));
 
-	} //MonthDayTimeItem
-
-
-	public MonthDayTimeItem (String frequencia) throws TimeItemException {
-
-        super (frequencia);
-
-	} //MonthDayTimeItem
+    } //MonthDayTimeItem
 
 
-    protected void setVariables () {
+    public MonthDayTimeItem(String frequencia) throws TimeItemException {
 
-		this.minimum = 1;
+        super(frequencia);
 
-        this.peso = 60000 *60 *24;
+    } //MonthDayTimeItem
+
+
+    protected void setVariables() {
+
+        this.minimum = 1;
+
+        this.peso = 60000 * 60 * 24;
 
     } //setVariables
 
 
-	public int getTimeField () {
+    public int getTimeField() {
 
         return Calendar.DAY_OF_MONTH;
 
     } //getTimeField
 
 
-	public int getMaximum () {
+    public int getMaximum() {
 
-		Calendar calendar = new GregorianCalendar ();
+        Calendar calendar = new GregorianCalendar();
 
-        int mes = calendar.get (Calendar.MONTH);
+        int mes = calendar.get(Calendar.MONTH);
 
         if (mes == Calendar.FEBRUARY) {
 
-            int ano = calendar.get (Calendar.YEAR);
+            int ano = calendar.get(Calendar.YEAR);
 
             if (ano % 4 == 0) {
 
@@ -118,13 +118,13 @@ public class MonthDayTimeItem extends TimeItemImpl {
 
         } //if
 
-        else if (hs30.contains (new Integer (mes))) {
+        else if (hs30.contains(new Integer(mes))) {
 
             return 30;
 
         } //else
 
-        else if (hs31.contains (new Integer (mes))) {
+        else if (hs31.contains(new Integer(mes))) {
 
             return 31;
 
@@ -132,26 +132,26 @@ public class MonthDayTimeItem extends TimeItemImpl {
 
         return -1;
 
-	} //getMaximum
+    } //getMaximum
 
 
-	public static void main (String [] args) throws TimeItemException {
+    public static void main(String[] args) throws TimeItemException {
 
-        String codigo = args [0];
+        String codigo = args[0];
 
-		System.out.println ("Codigo = " + codigo);
-
-
-		TimeItem item = new MonthDayTimeItem (codigo);
+        System.out.println("Codigo = " + codigo);
 
 
-        int value = new Integer (args [1]).intValue ();
+        TimeItem item = new MonthDayTimeItem(codigo);
 
-        System.out.println ("Peso=" + item.getPeso() + " Range(" + item.getMinimum() + "," + item.getMinimum() + ") Valor=" + value);
 
-		System.out.println ("Proximo Tempo = " + item.nextTimeMillis (value, false));
+        int value = new Integer(args[1]).intValue();
 
-	} //main
+        System.out.println("Peso=" + item.getPeso() + " Range(" + item.getMinimum() + "," + item.getMinimum() + ") Valor=" + value);
+
+        System.out.println("Proximo Tempo = " + item.nextTimeMillis(value, false));
+
+    } //main
 
 }
 

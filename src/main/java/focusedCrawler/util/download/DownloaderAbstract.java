@@ -24,7 +24,6 @@
 package focusedCrawler.util.download;
 
 
-
 import java.net.URL;
 
 import java.text.DateFormat;
@@ -41,57 +40,45 @@ import focusedCrawler.util.Log;
 import focusedCrawler.util.ParameterFile;
 
 
-
-
-
-
-
-
-
 public abstract class DownloaderAbstract implements Downloader {
 
 
+    private Log normalLog;
 
-        private Log normalLog;
+    private boolean showNormalLog;
 
-        private boolean showNormalLog;
+    private Log errorLog;
 
-        private Log errorLog;
-
-        private boolean showErrorLog;
-
+    private boolean showErrorLog;
 
 
-        protected Vector requestNames;
+    protected Vector requestNames;
 
-        protected Vector requestValues;
+    protected Vector requestValues;
 
-        private DateFormat dateFormater;
+    private DateFormat dateFormater;
 
-        protected HashMap response;
-
-
-
-        private String protocol;
-
-        private String method;
-
-        private int timeout;
-
-        private boolean followRedirects;
-
-        private int followRedirectsTolerance;
+    protected HashMap response;
 
 
+    private String protocol;
 
-        private URL urlTarget;
+    private String method;
 
-        private int status;
+    private int timeout;
 
-        private String id;
+    private boolean followRedirects;
 
-        private boolean shutdown;
+    private int followRedirectsTolerance;
 
+
+    private URL urlTarget;
+
+    private int status;
+
+    private String id;
+
+    private boolean shutdown;
 
 
     public DownloaderAbstract() {
@@ -118,33 +105,31 @@ public abstract class DownloaderAbstract implements Downloader {
 
             String str = paramFile.getParam("DOWNLOADER_ID");
 
-            if( str == null ) {
+            if (str == null) {
 
-                throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_ID' parameter");
+                throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_ID' parameter");
 
             }
 
             setId(str.trim());
 
 
-
             str = paramFile.getParam("DOWNLOADER_SHOW_NORMAL_LOG");
 
-            if( str == null ) {
+            if (str == null) {
 
-                throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_SHOW_NORMAL_LOG' parameter");
+                throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_SHOW_NORMAL_LOG' parameter");
 
             }
 
             setShowNormalLog(Boolean.valueOf(str.trim()).booleanValue());
 
 
-
             str = paramFile.getParam("DOWNLOADER_SHOW_ERROR_LOG");
 
-            if( str == null ) {
+            if (str == null) {
 
-                throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_SHOW_ERROR_LOG' parameter");
+                throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_SHOW_ERROR_LOG' parameter");
 
             }
 
@@ -152,94 +137,86 @@ public abstract class DownloaderAbstract implements Downloader {
 
             str = paramFile.getParam("DOWNLOADER_PROTOCOL");
 
-            if( str == null ) {
+            if (str == null) {
 
-                throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_PROTOCOL' parameter");
+                throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_PROTOCOL' parameter");
 
             }
 
             setProtocol(str.trim());
 
 
-
             str = paramFile.getParam("DOWNLOADER_METHOD");
 
-            if( str == null ) {
+            if (str == null) {
 
-                throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_METHOD' parameter");
+                throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_METHOD' parameter");
 
             }
 
             setMethod(str.trim());
 
 
-
             str = paramFile.getParam("DOWNLOADER_TIMEOUT");
 
-            if( str == null ) {
+            if (str == null) {
 
-                throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_TIMEOUT' parameter");
+                throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_TIMEOUT' parameter");
 
             }
 
             setTimeout(Integer.valueOf(str.trim()).intValue());
 
 
-
             str = paramFile.getParam("DOWNLOADER_FOLLOW_REDIRECT");
 
-            if( str == null ) {
+            if (str == null) {
 
-                throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_FOLLOW_REDIRECT' parameter");
+                throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_FOLLOW_REDIRECT' parameter");
 
             }
 
             setFollowRedirects(Boolean.valueOf(str.trim()).booleanValue());
 
 
-
             str = paramFile.getParam("DOWNLOADER_FOLLOW_REDIRECT_TOLERANCE");
 
-            if( str == null ) {
+            if (str == null) {
 
-                throw new DownloaderException(paramFile.getCfgFile()+"> Missing 'DOWNLOADER_FOLLOW_REDIRECT_TOLERANCE' parameter");
+                throw new DownloaderException(paramFile.getCfgFile() + "> Missing 'DOWNLOADER_FOLLOW_REDIRECT_TOLERANCE' parameter");
 
             }
 
             setFollowRedirectsTolerance(Integer.valueOf(str.trim()).intValue());
 
 
-
             String token = paramFile.getParam("DOWNLOADER_TOKEN");
 
             Iterator requests = paramFile.getParameters();
 
-            while( requests.hasNext() ) {
+            while (requests.hasNext()) {
 
-                str = (String)requests.next();
+                str = (String) requests.next();
 
-                if( str.startsWith("DOWNLOADER_REQUEST") ) {
+                if (str.startsWith("DOWNLOADER_REQUEST")) {
 
                     str = paramFile.getParam(str);
 
                     int pos = str.indexOf(token);
 
-                    setRequestProperty(str.substring(0,pos).trim(),str.substring(pos+token.length()).trim());
+                    setRequestProperty(str.substring(0, pos).trim(), str.substring(pos + token.length()).trim());
 
                 }
 
             }
 
-        }
+        } catch (Exception exc) {
 
-        catch(Exception exc) {
-
-            throw new DownloaderException(exc.getMessage(),exc);
+            throw new DownloaderException(exc.getMessage(), exc);
 
         }
 
     }
-
 
 
     protected void logAll(String message) {
@@ -249,7 +226,6 @@ public abstract class DownloaderAbstract implements Downloader {
         logError(message);
 
     }
-
 
 
     public void setNormalLog(Log newNormalLog) {
@@ -277,23 +253,21 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     protected void logNormal(String message) {
 
-        if( showNormalLog ) {
+        if (showNormalLog) {
 
-            Log.log("Downloader",getId()+".ok",message);
+            Log.log("Downloader", getId() + ".ok", message);
 
         }
 
-        if( normalLog != null ) {
+        if (normalLog != null) {
 
-            normalLog.logMessage("Downloader",getId()+".ok",message);
+            normalLog.logMessage("Downloader", getId() + ".ok", message);
 
         }
 
     }
-
 
 
     public void setErrorLog(Log newErrorLog) {
@@ -321,18 +295,15 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     protected void logError(String message) {
 
-        if( showErrorLog ) {
+        if (showErrorLog) {
 
             try {
 
-                Log.log("Downloader",getId()+".err","'"+getUrlTarget()+"'-"+message);
+                Log.log("Downloader", getId() + ".err", "'" + getUrlTarget() + "'-" + message);
 
-            }
-
-            catch(DownloaderException exc) {
+            } catch (DownloaderException exc) {
 
                 exc.printStackTrace();
 
@@ -340,15 +311,13 @@ public abstract class DownloaderAbstract implements Downloader {
 
         }
 
-        if( errorLog != null ) {
+        if (errorLog != null) {
 
             try {
 
-                errorLog.logMessage("Downloader",getId()+".err","'"+getUrlTarget()+"'-"+message);
+                errorLog.logMessage("Downloader", getId() + ".err", "'" + getUrlTarget() + "'-" + message);
 
-            }
-
-            catch(DownloaderException exc) {
+            } catch (DownloaderException exc) {
 
                 exc.printStackTrace();
 
@@ -357,7 +326,6 @@ public abstract class DownloaderAbstract implements Downloader {
         }
 
     }
-
 
 
     public void setId(String newId) {
@@ -373,7 +341,6 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public void clearRequestProperties() throws DownloaderException {
 
         requestNames.clear();
@@ -383,24 +350,21 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public void setRequestProperty(String name, String value) throws DownloaderException {
 
         int index = requestNames.indexOf(name.trim());
 
-        if( index != -1 ) {
+        if (index != -1) {
 
             requestNames.remove(index);
 
             requestValues.remove(index);
 
-            requestNames.add(index,name.trim());
+            requestNames.add(index, name.trim());
 
-            requestValues.add(index,value.trim());
+            requestValues.add(index, value.trim());
 
-        }
-
-        else {
+        } else {
 
             requestNames.add(name.trim());
 
@@ -409,7 +373,6 @@ public abstract class DownloaderAbstract implements Downloader {
         }
 
     }
-
 
 
     public void setProtocol(String newProtocol) throws DownloaderException {
@@ -425,7 +388,6 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public void setMethod(String newMethod) throws DownloaderException {
 
         method = newMethod;
@@ -437,7 +399,6 @@ public abstract class DownloaderAbstract implements Downloader {
         return method;
 
     }
-
 
 
     public void setTimeout(int newTimeout) throws DownloaderException {
@@ -453,7 +414,6 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public void setFollowRedirects(boolean newFollowRedirects) throws DownloaderException {
 
         followRedirects = newFollowRedirects;
@@ -467,7 +427,6 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public void setFollowRedirectsTolerance(int newFollowRedirectsTolerance) throws DownloaderException {
 
         followRedirectsTolerance = newFollowRedirectsTolerance;
@@ -479,7 +438,6 @@ public abstract class DownloaderAbstract implements Downloader {
         return followRedirectsTolerance;
 
     }
-
 
 
     public void setUrlTarget(URL newUrlTarget) throws DownloaderException {
@@ -499,13 +457,11 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     protected void setStatus(int newStatus) {
 
         status = newStatus;
 
     }
-
 
 
     public int getStatus() {
@@ -515,13 +471,11 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public void clearResponseProperties() throws DownloaderException {
 
         response.clear();
 
     }
-
 
 
     public String getResponseProtocol() throws DownloaderException {
@@ -530,9 +484,9 @@ public abstract class DownloaderAbstract implements Downloader {
 
         String result = getResponseProperty(Downloader.RESPONSE_PROTOCOL);
 
-        if( result == null ) {
+        if (result == null) {
 
-            String message = "Missing data '"+Downloader.RESPONSE_PROTOCOL+"'.";
+            String message = "Missing data '" + Downloader.RESPONSE_PROTOCOL + "'.";
 
             logError(message);
 
@@ -545,7 +499,6 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public int getResponseCode() throws DownloaderException {
 
         check();
@@ -554,11 +507,9 @@ public abstract class DownloaderAbstract implements Downloader {
 
             return Integer.valueOf(getResponseProperty(Downloader.RESPONSE_CODE)).intValue();
 
-        }
+        } catch (NumberFormatException exc) {
 
-        catch(NumberFormatException exc) {
-
-            String message = "Missing data '"+Downloader.RESPONSE_CODE+"'.";
+            String message = "Missing data '" + Downloader.RESPONSE_CODE + "'.";
 
             logError(message);
 
@@ -569,20 +520,17 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public int getContentLength() throws DownloaderException {
 
         check();
 
         try {
 
-            String contentLenght = getResponseProperty("Content-Length",false);
+            String contentLenght = getResponseProperty("Content-Length", false);
 
             return Integer.valueOf(contentLenght).intValue();
 
-        }
-
-        catch(NumberFormatException exc) {
+        } catch (NumberFormatException exc) {
 
             //String message = "Missing data Content-Length.";
 
@@ -597,16 +545,15 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public String getResponseMessage() throws DownloaderException {
 
         check();
 
         String result = getResponseProperty(Downloader.RESPONSE_MESSAGE);
 
-        if( result == null ) {
+        if (result == null) {
 
-            String message = "Missing data '"+Downloader.RESPONSE_MESSAGE+"'.";
+            String message = "Missing data '" + Downloader.RESPONSE_MESSAGE + "'.";
 
             logError(message);
 
@@ -619,14 +566,13 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public String getContentType() throws DownloaderException {
 
         check();
 
-        String result = getResponseProperty("Content-Type",false);
+        String result = getResponseProperty("Content-Type", false);
 
-        if( result == null ) {
+        if (result == null) {
 
             String message = "Missing data 'Content-Type'.";
 
@@ -641,14 +587,13 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public long getLastModified() throws DownloaderException {
 
         check();
 
-        String result = getResponseProperty("Last-Modified",false);
+        String result = getResponseProperty("Last-Modified", false);
 
-        if( result == null ) {
+        if (result == null) {
 
             String message = "Missing data 'Last-Modified'.";
 
@@ -672,36 +617,33 @@ public abstract class DownloaderAbstract implements Downloader {
 
 //        }
 
-        catch(IllegalArgumentException exc) {
+        catch (IllegalArgumentException exc) {
 
-            String message = "Could not convert '"+result+"'."+exc.getMessage();
+            String message = "Could not convert '" + result + "'." + exc.getMessage();
 
             logError(message);
 
-            throw new DownloaderException(message,exc);
+            throw new DownloaderException(message, exc);
 
         }
 
     }
 
 
-
     protected void setResponseProperty(String name, String value) throws DownloaderException {
 
-        response.put(name,value);
+        response.put(name, value);
 
     }
-
 
 
     public String getResponseProperty(String name) throws DownloaderException {
 
         check();
 
-        return (String)response.get(name);
+        return (String) response.get(name);
 
     }
-
 
 
     public String getResponseProperty(String name, boolean caseSensitive) throws DownloaderException {
@@ -710,21 +652,19 @@ public abstract class DownloaderAbstract implements Downloader {
 
         String result = null;
 
-        if( caseSensitive ) {
+        if (caseSensitive) {
 
             result = getResponseProperty(name);
 
-        }
-
-        else {
+        } else {
 
             Iterator i = listResponse();
 
-            while( i.hasNext() ) {
+            while (i.hasNext()) {
 
-                result = (String)i.next();
+                result = (String) i.next();
 
-                if( name.equalsIgnoreCase(result) ) {
+                if (name.equalsIgnoreCase(result)) {
 
                     result = getResponseProperty(result);
 
@@ -743,7 +683,6 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public Iterator listResponse() throws DownloaderException {
 
         check();
@@ -753,13 +692,11 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public void setShutdown(boolean newShutdown) {
 
         shutdown = newShutdown;
 
     }
-
 
 
     public boolean isShutdown() throws DownloaderException {
@@ -769,14 +706,11 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
-
-
     protected void check() throws DownloaderException {
 
-        if( getStatus() == Downloader.UNKNOWN ) {
+        if (getStatus() == Downloader.UNKNOWN) {
 
-            if( Downloader.METHOD_POST.equals(getMethod()) ) {
+            if (Downloader.METHOD_POST.equals(getMethod())) {
 
                 String message = "In a POST request you must call getInputStream() before call this method.";
 
@@ -797,44 +731,37 @@ public abstract class DownloaderAbstract implements Downloader {
     }
 
 
-
     public String toString() {
 
         String result = null;
 
         try {
 
-            result = "Request>'"+getUrlTarget()+"', "+getProtocol()+", "+getMethod()+", "+getTimeout()+", "+isFollowRedirects()+", "+getFollowRedirectsTolerance();
+            result = "Request>'" + getUrlTarget() + "', " + getProtocol() + ", " + getMethod() + ", " + getTimeout() + ", " + isFollowRedirects() + ", " + getFollowRedirectsTolerance();
 
-            if( getStatus() == Downloader.OK ) {
+            if (getStatus() == Downloader.OK) {
 
                 try {
 
-                    result += "\nResponse>"+getResponseProtocol()+", "+getResponseCode()+", "+getResponseMessage()+ ", content-type="+getContentType()+", lastModified="+getLastModified();
+                    result += "\nResponse>" + getResponseProtocol() + ", " + getResponseCode() + ", " + getResponseMessage() + ", content-type=" + getContentType() + ", lastModified=" + getLastModified();
+
+                } catch (DownloaderException exc) {
+
+                    result += "\nResponse>" + exc.getMessage();
 
                 }
 
-                catch(DownloaderException exc) {
+            } else {
 
-                    result += "\nResponse>"+exc.getMessage();
-
-                }
+                result += "\nResponse> statusFAIL=" + getStatus();
 
             }
 
-            else {
+            result += "\nResponse>" + response.toString();
 
-                result += "\nResponse> statusFAIL="+getStatus();
+        } catch (DownloaderException exc) {
 
-            }
-
-            result += "\nResponse>"+response.toString();
-
-        }
-
-        catch(DownloaderException exc) {
-
-            result = "FAIL>"+exc.getMessage();
+            result = "FAIL>" + exc.getMessage();
 
         }
 

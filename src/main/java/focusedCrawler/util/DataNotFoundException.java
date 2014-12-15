@@ -33,8 +33,8 @@ public class DataNotFoundException extends DetailException {
         super(message);
     }
 
-    public DataNotFoundException(String message,Throwable detail) {
-        super(message,detail);        
+    public DataNotFoundException(String message, Throwable detail) {
+        super(message, detail);
     }
 
 }

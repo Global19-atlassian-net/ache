@@ -22,27 +22,34 @@
 ############################################################################
 */
 package focusedCrawler.util.storage;
+
 import focusedCrawler.util.ParameterFile;
 import focusedCrawler.util.storage.AbstractStorageFactory;
 import focusedCrawler.util.storage.Storage;
 import focusedCrawler.util.storage.StorageItemEnumerationFactory;
 import focusedCrawler.util.storage.StorageItemEnumerationFactoryException;
+
 public class DefaultStorageItemEnumerationFactory extends AbstractStorageItemEnumerationFactory {
     private StorageItemEnumerationFactory factory;
     private String factoryClassName;
+
     public DefaultStorageItemEnumerationFactory() {
         super();
     } //StorageFactory
+
     public DefaultStorageItemEnumerationFactory(ParameterFile config) {
         super(config);
     } //StorageFactory
+
     public DefaultStorageItemEnumerationFactory(ParameterFile config, String newFactoryClassName) {
         super(config);
         factoryClassName = newFactoryClassName;
     } //StorageFactory
+
     public StorageItemEnumerationFactory getFactory() {
         return factory;
     } //main
+
     public void checkFactory() throws StorageItemEnumerationFactoryException {
         if (factory == null) {
             if ((getConfig() == null) && (factoryClassName == null)) {
@@ -55,21 +62,22 @@ public class DefaultStorageItemEnumerationFactory extends AbstractStorageItemEnu
                 factory = (StorageItemEnumerationFactory) Class.forName(factoryClassName).newInstance();
                 factory.setConfig(getConfig());
             } //try
-            catch(ClassNotFoundException error) {
+            catch (ClassNotFoundException error) {
                 throw new StorageItemEnumerationFactoryException(error);
             } //catch
-            catch(IllegalAccessException error) {
+            catch (IllegalAccessException error) {
                 throw new StorageItemEnumerationFactoryException(error);
             } //catch
-            catch(InstantiationException error) {
+            catch (InstantiationException error) {
                 throw new StorageItemEnumerationFactoryException(error);
             } //catch
         } //if
     }
+
     public StorageItemEnumeration produce() throws StorageItemEnumerationFactoryException {
         checkFactory();
         return factory.produce();
     }
-    
+
 }
 

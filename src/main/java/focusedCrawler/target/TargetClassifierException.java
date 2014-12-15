@@ -25,26 +25,26 @@ package focusedCrawler.target;
 
 /**
  * <p> </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p> </p>
  *
  * @author Luciano Barbosa
  * @version 1.0
  */
 public class TargetClassifierException
-    extends Exception {
+        extends Exception {
 
-  /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-public TargetClassifierException(String message) {
-    super(message);
-  }
+    public TargetClassifierException(String message) {
+        super(message);
+    }
 
 }

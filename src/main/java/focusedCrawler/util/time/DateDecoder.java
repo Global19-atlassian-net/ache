@@ -24,12 +24,11 @@
 package focusedCrawler.util.time;
 
 
-
 import java.util.Calendar;
 
 public class DateDecoder {
 
-    public static long decode(int intDate){
+    public static long decode(int intDate) {
 
         return intDate * 1000L;
 

@@ -24,7 +24,6 @@
 package focusedCrawler.util.url.naming;
 
 
-
 import java.net.URL;
 
 import java.net.URLDecoder;
@@ -42,72 +41,60 @@ import java.util.Enumeration;
 import focusedCrawler.util.ParameterFile;
 
 
-
-
-
-
 public class URL_Resolver {
-
 
 
 //--- separadores utilizados na URL modificada
 
-        public static final String SEPARADOR_INICIO = "##";
+    public static final String SEPARADOR_INICIO = "##";
 
-        public static final char   SEPARADOR_PARES  = '#';
+    public static final char SEPARADOR_PARES = '#';
 
-        public static final char   SEPARADOR_TIPOS  = '^';
-
+    public static final char SEPARADOR_TIPOS = '^';
 
 
 //--- modo de construcao da URL, MODO_ID para URLs com identificadores e MODO_NAME para o nome do parametros.
 
-        public static final int    MODO_ID          = 1;
+    public static final int MODO_ID = 1;
 
-        public static final int    MODO_NAME        = MODO_ID + 1;
-
+    public static final int MODO_NAME = MODO_ID + 1;
 
 
 //--- Mapeamento utlizado para a construcao dos elementos.
 
-        protected Map       map;
-
+    protected Map map;
 
 
 //--- Modo utilizado
 
-        protected int       modo;
+    protected int modo;
 
-        protected Hashtable hash_ids;   // mapeamento entre os identificadores e o objeto correpondente.
+    protected Hashtable hash_ids;   // mapeamento entre os identificadores e o objeto correpondente.
 
-        protected Hashtable hash_names; // mapeamento entre os nome e o objeto correpondente.
-
+    protected Hashtable hash_names; // mapeamento entre os nome e o objeto correpondente.
 
 
     public URL_Resolver(ParameterFile config) {
 
-        this(new Map_Geral(config),MODO_NAME);
+        this(new Map_Geral(config), MODO_NAME);
 
     }
-
 
 
     public URL_Resolver(Map map) {
 
-        this(map,MODO_NAME);
+        this(map, MODO_NAME);
 
     }
 
 
+    public URL_Resolver(Map map, int modo) {
 
-    public URL_Resolver(Map map,int modo) {
-
-        this.map  = map;
+        this.map = map;
 
         this.modo = modo;
 
     }
-
 
 
     public void setMap(Map map) {
@@ -123,7 +110,6 @@ public class URL_Resolver {
     }
 
 
-
     public int getModo() {
 
         return modo;
@@ -137,16 +123,13 @@ public class URL_Resolver {
     }
 
 
-
     /**
-
      * Constroi a nova URL agregando os dados que estao no URL_Resolver
-
      */
 
     public URL make(URL base) throws MalformedURLException {
 
-        resolve(base,false);
+        resolve(base, false);
 
         Vector items = new Vector();
 
@@ -162,31 +145,26 @@ public class URL_Resolver {
 
         items.copyInto(objs);
 
-        return make( getURL(base), objs);
+        return make(getURL(base), objs);
 
     }
 
 
-
     /**
+     * Constroi a nova URL agregando os dados complementares do array de objetos.
+     *
+     * @param base   URL que servira do partida.
+     * @param values Objetos complementares que deverao esr agregados a url.
+     * @return Uma URL modificada com os novos parametros.
+     */
 
-    *   Constroi a nova URL agregando os dados complementares do array de objetos.
-
-    *   @param base URL que servira do partida.
-
-    *   @param values Objetos complementares que deverao esr agregados a url.
-
-    *   @return Uma URL modificada com os novos parametros.
-
-    */
-
-    public URL make( URL base,Object[] values ) throws MalformedURLException {
+    public URL make(URL base, Object[] values) throws MalformedURLException {
 
 //        System.out.println("BASE::"+base.toString());
 
         String[] prefixos = null;
 
-        if( modo == MODO_ID )
+        if (modo == MODO_ID)
 
             prefixos = map.getIds();
 
@@ -196,31 +174,31 @@ public class URL_Resolver {
 
         URL resultado = base;
 
-        if( values != null )
+        if (values != null)
 
-          {
+        {
 
             StringBuffer complemento = new StringBuffer(6 * values.length);
 
-            for( int i = 0; i < values.length; i++ )
+            for (int i = 0; i < values.length; i++)
 
-               {
+            {
 
-                 if( values[i] != null )
+                if (values[i] != null)
 
-                   {
+                {
 
-                     if( i == 0 )
+                    if (i == 0)
 
-                          complemento.append(SEPARADOR_INICIO).append(prefixos[i]).append(SEPARADOR_TIPOS).append(map.formatString(values[i]));
+                        complemento.append(SEPARADOR_INICIO).append(prefixos[i]).append(SEPARADOR_TIPOS).append(map.formatString(values[i]));
 
-                     else
+                    else
 
-                          complemento.append(SEPARADOR_PARES).append(prefixos[i]).append(SEPARADOR_TIPOS).append(map.formatString(values[i]));
+                        complemento.append(SEPARADOR_PARES).append(prefixos[i]).append(SEPARADOR_TIPOS).append(map.formatString(values[i]));
 
-                   }
+                }
 
-               }
+            }
 
             complemento.append(SEPARADOR_PARES);
 
@@ -230,9 +208,9 @@ public class URL_Resolver {
 
             int end = urlTemp.indexOf("#");
 
-            if(end != -1){
+            if (end != -1) {
 
-                urlTemp = urlTemp.substring(0,end);
+                urlTemp = urlTemp.substring(0, end);
 
 //                System.out.println("urlTemp::"+urlTemp);
 
@@ -244,11 +222,11 @@ public class URL_Resolver {
 
             }
 
-            resultado = new URL( urlTemp + complemento.toString());
+            resultado = new URL(urlTemp + complemento.toString());
 
             //resultado = new URL( base, complemento.toString() );
 
-          }
+        }
 
         //com.radix.util.Log.log("URL_Resolver","make","result = '"+resultado+"'");
 
@@ -257,16 +235,12 @@ public class URL_Resolver {
     }
 
 
-
     /**
-
-    *   Retorna o URL original que foi utilizada como base.
-
-    *   @param url A URL modificada como a agregacao de informacoes.
-
-    *   @return A URL original, antes de terem sido agregadas novas informacoes.
-
-    */
+     * Retorna o URL original que foi utilizada como base.
+     *
+     * @param url A URL modificada como a agregacao de informacoes.
+     * @return A URL original, antes de terem sido agregadas novas informacoes.
+     */
 
     public URL getURL(URL url) throws MalformedURLException {
 
@@ -274,7 +248,7 @@ public class URL_Resolver {
 
         String str = getStringURL(url);
 
-        if( str != null ) {
+        if (str != null) {
 
             result = new URL(str);
 
@@ -285,10 +259,9 @@ public class URL_Resolver {
     } //getURL
 
 
-
     public String getStringURL(URL url) {
 
-        if( url == null )
+        if (url == null)
 
             return null;
 
@@ -296,49 +269,44 @@ public class URL_Resolver {
 
         int pos = str.indexOf(SEPARADOR_INICIO);
 
-        if( pos > 0 ) {
+        if (pos > 0) {
 
-            return str.substring(0,pos);
+            return str.substring(0, pos);
 
-        }
+        } else {
 
-        else {
-
-            return url.getProtocol()+"://"+url.getHost()+url.getFile();
+            return url.getProtocol() + "://" + url.getHost() + url.getFile();
 
         }
 
     } //getURL
 
 
-
     /**
+     * Identifica os parametros agregados para disponibiliza-los aos metodos,
+     * <p/>
+     * <code>getId(<identificador>)</code> e <code>getName(<nome do parametro>)</code>.
+     */
 
-    *   Identifica os parametros agregados para disponibiliza-los aos metodos,
+    public synchronized void resolve(URL url) {
 
-    *   <code>getId(<identificador>)</code> e <code>getName(<nome do parametro>)</code>.
-
-    */
-
-    public synchronized void resolve( URL url ) {
-
-        resolve(url,true);
+        resolve(url, true);
 
     }
 
-    private synchronized void resolve( URL url, boolean clear ) {
+    private synchronized void resolve(URL url, boolean clear) {
 
-        if( url == null )
+        if (url == null)
 
-          {
+        {
 
-            hash_ids   = null;
+            hash_ids = null;
 
             hash_names = null;
 
             return;
 
-          }
+        }
 
         String urlOri = url.toString();
 
@@ -350,7 +318,7 @@ public class URL_Resolver {
 
         int pos_inicio = str_url.indexOf(SEPARADOR_INICIO);
 
-        if( pos_inicio < 0 )
+        if (pos_inicio < 0)
 
             return;
 
@@ -358,111 +326,105 @@ public class URL_Resolver {
 
         pos_inicio = pos_inicio + SEPARADOR_INICIO.length();
 
-        int pos_tip = str_url.indexOf(SEPARADOR_TIPOS,pos_inicio);
+        int pos_tip = str_url.indexOf(SEPARADOR_TIPOS, pos_inicio);
 
-        if( pos_tip < 0 )
+        if (pos_tip < 0)
 
             return;
 
         //System.out.println("DEBUG1");
 
-        int pos_par = str_url.indexOf(SEPARADOR_PARES,pos_tip+1);
+        int pos_par = str_url.indexOf(SEPARADOR_PARES, pos_tip + 1);
 
-        if( pos_par < 0 )
+        if (pos_par < 0)
 
             return;
 
         //System.out.println("DEBUG2");
 
-        if( clear ) {
+        if (clear) {
 
-            hash_ids   = null;
+            hash_ids = null;
 
             hash_names = null;
 
-            hash_ids   = new Hashtable(9);
+            hash_ids = new Hashtable(9);
 
             hash_names = new Hashtable(9);
 
         }
 
 
-
         int pos_atual = pos_inicio;
 
-        String key,valor;
+        String key, valor;
 
-        Object aux  = null;
+        Object aux = null;
 
-        while( pos_tip > 0 && pos_par > 0 )
+        while (pos_tip > 0 && pos_par > 0)
 
-             {
+        {
 
-               key   = str_url.substring(pos_atual,pos_tip);
+            key = str_url.substring(pos_atual, pos_tip);
 
-               valor = str_url.substring(pos_tip+1,pos_par);
+            valor = str_url.substring(pos_tip + 1, pos_par);
 
 //               System.out.println("KEY = "+key+", VALOR = "+valor);
 
-               if( modo == MODO_ID )
+            if (modo == MODO_ID)
 
-                 {
+            {
 
-                   aux = map.parseForId(key,valor);
+                aux = map.parseForId(key, valor);
 
-                   if( aux != null )
+                if (aux != null)
 
-                     {
+                {
 
-                       hash_ids.put(key,aux);
+                    hash_ids.put(key, aux);
 
-                       hash_names.put(map.getNameForId(key),aux);
+                    hash_names.put(map.getNameForId(key), aux);
 
-                     }
+                }
 
-                 }
+            } else
 
-               else
+            {
 
-                 {
+                aux = map.parseForName(key, valor);
 
-                   aux = map.parseForName(key,valor);
+                if (aux != null)
 
-                   if( aux != null )
+                {
 
-                     {
+                    hash_ids.put(map.getIdForName(key), aux);
 
-                       hash_ids.put(map.getIdForName(key),aux);
+                    hash_names.put(key, aux);
 
-                       hash_names.put(key,aux);
+                }
 
-                     }
+            }
 
-                 }
+            pos_atual = pos_par + 1;
 
-               pos_atual = pos_par + 1;
+            pos_tip = str_url.indexOf(SEPARADOR_TIPOS, pos_atual);
 
-               pos_tip   = str_url.indexOf(SEPARADOR_TIPOS,pos_atual);
+            pos_par = str_url.indexOf(SEPARADOR_PARES, pos_tip + 1);
 
-               pos_par   = str_url.indexOf(SEPARADOR_PARES,pos_tip+1);
-
-             }
+        }
 
         //com.radix.util.Log.log("URL_Resolver","resolve","hash_ids = '"+hash_ids+"', hash_names = "+hash_names);
 
     }
 
 
-
     /**
-
-    *   Dado o numero de identificacao da informacao agregada, retorna o objeto correspondente.
-
-    *   Obs:primeiro deve-se chamar o metodo <code>resolve(<URL desejada>)</code>.
-
-    *   @param id Identificador do paramentro.
-
-    */
+     * Dado o numero de identificacao da informacao agregada, retorna o objeto correspondente.
+     * <p/>
+     * Obs:primeiro deve-se chamar o metodo <code>resolve(<URL desejada>)</code>.
+     *
+     * @param id Identificador do paramentro.
+     */
 
     public Object getId(String id) {
 
@@ -471,23 +433,19 @@ public class URL_Resolver {
     }
 
 
-
     /**
-
-    *   Dado o numero de identificacao da informacao agregada, retoran o objeto correspondente.
-
-    *   Obs:primeiro deve-se chamar o metodo <code>resolve(<URL desejada>)</code>.
-
-    *   @param id Identificador do paramentro.
-
-    */
+     * Dado o numero de identificacao da informacao agregada, retoran o objeto correspondente.
+     * <p/>
+     * Obs:primeiro deve-se chamar o metodo <code>resolve(<URL desejada>)</code>.
+     *
+     * @param id Identificador do paramentro.
+     */
 
     public Object getName(String name) {
 
         return hash_names.get(name);
 
     }
-
 
 
     public java.util.Enumeration getNames() {
@@ -497,46 +455,42 @@ public class URL_Resolver {
     }
 
 
-
-    private int  ERRO_INT  = -1;
+    private int ERRO_INT = -1;
 
     private long ERRO_LONG = -1;
 
     public int getInt(String name) {
 
-        return ( getName(name) != null ? ((Integer)getName(name)).intValue() : ERRO_INT );
+        return (getName(name) != null ? ((Integer) getName(name)).intValue() : ERRO_INT);
 
     }
-
 
 
     public long getLong(String name) {
 
-        return ( getName(name) != null ? ((Long)getName(name)).longValue() : ERRO_LONG );
+        return (getName(name) != null ? ((Long) getName(name)).longValue() : ERRO_LONG);
 
     }
-
 
 
     public String getQuery(URL url) {
 
         String str = url.toString();
 
-        return ( str.indexOf("##") > 0 ? str.substring(0,str.indexOf("##")) : "");
+        return (str.indexOf("##") > 0 ? str.substring(0, str.indexOf("##")) : "");
 
     }
 
 
-
     public void clear() {
 
-        if( hash_ids != null ) {
+        if (hash_ids != null) {
 
             hash_ids.clear();
 
         }
 
-        if( hash_names != null ) {
+        if (hash_names != null) {
 
             hash_names.clear();
 
@@ -545,46 +499,42 @@ public class URL_Resolver {
     }
 
 
-
     public static void main(String args[]) {
 
         try {
 
-              ParameterFile config = new ParameterFile (args [0]);
+            ParameterFile config = new ParameterFile(args[0]);
 
-              URL_Resolver resolver = new URL_Resolver(config);
+            URL_Resolver resolver = new URL_Resolver(config);
 
-              URL url = new URL(args[1].trim());
+            URL url = new URL(args[1].trim());
 
-              System.out.println("1."+url);
+            System.out.println("1." + url);
 
-              resolver.clear();
+            resolver.clear();
 
-              resolver.resolve(url);
+            resolver.resolve(url);
 
-              java.util.Enumeration keys = resolver.getNames();
+            java.util.Enumeration keys = resolver.getNames();
 
-              String name;
+            String name;
 
-              while (keys.hasMoreElements()) {
+            while (keys.hasMoreElements()) {
 
-                  name = (String)keys.nextElement();
+                name = (String) keys.nextElement();
 
-                  System.out.println("getName("+name+")="+resolver.getName(name));
+                System.out.println("getName(" + name + ")=" + resolver.getName(name));
 
-              } //while
+            } //while
 
 
+        } catch (MalformedURLException mfue)
 
-            }
+        {
 
-        catch( MalformedURLException mfue )
+            mfue.printStackTrace();
 
-            {
-
-              mfue.printStackTrace();
-
-            }
+        }
 
     }
 

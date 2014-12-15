@@ -24,14 +24,11 @@
 package focusedCrawler.util.transaction;
 
 
-
 public class TransactionManagerException extends Exception {
 
-    
 
-        public Exception exc;
+    public Exception exc;
 
-    
 
     public TransactionManagerException() {
 
@@ -39,7 +36,6 @@ public class TransactionManagerException extends Exception {
 
     }
 
-    
 
     public TransactionManagerException(Exception exc) {
 
@@ -50,16 +46,14 @@ public class TransactionManagerException extends Exception {
     }
 
 
-
     public TransactionManagerException(String message) {
 
         super(message);
 
     }
 
-    
 
-    public TransactionManagerException(String message,Exception exc) {
+    public TransactionManagerException(String message, Exception exc) {
 
         super(message);
 
@@ -68,10 +62,9 @@ public class TransactionManagerException extends Exception {
     }
 
 
-
     public void printStackTrace(java.io.PrintStream out) {
 
-        if( exc != null ) {
+        if (exc != null) {
 
             exc.printStackTrace(out);
 

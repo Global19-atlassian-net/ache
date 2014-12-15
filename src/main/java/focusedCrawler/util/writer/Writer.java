@@ -26,17 +26,13 @@ package focusedCrawler.util.writer;
 public interface Writer {
 
 
-
     void write() throws WriterException;
-
 
 
     void write(Object obj) throws WriterException;
 
 
-
     void finalize() throws WriterException;
-
 
 
 }

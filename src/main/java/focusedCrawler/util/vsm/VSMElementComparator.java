@@ -27,11 +27,11 @@ import java.util.Comparator;
 
 /**
  * <p>Title: </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2006</p>
- *
+ * <p/>
  * <p>Company: </p>
  *
  * @author not attributable
@@ -47,15 +47,14 @@ public class VSMElementComparator implements Comparator<Object> {
      * @param o1 the first object to be compared.
      * @param o2 the second object to be compared.
      * @return a negative integer, zero, or a positive integer as the first
-     *   argument is less than, equal to, or greater than the second.
+     * argument is less than, equal to, or greater than the second.
      */
     public int compare(Object o1, Object o2) {
-        if(((VSMElement)o1).getWeight() < ((VSMElement)o2).getWeight())
-         return 1;
-       else
-             if(((VSMElement)o1).getWeight() == ((VSMElement)o2).getWeight())
-               return 0;
-             else
-               return -1;
+        if (((VSMElement) o1).getWeight() < ((VSMElement) o2).getWeight())
+            return 1;
+        else if (((VSMElement) o1).getWeight() == ((VSMElement) o2).getWeight())
+            return 0;
+        else
+            return -1;
     }
 }

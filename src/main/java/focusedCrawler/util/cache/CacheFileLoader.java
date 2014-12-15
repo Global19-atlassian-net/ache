@@ -28,23 +28,18 @@ import focusedCrawler.util.loader.LoaderException;
 
 public class CacheFileLoader extends CacheLoader {
     /**
-
-     * Indica com a cache será, se mapeando string em int, ou int em string
-
+     * Indica com a cache serï¿½, se mapeando string em int, ou int em string
      */
 
     private boolean cacheStringToInt;
 
     /**
-
      * Indica como esta disposta a entrada de uma linha do arquivo,
-
+     * <p/>
      * se int:string ou string:int
-
      */
 
     private boolean fileIntToString;
-
 
 
     public CacheFileLoader() {
@@ -52,21 +47,18 @@ public class CacheFileLoader extends CacheLoader {
     }
 
 
-
     public CacheFileLoader(Cache cache) {
 
-        this(cache,true,true);
+        this(cache, true, true);
 
     }
-
 
 
     public CacheFileLoader(Cache cache, boolean _cacheStringToInt) {
 
-        this(cache,_cacheStringToInt,true);
+        this(cache, _cacheStringToInt, true);
 
     }
-
 
 
     public CacheFileLoader(Cache cache, boolean _cacheStringToInt, boolean _fileIntToString) {
@@ -80,32 +72,31 @@ public class CacheFileLoader extends CacheLoader {
     }
 
 
-
-    public void load (Object objeto) throws LoaderException {
+    public void load(Object objeto) throws LoaderException {
 
         String str = (String) objeto;
 
         int pos = str.indexOf(":");
 
-        if( pos > 0 ) {
+        if (pos > 0) {
 
             Integer i;
 
             String s;
 
-            String first = str.substring(0,pos);
+            String first = str.substring(0, pos);
 
-            String second = str.substring(pos+1);
+            String second = str.substring(pos + 1);
 
             try {
 
-                if(fileIntToString){
+                if (fileIntToString) {
 
                     i = new Integer(first.trim());
 
                     s = second;
 
-                }else{
+                } else {
 
                     s = first;
 
@@ -117,7 +108,7 @@ public class CacheFileLoader extends CacheLoader {
 
                     if (Math.random() <= 0.05) {
 
-                        System.out.println("load: i="+i+" s="+s+" "+((Cache) getLoadable()).size()+" "+cacheStringToInt);
+                        System.out.println("load: i=" + i + " s=" + s + " " + ((Cache) getLoadable()).size() + " " + cacheStringToInt);
 
                     }
 
@@ -137,23 +128,19 @@ public class CacheFileLoader extends CacheLoader {
 
                 catch (CacheException erro) {
 
-                    throw new LoaderException ("Não conseguiu carregar a cache: " + erro.getMessage ());
+                    throw new LoaderException("Nï¿½o conseguiu carregar a cache: " + erro.getMessage());
 
                 } //catch
 
-            }
+            } catch (NumberFormatException exc) {
 
-            catch(NumberFormatException exc) {
-
-                Log.log("CFL","Cache loader","line error '"+str+"'");
+                Log.log("CFL", "Cache loader", "line error '" + str + "'");
 
             }
 
-        }
+        } else {
 
-        else {
-
-            Log.log("CFL","Cache loader","line error '"+str+"'");
+            Log.log("CFL", "Cache loader", "line error '" + str + "'");
 
         }
 

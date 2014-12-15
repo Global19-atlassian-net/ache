@@ -25,23 +25,28 @@ package focusedCrawler.util;
 
 import focusedCrawler.util.string.StopList;
 import focusedCrawler.util.vsm.VSMVector;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Vector;
 import java.io.File;
+
 import org.xml.sax.SAXException;
+
 import java.util.Collections;
 import java.util.Iterator;
+
 import focusedCrawler.util.vsm.VSMElement;
 import focusedCrawler.util.vsm.VSMElementComparator;
+
 /**
  * <p>Title: </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2006</p>
- *
+ * <p/>
  * <p>Company: </p>
  *
  * @author not attributable
@@ -54,20 +59,20 @@ public class VocabularyHomogeneity {
     public static void main(String[] args) {
         VocabularyHomogeneity vocabularyhomogeneity = new VocabularyHomogeneity();
         try {
-           StopList st = new focusedCrawler.util.string.StopListArquivo(args[0]);
-           File[] labeledFiles = new File(args[1]).listFiles();
-           System.out.println("FILE:"+new File(args[1]).toString());
+            StopList st = new focusedCrawler.util.string.StopListArquivo(args[0]);
+            File[] labeledFiles = new File(args[1]).listFiles();
+            System.out.println("FILE:" + new File(args[1]).toString());
 
-           VSMVector vsmFormLabeled = new VSMVector();
-           Vector temp = new Vector();
-           double count = 0;
-           for (int i = 0; i < labeledFiles.length; i++) {
-               VSMVector vsmFormTemp = new VSMVector(labeledFiles[i].toString(), true, st);
-               count = count + vsmFormTemp.getArrayElements().length;
-               vsmFormLabeled.addVector(vsmFormTemp);
-               temp.add(vsmFormTemp);
-           }
-           System.out.println(count/(double)labeledFiles.length);
+            VSMVector vsmFormLabeled = new VSMVector();
+            Vector temp = new Vector();
+            double count = 0;
+            for (int i = 0; i < labeledFiles.length; i++) {
+                VSMVector vsmFormTemp = new VSMVector(labeledFiles[i].toString(), true, st);
+                count = count + vsmFormTemp.getArrayElements().length;
+                vsmFormLabeled.addVector(vsmFormTemp);
+                temp.add(vsmFormTemp);
+            }
+            System.out.println(count / (double) labeledFiles.length);
 
             VSMVector[] forms = new VSMVector[temp.size()];
             temp.toArray(forms);
@@ -77,42 +82,42 @@ public class VocabularyHomogeneity {
             double homogen = 0;
             int total = 0;
             temp = new Vector();
-            while(iter.hasNext()){
-              String word= (String)iter.next();
-                int occur = ((Integer)(idfLabel.get(word))).intValue();
-                temp.add(new VSMElement(word,occur));
-              }
-              Collections.sort(temp,new VSMElementComparator());
-              for (int i = 0; i < 500; i++) {
-                VSMElement elem = (VSMElement)temp.elementAt(i);
+            while (iter.hasNext()) {
+                String word = (String) iter.next();
+                int occur = ((Integer) (idfLabel.get(word))).intValue();
+                temp.add(new VSMElement(word, occur));
+            }
+            Collections.sort(temp, new VSMElementComparator());
+            for (int i = 0; i < 500; i++) {
+                VSMElement elem = (VSMElement) temp.elementAt(i);
                 System.out.print(elem.getWeight());
                 System.out.print("\n");
-                total = total + (int)elem.getWeight();
-              }
-              for (int i = 0; i < 500; i++) {
-                VSMElement elem = (VSMElement)temp.elementAt(i);
-                 homogen = homogen + ((elem.getWeight()/total)*(elem.getWeight()/total));
-              }
+                total = total + (int) elem.getWeight();
+            }
+            for (int i = 0; i < 500; i++) {
+                VSMElement elem = (VSMElement) temp.elementAt(i);
+                homogen = homogen + ((elem.getWeight() / total) * (elem.getWeight() / total));
+            }
 
-              iter = idfLabel.keySet().iterator();
-            while(iter.hasNext()){
-                double occur = ((Integer)(idfLabel.get(iter.next()))).doubleValue();
-                total = total + (int)occur;
-                if(occur > 5){
-                  homogen = homogen + ((occur/total)*(occur/total));
+            iter = idfLabel.keySet().iterator();
+            while (iter.hasNext()) {
+                double occur = ((Integer) (idfLabel.get(iter.next()))).doubleValue();
+                total = total + (int) occur;
+                if (occur > 5) {
+                    homogen = homogen + ((occur / total) * (occur / total));
                 }
             }
-            System.out.println("HOMOG:"+homogen);
-              System.out.println("DISTINCT:"+size);
-              System.out.println("TOTAL:"+total);
-              System.out.println("VALUE:"+total/size);
-       } catch (SAXException ex) {
-           ex.printStackTrace();
-       } catch (MalformedURLException ex) {
-           ex.printStackTrace();
-       } catch (IOException ex) {
-           ex.printStackTrace();
-       }
+            System.out.println("HOMOG:" + homogen);
+            System.out.println("DISTINCT:" + size);
+            System.out.println("TOTAL:" + total);
+            System.out.println("VALUE:" + total / size);
+        } catch (SAXException ex) {
+            ex.printStackTrace();
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }
 }

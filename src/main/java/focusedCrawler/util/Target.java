@@ -25,11 +25,11 @@ package focusedCrawler.util;
 
 /**
  * <p> </p>
- *
+ * <p/>
  * <p>Description: Target class</p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p> </p>
  *
  * @author Luciano Barbosa
@@ -37,8 +37,8 @@ package focusedCrawler.util;
  */
 public interface Target {
 
-  public String getIdentifier();
+    public String getIdentifier();
 
-  public String getSource();
+    public String getSource();
 
 }

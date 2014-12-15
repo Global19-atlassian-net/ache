@@ -24,42 +24,27 @@
 package focusedCrawler.util.cache;
 
 
-
 import java.util.Enumeration;
 
 import focusedCrawler.util.DoubleLinkedList;
 import focusedCrawler.util.DoubleLinkedListNode;
 
 
-
-
-
-
-
 /**
-
- * Classe que representa uma enumeração de chaves de cache, criada a partir de uma enumeração de Strings (valores das chaves)
-
+ * Classe que representa uma enumeraï¿½ï¿½o de chaves de cache, criada a partir de uma enumeraï¿½ï¿½o de Strings (valores das chaves)
  *
-
  * @see CacheKey
-
  * @see ObjectCacheKey
-
  * @see java.util.Enumeration
-
-*/
+ */
 
 public class KeyEnumeration implements Enumeration {
-
 
 
     private DoubleLinkedListNode node;
 
 
-
-//    Enumeration enum; // Armazena a enumeração de Strings (valores das chaves)
-
+//    Enumeration enum; // Armazena a enumeraï¿½ï¿½o de Strings (valores das chaves)
 
 
     public KeyEnumeration(DoubleLinkedListNode head) {
@@ -69,13 +54,11 @@ public class KeyEnumeration implements Enumeration {
     }
 
 
-
     public boolean hasMoreElements() {
 
-        return node != null &&  node.next() != null;
+        return node != null && node.next() != null;
 
     }
-
 
 
     public Object nextElement() {

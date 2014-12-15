@@ -22,6 +22,7 @@
 ############################################################################
 */
 package focusedCrawler.util.storage;
+
 import focusedCrawler.util.DataNotFoundException;
 import focusedCrawler.util.distribution.CommunicationException;
 import focusedCrawler.util.storage.Storage;
@@ -32,35 +33,42 @@ import focusedCrawler.util.storage.StorageItemEnumeration;
 
 public class SelectedStorageItemEnumeration implements StorageItemEnumeration {
     private StorageItem result;
-    private Storage     storage;
+    private Storage storage;
+
     public SelectedStorageItemEnumeration() {
     }
+
     public StorageItem getStorageItem() {
         return result;
     }
+
     public void setStorageItem(StorageItem newStorageItem) {
         result = newStorageItem;
     }
+
     public Storage getStorage() {
         return storage;
     }
+
     public void setStorage(Storage newStorage) {
         storage = newStorage;
     }
-    public boolean hasNext() throws StorageException{
-        try{
+
+    public boolean hasNext() throws StorageException {
+        try {
             result = (StorageItem) storage.select(result);
             return true;
         } //try
-        catch(DataNotFoundException error){
+        catch (DataNotFoundException error) {
             error.printStackTrace();
             return false;
         } //catch
-        catch(CommunicationException error){
+        catch (CommunicationException error) {
             error.printStackTrace();
             throw new StorageException(error);
         } //catch
     }
+
     public StorageItem next() throws StorageException {
 
         return result;
@@ -76,7 +84,7 @@ public class SelectedStorageItemEnumeration implements StorageItemEnumeration {
 
         } //try
 
-        catch(CommunicationException error){
+        catch (CommunicationException error) {
 
             error.printStackTrace();
 

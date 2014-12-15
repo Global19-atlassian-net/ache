@@ -24,9 +24,7 @@
 package focusedCrawler.util.loader;
 
 
-
 public interface Loadable {
-
 
 
 }

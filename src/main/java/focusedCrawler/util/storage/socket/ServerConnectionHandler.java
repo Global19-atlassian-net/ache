@@ -43,8 +43,7 @@ import focusedCrawler.util.storage.StorageException;
 
  */
 
-class ServerConnectionHandler  extends Thread {
-
+class ServerConnectionHandler extends Thread {
 
 
     private Storage storage;
@@ -53,20 +52,18 @@ class ServerConnectionHandler  extends Thread {
 
     private long startTime;
 
-    private int inLength=0;
+    private int inLength = 0;
 
-    private int outLength= 0;
+    private int outLength = 0;
 
     private ServerConnectionListener listener;
 
 
-
-    private int methodId=-1;
+    private int methodId = -1;
 
     private DataInputStream din;
 
     private DataOutputStream dout;
-
 
 
     private byte[] buffer;
@@ -74,16 +71,14 @@ class ServerConnectionHandler  extends Thread {
     private Object param;
 
 
-
-    private int returnType=-1;
+    private int returnType = -1;
 
     private Object result;
 
     private ByteArrayOutputStream bout;
 
 
-
-    public ServerConnectionHandler(int number, String storage_name, Storage storage, Socket socket, ServerConnectionListener listener)  {
+    public ServerConnectionHandler(int number, String storage_name, Storage storage, Socket socket, ServerConnectionListener listener) {
 
         super();
 
@@ -95,10 +90,9 @@ class ServerConnectionHandler  extends Thread {
 
         this.listener = listener;
 
-        setName("ServerConnectionHandler["+storage_name+"/"+number+"/"+listener.getConcurrentLevel()+"]-"+socket.getInetAddress()+":"+socket.getPort());
+        setName("ServerConnectionHandler[" + storage_name + "/" + number + "/" + listener.getConcurrentLevel() + "]-" + socket.getInetAddress() + ":" + socket.getPort());
 
     }
-
 
 
     public String toString() {
@@ -106,7 +100,6 @@ class ServerConnectionHandler  extends Thread {
         return getName();
 
     }
-
 
 
     private void readRequestData() throws IOException {
@@ -117,12 +110,11 @@ class ServerConnectionHandler  extends Thread {
 
         inLength = din.readInt();
 
-        buffer   = new byte[inLength];
+        buffer = new byte[inLength];
 
         din.readFully(buffer);
 
     }
-
 
 
     private void buildRequestObject() throws ClassNotFoundException, IOException {
@@ -140,12 +132,11 @@ class ServerConnectionHandler  extends Thread {
     }
 
 
-
     private void callStorage() throws StorageException, DataNotFoundException, CommunicationException {
 
         // call storage method
 
-        switch(methodId) {
+        switch (methodId) {
 
             case CommunicationConstants.METHOD_PING:
 
@@ -161,7 +152,7 @@ class ServerConnectionHandler  extends Thread {
 
             case CommunicationConstants.METHOD_INSERT_ARRAY:
 
-                result = storage.insertArray((Object[])param);
+                result = storage.insertArray((Object[]) param);
 
                 break;
 
@@ -173,7 +164,7 @@ class ServerConnectionHandler  extends Thread {
 
             case CommunicationConstants.METHOD_SELECT_ARRAY:
 
-                result = storage.selectArray((Object[])param);
+                result = storage.selectArray((Object[]) param);
 
                 break;
 
@@ -191,7 +182,7 @@ class ServerConnectionHandler  extends Thread {
 
             case CommunicationConstants.METHOD_UPDATE_ARRAY:
 
-                result = storage.updateArray((Object[])param);
+                result = storage.updateArray((Object[]) param);
 
                 break;
 
@@ -203,7 +194,7 @@ class ServerConnectionHandler  extends Thread {
 
             case CommunicationConstants.METHOD_REMOVE_ARRAY:
 
-                result = storage.removeArray((Object[])param);
+                result = storage.removeArray((Object[]) param);
 
                 break;
 
@@ -215,7 +206,7 @@ class ServerConnectionHandler  extends Thread {
 
             case CommunicationConstants.METHOD_ADD_RESOURCE_ARRAY:
 
-                result = storage.addResourceArray((Object[])param);
+                result = storage.addResourceArray((Object[]) param);
 
                 break;
 
@@ -227,7 +218,7 @@ class ServerConnectionHandler  extends Thread {
 
             case CommunicationConstants.METHOD_REMOVE_RESOURCE_ARRAY:
 
-                result = storage.removeResourceArray((Object[])param);
+                result = storage.removeResourceArray((Object[]) param);
 
                 break;
 
@@ -258,7 +249,6 @@ class ServerConnectionHandler  extends Thread {
     }
 
 
-
     private void serializeObject(Object obj) throws IOException {
 
         // serialize the result object or exception
@@ -272,7 +262,6 @@ class ServerConnectionHandler  extends Thread {
         oout.flush();
 
     }
-
 
 
     private void serializeException(Exception obj) throws IOException {
@@ -298,7 +287,6 @@ class ServerConnectionHandler  extends Thread {
     }
 
 
-
     private void sendResult() throws IOException {
 
         // send data to client
@@ -316,10 +304,9 @@ class ServerConnectionHandler  extends Thread {
     }
 
 
-
     public void run() {
 
-        long t1=0, t2=0, t3=0, t4=0, t5=0, t6=0;
+        long t1 = 0, t2 = 0, t3 = 0, t4 = 0, t5 = 0, t6 = 0;
 
         try {
 
@@ -329,51 +316,51 @@ class ServerConnectionHandler  extends Thread {
 
                 dout = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 
-                t1=System.currentTimeMillis();
+                t1 = System.currentTimeMillis();
 
                 readRequestData();
 
-                t2=System.currentTimeMillis();
+                t2 = System.currentTimeMillis();
 
                 try {
 
                     buildRequestObject();
 
-                    t3=System.currentTimeMillis();
+                    t3 = System.currentTimeMillis();
 
                     callStorage();
 
-                    t4=System.currentTimeMillis();
+                    t4 = System.currentTimeMillis();
 
                     serializeObject(result);
 
                     returnType = CommunicationConstants.RETURN_OK;
 
-                } catch(StorageException e) {
+                } catch (StorageException e) {
 
                     serializeException(e);
 
                     returnType = CommunicationConstants.RETURN_STORAGE_EXCEPTION;
 
-                } catch(DataNotFoundException e) {
+                } catch (DataNotFoundException e) {
 
                     serializeException(e);
 
                     returnType = CommunicationConstants.RETURN_DATA_NOT_FOUND;
 
-                } catch(CommunicationException e) {
+                } catch (CommunicationException e) {
 
                     serializeException(e);
 
                     returnType = CommunicationConstants.RETURN_COMMUNICATION_EXCEPTION;
 
-                } catch(ClassNotFoundException e) {
+                } catch (ClassNotFoundException e) {
 
                     serializeException(e);
 
                     returnType = CommunicationConstants.RETURN_COMMUNICATION_EXCEPTION;
 
-                } catch(Exception e) {
+                } catch (Exception e) {
 
                     serializeException(e);
 
@@ -381,33 +368,33 @@ class ServerConnectionHandler  extends Thread {
 
                 }
 
-                t5=System.currentTimeMillis();
+                t5 = System.currentTimeMillis();
 
                 sendResult();
 
-                t6=System.currentTimeMillis();
+                t6 = System.currentTimeMillis();
 
-            } catch(IOException e) {
+            } catch (IOException e) {
 
                 // ignore socket errors(closing and free client)
 
-                Log.log(this.toString(), storage.toString(), "IO error:"+e);
+                Log.log(this.toString(), storage.toString(), "IO error:" + e);
 
             }
 
         } finally {
 
-            try { socket.close(); }
+            try {
+                socket.close();
+            } catch (IOException ioe) {
 
-            catch(IOException ioe) {
-
-                Log.log(this.toString(), storage.toString(), "socket close error:"+ioe);
+                Log.log(this.toString(), storage.toString(), "socket close error:" + ioe);
 
             }
 
             socket = null;
 
-            din= null;
+            din = null;
 
             dout = null;
 
@@ -419,19 +406,24 @@ class ServerConnectionHandler  extends Thread {
 
             bout = null;
 
-            t6-=t5; t5-=t4; t4-=t3; t3-=t2; t2-=t1; t1-=startTime;
+            t6 -= t5;
+            t5 -= t4;
+            t4 -= t3;
+            t3 -= t2;
+            t2 -= t1;
+            t1 -= startTime;
 
             long tt = System.currentTimeMillis() - startTime;
 
             listener.outgoingConnection();
 
-            if( Log.log ) {
+            if (Log.log) {
 
                 Log.log(toString(), getReturnType(returnType),
 
-                        "time= "+tt+" dataIn= "+inLength+" dataOut= "+outLength+
+                        "time= " + tt + " dataIn= " + inLength + " dataOut= " + outLength +
 
-                        " init= "+t1+" ,rr= "+t2+" ,bro= "+t3+" ,cs= "+t4+" ,so= "+t5+" ,sr= "+t6);
+                                " init= " + t1 + " ,rr= " + t2 + " ,bro= " + t3 + " ,cs= " + t4 + " ,so= " + t5 + " ,sr= " + t6);
 
             }
 
@@ -440,10 +432,9 @@ class ServerConnectionHandler  extends Thread {
     }
 
 
-
     private String getReturnType(int t) {
 
-        switch(t) {
+        switch (t) {
 
             case CommunicationConstants.RETURN_OK:
 
@@ -468,7 +459,6 @@ class ServerConnectionHandler  extends Thread {
         }
 
     }
-
 
 
 }

@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage.thread;
 
 
-
 import java.util.Vector;
 
 import focusedCrawler.util.distribution.CommunicationException;
@@ -34,13 +33,11 @@ import focusedCrawler.util.storage.StorageException;
 public class ThreadStorage extends Thread {
 
 
-
     // variaveis para controle da execucao da thread
 
     private boolean toRun = true;
 
     private Exception lastError;
-
 
 
     // storage
@@ -52,8 +49,7 @@ public class ThreadStorage extends Thread {
     private Vector vRemoveObjects;
 
 
-
-    public ThreadStorage (Storage _storage) {
+    public ThreadStorage(Storage _storage) {
 
         this.storage = _storage;
 
@@ -64,17 +60,15 @@ public class ThreadStorage extends Thread {
     } //ThreadStorage
 
 
-
     public synchronized void addResourceArray(Object[] objs) {
 
-        for (int counter=0; counter < objs.length; counter++) {
+        for (int counter = 0; counter < objs.length; counter++) {
 
             addResource(objs[counter]);
 
         } //for
 
     } //addResourceArray
-
 
 
     public synchronized void addResource(Object obj) {
@@ -84,17 +78,15 @@ public class ThreadStorage extends Thread {
     } //addResource
 
 
-
     public synchronized void removeResourceArray(Object[] objs) {
 
-        for (int counter=0; counter < objs.length; counter++) {
+        for (int counter = 0; counter < objs.length; counter++) {
 
             removeResource(objs[counter]);
 
         } //for
 
     } //removeResourceArray
-
 
 
     public synchronized void removeResource(Object obj) {
@@ -104,13 +96,11 @@ public class ThreadStorage extends Thread {
     } //removeResource
 
 
-
     public void commit() {
 
         wakeUp();
 
     } //commit
-
 
 
     public synchronized void wakeUp() {
@@ -120,23 +110,21 @@ public class ThreadStorage extends Thread {
     } //acordar
 
 
-
     public synchronized void sleep() {
 
-       try {
+        try {
 
-           wait();
+            wait();
 
-       } //try
+        } //try
 
-       catch ( InterruptedException e) {
+        catch (InterruptedException e) {
 
-           e.printStackTrace();
+            e.printStackTrace();
 
-       } //catch
+        } //catch
 
     } //dormir
-
 
 
     public Exception getLastError() {
@@ -146,13 +134,11 @@ public class ThreadStorage extends Thread {
     } //getLastError
 
 
-
     public void setToRun(boolean toRun) {
 
         this.toRun = toRun;
 
     } //setToRun
-
 
 
     private Object[] getObjects(Vector vObjects) {
@@ -170,7 +156,6 @@ public class ThreadStorage extends Thread {
         } //synchronized
 
     } //getObjects
-
 
 
     public void run() {

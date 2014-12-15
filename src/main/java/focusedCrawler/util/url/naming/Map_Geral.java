@@ -24,49 +24,38 @@
 package focusedCrawler.util.url.naming;
 
 
-
 import java.util.Vector;
 
 import focusedCrawler.util.ParameterFile;
 
 
-
-
-
-
 public class Map_Geral extends Map {
 
 
-
     /**
+     * Mapeamento utilizado pela indexacao para a colocacao na url de informa��es como:
+     * <p/>
+     * codigo da url, tipo da url, data de modificacao, data de visitada, contador de atualizacaoes, nota do link para imagem,nota do link para Lingua Portuguesa
+     * <p/>
+     * Ex.: "http://www.di.ufpe.br##cod^123#tip^2"
+     */
 
-     Mapeamento utilizado pela indexacao para a colocacao na url de informa��es como:
-
-     codigo da url, tipo da url, data de modificacao, data de visitada, contador de atualizacaoes, nota do link para imagem,nota do link para Lingua Portuguesa
-
-     Ex.: "http://www.di.ufpe.br##cod^123#tip^2"
-
-
-
-    */
-
-    public Map_Geral () {
+    public Map_Geral() {
 
     } //Map_Geral
 
 
-
     public Map_Geral(ParameterFile config) {
 
-        String[] types = config.getParam("MAP_TYPES"," ");
+        String[] types = config.getParam("MAP_TYPES", " ");
 
-        String[] names = config.getParam("MAP_NAMES"," ");
+        String[] names = config.getParam("MAP_NAMES", " ");
 
-        String[] ids = new String [names.length];
+        String[] ids = new String[names.length];
 
         for (int i = 0; i < names.length; i++) {
 
-            ids [i] = new Integer (i).toString();
+            ids[i] = new Integer(i).toString();
 
         } //for
 
@@ -79,54 +68,51 @@ public class Map_Geral extends Map {
     } //Map_Geral
 
 
-
     public static void main(String args[]) {
 
         try {
 
-              URL_Resolver resolver = new URL_Resolver(new ParameterFile(args [0]));
+            URL_Resolver resolver = new URL_Resolver(new ParameterFile(args[0]));
 
-              java.net.URL url = new java.net.URL(args[1].trim());
+            java.net.URL url = new java.net.URL(args[1].trim());
 
-              Object objs[] = new Object[]{
+            Object objs[] = new Object[]{
 
-                                            Integer.valueOf(args[2].trim()),
+                    Integer.valueOf(args[2].trim()),
 
-                                            Integer.valueOf(args[3].trim()),
+                    Integer.valueOf(args[3].trim()),
 
-                                            null,//Long.valueOf(args[3].trim()),
+                    null,//Long.valueOf(args[3].trim()),
 
-                                            null,//Long.valueOf(args[4].trim()),
+                    null,//Long.valueOf(args[4].trim()),
 
-                                            null,//Integer.valueOf(args[5].trim()),
+                    null,//Integer.valueOf(args[5].trim()),
 
-                                            null,//Integer.valueOf(args[6].trim()),
+                    null,//Integer.valueOf(args[6].trim()),
 
-                                            null,//Integer.valueOf(args[7].trim()),
+                    null,//Integer.valueOf(args[7].trim()),
 
-                                            null,
+                    null,
 
-                                            null
+                    null
 
-                                          };
-
-
-
-              Map map = resolver.getMap();
-
-              String ids[]   = map.getIds();
-
-              String names[] = map.getNames();
+            };
 
 
+            Map map = resolver.getMap();
 
-              url = resolver.make(url,objs);
+            String ids[] = map.getIds();
 
-              System.out.println("1.MAKE = "+url);
+            String names[] = map.getNames();
 
-              System.out.println("1.GET  = "+resolver.getURL(url));
 
-              System.out.println("1.GETURL OK");
+            url = resolver.make(url, objs);
+
+            System.out.println("1.MAKE = " + url);
+
+            System.out.println("1.GET  = " + resolver.getURL(url));
+
+            System.out.println("1.GETURL OK");
 
 /*
 
@@ -145,40 +131,37 @@ public class Map_Geral extends Map {
 */
 
 
+            System.out.println("1.RESOLVE OK");
 
-              System.out.println("1.RESOLVE OK");
+            resolver.setModo(URL_Resolver.MODO_NAME);
 
-              resolver.setModo(URL_Resolver.MODO_NAME);
-
-              System.out.println("1.RESOLVE OK");
-
+            System.out.println("1.RESOLVE OK");
 
 
-              url = resolver.make(url,objs);
+            url = resolver.make(url, objs);
 
-              System.out.println("2.MAKE = "+url);
+            System.out.println("2.MAKE = " + url);
 
-              System.out.println("2.GET  = "+resolver.getURL(url));
+            System.out.println("2.GET  = " + resolver.getURL(url));
 
-              System.out.println("2.RESOLVE OK");
+            System.out.println("2.RESOLVE OK");
 
-              resolver.resolve(url);
+            resolver.resolve(url);
 
-              for( int i = 0; i < names.length; i++ )
+            for (int i = 0; i < names.length; i++)
 
-                   System.out.println("getName("+names[i]+") = "+resolver.getName(names[i]));
+                System.out.println("getName(" + names[i] + ") = " + resolver.getName(names[i]));
 
-              for( int i = 0; i < names.length; i++ )
+            for (int i = 0; i < names.length; i++)
 
-                   System.out.println("getId("+ids[i]+") = "+resolver.getId(ids[i]));
+                System.out.println("getId(" + ids[i] + ") = " + resolver.getId(ids[i]));
 
-            }
+        } catch (Exception exc)
 
-        catch( Exception exc )
+        {
+            exc.printStackTrace();
 
-            { exc.printStackTrace();
-
-            }
+        }
 
     }
 

@@ -24,13 +24,9 @@
 package focusedCrawler.util.cache;
 
 
-
 /**
-
  * Representa uma fabrica de Objetos da cache.
  * Dada uma chave, cria um objeto de dados que ela representa.
- *
- *
  */
 
 public interface ObjectFactory {
@@ -56,7 +52,6 @@ public interface ObjectFactory {
      */
 
     public Object[] produce(CacheKey[] keys) throws FactoryException;
-
 
 
 }

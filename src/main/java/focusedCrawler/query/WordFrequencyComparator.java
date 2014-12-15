@@ -30,6 +30,7 @@ import java.util.Comparator;
  * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2003</p>
  * <p>Company: </p>
+ *
  * @author not attributable
  * @version 1.0
  */
@@ -41,7 +42,7 @@ public class WordFrequencyComparator implements Comparator {
     }
 
     public int compare(Object o1, Object o2) {
-        return ((WordFrequencyMap)o2).getFrequency() - ((WordFrequencyMap)o1).getFrequency();
+        return ((WordFrequencyMap) o2).getFrequency() - ((WordFrequencyMap) o1).getFrequency();
     }
 
 }

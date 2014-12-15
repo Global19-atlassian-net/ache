@@ -27,11 +27,11 @@ package focusedCrawler.util.loader;
 public class LoaderException extends Exception {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	public Throwable detail;
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    public Throwable detail;
 
     public LoaderException() {
         super();
@@ -41,7 +41,7 @@ public class LoaderException extends Exception {
         super(message);
     }
 
-    public LoaderException(String message,Throwable detail) {
+    public LoaderException(String message, Throwable detail) {
         super(message);
         this.detail = detail;
     }

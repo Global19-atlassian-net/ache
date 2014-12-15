@@ -24,9 +24,6 @@
 package focusedCrawler.util.storage;
 
 
-
-
-
 import java.net.URL;
 
 import java.net.URLEncoder;
@@ -36,57 +33,49 @@ import java.util.Vector;
 import java.util.StringTokenizer;
 
 
-
 public class UrlLinkStorageHits {
 
 
+    private String origem;
 
-  private String origem;
+    private String prefix;
 
-  private String prefix;
+    private URL[] urls;
 
-  private URL [] urls;
-
-  private Vector urlsString;
-
+    private Vector urlsString;
 
 
-  /**
+    /**
+     * Quando esta variavel eh true significa que os links do documento
+     * <p/>
+     * origem estao na forma de objetos URL!
+     */
 
-   * Quando esta variavel eh true significa que os links do documento
-
-   * origem estao na forma de objetos URL!
-
-   */
-
-  private boolean objUrl;
+    private boolean objUrl;
 
 
+    public UrlLinkStorageHits(String origem, URL[] urls, String prefix) {
 
-  public UrlLinkStorageHits(String origem, URL [] urls, String prefix) {
+        this.origem = origem;
 
-    this.origem = origem;
+        this.urls = urls;
 
-    this.urls = urls;
+        objUrl = true;
 
-    objUrl = true;
+        this.prefix = prefix;
 
-    this.prefix = prefix;
-
-  }
-
+    }
 
 
-  public UrlLinkStorageHits(String origem, Vector urlsString) {
+    public UrlLinkStorageHits(String origem, Vector urlsString) {
 
-    this.origem = origem;
+        this.origem = origem;
 
-    this.urlsString = urlsString;
+        this.urlsString = urlsString;
 
-    objUrl = false;
+        objUrl = false;
 
-  }
-
+    }
 
 
 //  public String toString(){
@@ -136,85 +125,78 @@ public class UrlLinkStorageHits {
 //  }
 
 
-
-public String toStringEncoder(){
-
+    public String toStringEncoder() {
 
 
-      StringBuffer urlsSB = new StringBuffer();
+        StringBuffer urlsSB = new StringBuffer();
 
-      int size = 0;
+        int size = 0;
 
-      //System.out.println("(@) PREFIXX : "+this.prefix);
+        //System.out.println("(@) PREFIXX : "+this.prefix);
 
-      //System.out.println("(@) ORIGEM : "+this.origem);
+        //System.out.println("(@) ORIGEM : "+this.origem);
 
-      urlsSB.append(this.prefix);
+        urlsSB.append(this.prefix);
 
-      urlsSB.append(origem);
+        urlsSB.append(origem);
 
-      if(objUrl){
+        if (objUrl) {
 
-        size = urls.length;
+            size = urls.length;
 
-        for(int i=0; i<size; i++){
+            for (int i = 0; i < size; i++) {
 
-           urlsSB.append("|");
+                urlsSB.append("|");
 
-           urlsSB.append(superTrim(URLEncoder.encode(urls[i].toString())));
+                urlsSB.append(superTrim(URLEncoder.encode(urls[i].toString())));
+
+            }
+
+        } else {
+
+            size = urlsString.size();
+
+            for (int i = 0; i < size; i++) {
+
+                urlsSB.append("|");
+
+                urlsSB.append(superTrim(URLEncoder.encode((String) urlsString.elementAt(i))));
+
+            }
+
 
         }
-
-      }else{
-
-        size = urlsString.size();
-
-        for(int i=0; i<size; i++){
-
-           urlsSB.append("|");
-
-           urlsSB.append(superTrim(URLEncoder.encode((String)urlsString.elementAt(i))));
-
-        }
-
-
-
-      }
 
         return urlsSB.toString();
-
-  }
-
-
-
-  private String superTrim(String entrada){
-
-
-
-    if(entrada.indexOf('\n') != -1 ){
-
-      StringTokenizer saida = new StringTokenizer(entrada, "\n\t\r");
-
-      StringBuffer sb = new StringBuffer();
-
-      while(saida.hasMoreTokens()){
-
-         sb.append(saida.nextToken());
-
-      }
-
-      return sb.toString();
-
-    }else{
-
-      return entrada;
 
     }
 
 
+    private String superTrim(String entrada) {
 
-  }
 
+        if (entrada.indexOf('\n') != -1) {
+
+            StringTokenizer saida = new StringTokenizer(entrada, "\n\t\r");
+
+            StringBuffer sb = new StringBuffer();
+
+            while (saida.hasMoreTokens()) {
+
+                sb.append(saida.nextToken());
+
+            }
+
+            return sb.toString();
+
+        } else {
+
+            return entrada;
+
+        }
+
+
+    }
 
 
 }

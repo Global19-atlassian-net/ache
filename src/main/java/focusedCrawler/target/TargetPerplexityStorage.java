@@ -45,10 +45,9 @@ import focusedCrawler.util.string.StopListArquivo;
 import focusedCrawler.util.string.StopList;
 
 
-
 /**
  * <p> </p>
- *
+ * <p/>
  * <p>Description: </p>
  *
  * @author Luciano Barbosa
@@ -57,119 +56,115 @@ import focusedCrawler.util.string.StopList;
 
 public class TargetPerplexityStorage extends StorageDefault {
 
-  private TargetClassifier targetClassifier;
+    private TargetClassifier targetClassifier;
 
-  private String fileLocation;
+    private String fileLocation;
 
-  private TargetRepository targetRepository;
+    private TargetRepository targetRepository;
 
-  private int totalOfPages;
+    private int totalOfPages;
 
-  private int totalOfTargets;
+    private int totalOfTargets;
 
-  private int totalOnTopicPages;
+    private int totalOnTopicPages;
 
-  private int limitOfPages;
+    private int limitOfPages;
 
-  private Storage linkStorage;
-  
-  private StringBuffer urls = new StringBuffer();
-  
-  public TargetPerplexityStorage(TargetClassifier targetClassifier, String fileLocation, TargetRepository targetRepository, Storage linkStorage) {
-    this.targetClassifier = targetClassifier;
-    this.fileLocation = fileLocation;
-    this.targetRepository = targetRepository;
-    this.linkStorage = linkStorage;
-  }
+    private Storage linkStorage;
 
-  public synchronized Object insert(Object obj) throws StorageException {
-      
-      Page page = (Page)obj;
-      System.out.println(">>>INSERTING: " + page.getIdentifier());
+    private StringBuffer urls = new StringBuffer();
+
+    public TargetPerplexityStorage(TargetClassifier targetClassifier, String fileLocation, TargetRepository targetRepository, Storage linkStorage) {
+        this.targetClassifier = targetClassifier;
+        this.fileLocation = fileLocation;
+        this.targetRepository = targetRepository;
+        this.linkStorage = linkStorage;
+    }
+
+    public synchronized Object insert(Object obj) throws StorageException {
+
+        Page page = (Page) obj;
+        System.out.println(">>>INSERTING: " + page.getIdentifier());
 //      System.out.println(">>>INSERTING: " + page.getContent());
-      urls.append(fileLocation + "/" + page.getURL().getHost()+"/" +URLEncoder.encode(page.getIdentifier()));
-      urls.append("\n");
-      totalOfPages++;
-      try {
-    	  linkStorage.insert(page);
+        urls.append(fileLocation + "/" + page.getURL().getHost() + "/" + URLEncoder.encode(page.getIdentifier()));
+        urls.append("\n");
+        totalOfPages++;
+        try {
+            linkStorage.insert(page);
 //    	  page.setContent(page.getCleanContent());
-    	  targetRepository.insert(page);
-          totalOnTopicPages++;
-          System.out.println(getClass() + "TOTAL_PAGES=" + totalOfPages
-                           + ": PAGE:" + page.getURL() + " RELEVANT:" +
-                           totalOfTargets );
-          System.out.println("---------------------------");
+            targetRepository.insert(page);
+            totalOnTopicPages++;
+            System.out.println(getClass() + "TOTAL_PAGES=" + totalOfPages
+                    + ": PAGE:" + page.getURL() + " RELEVANT:" +
+                    totalOfTargets);
+            System.out.println("---------------------------");
 //          executePerpScript();
-          if(totalOfPages > limitOfPages){
-        	  System.exit(0);
-          }
+            if (totalOfPages > limitOfPages) {
+                System.exit(0);
+            }
 
-      }
-      catch (CommunicationException ex) {
-        ex.printStackTrace();
-        throw new StorageException(ex.getMessage());
-      } 
+        } catch (CommunicationException ex) {
+            ex.printStackTrace();
+            throw new StorageException(ex.getMessage());
+        }
 //      catch (IOException e) {
 //		// TODO Auto-generated catch block
 //		e.printStackTrace();
 //	}
-      return null;
+        return null;
     }
 
-  	private void executePerpScript() throws IOException{
-  		if(totalOfPages % 500 == 0){
-  			String fileName = "/home/lbarbosa/perp_crawler/focused_crawler/perp_input/urls_" + totalOfPages;
-  			FileOutputStream fout = new FileOutputStream(fileName);
-  	    	DataOutputStream dout = new DataOutputStream(fout);
-  	    	dout.writeBytes(urls.toString());
-  	    	dout.close();
-  	    	System.out.println(">>FILE+" + fileName);
-  	    	Runtime.getRuntime().exec("sh /home/lbarbosa/perp_crawler/focused_crawler/script/runPerplexity.sh urls_" + totalOfPages);
-  	    	urls = new StringBuffer();
-  		}
-  	}
-  
-  
-    public void setLimitPages(int limit){
-      limitOfPages = limit;
+    private void executePerpScript() throws IOException {
+        if (totalOfPages % 500 == 0) {
+            String fileName = "/home/lbarbosa/perp_crawler/focused_crawler/perp_input/urls_" + totalOfPages;
+            FileOutputStream fout = new FileOutputStream(fileName);
+            DataOutputStream dout = new DataOutputStream(fout);
+            dout.writeBytes(urls.toString());
+            dout.close();
+            System.out.println(">>FILE+" + fileName);
+            Runtime.getRuntime().exec("sh /home/lbarbosa/perp_crawler/focused_crawler/script/runPerplexity.sh urls_" + totalOfPages);
+            urls = new StringBuffer();
+        }
+    }
+
+
+    public void setLimitPages(int limit) {
+        limitOfPages = limit;
     }
 
     public static void main(String[] args) {
 
-      try{
-        ParameterFile config = new ParameterFile(args[0]);
-        StopList stoplist = new StopListArquivo(config.getParam("STOPLIST_FILES"));
-        String targetDirectory = config.getParam("TARGET_STORAGE_DIRECTORY");
-        TargetRepository targetRepository = new TargetFileRepository(targetDirectory);
-        ParameterFile linkStorageConfig = new ParameterFile(config.getParam(
-            "LINK_STORAGE_FILE"));
-        Storage linkStorage = new StorageCreator(linkStorageConfig).produce();
-        BowClient bow;
-        if (config.getParamBoolean("USE_BOW")) {
-          String bowServer = config.getParam("BOW_HOST");
-          int bowPort = config.getParamInt("BOW_PORT");
-          bow = new BowClient(bowServer, bowPort);
+        try {
+            ParameterFile config = new ParameterFile(args[0]);
+            StopList stoplist = new StopListArquivo(config.getParam("STOPLIST_FILES"));
+            String targetDirectory = config.getParam("TARGET_STORAGE_DIRECTORY");
+            TargetRepository targetRepository = new TargetFileRepository(targetDirectory);
+            ParameterFile linkStorageConfig = new ParameterFile(config.getParam(
+                    "LINK_STORAGE_FILE"));
+            Storage linkStorage = new StorageCreator(linkStorageConfig).produce();
+            BowClient bow;
+            if (config.getParamBoolean("USE_BOW")) {
+                String bowServer = config.getParam("BOW_HOST");
+                int bowPort = config.getParamInt("BOW_PORT");
+                bow = new BowClient(bowServer, bowPort);
+            } else {
+                bow = null;
+            }
+            Storage targetStorage = new TargetPerplexityStorage(null, targetDirectory, targetRepository, linkStorage);
+            ((TargetPerplexityStorage) targetStorage).setLimitPages(config.getParamInt("VISITED_PAGE_LIMIT"));
+            StorageBinder binder = new StorageBinder(config);
+            binder.bind(targetStorage);
+        } catch (java.io.IOException ex) {
+            ex.printStackTrace();
         }
-        else {
-          bow = null;
-        }
-        Storage targetStorage = new TargetPerplexityStorage(null,targetDirectory,targetRepository,linkStorage);
-        ((TargetPerplexityStorage) targetStorage).setLimitPages(config.getParamInt("VISITED_PAGE_LIMIT"));
-        StorageBinder binder = new StorageBinder(config);
-        binder.bind(targetStorage);
-      }
-      catch (java.io.IOException ex) {
-        ex.printStackTrace();
-      }
 //      catch (ClassNotFoundException ex) {
 //        ex.printStackTrace();
 //      }
-      catch (StorageBinderException ex) {
-        ex.printStackTrace();
-      }
-      catch (StorageFactoryException ex) {
-        ex.printStackTrace();
-      }
+        catch (StorageBinderException ex) {
+            ex.printStackTrace();
+        } catch (StorageFactoryException ex) {
+            ex.printStackTrace();
+        }
     }
 
-  }
+}

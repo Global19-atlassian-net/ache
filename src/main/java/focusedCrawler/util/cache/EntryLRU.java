@@ -24,31 +24,22 @@
 package focusedCrawler.util.cache;
 
 
-
 /**
-
  * Entrada na cacheLRUTimestamp
-
  *
-
  * @author Oscar Miranda
-
  * @version %I%, %G%
-
  */
 
 public class EntryLRU {
 
     CacheKey key;
 
-    Object   dado;
+    Object dado;
 
-    int      hits = 0;
+    int hits = 0;
 
-    long     timestamp = 0;
-
-    
-
+    long timestamp = 0;
 
 
     public int getHits() {
@@ -57,7 +48,6 @@ public class EntryLRU {
 
     }
 
-    
 
     public void incHits() {
 
@@ -65,15 +55,13 @@ public class EntryLRU {
 
     }
 
-    
 
     public void incHits(int inc) {
 
-        hits+= inc;
+        hits += inc;
 
     }
 
-    
 
     public void setHits(int val) {
 
@@ -81,7 +69,6 @@ public class EntryLRU {
 
     }
 
-    
 
     public long getTimestamp() {
 
@@ -89,7 +76,6 @@ public class EntryLRU {
 
     }
 
-    
 
     public void setTimestamp() {
 
@@ -97,7 +83,6 @@ public class EntryLRU {
 
     }
 
-    
 
     public void hit() {
 
@@ -107,7 +92,6 @@ public class EntryLRU {
 
     }
 
-    
 
     public void clear() {
 
@@ -122,21 +106,11 @@ public class EntryLRU {
     }
 
 
-
     /**
-
      * Modifica o valor da chave
-
      *
-
-     *
-
      * @param key a nova chave
-
-     *
-
      * @see focusedCrawler.util.cache.CacheKey
-
      */
 
     public void setKey(CacheKey key) {
@@ -146,43 +120,24 @@ public class EntryLRU {
     }
 
 
-
     /**
-
      * retorna a chave desta entry.
-
      *
-
-     *
-
      * @return a chave desta entry
-
-     *
-
      * @see focusedCrawler.util.cache.CacheKey
-
      */
 
     public CacheKey getKey() {
 
         return key;
 
-    } 
-
+    }
 
 
     /**
-
      * modifica o valor do dado
-
      *
-
-     *
-
      * @param data o novo dado
-
-     *
-
      */
 
     public void setData(Object data) {
@@ -192,19 +147,10 @@ public class EntryLRU {
     }
 
 
-
     /**
-
      * retorna o dado desta entry
-
      *
-
-     *
-
      * @return o dado
-
-     *
-
      */
 
     public Object getData() {
@@ -214,27 +160,17 @@ public class EntryLRU {
     }
 
 
-
     /**
-
      * retorna uma representacao String da chave.
-
      *
-
-     *
-
      * @return representacao em String desta entry
-
-     *
-
      */
 
     public String toString() {
 
-        return "[" + key + ","+hits+","+timestamp+"]";
+        return "[" + key + "," + hits + "," + timestamp + "]";
 
-    } 
-
+    }
 
 
 }

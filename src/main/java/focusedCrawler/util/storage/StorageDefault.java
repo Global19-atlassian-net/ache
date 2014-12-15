@@ -24,31 +24,24 @@
 package focusedCrawler.util.storage;
 
 
-
 import focusedCrawler.util.DataNotFoundException;
 import focusedCrawler.util.SelfLoggable;
 import focusedCrawler.util.distribution.CommunicationException;
 
 
-
-
-
 /**
-
  * Implementacao basica de um Storage. Para reduzir a codificacao na criacao de
-
+ * <p/>
  * um Storage pode-se estender esta classe de forma a re-implementar apenas os
-
+ * <p/>
  * metodos realmente necessarios.
-
  */
 
 public class StorageDefault extends SelfLoggable implements Storage {
 
 
-
-    public StorageDefault() {}
-
+    public StorageDefault() {
+    }
 
 
     public synchronized Object insert(Object obj) throws StorageException, CommunicationException {
@@ -67,7 +60,7 @@ public class StorageDefault extends SelfLoggable implements Storage {
 
     }
 
-    public synchronized Object select(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public synchronized Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         /**@todo: Implement this util.storage.Storage method*/
 
@@ -75,7 +68,7 @@ public class StorageDefault extends SelfLoggable implements Storage {
 
     }
 
-    public synchronized Object[] selectArray(Object[] objs) throws StorageException,DataNotFoundException,CommunicationException {
+    public synchronized Object[] selectArray(Object[] objs) throws StorageException, DataNotFoundException, CommunicationException {
 
         /**@todo: Implement this util.storage.Storage method*/
 
@@ -83,7 +76,7 @@ public class StorageDefault extends SelfLoggable implements Storage {
 
     }
 
-    public synchronized java.util.Enumeration selectEnumeration(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public synchronized java.util.Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         /**@todo: Implement this util.storage.Storage method*/
 

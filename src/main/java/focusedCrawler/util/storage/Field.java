@@ -27,7 +27,6 @@ package focusedCrawler.util.storage;
 public interface Field {
 
 
-
     int BYTE_TYPE = 1;
 
     int INT_TYPE = 2;
@@ -39,27 +38,21 @@ public interface Field {
     int DOUBLE_TYPE = 5;
 
 
-
-	String getName();
-
+    String getName();
 
 
-	void setName(String newName);
+    void setName(String newName);
 
 
-
-	int getType();
-
+    int getType();
 
 
-	void setType(int newType);
+    void setType(int newType);
 
 
-
-	Object getValue();
-
+    Object getValue();
 
 
-	void setValue(Object newValue);
+    void setValue(Object newValue);
 
 }

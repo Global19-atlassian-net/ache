@@ -54,18 +54,18 @@ import focusedCrawler.util.persistence.Tuple;
 
 public class BerkeleyDBHashTable {
 
-	private Environment exampleEnv;
-	
-	private Database exampleDb;
-	
-	public BerkeleyDBHashTable(File path) throws EnvironmentLockedException, DatabaseException{
-		 EnvironmentConfig envConfig = new EnvironmentConfig();
-		 envConfig.setTransactional(true);
-		 envConfig.setAllowCreate(true);
-		 exampleEnv = new Environment(path, envConfig);
+    private Environment exampleEnv;
+
+    private Database exampleDb;
+
+    public BerkeleyDBHashTable(File path) throws EnvironmentLockedException, DatabaseException {
+        EnvironmentConfig envConfig = new EnvironmentConfig();
+        envConfig.setTransactional(true);
+        envConfig.setAllowCreate(true);
+        exampleEnv = new Environment(path, envConfig);
 
 		 /*
-		  * Make a database within that environment
+          * Make a database within that environment
 		  *
 		  * Notice that we use an explicit transaction to
 		  * perform this database open, and that we
@@ -76,96 +76,96 @@ public class BerkeleyDBHashTable {
 		  * perform the same thing by simply passing a
 		  * null txn handle to openDatabase().
 		  */
-		 Transaction txn;
-		 txn = exampleEnv.beginTransaction(null, null);
-		 DatabaseConfig dbConfig = new DatabaseConfig();
-		 dbConfig.setTransactional(true);
-		 dbConfig.setAllowCreate(true);
-		 dbConfig.setSortedDuplicates(false);
-		 exampleDb = exampleEnv.openDatabase(txn, "simpleDb", dbConfig);
-		 txn.commit();
-	}
+        Transaction txn;
+        txn = exampleEnv.beginTransaction(null, null);
+        DatabaseConfig dbConfig = new DatabaseConfig();
+        dbConfig.setTransactional(true);
+        dbConfig.setAllowCreate(true);
+        dbConfig.setSortedDuplicates(false);
+        exampleDb = exampleEnv.openDatabase(txn, "simpleDb", dbConfig);
+        txn.commit();
+    }
 
-	public synchronized void put(Tuple[] tuples) throws DatabaseException{
-		DatabaseEntry keyEntry = new DatabaseEntry();
-		DatabaseEntry dataEntry = new DatabaseEntry();
-		Transaction txn;
-		TransactionConfig txnConfig = new TransactionConfig();
-	    txnConfig.setReadUncommitted(true);          // Use uncommitted reads 
-	                                                 // for this transaction.
-		txn = exampleEnv.beginTransaction(null, txnConfig);
-		txn.setLockTimeout(0);
+    public synchronized void put(Tuple[] tuples) throws DatabaseException {
+        DatabaseEntry keyEntry = new DatabaseEntry();
+        DatabaseEntry dataEntry = new DatabaseEntry();
+        Transaction txn;
+        TransactionConfig txnConfig = new TransactionConfig();
+        txnConfig.setReadUncommitted(true);          // Use uncommitted reads
+        // for this transaction.
+        txn = exampleEnv.beginTransaction(null, txnConfig);
+        txn.setLockTimeout(0);
 
-		for (int i = 0; i < tuples.length && tuples[i] != null; i++) {
-		     StringBinding.stringToEntry(tuples[i].getKey(), keyEntry);
-		     StringBinding.stringToEntry(tuples[i].getValue(), dataEntry);
-	         OperationStatus status = exampleDb.put(txn, keyEntry, dataEntry);
-	         if (status != OperationStatus.SUCCESS) {
-	             throw new DatabaseException("Data insertion got status " + status);
-	         }
-		}
-		txn.commit();
-	}
+        for (int i = 0; i < tuples.length && tuples[i] != null; i++) {
+            StringBinding.stringToEntry(tuples[i].getKey(), keyEntry);
+            StringBinding.stringToEntry(tuples[i].getValue(), dataEntry);
+            OperationStatus status = exampleDb.put(txn, keyEntry, dataEntry);
+            if (status != OperationStatus.SUCCESS) {
+                throw new DatabaseException("Data insertion got status " + status);
+            }
+        }
+        txn.commit();
+    }
 
-	
-	public synchronized void put(String key, String value) throws DatabaseException{
-	     DatabaseEntry keyEntry = new DatabaseEntry();
-	     DatabaseEntry dataEntry = new DatabaseEntry();
-	     Transaction txn;
-	     txn = exampleEnv.beginTransaction(null, null);
-	     StringBinding.stringToEntry(key, keyEntry);
-	     StringBinding.stringToEntry(value, dataEntry);
-         OperationStatus status = exampleDb.put(txn, keyEntry, dataEntry);
-         if (status != OperationStatus.SUCCESS) {
-             throw new DatabaseException("Data insertion got status " + status);
-         }
-         txn.commit();
-	}
-	
-	public synchronized Tuple[] listElements() throws DatabaseException{
-		Cursor cursor = exampleDb.openCursor(null, null);
-		DatabaseEntry keyEntry = new DatabaseEntry();
-		DatabaseEntry dataEntry = new DatabaseEntry();
-		Vector<Tuple> tempList = new Vector<Tuple>();
-		while (cursor.getNext(keyEntry, dataEntry, LockMode.READ_UNCOMMITTED) == OperationStatus.SUCCESS) {
-        	Tuple tuple = new Tuple(StringBinding.entryToString(keyEntry),StringBinding.entryToString(dataEntry));
-        	tempList.add(tuple);
-		}
+
+    public synchronized void put(String key, String value) throws DatabaseException {
+        DatabaseEntry keyEntry = new DatabaseEntry();
+        DatabaseEntry dataEntry = new DatabaseEntry();
+        Transaction txn;
+        txn = exampleEnv.beginTransaction(null, null);
+        StringBinding.stringToEntry(key, keyEntry);
+        StringBinding.stringToEntry(value, dataEntry);
+        OperationStatus status = exampleDb.put(txn, keyEntry, dataEntry);
+        if (status != OperationStatus.SUCCESS) {
+            throw new DatabaseException("Data insertion got status " + status);
+        }
+        txn.commit();
+    }
+
+    public synchronized Tuple[] listElements() throws DatabaseException {
+        Cursor cursor = exampleDb.openCursor(null, null);
+        DatabaseEntry keyEntry = new DatabaseEntry();
+        DatabaseEntry dataEntry = new DatabaseEntry();
+        Vector<Tuple> tempList = new Vector<Tuple>();
+        while (cursor.getNext(keyEntry, dataEntry, LockMode.READ_UNCOMMITTED) == OperationStatus.SUCCESS) {
+            Tuple tuple = new Tuple(StringBinding.entryToString(keyEntry), StringBinding.entryToString(dataEntry));
+            tempList.add(tuple);
+        }
         cursor.close();
         Tuple[] result = new Tuple[tempList.size()];
         tempList.toArray(result);
         return result;
-	}
-	
+    }
 
-	public synchronized String get(String key) throws DatabaseException{
-	     DatabaseEntry keyEntry = new DatabaseEntry();
-	     DatabaseEntry dataEntry = new DatabaseEntry();
-	     StringBinding.stringToEntry(key, keyEntry);
+
+    public synchronized String get(String key) throws DatabaseException {
+        DatabaseEntry keyEntry = new DatabaseEntry();
+        DatabaseEntry dataEntry = new DatabaseEntry();
+        StringBinding.stringToEntry(key, keyEntry);
 //	     TransactionConfig txnConfig = new TransactionConfig();
 //	     txnConfig.setReadUncommitted(true);          // Use uncommitted reads 
 //		                                                 // for this transaction.
 //
 //	     Transaction txn;
 //	     txn = exampleEnv.beginTransaction(null, txnConfig);
-	     exampleDb.get(null, keyEntry, dataEntry, LockMode.READ_UNCOMMITTED);
-	     if(dataEntry.getData() == null){
-	    	 return null;
-	     }else{
-	    	 return StringBinding.entryToString(dataEntry);
-	     }
-	}
-	
-	public static void main(String[] args) {
-		try {
-			System.out.println("LOADING...");
-			BerkeleyDBHashTable hash = new BerkeleyDBHashTable(new File(args[0]));
-			Tuple[] tuples = hash.listElements();
-			for (int i = 0; i < tuples.length; i++) {
+        exampleDb.get(null, keyEntry, dataEntry, LockMode.READ_UNCOMMITTED);
+        if (dataEntry.getData() == null) {
+            return null;
+        } else {
+            return StringBinding.entryToString(dataEntry);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            System.out.println("LOADING...");
+            BerkeleyDBHashTable hash = new BerkeleyDBHashTable(new File(args[0]));
+            Tuple[] tuples = hash.listElements();
+            for (int i = 0; i < tuples.length; i++) {
 //				String[] links = tuples[i].getValue().split("###");
 //				System.out.println("##" + links.length + "##");
-				System.out.println(tuples[i].getKey() + ":" + tuples[i].getValue());
-			}
+                System.out.println(tuples[i].getKey() + ":" + tuples[i].getValue());
+            }
 //			String value = hash.get(args[1]);
 //			System.out.println(value);
 //			BerkeleyDBHashTable hash = new BerkeleyDBHashTable(new File(args[0]));
@@ -224,13 +224,13 @@ public class BerkeleyDBHashTable {
 //			hashURL.put("MAX",id+"");
 //			System.out.println("FINISHED");
 
-		} catch (EnvironmentLockedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+        } catch (EnvironmentLockedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (DatabaseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 //		catch (FileNotFoundException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
@@ -241,7 +241,7 @@ public class BerkeleyDBHashTable {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		} 
-		
-		
-	}
+
+
+    }
 }

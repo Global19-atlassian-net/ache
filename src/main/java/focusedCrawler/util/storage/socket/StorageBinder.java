@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage.socket;
 
 
-
 import java.io.IOException;
 
 import focusedCrawler.util.ParameterFile;
@@ -36,13 +35,11 @@ import focusedCrawler.util.storage.StorageBinderException;
 public class StorageBinder extends AbstractStorageBinder {
 
 
-
     public StorageBinder() {
 
         super();
 
     }
-
 
 
     public StorageBinder(ParameterFile config) {
@@ -52,11 +49,9 @@ public class StorageBinder extends AbstractStorageBinder {
     }
 
 
-
     public void bind(Storage storage) throws StorageBinderException {
 
-        int    port = Integer.valueOf(getConfig().getParam("RMI_STORAGE_SERVER_PORT")).intValue();
-
+        int port = Integer.valueOf(getConfig().getParam("RMI_STORAGE_SERVER_PORT")).intValue();
 
 
         try {
@@ -69,7 +64,7 @@ public class StorageBinder extends AbstractStorageBinder {
 
         } //try
 
-        catch(IOException error) {
+        catch (IOException error) {
 
             throw new StorageBinderException(error);
 

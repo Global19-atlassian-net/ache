@@ -26,16 +26,14 @@ package focusedCrawler.util.storage;
 
 public class UniqueRegister {
 
-    private String  desc;
+    private String desc;
 
-    private int     code;
-
+    private int code;
 
 
     public UniqueRegister() {
 
     } //UniqueRegister
-
 
 
     public UniqueRegister(String _desc, int _code) {
@@ -47,37 +45,32 @@ public class UniqueRegister {
     } //UniqueRegister
 
 
-
-    public int getCode(){
+    public int getCode() {
 
         return code;
 
     } //getCode
 
 
-
-    public String getDesc(){
+    public String getDesc() {
 
         return desc;
 
     } //getDesc
 
 
-
-    public void setCode(int _code){
+    public void setCode(int _code) {
 
         this.code = _code;
 
     } //setCode
 
 
-
-    public void setDesc(String _desc){
+    public void setDesc(String _desc) {
 
         this.desc = _desc;
 
     } //setDesc
-
 
 
     public String toString() {

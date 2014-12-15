@@ -27,25 +27,25 @@ package focusedCrawler.util.time;
 public interface TimeSetItem extends java.io.Serializable {
 
 
-    void add (TimeItem item);
+    void add(TimeItem item);
 
 
-    void remove (TimeItem item);
+    void remove(TimeItem item);
 
 
-    void removeAll ();
+    void removeAll();
 
 
-	long nextTimeMillis ();
+    long nextTimeMillis();
 
 
-	long nextTimeMillis (long time);
+    long nextTimeMillis(long time);
 
 
-    TimeItem [] getItems ();
+    TimeItem[] getItems();
 
 
-    String formatTime (long time);
+    String formatTime(long time);
 
 }
 

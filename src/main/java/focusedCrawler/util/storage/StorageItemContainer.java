@@ -24,27 +24,21 @@
 package focusedCrawler.util.storage;
 
 
-
 /**
-
  * Title:
-
+ * <p/>
  * Description:
-
+ * <p/>
  * Copyright:    Copyright (c) 2001
-
+ * <p/>
  * Company:      Radix
-
+ *
  * @author
-
  * @version 1.0
-
  */
 
 
-
 public class StorageItemContainer extends StorageDefault {
-
 
 
     private int blockSize;
@@ -56,13 +50,11 @@ public class StorageItemContainer extends StorageDefault {
     private StorageItemFactory factory;
 
 
-
     public StorageItemContainer() {
 
         counter = 0;
 
     }
-
 
 
     public StorageItemContainer(int newBlockSize, StorageItemFactory newFactory) throws StorageItemFactoryException {
@@ -76,13 +68,11 @@ public class StorageItemContainer extends StorageDefault {
     }
 
 
-
     public int getBlockSize() {
 
         return blockSize;
 
     }
-
 
 
     public void setBlockSize(int newBlockSize) {
@@ -92,13 +82,11 @@ public class StorageItemContainer extends StorageDefault {
     }
 
 
-
     public StorageItemFactory getFactory() {
 
         return factory;
 
     }
-
 
 
     public void setFactory(StorageItemFactory newFactory) throws StorageItemFactoryException {
@@ -110,7 +98,6 @@ public class StorageItemContainer extends StorageDefault {
     }
 
 
-
     public Object insert(Object obj) {
 
         ((StorageItem) obj).copy(itens[counter]);
@@ -120,7 +107,6 @@ public class StorageItemContainer extends StorageDefault {
         return null;
 
     }
-
 
 
     public Object[] selectArray(Object[] objs) throws StorageException {
@@ -143,7 +129,7 @@ public class StorageItemContainer extends StorageDefault {
 
                 StorageItem[] result = getFactory().produce(temp);
 
-                System.arraycopy(itens,0,result,0,result.length);
+                System.arraycopy(itens, 0, result, 0, result.length);
 
                 return result;
 

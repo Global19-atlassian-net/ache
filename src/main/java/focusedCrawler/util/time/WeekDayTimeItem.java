@@ -30,9 +30,7 @@
  */
 
 
-
 package focusedCrawler.util.time;
-
 
 
 import java.io.IOException;
@@ -48,48 +46,42 @@ import java.util.HashSet;
 import java.util.GregorianCalendar;
 
 
-
 public class WeekDayTimeItem extends TimeItemImpl {
 
 
+    public WeekDayTimeItem() {
 
-	public WeekDayTimeItem () {
+        super();
 
-        super ();
-
-	} //WeekDayTimeItem
-
+    } //WeekDayTimeItem
 
 
-	public WeekDayTimeItem (String frequencia) throws TimeItemException {
+    public WeekDayTimeItem(String frequencia) throws TimeItemException {
 
-        super (frequencia);
+        super(frequencia);
 
-	} //WeekDayTimeItem
+    } //WeekDayTimeItem
 
 
+    protected void setVariables() {
 
-    protected void setVariables () {
-
-		this.minimum = 0;
+        this.minimum = 0;
 
         this.maximum = 6;
 
-        this.peso = 60000 *60 *24;
+        this.peso = 60000 * 60 * 24;
 
     } //setVariables
 
 
-
-	public int getTimeField () {
+    public int getTimeField() {
 
         return Calendar.DAY_OF_WEEK;
 
     } //getTimeField
 
 
-
-    protected long transformValue (long value) {
+    protected long transformValue(long value) {
 
         if (value == Calendar.SUNDAY) {
 
@@ -138,26 +130,23 @@ public class WeekDayTimeItem extends TimeItemImpl {
     } //transformValue
 
 
+    public static void main(String[] args) throws TimeItemException {
 
-    public static void main (String [] args) throws TimeItemException {
+        String codigo = args[0];
 
-        String codigo = args [0];
-
-		System.out.println ("Codigo = " + codigo);
-
+        System.out.println("Codigo = " + codigo);
 
 
-		TimeItem item = new WeekDayTimeItem (codigo);
+        TimeItem item = new WeekDayTimeItem(codigo);
 
 
+        int value = new Integer(args[1]).intValue();
 
-        int value = new Integer (args [1]).intValue ();
+        System.out.println("Peso=" + item.getPeso() + " Range(" + item.getMinimum() + "," + item.getMinimum() + ") Valor=" + value);
 
-        System.out.println ("Peso=" + item.getPeso() + " Range(" + item.getMinimum() + "," + item.getMinimum() + ") Valor=" + value);
+        System.out.println("Proximo Tempo = " + item.nextTimeMillis(value, false));
 
-		System.out.println ("Proximo Tempo = " + item.nextTimeMillis (value, false));
-
-	} //main
+    } //main
 
 }
 

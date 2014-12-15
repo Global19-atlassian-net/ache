@@ -43,40 +43,41 @@ import focusedCrawler.util.Timer;
 
 
 /**
-
- * Essa classe implementa uma cache que é tratada com uma
- * fila de objetos, quando um objeto novo é inserido
- * ele é colocado no inicio da fila.
- * E os elementos que são removidos por falha na cache
- * são os do final da fila(cache FIFO).
- *
+ * Essa classe implementa uma cache que ï¿½ tratada com uma
+ * fila de objetos, quando um objeto novo ï¿½ inserido
+ * ele ï¿½ colocado no inicio da fila.
+ * E os elementos que sï¿½o removidos por falha na cache
+ * sï¿½o os do final da fila(cache FIFO).
  */
 
 public class CacheFIFO implements Cache {
 
     /**
-     *  tamanho maximo da cache
+     * tamanho maximo da cache
+     *
      * @see focusedCrawler.util.cache.Cache
      */
 
-    protected int              cache_size;
+    protected int cache_size;
 
     /**
-     *  quantidade de itens removidos quando acontece uma falha.
+     * quantidade de itens removidos quando acontece uma falha.
+     *
      * @see focusedCrawler.util.cache.Cache
      */
 
-    protected int              cache_remove;
+    protected int cache_remove;
 
     /**
-     *  hashtable que guarda os dados da cache
+     * hashtable que guarda os dados da cache
      * contem mapeamento : CacheKey -> DoubleLinkedList
      */
 
-    protected Hashtable        cache;
+    protected Hashtable cache;
 
     /**
-     *  Lista dos dados da cache, lista de CacheEntry
+     * Lista dos dados da cache, lista de CacheEntry
+     *
      * @see focusedCrawler.util.DoubleLinkedListNode
      * @see focusedCrawler.util.DoubleLinkedList
      */
@@ -93,15 +94,17 @@ public class CacheFIFO implements Cache {
 
     /**
      * ObjectFactory desta cache
+     *
      * @see focusedCrawler.util.cache.ObjectFactory
      */
 
-    protected ObjectFactory    factory;
+    protected ObjectFactory factory;
 
-    protected ObjectDestroyer  destroyer;
+    protected ObjectDestroyer destroyer;
 
     /**
      * Muda o ObjectFactory da cache.
+     *
      * @param fac a nova fabrica de objetos
      * @see focusedCrawler.util.cache.ObjectFactory
      */
@@ -112,6 +115,7 @@ public class CacheFIFO implements Cache {
 
     /**
      * Retorna o ObjectFactory da cache.
+     *
      * @return a fabrica desta cache
      * @see focusedCrawler.util.cache.ObjectFactory
      */
@@ -139,17 +143,15 @@ public class CacheFIFO implements Cache {
     /**
      * Construtor da Classe
      *
-     *
      * @param cache_size o tamanho maximo desta cache
      * @param qtd_remove a quantidade de itens removidos quando acontece uma falha
-     *
      * @see focusedCrawler.util.cache.Cache
      */
 
     public CacheFIFO(int cache_size, int qtd_remove) {
         if (cache_size < 1) {
             throw new IllegalArgumentException("tamanho de cache invalido :"
-                                               + cache_size);
+                    + cache_size);
         }
         this.cache_size = cache_size;
         setRemoveQuantity(qtd_remove);
@@ -161,7 +163,7 @@ public class CacheFIFO implements Cache {
 //            freelist.insertFirst(ce);
 //        }
         System.out.println("CACHE> cache_max_size = " + this + " "
-                           + cache_size);
+                + cache_size);
         System.out.println("CACHE> qtd_remove = " + this + " " + qtd_remove);
     }
 
@@ -171,7 +173,6 @@ public class CacheFIFO implements Cache {
      * em metade do tamanho da cache dado + 1
      *
      * @param cache_size o tamanho maximo da cache
-     *
      * @see focusedCrawler.util.cache.Cache
      */
 
@@ -193,17 +194,14 @@ public class CacheFIFO implements Cache {
     }
 
 
-
     /**
-
      * retorna o tamanho maximo da cache. Se algum objeto novo for
-
+     * <p/>
      * inserido e a cache estiver com o tamanho maximo algum ou alguns
-
+     * <p/>
      * outros objetos deverao ser removidos para o novo objeto ser inserido.
-
-     * @return  tamanho maximo da cache
-
+     *
+     * @return tamanho maximo da cache
      */
 
     public int getMaxSize() {
@@ -213,22 +211,18 @@ public class CacheFIFO implements Cache {
     }
 
 
-
     /**
-
      * muda Tamanho maximo da cache.
-
-     * @param  newSize o novo tamanho maximo
-
+     *
+     * @param newSize o novo tamanho maximo
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
      */
 
     public synchronized void setMaxSize(int newSize) throws CacheException {
 
         if (newSize < 0) {
             throw new IllegalArgumentException("tamanho de cache invalido :"
-                                               + cache_size);
+                    + cache_size);
         }
 
         // remove alguns
@@ -251,13 +245,14 @@ public class CacheFIFO implements Cache {
     /**
      * Muda o numero de quantidade de objetos que devem ser removidos quando
      * acontece uma falta.
+     *
      * @param qtd o novo numero de quantos objetos serao removidos apos uma falha.
      */
 
     public void setRemoveQuantity(int qtd) {
         if (qtd < 1) {
             throw new IllegalArgumentException("Quantidade a Remover :"
-                                               + qtd);
+                    + qtd);
         }
         if (qtd > cache_size) {
             qtd = cache_size;
@@ -267,6 +262,7 @@ public class CacheFIFO implements Cache {
 
     /**
      * numero de objectos que serao removidos quando acontecer uma falta.
+     *
      * @return numero de objectos que serao removidos quando acontecer uma falta.
      */
 
@@ -276,7 +272,8 @@ public class CacheFIFO implements Cache {
 
     /**
      * retorna o tamanho da cache
-     * @return  tamanho da cache
+     *
+     * @return tamanho da cache
      */
 
     public int size() {
@@ -292,14 +289,14 @@ public class CacheFIFO implements Cache {
      * Retorna uma enumeracao contendo as chaves da cache
      *
      * @return uma enumeracao
-     * @see focusedCrawler.util.cache.CacheKey
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public synchronized Iterator getKeys() throws CacheException {
         HashSet keys = new HashSet();
         DoubleLinkedListNode node = list.head();
-        while(node != null) {
+        while (node != null) {
             CacheEntry ce = (CacheEntry) node.data();
             keys.add(ce.getKey());
             node = node.next();
@@ -308,22 +305,21 @@ public class CacheFIFO implements Cache {
     }
 
 
-
     /**
      * Retorna o dado associado a cache dada.
      *
-     * @param  key   Chave que representa o objeto na cache
+     * @param key Chave que representa o objeto na cache
      * @return o objeto procurado ou null se nao estiver na cache.
-     * @see focusedCrawler.util.cache.CacheKey
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public final synchronized Object get(CacheKey key) throws CacheException {
-    //    log_calls++;
-      //  System.out.println("CACHE> get before '"+key+"': "+list);
+        //    log_calls++;
+        //  System.out.println("CACHE> get before '"+key+"': "+list);
 
         DoubleLinkedListNode l =
-            (DoubleLinkedListNode) cache.get(key.hashKey());
+                (DoubleLinkedListNode) cache.get(key.hashKey());
 
         if (l != null) {
             CacheEntry ce = (CacheEntry) l.data();
@@ -340,18 +336,18 @@ public class CacheFIFO implements Cache {
     }
 
 
-
     /**
      * Retorna um array com dados associados as caches dadas.
-     * @param  key   Array de chaves
+     *
+     * @param key Array de chaves
      * @return Retorna array de objetos, respeitando a ordem das chaves.
-     * @see focusedCrawler.util.cache.CacheKey
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] get(CacheKey[] key) throws CacheException {
         Object[] data = new Object[key.length];
-        for(int i=key.length-1;i>=0;i--){
+        for (int i = key.length - 1; i >= 0; i--) {
             data[i] = get(key[i]);
         }
         return data;
@@ -359,25 +355,25 @@ public class CacheFIFO implements Cache {
 
     protected synchronized void dataFound(DoubleLinkedListNode l,
 
-            CacheEntry ce) throws CacheException {
+                                          CacheEntry ce) throws CacheException {
 
-}
+    }
 
 
     /**
      * Coloca o dado na cache, atualiza dado se a chave ja
      * estiver na cache
      *
-     * @param  key   Chave que representa o objeto na cache
-     * @param  data  o objeto de dados.
-     * @see focusedCrawler.util.cache.CacheKey
+     * @param key  Chave que representa o objeto na cache
+     * @param data o objeto de dados.
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public final synchronized Object put(CacheKey key, Object data) throws CacheException {
 
         DoubleLinkedListNode l =
-            (DoubleLinkedListNode) cache.get(key.hashKey());
+                (DoubleLinkedListNode) cache.get(key.hashKey());
 
         // if (l!=null) throw new CacheException("dado ja esta na cache");
         // System.out.println("CACHE> put before '"+key+"': "+list);
@@ -397,21 +393,20 @@ public class CacheFIFO implements Cache {
     }
 
 
-
     /**
      * Coloca um array de dados na cache, sobrescrevendo os valores existentes.
      *
-     * @param  key[]   Array de chaves
-     * @param  data[]  Array com os novos dados.
+     * @param key[]  Array de chaves
+     * @param data[] Array com os novos dados.
      * @return Retorna os valores que estavam na cache antes do put.
-     * @see focusedCrawler.util.cache.CacheKey
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] put(CacheKey[] key, Object[] data) throws CacheException {
         Object[] curData = new Object[key.length];
-        for(int i=key.length-1;i>=0;i--){
-            curData[i] = put(key[i],data[i]);
+        for (int i = key.length - 1; i >= 0; i--) {
+            curData[i] = put(key[i], data[i]);
         }
         return curData;
     }
@@ -420,11 +415,9 @@ public class CacheFIFO implements Cache {
      * Coloca a chave e o dado associado na cache
      * testa se a cache esta cheia, se estiver remove algo para colocar o novo
      *
-     * @param key    a chave do dado a ser inserido
-     * @param data   o dado
-     *
+     * @param key  a chave do dado a ser inserido
+     * @param data o dado
      * @throws CacheException
-     *
      * @see focusedCrawler.util.cache.CacheKey
      * @see focusedCrawler.util.cache.CacheException
      */
@@ -443,7 +436,7 @@ public class CacheFIFO implements Cache {
 
 //        DoubleLinkedListNode l = freelist.removeHead();
 //        CacheEntry ce = (CacheEntry) l.data();
-        
+
         CacheEntry ce = new CacheEntry();
         ce.setKey(key);
         ce.setData(data);
@@ -455,35 +448,35 @@ public class CacheFIFO implements Cache {
         return node;
         // System.out.println("CACHE> putInt out "+Thread.currentThread());
     }
-    
-    
+
+
     protected synchronized void dataIsNew(DoubleLinkedListNode l,
 
-            CacheEntry ce) throws CacheException {
+                                          CacheEntry ce) throws CacheException {
 
     }
 
-    public int getTotalDeChamdas(){
+    public int getTotalDeChamdas() {
         return totalDeChamadas;
     }
 
-    public int getTotalDeFalhas(){
+    public int getTotalDeFalhas() {
         return totalDeFalhas;
     }
 
-    public long getTempoDeProducao(){
+    public long getTempoDeProducao() {
         return tempoDeProducao;
     }
 
-    public int getTotalDeAcertos(){
+    public int getTotalDeAcertos() {
         return totalDeAcertos;
     }
 
-    public long getTempoDeAcerto(){
+    public long getTempoDeAcerto() {
         return tempoDeAcerto;
     }
 
-    public long getTempoDoGet(){
+    public long getTempoDoGet() {
         return tempoGet;
     }
 
@@ -500,17 +493,16 @@ public class CacheFIFO implements Cache {
     long tempoDeAcerto = 0;
 
 
-
     /**
      * Retorna o dado associado a cache dada.
      * caso o objeto nao esteja na cache, cria um novo utilizando o ObjectFactory
      * e coloca na cache. se a cache estiver cheia, remove alguns dado da cache.
      *
-     * @param  key   Chave que representa o objeto na cache
+     * @param key Chave que representa o objeto na cache
      * @return o objeto procurado
+     * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro ou a fabrica nao esteja setada
      * @see focusedCrawler.util.cache.CacheKey
      * @see focusedCrawler.util.cache.ObjectFactory
-     * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro ou a fabrica nao esteja setada
      */
 
     public Object getUpdate(CacheKey key) throws CacheException {
@@ -523,29 +515,22 @@ public class CacheFIFO implements Cache {
     }
 
 
-
     /**
-
      * Retorna um array de dados assoaciado um array de chaves fornecido.
-
+     * <p/>
      * caso o objeto nao esteja na cache, cria um novo utilizando o ObjectFactory
-
+     * <p/>
      * e coloca na cache. se a cache estiver cheia, remove alguns dado da cache.
-
+     * <p/>
      * Observe que existe uma correspondencia entre a posicao do objeto retornado e
-
+     * <p/>
      * a posicao da chave fornecida.
-
-     * @param  key[]   Array de chaves
-
+     *
+     * @param key[] Array de chaves
      * @return Array com os objetos procurados.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
-     * @see focusedCrawler.util.cache.ObjectFactory
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro ou a fabrica nao esteja setada
-
+     * @see focusedCrawler.util.cache.CacheKey
+     * @see focusedCrawler.util.cache.ObjectFactory
      */
 
     public Object[] getUpdate(CacheKey[] key) throws CacheException {
@@ -561,7 +546,6 @@ public class CacheFIFO implements Cache {
             if (factory == null) throw new CacheException("factory not set");
 
 
-
             CacheKey[] key2 = new CacheKey[notfound];
 
             int idx[] = new int[notfound];
@@ -570,12 +554,11 @@ public class CacheFIFO implements Cache {
 
             for (int i = 0; i < data.length; i++) {
 
-                if (data[i] == null) idx[notfound++]=i;
+                if (data[i] == null) idx[notfound++] = i;
 
             }
 
             for (int i = 0; i < notfound; i++) key2[i] = key[idx[i]];
-
 
 
             Object[] newData = factory.produce(key2);
@@ -587,13 +570,9 @@ public class CacheFIFO implements Cache {
         }
 
 
-
         return data;
 
     }
-
-
-
 
 
     protected boolean _do_log /* = false; // */ = false;
@@ -611,19 +590,18 @@ public class CacheFIFO implements Cache {
     }
 
 
-
     public void log_cache() {
         PrintStream _log = _log_out;
         if (_log == null) return;
-        String flush_str_log = "CACHE> flush " + this + " : " + log_cache_flush + ", cache_size="+cache_size+", cache_remove="+cache_remove;
+        String flush_str_log = "CACHE> flush " + this + " : " + log_cache_flush + ", cache_size=" + cache_size + ", cache_remove=" + cache_remove;
         flush_str_log += "\n Listagem TOP-DOWN em " + new java.util.Date();
         int idx = 1;
         DoubleLinkedListNode walk = list.last();
         int cont = 0;
         long sum = 0;
-        while(walk != null) {
+        while (walk != null) {
             Object _dado = walk.data();
-            flush_str_log += "\n"+idx+". " + _dado;
+            flush_str_log += "\n" + idx + ". " + _dado;
             if (_dado != null && _dado instanceof CacheEntry) {
                 cont++;
                 sum += ((CacheEntry) _dado).tempo_de_vida();
@@ -631,11 +609,11 @@ public class CacheFIFO implements Cache {
             walk = walk.previous();
             idx++;
         }
-        if (cont > 0) flush_str_log += "\nTempo de vida medio = " + Timer.toString((long)sum/cont);
+        if (cont > 0) flush_str_log += "\nTempo de vida medio = " + Timer.toString((long) sum / cont);
         if (_log_out == null) {
             try {
-                _log_out = new PrintStream(new FileOutputStream("/home/bright/spool/logs/cache.flush.log",true));
-            } catch(IOException ioe) {
+                _log_out = new PrintStream(new FileOutputStream("/home/bright/spool/logs/cache.flush.log", true));
+            } catch (IOException ioe) {
                 System.out.println("flush_log_init error: " + ioe.getMessage());
             }
         }
@@ -674,7 +652,7 @@ public class CacheFIFO implements Cache {
     }
 
     /**
-     * Este metodo é chamado quando a cache esta cheia.
+     * Este metodo ï¿½ chamado quando a cache esta cheia.
      * Remove um unico elemento da cache.
      * Nesta implementacao remove o ultimo da lista.
      *
@@ -699,7 +677,6 @@ public class CacheFIFO implements Cache {
     protected long _sum_lifetime = 0;
 
 
-
     /**
      * Libera recursos do dado que esta sendo removido
      *
@@ -712,8 +689,8 @@ public class CacheFIFO implements Cache {
         _cont_removed++;
         _sum_lifetime += ce.tempo_de_vida();
         if (_do_log) {
-            _log_out.println("CACHE.FLUSH.REMOVENDO "+ce+", total_removidos="+_cont_removed
-                        +", tempo de vida medio=" + Timer.toString((long)_sum_lifetime/_cont_removed));
+            _log_out.println("CACHE.FLUSH.REMOVENDO " + ce + ", total_removidos=" + _cont_removed
+                    + ", tempo de vida medio=" + Timer.toString((long) _sum_lifetime / _cont_removed));
             _log_out.flush();
         }
         if (destroyer != null) {
@@ -727,10 +704,8 @@ public class CacheFIFO implements Cache {
     /**
      * Remove da cache o dado de chave passada
      *
-     * @param  key A chave a ser removida
-     *
+     * @param key A chave a ser removida
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-     *
      * @see focusedCrawler.util.cache.CacheEntry
      */
 
@@ -749,12 +724,11 @@ public class CacheFIFO implements Cache {
      * Remove os dados referente as chaves dadas
      *
      * @return Array com dados removidos, se um dado nao estava na cache sua posicao sera nula
-     *
      */
 
     public Object[] remove(CacheKey[] key) throws CacheException {
         Object[] data = new Object[key.length];
-        for(int i=key.length-1;i>=0;i--){
+        for (int i = key.length - 1; i >= 0; i--) {
             data[i] = remove(key[i]);
         }
         return data;
@@ -769,7 +743,7 @@ public class CacheFIFO implements Cache {
     }
 
     public String toString() {
-        return super.toString() + "[factory="+this.factory+",cache_size="+cache_size+",cache.size()="+cache.size()+"cache_remove="+cache_remove+"]";
+        return super.toString() + "[factory=" + this.factory + ",cache_size=" + cache_size + ",cache.size()=" + cache.size() + "cache_remove=" + cache_remove + "]";
     }
 
 }

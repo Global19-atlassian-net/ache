@@ -22,59 +22,61 @@
 ############################################################################
 */
 package focusedCrawler.util.time;
+
 import java.util.Calendar;
+
 public class HourTimeItem extends TimeItemImpl {
 
 
-	public HourTimeItem () {
+    public HourTimeItem() {
 
-        super ();
+        super();
 
-	} //TimeItemImpl
-
-
-	public HourTimeItem (String frequencia) throws TimeItemException {
-
-        super (frequencia);
-
-	} //TimeItemImpl
+    } //TimeItemImpl
 
 
-    protected void setVariables () {
+    public HourTimeItem(String frequencia) throws TimeItemException {
 
-		this.minimum = 0;
+        super(frequencia);
 
-		this.maximum = 23;
+    } //TimeItemImpl
+
+
+    protected void setVariables() {
+
+        this.minimum = 0;
+
+        this.maximum = 23;
 
         this.peso = 60000 * 60;
 
     } //setVariables
 
 
-	public int getTimeField () {
+    public int getTimeField() {
 
         return Calendar.HOUR_OF_DAY;
 
     } //getTimeField
 
 
-	public static void main (String [] args) throws TimeItemException {
+    public static void main(String[] args) throws TimeItemException {
 
-        String codigo = args [0];
+        String codigo = args[0];
 
-		System.out.println ("Codigo = " + codigo);
-
-
-		TimeItem item = new HourTimeItem (codigo);
+        System.out.println("Codigo = " + codigo);
 
 
-        int value = new Integer (args [1]).intValue ();
+        TimeItem item = new HourTimeItem(codigo);
 
-        System.out.println ("Peso=" + item.getPeso() + " Range(" + item.getMinimum() + "," + item.getMinimum() + ") Valor=" + value);
 
-		System.out.println ("Proximo Tempo = " + item.nextTimeMillis (value, false));
+        int value = new Integer(args[1]).intValue();
 
-	} //main
+        System.out.println("Peso=" + item.getPeso() + " Range(" + item.getMinimum() + "," + item.getMinimum() + ") Valor=" + value);
+
+        System.out.println("Proximo Tempo = " + item.nextTimeMillis(value, false));
+
+    } //main
 
 }
 

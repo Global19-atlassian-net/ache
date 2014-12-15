@@ -33,13 +33,7 @@ import focusedCrawler.util.Log;
 import focusedCrawler.util.storage.Storage;
 
 
-
-
-
-
-
-class ServerConnectionListener  extends Thread {
-
+class ServerConnectionListener extends Thread {
 
 
     private Storage storage;
@@ -53,13 +47,11 @@ class ServerConnectionListener  extends Thread {
     private ServerSocket serverSocket;
 
 
+    private int connectionCount = 0;
 
-    private int connectionCount=0;
+    private int concurrentAccess = 0;
 
-    private int concurrentAccess=0;
-
-    private int maxConcurrentAccess=128;
-
+    private int maxConcurrentAccess = 128;
 
 
     private synchronized int incomeConnection() {
@@ -89,7 +81,6 @@ class ServerConnectionListener  extends Thread {
     }
 
 
-
     synchronized void outgoingConnection() {
 
         concurrentAccess--;
@@ -99,7 +90,6 @@ class ServerConnectionListener  extends Thread {
     }
 
 
-
     synchronized int getConcurrentLevel() {
 
         return concurrentAccess;
@@ -107,8 +97,7 @@ class ServerConnectionListener  extends Thread {
     }
 
 
-
-    public ServerConnectionListener(Storage storage, int port)  throws IOException{
+    public ServerConnectionListener(Storage storage, int port) throws IOException {
 
         super();
 
@@ -127,7 +116,6 @@ class ServerConnectionListener  extends Thread {
     }
 
 
-
     public void setStorage(Storage _storage) {
 
         storage = _storage;
@@ -137,7 +125,6 @@ class ServerConnectionListener  extends Thread {
     }
 
 
-
     public Storage getStorage() {
 
         return storage;
@@ -145,18 +132,16 @@ class ServerConnectionListener  extends Thread {
     }
 
 
-
     public String toString() {
 
-        return "ServerConnectionListener:"+serverPort;
+        return "ServerConnectionListener:" + serverPort;
 
     }
 
 
-
     public void run() {
 
-        while(running) {
+        while (running) {
 
             try {
 
@@ -178,7 +163,7 @@ class ServerConnectionListener  extends Thread {
 
                 handler.start();
 
-            } catch(Exception  e) {
+            } catch (Exception e) {
 
                 Log.log(this.toString(), storage.toString(), "server error : " + e.getMessage());
 
@@ -189,7 +174,6 @@ class ServerConnectionListener  extends Thread {
         Log.log(this.toString(), storage.toString(), "server died");
 
     }
-
 
 
     public void close() throws IOException {
@@ -205,7 +189,6 @@ class ServerConnectionListener  extends Thread {
         }
 
     }
-
 
 
 }

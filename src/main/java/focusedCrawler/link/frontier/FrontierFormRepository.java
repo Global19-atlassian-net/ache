@@ -42,17 +42,17 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 
-public class FrontierFormRepository extends FrontierTargetRepositoryBaseline{
+public class FrontierFormRepository extends FrontierTargetRepositoryBaseline {
 
-  private HashMap<String, Integer> hostPages;
+    private HashMap<String, Integer> hostPages;
 
-  private int limitOfPagesPerSite = 250;
-  
-  public FrontierFormRepository(PersistentHashtable urlRelevance)  {
-	  super(urlRelevance,null);
-    
+    private int limitOfPagesPerSite = 250;
 
-    this.hostPages = new HashMap<String, Integer>();
+    public FrontierFormRepository(PersistentHashtable urlRelevance) {
+        super(urlRelevance, null);
+
+
+        this.hostPages = new HashMap<String, Integer>();
 ////    try {
 ////      loadHash();
 ////    }
@@ -62,9 +62,9 @@ public class FrontierFormRepository extends FrontierTargetRepositoryBaseline{
 //    catch (IOException ex) {
 //      ex.printStackTrace();
 //    }
-  }
+    }
 
-  
+
 //  public void saveHash() throws FileNotFoundException, IOException {
 //     System.out.println(">>>>>SAVING HOST_PAGES:"+urlRelevance.getDirectory() + "/hostPages.pers" );
 //     FileOutputStream fout = new FileOutputStream( urlRelevance.getDirectory() + "/hostPages.pers" );
@@ -154,104 +154,103 @@ public class FrontierFormRepository extends FrontierTargetRepositoryBaseline{
 //		}
 //		return inserted;
 //	}
-  
-    
-  
-  public LinkRelevance[] select(int numberOfLinks) throws
-      FrontierPersistentException {
 
-    HashMap<Integer, Integer> queue = new HashMap<Integer, Integer>();
-    HashMap<String, Integer> hosts = new HashMap<String, Integer>();
-    LinkRelevance[] result = null;
-      try {
-    	  Iterator keys = urlRelevance.getKeys();
-    	  Vector<LinkRelevance> tempList = new Vector<LinkRelevance>();
-    	  int count = 0;
-    	  for (int i = 0; count < numberOfLinks && keys.hasNext(); i++) {
+
+    public LinkRelevance[] select(int numberOfLinks) throws
+            FrontierPersistentException {
+
+        HashMap<Integer, Integer> queue = new HashMap<Integer, Integer>();
+        HashMap<String, Integer> hosts = new HashMap<String, Integer>();
+        LinkRelevance[] result = null;
+        try {
+            Iterator keys = urlRelevance.getKeys();
+            Vector<LinkRelevance> tempList = new Vector<LinkRelevance>();
+            int count = 0;
+            for (int i = 0; count < numberOfLinks && keys.hasNext(); i++) {
 //    		  String key = ((StringCacheKey)keys.next()).toString();
-    		  String key = ((String)keys.next()).toString();
-    		  String url = URLDecoder.decode(key);
-    		  if (url != null){
+                String key = ((String) keys.next()).toString();
+                String url = URLDecoder.decode(key);
+                if (url != null) {
 //    			  System.out.println(url);
-    			  Integer relevInt = new Integer((String)urlRelevance.get(url));
-    			  if(relevInt != null){
-    				  int relev = relevInt.intValue();
-    				  if(relev > 0){
-    					  URL urlTemp = new URL(url);
-    					  String host =  filterServer(urlTemp.getHost());
+                    Integer relevInt = new Integer((String) urlRelevance.get(url));
+                    if (relevInt != null) {
+                        int relev = relevInt.intValue();
+                        if (relev > 0) {
+                            URL urlTemp = new URL(url);
+                            String host = filterServer(urlTemp.getHost());
 //                    System.out.println(">>> HOST" + host);
-    					  Integer numPag = hosts.get(host);
-    					  if(numPag == null){
-    						  hosts.put(host, new Integer(1));
+                            Integer numPag = hosts.get(host);
+                            if (numPag == null) {
+                                hosts.put(host, new Integer(1));
 //                		System.out.println(">>> PAGES = 1 ");
-    					  }else{
-    						  hosts.put(host,  new Integer(numPag.intValue() + 1));
+                            } else {
+                                hosts.put(host, new Integer(numPag.intValue() + 1));
 //                		System.out.println(">>> PAGES = " + numPag.intValue());
-    					  }
-    					  if(numPag == null || numPag.intValue() < 10){
-    						  Integer numOccur = ((Integer)queue.get(relevInt));
-    						  int numOccurInt = 0;
-    						  if(numOccur != null){
-    							  if(relev % 100 == 99 && relev > 200){
-    								  numOccurInt = numOccur.intValue() + 1;
-    							  }else{
-    								  numOccurInt = numOccur.intValue() + 5;
-    							  }
-    						  }else{
-    							  numOccurInt = 1;
-    						  }
-    						  queue.put(relevInt,new Integer(numOccurInt));
-    						  if(numOccurInt < 50 || relev > 1000){
-    							  System.out.println(">>> INSERTING:" + url);
-    							  LinkRelevance linkRel = new LinkRelevance(new URL(url),relev);
-    							  tempList.add(linkRel);
-    							  count++;
-    						  }
-    					  }
-    				  }
-    			  }
-    		  }
-    	  }
-    	  hosts.clear();
-    	  System.out.println("Total loaded:"+count);
-    	  result = new LinkRelevance[tempList.size()];
-    	  tempList.toArray(result);
-    	  queue.clear();
-      }catch (CacheException ex) {
-    	  ex.printStackTrace();
-      }catch (IOException ex) {
-    	  ex.printStackTrace();
-      }
-    
-    return result;
-  }
+                            }
+                            if (numPag == null || numPag.intValue() < 10) {
+                                Integer numOccur = ((Integer) queue.get(relevInt));
+                                int numOccurInt = 0;
+                                if (numOccur != null) {
+                                    if (relev % 100 == 99 && relev > 200) {
+                                        numOccurInt = numOccur.intValue() + 1;
+                                    } else {
+                                        numOccurInt = numOccur.intValue() + 5;
+                                    }
+                                } else {
+                                    numOccurInt = 1;
+                                }
+                                queue.put(relevInt, new Integer(numOccurInt));
+                                if (numOccurInt < 50 || relev > 1000) {
+                                    System.out.println(">>> INSERTING:" + url);
+                                    LinkRelevance linkRel = new LinkRelevance(new URL(url), relev);
+                                    tempList.add(linkRel);
+                                    count++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            hosts.clear();
+            System.out.println("Total loaded:" + count);
+            result = new LinkRelevance[tempList.size()];
+            tempList.toArray(result);
+            queue.clear();
+        } catch (CacheException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
-  public boolean reachLimit(URL url){
-    boolean result = false;
-    String host = filterServer(url.getHost());
-    Object obj = hostPages.get(host);
-    if(obj != null){
-      int numPages = ( (Integer) (obj)).intValue();
+        return result;
+    }
+
+    public boolean reachLimit(URL url) {
+        boolean result = false;
+        String host = filterServer(url.getHost());
+        Object obj = hostPages.get(host);
+        if (obj != null) {
+            int numPages = ((Integer) (obj)).intValue();
 //      if(numPages >= limitOfPagesPerSite){
 //        result = true;
 //      }
+        }
+        return result;
     }
-    return result;
-  }
 
-  private String filterServer(String server){
-	  if(server.lastIndexOf(".") != -1){
-		  String serverTemp = server.substring(0,server.lastIndexOf("."));
-		  int index = serverTemp.lastIndexOf(".");
-		  if(index != -1){
-			  server = server.substring(index+1);
-		  }
-	  }
-	  return server;
-  }
+    private String filterServer(String server) {
+        if (server.lastIndexOf(".") != -1) {
+            String serverTemp = server.substring(0, server.lastIndexOf("."));
+            int index = serverTemp.lastIndexOf(".");
+            if (index != -1) {
+                server = server.substring(index + 1);
+            }
+        }
+        return server;
+    }
 
-  
-  public static void main(String[] args) {
+
+    public static void main(String[] args) {
 //    try {
 //    	focusedCrawler.util.ParameterFile config = new focusedCrawler.util.ParameterFile(args[0]);
 //    	String dir = config.getParam("LINK_DIRECTORY");
@@ -291,6 +290,6 @@ public class FrontierFormRepository extends FrontierTargetRepositoryBaseline{
 //		// TODO Auto-generated catch block
 //		e.printStackTrace();
 //	}
-  }
+    }
 }
 

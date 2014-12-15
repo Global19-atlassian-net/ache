@@ -29,14 +29,13 @@ import focusedCrawler.util.Timer;
 import focusedCrawler.util.cache.rmi.RemoteCache;
 
 /**
- * É um ObjectFactory que permiti a implementacao de niveis de cache.
- * O que este tipo de factory faz é em vez de criar mesmo o objeto
+ * ï¿½ um ObjectFactory que permiti a implementacao de niveis de cache.
+ * O que este tipo de factory faz ï¿½ em vez de criar mesmo o objeto
  * ele pede para uma outra cache.
- *
- * Esta factory é util para fazer hieraquia de caches com
+ * <p/>
+ * Esta factory ï¿½ util para fazer hieraquia de caches com
  * velocidades diferentes, um exemplo, eh criar uma cache de
  * 2 niveis para uma cache estatica e uma cache remota.
- *
  *
  * @see focusedCrawler.util.cache.Cache
  */
@@ -54,9 +53,7 @@ public class CacheLevel2Factory implements ObjectFactory {
      * recebe como parametro a cache na qual vai criar os objetos
      * solicitados.
      *
-     *
      * @param c a cache de 1o. nivel.
-     *
      * @see focusedCrawler.util.cache.Cache
      */
 
@@ -74,20 +71,16 @@ public class CacheLevel2Factory implements ObjectFactory {
      * Produz o dado da chave dada.
      * Na verdade retorna o dado da cache de 1o. nivel.
      *
-     *
      * @param key a chave do objeto a ser criado
-     *
      * @return o dado
-     *
      * @throws focusedCrawler.util.cache.FactoryException caso aconteca um erro
-     *
      * @see focusedCrawler.util.cache.CacheKey
      */
 
 
     public Object produce(CacheKey key) throws FactoryException {
         try {
-        Object o = this.cacheLevel1.getUpdate(key);
+            Object o = this.cacheLevel1.getUpdate(key);
             return o;
         } catch (CacheException ce) {
             throw new FactoryException(ce.getMessage());
@@ -96,7 +89,7 @@ public class CacheLevel2Factory implements ObjectFactory {
 
     public Object[] produce(CacheKey[] keys) throws FactoryException {
         Object[] result = new Object[keys.length];
-        for (int counter=0; counter < keys.length; counter++) {
+        for (int counter = 0; counter < keys.length; counter++) {
             result[counter] = produce(keys[counter]);
         } //for
         return result;

@@ -27,7 +27,7 @@
 
  *
 
- * Copyright (c) 1997-1999 Departamento de Informática - UFPE
+ * Copyright (c) 1997-1999 Departamento de Informï¿½tica - UFPE
 
  *    Grupo:
 
@@ -42,7 +42,6 @@
  */
 
 
-
 package focusedCrawler.util.string;
 
 import java.io.Serializable;
@@ -51,7 +50,7 @@ import java.io.Serializable;
 public interface StopList extends Serializable {
 
     public boolean eIrrelevante(String palavra);
-    
+
     public boolean isStopWord(String word);
 
 }

@@ -15,44 +15,44 @@ import focusedCrawler.util.persistence.PersistentHashtable;
 import focusedCrawler.util.vsm.VSMElement;
 import focusedCrawler.util.vsm.VSMElementComparator;
 
-public class FrontierTargetTopic extends FrontierTargetRepositoryBaseline{
+public class FrontierTargetTopic extends FrontierTargetRepositoryBaseline {
 
-	public FrontierTargetTopic(PersistentHashtable urlRelevance) {
-		super(urlRelevance,50);
-	}
+    public FrontierTargetTopic(PersistentHashtable urlRelevance) {
+        super(urlRelevance, 50);
+    }
 
-//	boolean higher = true;
-	int[] classLimits = new int[]{100,100,1500};
-	
-	public LinkRelevance[] select(int numberOfLinks) throws FrontierPersistentException {
-			LinkRelevance[] result = null;
-			
-			int[] classCount = new int[classLimits.length];
-			try {
-				Iterator keys = urlRelevance.getKeys();
-				Vector<LinkRelevance> tempList = new Vector<LinkRelevance>();
-				int count = 0;
+    //	boolean higher = true;
+    int[] classLimits = new int[]{100, 100, 1500};
+
+    public LinkRelevance[] select(int numberOfLinks) throws FrontierPersistentException {
+        LinkRelevance[] result = null;
+
+        int[] classCount = new int[classLimits.length];
+        try {
+            Iterator keys = urlRelevance.getKeys();
+            Vector<LinkRelevance> tempList = new Vector<LinkRelevance>();
+            int count = 0;
 //				if(higher){
-					for (int i = 0; count < numberOfLinks && keys.hasNext(); i++) {
-						String key = ((String)keys.next()).toString();
-						String url = URLDecoder.decode(key);
+            for (int i = 0; count < numberOfLinks && keys.hasNext(); i++) {
+                String key = ((String) keys.next()).toString();
+                String url = URLDecoder.decode(key);
 //						System.out.println(url);
-						if (url != null){
+                if (url != null) {
 //							System.out.println("$$$"+(String)urlRelevance.get(url));
-							Integer relevInt = new Integer((String)urlRelevance.get(url));
-							if(relevInt != null){
-								int relev = relevInt.intValue();
+                    Integer relevInt = new Integer((String) urlRelevance.get(url));
+                    if (relevInt != null) {
+                        int relev = relevInt.intValue();
 //								Integer numOccur = ((Integer)queue.get(relevInt));
-								if(relev > 100){
+                        if (relev > 100) {
 //									if(numOccur == null || (numOccur != null && numOccur.intValue() <= limit)){
-										int index = relev/100;
-										if(index < 3 && classCount[index] < classLimits[index]){
-											LinkRelevance linkRel = new LinkRelevance(new URL(url),relev);
-											tempList.add(linkRel);
-											count++;
-											classCount[index]++;
+                            int index = relev / 100;
+                            if (index < 3 && classCount[index] < classLimits[index]) {
+                                LinkRelevance linkRel = new LinkRelevance(new URL(url), relev);
+                                tempList.add(linkRel);
+                                count++;
+                                classCount[index]++;
 //											System.out.println("###"+ relev + ":" + classCount[index]);
-										}
+                            }
 //									}
 //									if(relev > 200){
 //										int rest = 100 - (relev % 200);
@@ -69,13 +69,13 @@ public class FrontierTargetTopic extends FrontierTargetRepositoryBaseline{
 ////										System.out.println(relev+":"+numOccurInt);
 //										queue.put(relevInt,new Integer(numOccurInt));
 //									}
-								}
-							}
-						}
-					}
-					if(classCount[2] < classLimits[2] && classLimits[1] < 1000){
-						classLimits[1] = classLimits[1]+50;
-					}
+                        }
+                    }
+                }
+            }
+            if (classCount[2] < classLimits[2] && classLimits[1] < 1000) {
+                classLimits[1] = classLimits[1] + 50;
+            }
 //					higher = false;
 //				}else{
 //					HashSet<String> hosts = new HashSet<String>();
@@ -94,18 +94,18 @@ public class FrontierTargetTopic extends FrontierTargetRepositoryBaseline{
 //					}
 //					higher = true;
 //				}
-				
-				result = new LinkRelevance[tempList.size()];
-				tempList.toArray(result);
-//				System.out.println(">> FRONTIER: " + queue.toString());
-				System.out.println(">> TOTAL LOADED: " + result.length);
-			}catch (IOException ex) {
-				ex.printStackTrace();
-			}catch (CacheException ex) {
-				ex.printStackTrace();
-			}
-			return result;
 
-	 }
-	
+            result = new LinkRelevance[tempList.size()];
+            tempList.toArray(result);
+//				System.out.println(">> FRONTIER: " + queue.toString());
+            System.out.println(">> TOTAL LOADED: " + result.length);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (CacheException ex) {
+            ex.printStackTrace();
+        }
+        return result;
+
+    }
+
 }

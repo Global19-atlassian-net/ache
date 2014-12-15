@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage;
 
 
-
 import java.util.Vector;
 
 import java.util.Enumeration;
@@ -33,9 +32,7 @@ import focusedCrawler.util.DataNotFoundException;
 import focusedCrawler.util.distribution.CommunicationException;
 
 
-
 public class StorageSelectedCollection extends StorageDefault {
-
 
 
     private int storageCounter;
@@ -43,7 +40,6 @@ public class StorageSelectedCollection extends StorageDefault {
     private Vector vStorage;
 
     private Long pingTime;
-
 
 
     public StorageSelectedCollection() {
@@ -57,14 +53,13 @@ public class StorageSelectedCollection extends StorageDefault {
     } //StorageSelectedCollection
 
 
-
     private synchronized Storage next() {
 
         Storage resultado = null;
 
-        if (size () > 0) {
+        if (size() > 0) {
 
-            storageCounter = (storageCounter +1) % size();
+            storageCounter = (storageCounter + 1) % size();
 
             resultado = getStorage(storageCounter);
 
@@ -75,13 +70,11 @@ public class StorageSelectedCollection extends StorageDefault {
     } //next
 
 
-
-    public int size () {
+    public int size() {
 
         return vStorage.size();
 
     } //size
-
 
 
     public Storage getStorage(int index) {
@@ -91,12 +84,11 @@ public class StorageSelectedCollection extends StorageDefault {
     } //getStorage
 
 
-
     public Object addResource(Object obj) throws StorageException, CommunicationException {
 
-        if (! (obj instanceof Storage)) {
+        if (!(obj instanceof Storage)) {
 
-            throw new StorageException ("Tipo invalido: " + obj.getClass(), new Throwable ());
+            throw new StorageException("Tipo invalido: " + obj.getClass(), new Throwable());
 
         } //if
 
@@ -107,21 +99,19 @@ public class StorageSelectedCollection extends StorageDefault {
     } //addResource
 
 
-
     public Object[] addResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
         Storage storage = next();
 
         if (storage != null) {
 
-           return storage.addResourceArray(objs);
+            return storage.addResourceArray(objs);
 
         } //if
 
         return null;
 
     } //addResourceArray
-
 
 
     public Object removeResource(Object obj) throws StorageException, CommunicationException {
@@ -133,12 +123,11 @@ public class StorageSelectedCollection extends StorageDefault {
     } //removeResource
 
 
-
     public Object[] removeResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
         Object[] result = new Object[objs.length];
 
-        for (int counter=0; counter < objs.length; counter++) {
+        for (int counter = 0; counter < objs.length; counter++) {
 
             result[counter] = removeResourceArray(objs);
 
@@ -149,14 +138,13 @@ public class StorageSelectedCollection extends StorageDefault {
     } //removeResourceArray
 
 
-
-    public Object select(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         Storage storage = next();
 
         if (storage != null) {
 
-           return storage.select(obj);
+            return storage.select(obj);
 
         } //if
 
@@ -165,14 +153,13 @@ public class StorageSelectedCollection extends StorageDefault {
     } //select
 
 
-
-    public Object[] selectArray(Object[] objs) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object[] selectArray(Object[] objs) throws StorageException, DataNotFoundException, CommunicationException {
 
         Storage storage = next();
 
         if (storage != null) {
 
-           return storage.selectArray(objs);
+            return storage.selectArray(objs);
 
         } //if
 
@@ -181,8 +168,7 @@ public class StorageSelectedCollection extends StorageDefault {
     } //selectArray
 
 
-
-    public Enumeration selectEnumeration(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         Storage storage = next();
 
@@ -195,7 +181,6 @@ public class StorageSelectedCollection extends StorageDefault {
         return null;
 
     } //selectEnumeration
-
 
 
     public Object insert(Object obj) throws StorageException, CommunicationException {
@@ -213,7 +198,6 @@ public class StorageSelectedCollection extends StorageDefault {
     } //insert
 
 
-
     public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException {
 
         Storage storage = next();
@@ -227,7 +211,6 @@ public class StorageSelectedCollection extends StorageDefault {
         return null;
 
     } //insertArray
-
 
 
     public Object remove(Object obj) throws StorageException, CommunicationException {
@@ -245,7 +228,6 @@ public class StorageSelectedCollection extends StorageDefault {
     } //remove
 
 
-
     public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException {
 
         Storage storage = next();
@@ -259,7 +241,6 @@ public class StorageSelectedCollection extends StorageDefault {
         return null;
 
     } //removeArray
-
 
 
     public Object update(Object obj) throws StorageException, CommunicationException {
@@ -277,7 +258,6 @@ public class StorageSelectedCollection extends StorageDefault {
     } //update
 
 
-
     public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException {
 
         Storage storage = next();
@@ -293,8 +273,7 @@ public class StorageSelectedCollection extends StorageDefault {
     } //updateArray
 
 
-
-    public Object commit (Object obj) throws StorageException, CommunicationException {
+    public Object commit(Object obj) throws StorageException, CommunicationException {
 
         Object result = null;
 
@@ -315,8 +294,7 @@ public class StorageSelectedCollection extends StorageDefault {
     } //commit
 
 
-
-    public Object rollback (Object obj) throws StorageException, CommunicationException {
+    public Object rollback(Object obj) throws StorageException, CommunicationException {
 
         Object result = null;
 
@@ -337,8 +315,7 @@ public class StorageSelectedCollection extends StorageDefault {
     } //rollback
 
 
-
-    public Object finalize (Object obj) throws StorageException, CommunicationException {
+    public Object finalize(Object obj) throws StorageException, CommunicationException {
 
         Object result = null;
 
@@ -357,7 +334,6 @@ public class StorageSelectedCollection extends StorageDefault {
         return null;
 
     } //finalize
-
 
 
     public Object ping(Object obj) throws StorageException, CommunicationException {

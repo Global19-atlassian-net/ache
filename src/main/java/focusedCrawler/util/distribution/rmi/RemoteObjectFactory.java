@@ -35,11 +35,9 @@ import focusedCrawler.util.cache.ObjectFactory;
 public class RemoteObjectFactory implements ObjectFactory {
 
 
-
     private long timeout = 5 * 1000; // 5seg;
 
     private int counterLookup = 0;
-
 
 
     public RemoteObjectFactory() {
@@ -47,13 +45,11 @@ public class RemoteObjectFactory implements ObjectFactory {
     } //RemoteObjectFactory
 
 
-
     public RemoteObjectFactory(long timeout) {
 
         this.timeout = timeout;
 
     } //RemoteObjectFactory
-
 
 
     public synchronized Object produce(CacheKey key) throws FactoryException {
@@ -64,21 +60,19 @@ public class RemoteObjectFactory implements ObjectFactory {
 
             try {
 
-                Registry registry = LocateRegistry.getRegistry(remoteKey.getHostname (), remoteKey.getPort ());
+                Registry registry = LocateRegistry.getRegistry(remoteKey.getHostname(), remoteKey.getPort());
 
 
-
-                LookupThread lookup = new LookupThread (registry,remoteKey.getObjectname ());
+                LookupThread lookup = new LookupThread(registry, remoteKey.getObjectname());
 
                 lookup.start();
 
                 long INICIO = System.currentTimeMillis();
 
 
+                while (!lookup.getFinished() && (System.currentTimeMillis() - INICIO) < timeout) {
 
-                while( !lookup.getFinished() && (System.currentTimeMillis()-INICIO) < timeout ) {
-
-                    System.out.println("Esperando(" + counterLookup + "): "+ key.toString() + " " + System.currentTimeMillis());
+                    System.out.println("Esperando(" + counterLookup + "): " + key.toString() + " " + System.currentTimeMillis());
 
                     try {
 
@@ -86,7 +80,7 @@ public class RemoteObjectFactory implements ObjectFactory {
 
                     } //try
 
-                    catch(InterruptedException exc) {
+                    catch (InterruptedException exc) {
 
                         exc.printStackTrace();
 
@@ -104,7 +98,7 @@ public class RemoteObjectFactory implements ObjectFactory {
 
                 else {
 
-                    throw new FactoryException ("Não conseguiu acessar o objeto: " + key.hashKey(),lookup.getError());
+                    throw new FactoryException("Nï¿½o conseguiu acessar o objeto: " + key.hashKey(), lookup.getError());
 
                 } //else
 
@@ -112,9 +106,9 @@ public class RemoteObjectFactory implements ObjectFactory {
 
             catch (RemoteException erro) {
 
-                erro.printStackTrace ();
+                erro.printStackTrace();
 
-                throw new FactoryException ("Não conseguiu acessar o objeto: " + erro.getMessage(),erro);
+                throw new FactoryException("Nï¿½o conseguiu acessar o objeto: " + erro.getMessage(), erro);
 
             } //catch
 
@@ -122,19 +116,18 @@ public class RemoteObjectFactory implements ObjectFactory {
 
         else {
 
-            throw new FactoryException ("Cache inválida: " + key.toString());
+            throw new FactoryException("Cache invï¿½lida: " + key.toString());
 
         } //else
 
     }
 
 
-
     public Object[] produce(CacheKey[] keys) throws FactoryException {
 
         Object[] result = new Object[keys.length];
 
-        for (int counter=0; counter < keys.length; counter++) {
+        for (int counter = 0; counter < keys.length; counter++) {
 
             result[counter] = produce(keys[counter]);
 
@@ -143,7 +136,6 @@ public class RemoteObjectFactory implements ObjectFactory {
         return result;
 
     } //produce
-
 
 
 }

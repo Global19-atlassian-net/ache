@@ -24,11 +24,9 @@
 package focusedCrawler.util.storage;
 
 
-
 import focusedCrawler.util.DetailException;
 
 public class StorageFactoryException extends DetailException {
-
 
 
     public StorageFactoryException(String newMessage) {
@@ -38,13 +36,11 @@ public class StorageFactoryException extends DetailException {
     }
 
 
-
-    public StorageFactoryException(String newMessage,Throwable newDetail) {
+    public StorageFactoryException(String newMessage, Throwable newDetail) {
 
         super(newMessage, newDetail);
 
     }
-
 
 
     public StorageFactoryException(Throwable newDetail) {

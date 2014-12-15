@@ -22,19 +22,24 @@
 ############################################################################
 */
 package focusedCrawler.util.storage;
+
 import focusedCrawler.util.ParameterFile;
 
 public abstract class AbstractStorageItemFactory implements StorageItemFactory {
     private ParameterFile config;
+
     public AbstractStorageItemFactory() {
         super();
     }
+
     public AbstractStorageItemFactory(ParameterFile config) {
         setConfig(config);
     }
+
     public ParameterFile getConfig() {
         return config;
     } //getConfig
+
     public void setConfig(ParameterFile newConfig) {
         this.config = newConfig;
     } //setConfig

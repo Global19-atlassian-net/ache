@@ -39,22 +39,22 @@ import focusedCrawler.util.string.StopListArquivo;
 public class PaginaURL implements Pagina {
 
     public long timeToParse = 0;
-    private int 			   maxPosValue = 0;
-    private int                notaDaImagem;
-    private int                MAXPALAVRAS = -1;
-    public static final int    MAX_PARAGRAPH_SIZE = 255;
-    private URL                pagina = null;
-    private long               visitado = 0;
-    private long               modificado = 0;
-    private int                tamanho = 0;
-    private String             titulo = "";
-    private String             paragrafo = "";
-    private String[]           palavras = new String[0];
-    private int[]              ocorrencias = new int[0];
-    private String[]           palavrasMeta = new String[0];
-    private int[]              ocorrenciasMeta = new int[0];
-    private int                fileHashCode;
-    private double             relevance = 0;
+    private int maxPosValue = 0;
+    private int notaDaImagem;
+    private int MAXPALAVRAS = -1;
+    public static final int MAX_PARAGRAPH_SIZE = 255;
+    private URL pagina = null;
+    private long visitado = 0;
+    private long modificado = 0;
+    private int tamanho = 0;
+    private String titulo = "";
+    private String paragrafo = "";
+    private String[] palavras = new String[0];
+    private int[] ocorrencias = new int[0];
+    private String[] palavrasMeta = new String[0];
+    private int[] ocorrenciasMeta = new int[0];
+    private int fileHashCode;
+    private double relevance = 0;
 
     /**
      * palavras_ordem \uFFFD um Hastable que mapeia uma palavras(um termo) a sua lista
@@ -63,47 +63,45 @@ public class PaginaURL implements Pagina {
      * no texto acima a lista da palavra "um" seria <3,9>. <BR>
      * Os tipo do Hashtable sao String que mapeia um Vector de Integer.
      */
-    private Hashtable          palavra_posicoes = new Hashtable();
-    private Hashtable          palavra_pontos = new Hashtable();
-    private Hashtable          palavra_posicoes_meta = new Hashtable();
-    private int                frames = 0;
-    private int                forms = 0;
-    private int                images = 0;
+    private Hashtable palavra_posicoes = new Hashtable();
+    private Hashtable palavra_pontos = new Hashtable();
+    private Hashtable palavra_posicoes_meta = new Hashtable();
+    private int frames = 0;
+    private int forms = 0;
+    private int images = 0;
 
-    private transient Vector   texto = new Vector();
-    private transient Vector   textoMeta = new Vector();
-    private URL[]              URLabsolutas = null;
-    private Vector             links = new Vector();
-    private Vector             mailList =
-        new Vector();    // Vector de e-mails para o lights
-    private boolean            noindex = false;
-    private boolean            nofollow = false;
-    public static boolean      USAR_DESCRIPTION = false;
-    public static int          MAX_SIZE_HOST = 255;
+    private transient Vector texto = new Vector();
+    private transient Vector textoMeta = new Vector();
+    private URL[] URLabsolutas = null;
+    private Vector links = new Vector();
+    private Vector mailList =
+            new Vector();    // Vector de e-mails para o lights
+    private boolean noindex = false;
+    private boolean nofollow = false;
+    public static boolean USAR_DESCRIPTION = false;
+    public static int MAX_SIZE_HOST = 255;
 
     // protected    Escopo meuEscopo = new EscopoWEB();
     private transient StopList stoplist;
-    private boolean            ordenarTermos = true;
+    private boolean ordenarTermos = true;
 
-    public void setRelevance(double relev){
-      this.relevance = relev;
+    public void setRelevance(double relev) {
+        this.relevance = relev;
     }
 
-    public double getRelevance(){
-      return this.relevance;
+    public double getRelevance() {
+        return this.relevance;
     }
 
     /**
      * O arquivo completo da pagina
      */
-    private transient String   arquivo = "";
+    private transient String arquivo = "";
 
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public URL endereco() {
@@ -117,9 +115,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public Date dataQueFoiVisitado() {
@@ -129,9 +125,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public Date dataQueFoiModificado() {
@@ -141,9 +135,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public int tamanhoDoArquivo() {
@@ -153,9 +145,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public String titulo() {
@@ -165,9 +155,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public String paragrafo() {
@@ -177,9 +165,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public String[] palavras() {
@@ -189,9 +175,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public int[] ocorrencias() {
@@ -202,9 +186,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public String[] palavrasMeta() {
@@ -214,9 +196,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public int[] ocorrenciasMeta() {
@@ -224,13 +204,10 @@ public class PaginaURL implements Pagina {
     }
 
 
-
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public int numeroDeFrames() {
@@ -240,9 +217,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public int numeroDeFormularios() {
@@ -252,9 +227,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public int numeroDeImagens() {
@@ -264,23 +237,18 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public Vector mails() {
         return mailList;
     }
 
-    
-    
+
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     public URL[] links() {
@@ -292,7 +260,7 @@ public class PaginaURL implements Pagina {
                     URLabsolutas[i] = new URL(links.elementAt(i).toString());
                 } catch (Throwable t) {
                 }    // ignora
-             }
+            }
         }
 
         return URLabsolutas;
@@ -301,11 +269,8 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @param palavra
-     *
      * @return
-     *
      * @see
      */
     public Enumeration posicoes(String palavra) {
@@ -323,16 +288,16 @@ public class PaginaURL implements Pagina {
      */
     public String toString() {
         String str = "<p>" + "<a href=\"" + pagina.toExternalForm().trim()
-                     + "\">" + titulo + "</a>    " + paragrafo + "<p>"
-                     + " Lista de palavras:    " + this.listapalavras()
-                     + "<p>" + " Lista de links:    " + this.listalinks()
-                     + "<p>" + " Lista de e-mails :    " + this.listamails()
-                     + "<p>" + " N\uFFFD de frames  =  " + frames
-                     + ",    N\uFFFD de formularios  =  " + forms
-                     + ",    N\uFFFD de imagens  =  " + images + "<p>"
-                     + " Visitado  =  " + new Date(visitado)
-                     + ",    modificado  =  " + new Date(modificado)
-                     + ",    tamanho  =  " + tamanho;
+                + "\">" + titulo + "</a>    " + paragrafo + "<p>"
+                + " Lista de palavras:    " + this.listapalavras()
+                + "<p>" + " Lista de links:    " + this.listalinks()
+                + "<p>" + " Lista de e-mails :    " + this.listamails()
+                + "<p>" + " N\uFFFD de frames  =  " + frames
+                + ",    N\uFFFD de formularios  =  " + forms
+                + ",    N\uFFFD de imagens  =  " + images + "<p>"
+                + " Visitado  =  " + new Date(visitado)
+                + ",    modificado  =  " + new Date(modificado)
+                + ",    tamanho  =  " + tamanho;
 
         return str;
     }
@@ -340,9 +305,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     private String listapalavras() {
@@ -362,9 +325,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     private String listalinks() {
@@ -384,9 +345,7 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @return
-     *
      * @see
      */
     private String listamails() {
@@ -405,10 +364,11 @@ public class PaginaURL implements Pagina {
 
     /**
      * Construtor que recebe como parametro uma String
-     * @param     strurl    String que representa a URL a ser avaliada.
-     * @param     stoplist  o Stoplist
-     * @exception  IOException Caso haja problemas com a conexao ou de manipulacao de Streams.
-     * @exception  MalformedURLException  Caso a string srturl represente uma URL mal formada.
+     *
+     * @param strurl   String que representa a URL a ser avaliada.
+     * @param stoplist o Stoplist
+     * @throws IOException           Caso haja problemas com a conexao ou de manipulacao de Streams.
+     * @throws MalformedURLException Caso a string srturl represente uma URL mal formada.
      */
     public PaginaURL(String strurl, StopList stoplist)
             throws IOException, MalformedURLException {
@@ -478,17 +438,18 @@ public class PaginaURL implements Pagina {
     /**
      * Construtor que nao esta sujeito a Exceptions, e possui parametros bem
      * definidos.
-     * @param      url      URL a ser visitada
-     * @param      vist     Data em que o documento foi visitado
-     * @param      mod      Data em que foi modificado
-     * @param      tam      Tamanho do arquivo
-     * @param      arquivo  String que representa todo o arquivo
-     * @param      escopo   o escopo da pagina
-     * @param      max      o tamanho maximo do centroide
-     * @param      stoplist o stoplist
+     *
+     * @param url      URL a ser visitada
+     * @param vist     Data em que o documento foi visitado
+     * @param mod      Data em que foi modificado
+     * @param tam      Tamanho do arquivo
+     * @param arquivo  String que representa todo o arquivo
+     * @param escopo   o escopo da pagina
+     * @param max      o tamanho maximo do centroide
+     * @param stoplist o stoplist
      */
     public PaginaURL(URL url, long vist, long mod, int tam,
-                         String arquivo, StopList stoplist) {
+                     String arquivo, StopList stoplist) {
 
         // public PaginaURL(URL url,long vist,long mod,int tam,String arquivo,Escopo escopo,StopList stoplist) {
         this(url, vist, mod, tam, arquivo, false, false, -1, stoplist);
@@ -497,20 +458,21 @@ public class PaginaURL implements Pagina {
     /**
      * Construtor que nao esta sujeito a Exceptions, e possui parametros bem
      * definidos.
-     * @param      url      URL a ser visitada
-     * @param      vist     Data em que o documento foi visitado
-     * @param      mod      Data em que foi modificado
-     * @param      tam      Tamanho do arquivo
-     * @param      arquivo  String que representa todo o arquivo
-     * @param      noindex  true para nao processar o texto da pagina
-     * @param      nofollow true para nao criar lista de links
-     * @param      escopo   o escopo da pagina
-     * @param      max      o tamanho maximo do centroide
-     * @param      stoplist o stoplist da pagina
+     *
+     * @param url      URL a ser visitada
+     * @param vist     Data em que o documento foi visitado
+     * @param mod      Data em que foi modificado
+     * @param tam      Tamanho do arquivo
+     * @param arquivo  String que representa todo o arquivo
+     * @param noindex  true para nao processar o texto da pagina
+     * @param nofollow true para nao criar lista de links
+     * @param escopo   o escopo da pagina
+     * @param max      o tamanho maximo do centroide
+     * @param stoplist o stoplist da pagina
      */
     public PaginaURL(URL url, long vist, long mod, int tam,
-                         String arquivo, boolean noindex, boolean nofollow,
-                         int max, StopList stoplist) {
+                     String arquivo, boolean noindex, boolean nofollow,
+                     int max, StopList stoplist) {
 
         // public PaginaURL(URL url,long vist,long mod,int tam,String arquivo,boolean noindex, boolean nofollow,Escopo escopo, int max, StopList stoplist) {
         // meuEscopo = escopo;
@@ -533,7 +495,7 @@ public class PaginaURL implements Pagina {
         if (!arquivo.equals("")) {
             long t1 = System.currentTimeMillis();
             separadorTextoCodigo(arquivo);
-            timeToParse = (System.currentTimeMillis() -t1);
+            timeToParse = (System.currentTimeMillis() - t1);
 
             // heuristicaImagem();
             // System.runFinalizersOnExit(true);
@@ -545,10 +507,10 @@ public class PaginaURL implements Pagina {
     }
 
     public PaginaURL(URL url, URLConnection conexao,
-                         int max, StopList sl) throws IOException {
+                     int max, StopList sl) throws IOException {
         this(url, conexao.getDate(), conexao.getLastModified(),
-             conexao.getContentLength(), conexao.getInputStream(), max,
-             sl);
+                conexao.getContentLength(), conexao.getInputStream(), max,
+                sl);
 
 //        System.out.println("CONEXAO: RESPONSE CODE = " + ((HttpURLConnection) conexao).getResponseCode());
 
@@ -567,34 +529,36 @@ public class PaginaURL implements Pagina {
 
     /**
      * Construtor que recebe uma URL, uma URLConnection e um InputStream
-     * @param      url       URL a ser avaliada
-     * @param      vist      Data em que o documento foi visitado
-     * @param      mod       Data em que foi modificado
-     * @param      tam       Tamanho do arquivo
-     * @param      file      o inputstream do arquivo
-     * @param      max       o tamanho maximo do centroide
-     * @param      stoplist o stoplist da pagina
-     * @exception  IOException caso haja problemas com a conexao ou de manipulacao de Streams.
+     *
+     * @param url      URL a ser avaliada
+     * @param vist     Data em que o documento foi visitado
+     * @param mod      Data em que foi modificado
+     * @param tam      Tamanho do arquivo
+     * @param file     o inputstream do arquivo
+     * @param max      o tamanho maximo do centroide
+     * @param stoplist o stoplist da pagina
+     * @throws IOException caso haja problemas com a conexao ou de manipulacao de Streams.
      */
     public PaginaURL(URL url, long vis, long mod, int tam,
-                         InputStream file, int max) throws IOException {
+                     InputStream file, int max) throws IOException {
         this(url, vis, mod, tam, file, max, null);
     }
 
     /**
      * Construtor que recebe uma URL, uma URLConnection e um InputStream
-     * @param      url       URL a ser avaliada
-     * @param      vist      Data em que o documento foi visitado
-     * @param      mod       Data em que foi modificado
-     * @param      tam       Tamanho do arquivo
-     * @param      file      o inputstream do arquivo
-     * @param      max       o tamanho maximo do centroide
-     * @param      stoplist o stoplist da pagina
-     * @exception  IOException caso haja problemas com a conexao ou de manipulacao de Streams.
+     *
+     * @param url      URL a ser avaliada
+     * @param vist     Data em que o documento foi visitado
+     * @param mod      Data em que foi modificado
+     * @param tam      Tamanho do arquivo
+     * @param file     o inputstream do arquivo
+     * @param max      o tamanho maximo do centroide
+     * @param stoplist o stoplist da pagina
+     * @throws IOException caso haja problemas com a conexao ou de manipulacao de Streams.
      */
     public PaginaURL(URL url, long vis, long mod, int tam,
-                         InputStream file, int max,
-                         StopList stoplist) throws IOException {
+                     InputStream file, int max,
+                     StopList stoplist) throws IOException {
         // super(url,vis,mod,tam,file,max,stoplist);
         if (max > 0) {
             MAXPALAVRAS = max;
@@ -616,35 +580,87 @@ public class PaginaURL implements Pagina {
         if (!arquivo.equals("")) {
             long t1 = System.currentTimeMillis();
             separadorTextoCodigo(arquivo);
-            timeToParse = (System.currentTimeMillis() -t1);
+            timeToParse = (System.currentTimeMillis() - t1);
 
             // heuristicaImagem();
             // System.runFinalizersOnExit(true);
         }
     }
 
-    private void loadHashCodes(){
-    	codes.put("&#1040;","Ð�");codes.put("&#1072;","Ð°");codes.put("&#1041;","Ð‘");codes.put("&#1073;","Ð±");codes.put("&#1042;","Ð’");
-    	codes.put("&#1074;","Ð²");codes.put("&#1043;","Ð“");codes.put("&#1075;","Ð³");codes.put("&#1044;","Ð”");codes.put("&#1076;","Ð´");
-    	codes.put("&#1045;","Ð•");codes.put("&#1077;","Ðµ");codes.put("&#1046;","Ð–");codes.put("&#1078;","Ð¶");codes.put("&#1047;","Ð—");
-    	codes.put("&#1079;","Ð·");codes.put("&#1048;","Ð˜");codes.put("&#1080;","Ð¸");codes.put("&#1049;","Ð™");codes.put("&#1081;","Ð¹");
-    	codes.put("&#1050;","Ðš");codes.put("&#1082;","Ðº");codes.put("&#1051;","Ð›");codes.put("&#1083;","Ð»");codes.put("&#1052;","Ðœ");
-    	codes.put("&#1084;","Ð¼");codes.put("&#1053;","Ð�");codes.put("&#1085;","Ð½");codes.put("&#1054;","Ðž");codes.put("&#1086;","Ð¾");
-    	codes.put("&#1055;","ÐŸ");codes.put("&#1087;","Ð¿");codes.put("&#1056;","Ð ");codes.put("&#1088;","Ñ€");codes.put("&#1057;","Ð¡");
-    	codes.put("&#1089;","Ñ�");codes.put("&#1058;","Ð¢");codes.put("&#1090;","Ñ‚");codes.put("&#1059;","Ð£");codes.put("&#1091;","Ñƒ");
-    	codes.put("&#1060;","Ð¤");codes.put("&#1092;","Ñ„");codes.put("&#1061;","Ð¥");codes.put("&#1093;","Ñ…");codes.put("&#1062;","Ð¦");
-    	codes.put("&#1094;","Ñ†");codes.put("&#1063;","Ð§");codes.put("&#1095;","Ñ‡");codes.put("&#1064;","Ð¨");codes.put("&#1096;","Ñˆ");
-    	codes.put("&#1065;","Ð©");codes.put("&#1097;","Ñ‰");codes.put("&#1066;","Ðª");codes.put("&#1098;","ÑŠ");codes.put("&#1067;","Ð«");
-    	codes.put("&#1099;","Ñ‹");codes.put("&#1068;","Ð¬");codes.put("&#1100;","ÑŒ");codes.put("&#1069;","Ð­");codes.put("&#1101;","Ñ�");
-    	codes.put("&#1070;","Ð®");codes.put("&#1102;","ÑŽ");codes.put("&#1071;","Ð¯");codes.put("&#1103;","Ñ�");
+    private void loadHashCodes() {
+        codes.put("&#1040;", "Ð�");
+        codes.put("&#1072;", "Ð°");
+        codes.put("&#1041;", "Ð‘");
+        codes.put("&#1073;", "Ð±");
+        codes.put("&#1042;", "Ð’");
+        codes.put("&#1074;", "Ð²");
+        codes.put("&#1043;", "Ð“");
+        codes.put("&#1075;", "Ð³");
+        codes.put("&#1044;", "Ð”");
+        codes.put("&#1076;", "Ð´");
+        codes.put("&#1045;", "Ð•");
+        codes.put("&#1077;", "Ðµ");
+        codes.put("&#1046;", "Ð–");
+        codes.put("&#1078;", "Ð¶");
+        codes.put("&#1047;", "Ð—");
+        codes.put("&#1079;", "Ð·");
+        codes.put("&#1048;", "Ð˜");
+        codes.put("&#1080;", "Ð¸");
+        codes.put("&#1049;", "Ð™");
+        codes.put("&#1081;", "Ð¹");
+        codes.put("&#1050;", "Ðš");
+        codes.put("&#1082;", "Ðº");
+        codes.put("&#1051;", "Ð›");
+        codes.put("&#1083;", "Ð»");
+        codes.put("&#1052;", "Ðœ");
+        codes.put("&#1084;", "Ð¼");
+        codes.put("&#1053;", "Ð�");
+        codes.put("&#1085;", "Ð½");
+        codes.put("&#1054;", "Ðž");
+        codes.put("&#1086;", "Ð¾");
+        codes.put("&#1055;", "ÐŸ");
+        codes.put("&#1087;", "Ð¿");
+        codes.put("&#1056;", "Ð ");
+        codes.put("&#1088;", "Ñ€");
+        codes.put("&#1057;", "Ð¡");
+        codes.put("&#1089;", "Ñ�");
+        codes.put("&#1058;", "Ð¢");
+        codes.put("&#1090;", "Ñ‚");
+        codes.put("&#1059;", "Ð£");
+        codes.put("&#1091;", "Ñƒ");
+        codes.put("&#1060;", "Ð¤");
+        codes.put("&#1092;", "Ñ„");
+        codes.put("&#1061;", "Ð¥");
+        codes.put("&#1093;", "Ñ…");
+        codes.put("&#1062;", "Ð¦");
+        codes.put("&#1094;", "Ñ†");
+        codes.put("&#1063;", "Ð§");
+        codes.put("&#1095;", "Ñ‡");
+        codes.put("&#1064;", "Ð¨");
+        codes.put("&#1096;", "Ñˆ");
+        codes.put("&#1065;", "Ð©");
+        codes.put("&#1097;", "Ñ‰");
+        codes.put("&#1066;", "Ðª");
+        codes.put("&#1098;", "ÑŠ");
+        codes.put("&#1067;", "Ð«");
+        codes.put("&#1099;", "Ñ‹");
+        codes.put("&#1068;", "Ð¬");
+        codes.put("&#1100;", "ÑŒ");
+        codes.put("&#1069;", "Ð­");
+        codes.put("&#1101;", "Ñ�");
+        codes.put("&#1070;", "Ð®");
+        codes.put("&#1102;", "ÑŽ");
+        codes.put("&#1071;", "Ð¯");
+        codes.put("&#1103;", "Ñ�");
 
     }
-    
+
     /**
      * Converte um InputStream, para uma String.
-     * @param      in      ImputStream a ser convertido
-     * @return     a String correspondente a in
-     * @exception  IOException
+     *
+     * @param in ImputStream a ser convertido
+     * @return a String correspondente a in
+     * @throws IOException
      */
 
     // private StringBuffer converteArquivo(InputStream in) throws IOException {
@@ -667,9 +683,9 @@ public class PaginaURL implements Pagina {
          */
 
         // System.out.println("CONVERTENDO O ARQUIVO "+endereco());
-        StringBuffer   arquivo = new StringBuffer();
+        StringBuffer arquivo = new StringBuffer();
         BufferedReader bin = new BufferedReader(new InputStreamReader(in));
-        String         inputLine;
+        String inputLine;
 
         try {
             while ((inputLine = bin.readLine()) != null) {
@@ -714,47 +730,47 @@ public class PaginaURL implements Pagina {
     private Vector around = new Vector();
     private Vector linkNeigh = new Vector();
 
-    public void setFilterWorsOfURLs(boolean filterURL){
-      this.filterURL = filterURL;
+    public void setFilterWorsOfURLs(boolean filterURL) {
+        this.filterURL = filterURL;
     }
 
-    public LinkNeighborhood[] getLinkNeighboor(){
-      HashSet<String> unique = new HashSet<String>();
-      Vector<LinkNeighborhood> tempLN = new Vector<LinkNeighborhood>();
-      for (int i = 0; i < linkNeigh.size(); i++) {
-        LinkNeighborhood ln = (LinkNeighborhood)linkNeigh.elementAt(i);
-        String id = ln.getAnchorString() + ln.getLink().toString()+ln.getAroundString();
-        if(!unique.contains(id)){
-        	unique.add(id);
-            int pointer = ln.getAroundPosition();
-            Vector aroundTemp = new Vector();
-            for (int j = pointer - (10 + ln.getNumWordsAnchor()); j < pointer + 10; j++) {
-              if(j >=0 && j <around.size() && (j < pointer - ln.getNumWordsAnchor() || j > pointer-1)){
-                aroundTemp.add(((String)around.elementAt(j)).toLowerCase());
-              }
+    public LinkNeighborhood[] getLinkNeighboor() {
+        HashSet<String> unique = new HashSet<String>();
+        Vector<LinkNeighborhood> tempLN = new Vector<LinkNeighborhood>();
+        for (int i = 0; i < linkNeigh.size(); i++) {
+            LinkNeighborhood ln = (LinkNeighborhood) linkNeigh.elementAt(i);
+            String id = ln.getAnchorString() + ln.getLink().toString() + ln.getAroundString();
+            if (!unique.contains(id)) {
+                unique.add(id);
+                int pointer = ln.getAroundPosition();
+                Vector aroundTemp = new Vector();
+                for (int j = pointer - (10 + ln.getNumWordsAnchor()); j < pointer + 10; j++) {
+                    if (j >= 0 && j < around.size() && (j < pointer - ln.getNumWordsAnchor() || j > pointer - 1)) {
+                        aroundTemp.add(((String) around.elementAt(j)).toLowerCase());
+                    }
+                }
+                String[] around = new String[aroundTemp.size()];
+                aroundTemp.toArray(around);
+                ln.setAround(around);
+                if (getURL().getHost().equals(ln.getLink().getHost())) {
+                    ln.setSameSite(true);
+                }
+                tempLN.add(ln);
             }
-            String[] around = new String[aroundTemp.size()];
-            aroundTemp.toArray(around);
-            ln.setAround(around);
-            if(getURL().getHost().equals(ln.getLink().getHost())){
-            	ln.setSameSite(true);
-            }
-            tempLN.add(ln);
         }
-      }
-      LinkNeighborhood[] lns = new LinkNeighborhood[tempLN.size()];
-      tempLN.toArray(lns);
-      return lns;
+        LinkNeighborhood[] lns = new LinkNeighborhood[tempLN.size()];
+        tempLN.toArray(lns);
+        return lns;
     }
 
-    
-    private Vector  imagens = new Vector();
-    
+
+    private Vector imagens = new Vector();
+
     protected void separadorTextoCodigo(String arquivo) {    // arquivo equivale ao codigo HTML da pagina
-        if(codes.size() == 0){
-        	loadHashCodes();	
+        if (codes.size() == 0) {
+            loadHashCodes();
         }
-    	
+
 //    	System.out.println(arquivo);	
         boolean obj_isRDF = false;
         boolean ignorar_espacos = true;
@@ -766,42 +782,42 @@ public class PaginaURL implements Pagina {
         boolean em_option = false;
         boolean em_comentario = false;
         int num_comentario = 0;
-        int     PONTUACAO_PALAVRAS_TEXTO       = 2;
-        int     PONTUACAO_PALAVRAS_OPTION      = 1;
-        int     PONTUACAO_PALAVRAS_URL         = 3;
-        int     PONTUACAO_PALAVRAS_META        = 1;
-        int     PONTUACAO_PALAVRAS_TITULO      = 7;
-        int     PONTUACAO_PALAVRAS_DESCRIPTION = 5;
-        int     PONTUACAO_PALAVRAS_ALT         = 1;
-        int    posicao_da_palavra 			   = 1;
+        int PONTUACAO_PALAVRAS_TEXTO = 2;
+        int PONTUACAO_PALAVRAS_OPTION = 1;
+        int PONTUACAO_PALAVRAS_URL = 3;
+        int PONTUACAO_PALAVRAS_META = 1;
+        int PONTUACAO_PALAVRAS_TITULO = 7;
+        int PONTUACAO_PALAVRAS_DESCRIPTION = 5;
+        int PONTUACAO_PALAVRAS_ALT = 1;
+        int posicao_da_palavra = 1;
         int numOfHtmlTags = 0;
 
         // UTILIZANDO AS PALAVRAS DA URL COMO INFORMACAO TEXTUAL
         if (pagina != null && !filterURL) {
 
 
-            StringTokenizer url_pontos = new StringTokenizer(pagina.getHost(),"./:");
+            StringTokenizer url_pontos = new StringTokenizer(pagina.getHost(), "./:");
 
             while (url_pontos.hasMoreTokens()) {
                 String parte_host = url_pontos.nextToken();
 
                 if (!parte_host.equals("www")
-                    &&!parte_host.equals("org")
-                    &&!parte_host.equals("gov")
-                    &&!parte_host.equals("com")
-                    &&!parte_host.equals("br")) {
+                        && !parte_host.equals("org")
+                        && !parte_host.equals("gov")
+                        && !parte_host.equals("com")
+                        && !parte_host.equals("br")) {
 
                     boolean adicionou = adicionaAoVetorDeTexto(parte_host);
 
-                    if( adicionou ) {
-                        adicionaTermoPosicao(parte_host,posicao_da_palavra);    // atualiza o centroide
-                        adicionaPontuacaoTermo(parte_host,PONTUACAO_PALAVRAS_URL);
+                    if (adicionou) {
+                        adicionaTermoPosicao(parte_host, posicao_da_palavra);    // atualiza o centroide
+                        adicionaPontuacaoTermo(parte_host, PONTUACAO_PALAVRAS_URL);
                         String parte_host_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(parte_host);
-                        if( !parte_host_sem_acento.equals(parte_host) ) {
+                        if (!parte_host_sem_acento.equals(parte_host)) {
                             adicionou = adicionaAoVetorDeTexto(parte_host_sem_acento);
-                            if( adicionou ) {
-                                adicionaTermoPosicao(parte_host_sem_acento,posicao_da_palavra);    // atualiza o centroide
-                                adicionaPontuacaoTermo(parte_host_sem_acento,PONTUACAO_PALAVRAS_URL);
+                            if (adicionou) {
+                                adicionaTermoPosicao(parte_host_sem_acento, posicao_da_palavra);    // atualiza o centroide
+                                adicionaPontuacaoTermo(parte_host_sem_acento, PONTUACAO_PALAVRAS_URL);
                             }
                         }
                         posicao_da_palavra++;
@@ -817,30 +833,29 @@ public class PaginaURL implements Pagina {
         boolean tagTitulo = false;
         boolean tagBody = false;
         boolean tagOption = false;
-        int     pos_caracter_especial = -1;
-        char    quote_char = '\0';
-        URL     base = pagina;    // pagina = URL da pagina atual...
+        int pos_caracter_especial = -1;
+        char quote_char = '\0';
+        URL base = pagina;    // pagina = URL da pagina atual...
 
-        Vector  frames = new Vector();
-        char    c = '\0';
-        char    ant1 = '\0';
-        char    ant2 = '\0';
-        int     n = 0;
-        int     n_anterior = 0;
-        String  str = "";
+        Vector frames = new Vector();
+        char c = '\0';
+        char ant1 = '\0';
+        char ant2 = '\0';
+        int n = 0;
+        int n_anterior = 0;
+        String str = "";
         String anchor = "";
         int numOfwordsAnchor = 0;
 
         LinkNeighborhood ln = null;
-        String  tagName = "";
+        String tagName = "";
         String lastTag = "";
-        String  atributo = "";
+        String atributo = "";
 
         boolean insideATag = false;
 
         boolean em_meta_description = false; // thiago
-        String  str_da_metatag_description = null; // thiago
-
+        String str_da_metatag_description = null; // thiago
 
 
         final int INICIO = 1;
@@ -853,7 +868,7 @@ public class PaginaURL implements Pagina {
         final int VALOR = 8;
         final int META_TAG = 10;
         final int ALT_TAG = 11;
-        int       estado = INICIO;
+        int estado = INICIO;
 
         try {
 
@@ -910,221 +925,219 @@ public class PaginaURL implements Pagina {
 
                     switch (estado) {
 
-                    case INICIO:
+                        case INICIO:
 
                         /* INICIO - Esperando texto ou caracter de abertura de tag '<' */
 
-                        // System.out.println("Entrei no inicio e caractere=" + c);
-                        if (c == '<') {
-                            estado = TAG_NAME;
-                            tagName = "";
-                            tag_tipo_fim = false;
-                            em_meta_robots = false;
-                            n++;
-                        } else {
-                            estado = TOKEN_PALAVRA;
-                            pos_caracter_especial = -1;
-                        }
+                            // System.out.println("Entrei no inicio e caractere=" + c);
+                            if (c == '<') {
+                                estado = TAG_NAME;
+                                tagName = "";
+                                tag_tipo_fim = false;
+                                em_meta_robots = false;
+                                n++;
+                            } else {
+                                estado = TOKEN_PALAVRA;
+                                pos_caracter_especial = -1;
+                            }
 
-                        quote_char = '\0';
+                            quote_char = '\0';
 
-                        break;
+                            break;
 
-                    case TOKEN_PALAVRA:
+                        case TOKEN_PALAVRA:
 //                    	if(str.contains("1044")){
 //                    		System.out.println("TEST");
 //                    	}
                         /* faz o token da string */
-                        if ((caracterFazParteDePalavra(c)) || (c == ';')
-                                || (c == '&')) {
-                            str += converteChar(c);
-                            n++;
-                            int begin = str.indexOf("&#");
-                            int end = str.indexOf(";");
-                            if(begin != -1 && end != -1){
-                            	String specialchar = str.substring(begin+2,end);
-    							try {
-                                	int hex = Integer.parseInt(specialchar);
-        							char uni = (char)hex;
-        							String unicode =  uni + "";
-        							str = str.substring(0,begin) + unicode;
+                            if ((caracterFazParteDePalavra(c)) || (c == ';')
+                                    || (c == '&')) {
+                                str += converteChar(c);
+                                n++;
+                                int begin = str.indexOf("&#");
+                                int end = str.indexOf(";");
+                                if (begin != -1 && end != -1) {
+                                    String specialchar = str.substring(begin + 2, end);
+                                    try {
+                                        int hex = Integer.parseInt(specialchar);
+                                        char uni = (char) hex;
+                                        String unicode = uni + "";
+                                        str = str.substring(0, begin) + unicode;
 //        							System.out.println(unicode);
-                                	pos_caracter_especial = -1;
-                                	continue;
-								} catch (Exception e) {
-									// TODO: handle exception
-								}
-                            }
-                            if(str.toLowerCase().contains("&ntilde;")){
-                            	str = str.toLowerCase().replace("&ntilde;", "n");
-                            	pos_caracter_especial = -1;
-                            	continue;
-                            }
-                            if(str.contains("Ã±")){
-                            	str = str.replace("Ã±", "n");
-                            	pos_caracter_especial = -1;
-                            	continue;
-                            }
-                            if (c == '&') {
-                                pos_caracter_especial = n;
-                            } else   
-//                            	System.out.println(str + ":" + pos_caracter_especial);
-                            	if (pos_caracter_especial != -1) {
-                                int  posicao = str.length()
-                                               - (n - pos_caracter_especial)
-                                               - 1;
-                                char ch = caracterEspecial(str, posicao);
-                                
-                                if (ch != '\0') {
-                                    if (caracterFazParteDePalavra(ch)) {
-                                        str = str.substring(0, posicao)
-                                              + converteChar(ch);
-                                    } else {
-                                        str = str.substring(0, posicao);
-                                        estado = PALAVRA;
-
-                                        if (em_titulo) {
-                                            titulo += str + ch;
-                                        }
+                                        pos_caracter_especial = -1;
+                                        continue;
+                                    } catch (Exception e) {
+                                        // TODO: handle exception
                                     }
                                 }
-                                if ((c == ';')
-                                        || (n - pos_caracter_especial) > 9) {
+                                if (str.toLowerCase().contains("&ntilde;")) {
+                                    str = str.toLowerCase().replace("&ntilde;", "n");
                                     pos_caracter_especial = -1;
+                                    continue;
                                 }
-                            }
-                        } else {
-                            estado = PALAVRA;
+                                if (str.contains("Ã±")) {
+                                    str = str.replace("Ã±", "n");
+                                    pos_caracter_especial = -1;
+                                    continue;
+                                }
+                                if (c == '&') {
+                                    pos_caracter_especial = n;
+                                } else
+//                            	System.out.println(str + ":" + pos_caracter_especial);
+                                    if (pos_caracter_especial != -1) {
+                                        int posicao = str.length()
+                                                - (n - pos_caracter_especial)
+                                                - 1;
+                                        char ch = caracterEspecial(str, posicao);
 
-                            if (em_titulo) {
-                                titulo += str;
-                            }
-                            if (!(c == '<')) {
+                                        if (ch != '\0') {
+                                            if (caracterFazParteDePalavra(ch)) {
+                                                str = str.substring(0, posicao)
+                                                        + converteChar(ch);
+                                            } else {
+                                                str = str.substring(0, posicao);
+                                                estado = PALAVRA;
+
+                                                if (em_titulo) {
+                                                    titulo += str + ch;
+                                                }
+                                            }
+                                        }
+                                        if ((c == ';')
+                                                || (n - pos_caracter_especial) > 9) {
+                                            pos_caracter_especial = -1;
+                                        }
+                                    }
+                            } else {
+                                estado = PALAVRA;
+
                                 if (em_titulo) {
+                                    titulo += str;
+                                }
+                                if (!(c == '<')) {
+                                    if (em_titulo) {
 //                                	if(!Character.isLetterOrDigit(c)){
 //                                		c = ' ';
 //                                	}
-                                    titulo += c;
+                                        titulo += c;
+                                    }
+
+                                    n++;
                                 }
-
-                                n++;
                             }
-                        }
 
-                        break;
+                            break;
 
 
-                    case PALAVRA:
+                        case PALAVRA:
 //                      System.out.println("PALAVRA:"+lastTag);
-                      if(insideATag){
-                        anchor = anchor + " " + str.toLowerCase();
+                            if (insideATag) {
+                                anchor = anchor + " " + str.toLowerCase();
 
-                        numOfwordsAnchor++;
+                                numOfwordsAnchor++;
 //                                                  insideATag = false;
 
 //                          System.out.println("ANCHOR:"+anchor);
-                      }
+                            }
 //                      if(anchor.indexOf("school") != -1){
 //                        System.out.println("TEST");
 //                      }
                         /* PALAVRA - palavra pronta */
-                        if (!em_script && (str.length() > 0)) {
-                            if (em_body && paragrafo.length() + str.length() < MAX_PARAGRAPH_SIZE) {
-                                if (Character.isWhitespace(c)) {
-                                    paragrafo +=
-                                        str + c;    // atualiza variavel paragrafo
-                                } else {
-                                    paragrafo += str + " ";
-                                }
-                            }
-
-                            if (!em_titulo) {
-                                boolean adicionou = adicionaAoVetorDeTexto(str);
-                                if( adicionou ) {
-                                  around.add(str);
-                                  adicionaTermoPosicao(str,posicao_da_palavra);    // atualiza o centroide
-                                  if(em_option){
-                                      adicionaPontuacaoTermo(str,PONTUACAO_PALAVRAS_OPTION);
-                                    }else{
-                                      adicionaPontuacaoTermo(str,PONTUACAO_PALAVRAS_TEXTO);
+                            if (!em_script && (str.length() > 0)) {
+                                if (em_body && paragrafo.length() + str.length() < MAX_PARAGRAPH_SIZE) {
+                                    if (Character.isWhitespace(c)) {
+                                        paragrafo +=
+                                                str + c;    // atualiza variavel paragrafo
+                                    } else {
+                                        paragrafo += str + " ";
                                     }
-                                    String str_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(str);
-                                    if( !str_sem_acento.equals(str) ) {
-                                        adicionou = adicionaAoVetorDeTexto(str_sem_acento);
-                                        if( adicionou ) {
-                                            adicionaTermoPosicao(str_sem_acento,posicao_da_palavra);    // atualiza o centroide
-                                            if(em_option){
-                                              adicionaPontuacaoTermo(str_sem_acento,PONTUACAO_PALAVRAS_OPTION);
-                                            }else{
-                                              adicionaPontuacaoTermo(str_sem_acento,PONTUACAO_PALAVRAS_TEXTO);
+                                }
+
+                                if (!em_titulo) {
+                                    boolean adicionou = adicionaAoVetorDeTexto(str);
+                                    if (adicionou) {
+                                        around.add(str);
+                                        adicionaTermoPosicao(str, posicao_da_palavra);    // atualiza o centroide
+                                        if (em_option) {
+                                            adicionaPontuacaoTermo(str, PONTUACAO_PALAVRAS_OPTION);
+                                        } else {
+                                            adicionaPontuacaoTermo(str, PONTUACAO_PALAVRAS_TEXTO);
+                                        }
+                                        String str_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(str);
+                                        if (!str_sem_acento.equals(str)) {
+                                            adicionou = adicionaAoVetorDeTexto(str_sem_acento);
+                                            if (adicionou) {
+                                                adicionaTermoPosicao(str_sem_acento, posicao_da_palavra);    // atualiza o centroide
+                                                if (em_option) {
+                                                    adicionaPontuacaoTermo(str_sem_acento, PONTUACAO_PALAVRAS_OPTION);
+                                                } else {
+                                                    adicionaPontuacaoTermo(str_sem_acento, PONTUACAO_PALAVRAS_TEXTO);
+                                                }
                                             }
                                         }
+                                        posicao_da_palavra++;
                                     }
-                                    posicao_da_palavra++;
-                                }
-                            } else {
-                                boolean adicionou = adicionaAoVetorDeTexto(str);
-                                if( adicionou ) {
-                                    adicionaTermoPosicao(str,posicao_da_palavra);    // atualiza o centroide
-                                    adicionaPontuacaoTermo(str,PONTUACAO_PALAVRAS_TITULO);
-                                    String str_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(str);
-                                    if( !str_sem_acento.equals(str) ) {
-                                        adicionou = adicionaAoVetorDeTexto(str_sem_acento);
-                                        if( adicionou ) {
-                                            adicionaTermoPosicao(str_sem_acento,posicao_da_palavra);    // atualiza o centroide
-                                            adicionaPontuacaoTermo(str_sem_acento,PONTUACAO_PALAVRAS_TITULO);
+                                } else {
+                                    boolean adicionou = adicionaAoVetorDeTexto(str);
+                                    if (adicionou) {
+                                        adicionaTermoPosicao(str, posicao_da_palavra);    // atualiza o centroide
+                                        adicionaPontuacaoTermo(str, PONTUACAO_PALAVRAS_TITULO);
+                                        String str_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(str);
+                                        if (!str_sem_acento.equals(str)) {
+                                            adicionou = adicionaAoVetorDeTexto(str_sem_acento);
+                                            if (adicionou) {
+                                                adicionaTermoPosicao(str_sem_acento, posicao_da_palavra);    // atualiza o centroide
+                                                adicionaPontuacaoTermo(str_sem_acento, PONTUACAO_PALAVRAS_TITULO);
+                                            }
                                         }
+                                        posicao_da_palavra++;
                                     }
-                                    posicao_da_palavra++;
                                 }
                             }
-                        }
 
-                        estado = INICIO;
-                        ignorar_espacos = true;
-                        str = "";
+                            estado = INICIO;
+                            ignorar_espacos = true;
+                            str = "";
 
-                        break;
+                            break;
 
-                    case TAG_NAME:
+                        case TAG_NAME:
 
                         /* TAG_NAME - terminated by space, \r, \n, >, / */
-                        if (em_script) {
-                            if ( c != '>'){
-                                if ( "/script".startsWith(str + c) || "/SCRIPT".startsWith(str + c) || "/style".startsWith(str + c) || "/STYLE".startsWith(str + c)) {
-                                    str +=c;
-                                }
-                                else {
-                                    str = "";
-                                    estado = INICIO;
-                                }
-                                n++;
-                            } else if ( c == '>'){
-                                if (str.equalsIgnoreCase("/script") || str.equalsIgnoreCase("/style")) {
-                                    fimDeString = true;
-                                    tag_tipo_fim = true;
-                                    tagScript = true;
-                                    estado = FECHANDO;
-                                } else {
-                                     n++;
-                                }
-                            }
-                        }
-                        else {
-                            if (str.equals("BASE")) {
-//                                System.out.println("EM TAG_NAME, str="+str + ", c="+c+", tagTitulo="+tagTitulo);
-                                if (c == '>') {
-                                    estado = FECHANDO;
-                                } else {
+                            if (em_script) {
+                                if (c != '>') {
+                                    if ("/script".startsWith(str + c) || "/SCRIPT".startsWith(str + c) || "/style".startsWith(str + c) || "/STYLE".startsWith(str + c)) {
+                                        str += c;
+                                    } else {
+                                        str = "";
+                                        estado = INICIO;
+                                    }
                                     n++;
+                                } else if (c == '>') {
+                                    if (str.equalsIgnoreCase("/script") || str.equalsIgnoreCase("/style")) {
+                                        fimDeString = true;
+                                        tag_tipo_fim = true;
+                                        tagScript = true;
+                                        estado = FECHANDO;
+                                    } else {
+                                        n++;
+                                    }
                                 }
                             } else {
+                                if (str.equals("BASE")) {
+//                                System.out.println("EM TAG_NAME, str="+str + ", c="+c+", tagTitulo="+tagTitulo);
+                                    if (c == '>') {
+                                        estado = FECHANDO;
+                                    } else {
+                                        n++;
+                                    }
+                                } else {
 //                                if ((c == '"') || (c == '\'')) {
 //                                if ((c == '\'')) {
 //                                    organizaDados(); //new
 //                                    return;    /* error - these are not allowed in tagname */
 //                                } else 
-                                	if (c == ' ') {
+                                    if (c == ' ') {
 
                                     /*
                                      * Note: Both mozilla and XML don't allow any spaces between < and tagname.
@@ -1135,164 +1148,163 @@ public class PaginaURL implements Pagina {
 //                                        return;    /* str is the buffer we're working on */
 //                                    }
 
-                                    fimDeString = true;
-                                    estado = ATRIBUTO;
-                                    ignorar_espacos = true;
-                                    n++;
-                                } else if (c == '/') {
-                                    if (tagName.length() == 0) {
-                                        tag_tipo_fim =
-                                            true;    /* indicates end tag if no tag name read yet */
-                                    } else if (obj_isRDF) {    /* otherwise its an empty tag (RDF only) */
                                         fimDeString = true;
-                                        tag_tipo_vazia = true;
-                                        estado = FECHANDO;
-                                    } 
+                                        estado = ATRIBUTO;
+                                        ignorar_espacos = true;
+                                        n++;
+                                    } else if (c == '/') {
+                                        if (tagName.length() == 0) {
+                                            tag_tipo_fim =
+                                                    true;    /* indicates end tag if no tag name read yet */
+                                        } else if (obj_isRDF) {    /* otherwise its an empty tag (RDF only) */
+                                            fimDeString = true;
+                                            tag_tipo_vazia = true;
+                                            estado = FECHANDO;
+                                        }
 //                                    else {
 //                                        organizaDados(); //new
 //                                        return;
 //                                    }
 
-                                    n++;
-                                } else if (c == '>') {
-                                    fimDeString = true;
-    //                                tag_tipo_fim = true;
-                                    estado = FECHANDO;
-                                } else if ((c != '\r') && (c != '\n')) {
+                                        n++;
+                                    } else if (c == '>') {
+                                        fimDeString = true;
+                                        //                                tag_tipo_fim = true;
+                                        estado = FECHANDO;
+                                    } else if ((c != '\r') && (c != '\n')) {
 
-                                    // System.out.println("Estou NO CAMINHO CERTO!!!!");
-                                    str += c;
-                                    n++;
-                                } else {
-                                    fimDeString = true;
-                                    estado =
-                                        ATRIBUTO;    /* note - mozilla allows newline after tag name */
-                                    ignorar_espacos = true;
-                                    n++;
-                                }
-
-                                if (fimDeString) {
-                                    //if (str.equals("!--")) {    /* html comment */
-                                    if (str.startsWith("!--")) {    /* html comment */
-                                        em_comentario = true;
-                                        num_comentario++;
-                                        estado = INICIO;
+                                        // System.out.println("Estou NO CAMINHO CERTO!!!!");
+                                        str += c;
+                                        n++;
                                     } else {
-                                        str = str.toLowerCase();
-                                        tagName = str;
-                                        tagBody = str.equals("body");
-                                        tagTitulo = str.equals("title");
-                                        tagOption = str.equals("option");
-                                        if(tagName.equals("html")){
-                                        	if(!tag_tipo_fim){
-                                            	numOfHtmlTags++;
-                                        	}else{
-                                        		numOfHtmlTags--;
-                                        	}
-//                                        	System.out.println(">>>>>>>>>>>>>" + numOfHtmlTags);
-                                        }
-                                        	
-                                        //if (tagTitulo) {
-                                        //    System.out.println("achot tag titulo " + str);
-                                        //}
-                                        tagScript = str.equals("script") || str.equals("style");
-
-                                        if (str.equals("form")) {
-                                            this.forms++;
-                                        }
+                                        fimDeString = true;
+                                        estado =
+                                                ATRIBUTO;    /* note - mozilla allows newline after tag name */
+                                        ignorar_espacos = true;
+                                        n++;
                                     }
 
-                                    str = "";
-                                    fimDeString = false;
+                                    if (fimDeString) {
+                                        //if (str.equals("!--")) {    /* html comment */
+                                        if (str.startsWith("!--")) {    /* html comment */
+                                            em_comentario = true;
+                                            num_comentario++;
+                                            estado = INICIO;
+                                        } else {
+                                            str = str.toLowerCase();
+                                            tagName = str;
+                                            tagBody = str.equals("body");
+                                            tagTitulo = str.equals("title");
+                                            tagOption = str.equals("option");
+                                            if (tagName.equals("html")) {
+                                                if (!tag_tipo_fim) {
+                                                    numOfHtmlTags++;
+                                                } else {
+                                                    numOfHtmlTags--;
+                                                }
+//                                        	System.out.println(">>>>>>>>>>>>>" + numOfHtmlTags);
+                                            }
+
+                                            //if (tagTitulo) {
+                                            //    System.out.println("achot tag titulo " + str);
+                                            //}
+                                            tagScript = str.equals("script") || str.equals("style");
+
+                                            if (str.equals("form")) {
+                                                this.forms++;
+                                            }
+                                        }
+
+                                        str = "";
+                                        fimDeString = false;
+                                    }
+
+                                    // System.out.println("A STRING DO ATRIBUTO EH: " + str + " estado novo "+ estado);
                                 }
-
-                                // System.out.println("A STRING DO ATRIBUTO EH: " + str + " estado novo "+ estado);
                             }
-                        }
-                        break;
+                            break;
 
-                    case FECHANDO:
+                        case FECHANDO:
                         /* FECHANDO - expecting a close bracket, anything else is an error */
 //                        System.out.println("END OF TAG:"+tagName);
 //                        if(ln!=null){
 //                          ln.setAnchor(anchor);
 //                          System.out.println("URL---"+ln.getLink());
- //                         System.out.println("ANC---"+ln.getAnchor());
-  //                      }
-                    	
-                        if((tag_tipo_fim && tagName.equals("a")) || tagName.equals("area")){
+                            //                         System.out.println("ANC---"+ln.getAnchor());
+                            //                      }
 
-                          insideATag = false;
-                          if(ln!=null){
-                            Vector anchorTemp = new Vector();
-  //                          System.out.println("URL---"+ln.getLink());
-  //                          System.out.println("ANC---"+anchor);
-                            StringTokenizer tokenizer = new StringTokenizer(anchor," ");
-                            while(tokenizer.hasMoreTokens()){
-                              anchorTemp.add(tokenizer.nextToken());
-                            }
-                            String[] anchorArray = new String[anchorTemp.size()];
-                            anchorTemp.toArray(anchorArray);
-                            ln.setAnchor(anchorArray);
-                            ln.setAroundPosition(around.size());
-                            ln.setNumberOfWordsAnchor(numOfwordsAnchor);
-                            linkNeigh.add(ln.clone());
+                            if ((tag_tipo_fim && tagName.equals("a")) || tagName.equals("area")) {
+
+                                insideATag = false;
+                                if (ln != null) {
+                                    Vector anchorTemp = new Vector();
+                                    //                          System.out.println("URL---"+ln.getLink());
+                                    //                          System.out.println("ANC---"+anchor);
+                                    StringTokenizer tokenizer = new StringTokenizer(anchor, " ");
+                                    while (tokenizer.hasMoreTokens()) {
+                                        anchorTemp.add(tokenizer.nextToken());
+                                    }
+                                    String[] anchorArray = new String[anchorTemp.size()];
+                                    anchorTemp.toArray(anchorArray);
+                                    ln.setAnchor(anchorArray);
+                                    ln.setAroundPosition(around.size());
+                                    ln.setNumberOfWordsAnchor(numOfwordsAnchor);
+                                    linkNeigh.add(ln.clone());
 //                            anchor = "";
-                            ln = null;
-                          }
-                          anchor = "";
-                        }
-                        // System.out.println("Entrei em fechando");
-                        if (c == '>') {
-                            if (tagScript) {
+                                    ln = null;
+                                }
+                                anchor = "";
+                            }
+                            // System.out.println("Entrei em fechando");
+                            if (c == '>') {
+                                if (tagScript) {
 
                                 /* we're inside a script tag (not RDF) */
-                                em_script = !tag_tipo_fim;
-                            }
+                                    em_script = !tag_tipo_fim;
+                                }
 
-                            if (tagTitulo) {
-                                em_titulo = !tag_tipo_fim;
-                                //System.out.println("EM tag titulo " + str + ", em_titulo"+ em_titulo);
-                                //System.out.println("EM tag titulo " + str + ", tag_tipo_fim"+ tag_tipo_fim);
-                                //System.out.println("EM tag titulo " + str + ", tagTitulo"+ tagTitulo);
-                            }
+                                if (tagTitulo) {
+                                    em_titulo = !tag_tipo_fim;
+                                    //System.out.println("EM tag titulo " + str + ", em_titulo"+ em_titulo);
+                                    //System.out.println("EM tag titulo " + str + ", tag_tipo_fim"+ tag_tipo_fim);
+                                    //System.out.println("EM tag titulo " + str + ", tagTitulo"+ tagTitulo);
+                                }
 
-                            if (tagBody) {
-                                em_body = !tag_tipo_fim;
+                                if (tagBody) {
+                                    em_body = !tag_tipo_fim;
 
-                                // System.out.println("Entrei no estado inicial");
-                            }
-                            if (tagOption) {
-                                em_option = !tag_tipo_fim;
+                                    // System.out.println("Entrei no estado inicial");
+                                }
+                                if (tagOption) {
+                                    em_option = !tag_tipo_fim;
 
-                                // System.out.println("Entrei no estado inicial");
-                            }
+                                    // System.out.println("Entrei no estado inicial");
+                                }
 //                            if(tag_tipo_fim && tagName.equals("html") && numOfHtmlTags == 0){
 //                                organizaDados();
 //                                return;
 //                            }
 
-                            tagTitulo = false;
-                            tagBody = false;
-                            tagScript = false;
-                            tagOption = false;
-                            estado = INICIO;
-                            str = "";
-                            tagName = "";
+                                tagTitulo = false;
+                                tagBody = false;
+                                tagScript = false;
+                                tagOption = false;
+                                estado = INICIO;
+                                str = "";
+                                tagName = "";
 
-                            numOfwordsAnchor = 0;
-                            ignorar_espacos = true;
-                            n++;
-                        } 
-                        else {
-                        	
-                            organizaDados(); //new
-                            return;                         /* error */
-                        }
+                                numOfwordsAnchor = 0;
+                                ignorar_espacos = true;
+                                n++;
+                            } else {
 
-                        break;
+                                organizaDados(); //new
+                                return;                         /* error */
+                            }
 
-                    case ATRIBUTO:
+                            break;
+
+                        case ATRIBUTO:
 
                         /* ATRIBUTO - expecting an attribute name, or / (RDF only) or > indicating no more attributes */
 
@@ -1300,66 +1312,66 @@ public class PaginaURL implements Pagina {
                          * accept attributes without values, such as <tag attr1 attr2=val2>
                          * or <tag attr2=val2 attr1>
                          */
-                        if (quote_char == c) {
-                            quote_char = '\0';              /* close quote */
-                        } else if (((c == '"') || (c == '\''))
-                                   && (quote_char == '\0')) {
+                            if (quote_char == c) {
+                                quote_char = '\0';              /* close quote */
+                            } else if (((c == '"') || (c == '\''))
+                                    && (quote_char == '\0')) {
 
                             /* start a quote if none is already in effect */
-                            quote_char = c;
-                        }
+                                quote_char = c;
+                            }
 
-                        if (quote_char == '\0') {
-                            if ((((c == '/') && obj_isRDF) || (c == '>'))
-                                    && (str.length() == 0)) {
-                                estado = FECHANDO;
-                            } else if ((c == ' ') || (c == '=')
-                                       || (c == '\n') || (c == '\r')
-                                       || ((c == '/') && obj_isRDF)
-                                       || (c == '>')) {
-                                atributo = str;
-                                str = "";
-                                estado = IGUAL;
+                            if (quote_char == '\0') {
+                                if ((((c == '/') && obj_isRDF) || (c == '>'))
+                                        && (str.length() == 0)) {
+                                    estado = FECHANDO;
+                                } else if ((c == ' ') || (c == '=')
+                                        || (c == '\n') || (c == '\r')
+                                        || ((c == '/') && obj_isRDF)
+                                        || (c == '>')) {
+                                    atributo = str;
+                                    str = "";
+                                    estado = IGUAL;
 //System.out.println("[ATRIBUTO c='"+c+"', estado=IGUAL], atributo="+atributo);
                                 /* if non-null attribute name */
+                                } else {
+                                    str += c;
+                                    n++;
+                                }
                             } else {
                                 str += c;
                                 n++;
                             }
-                        } else {
-                            str += c;
-                            n++;
-                        }
 
-                        break;
+                            break;
 
-                    case IGUAL:
-                        atributo = atributo.toLowerCase();
-                        tagName = tagName.toLowerCase();
+                        case IGUAL:
+                            atributo = atributo.toLowerCase();
+                            tagName = tagName.toLowerCase();
 
-                        // System.out.println("------------------------------------");
-                        // System.out.println(" A TAG NAME EH: " + tagName);
-                        // if(atributo.equals("src") && tagName.equals("img") && (c == '='))
-                        // {
-                        // ignorar_espacos = true;
-                        // estado = IMAGEM;
-                        // n++;
-                        // }
-                        // else
-                        // {
+                            // System.out.println("------------------------------------");
+                            // System.out.println(" A TAG NAME EH: " + tagName);
+                            // if(atributo.equals("src") && tagName.equals("img") && (c == '='))
+                            // {
+                            // ignorar_espacos = true;
+                            // estado = IMAGEM;
+                            // n++;
+                            // }
+                            // else
+                            // {
 /****
-                        if (atributo.equals("content")
-                                && tagName.equals("meta") && (c == '=')) {
-                            ignorar_espacos = true;
-                            estado = META_TAG;
-                            n++;
-                        } else if (atributo.equals("alt")
-                                        && tagName.equals("img") && (c == '=')) {
-                            ignorar_espacos = true;
-                            estado = ALT_TAG;
-                            n++;
-                        } else {
-***/
+ if (atributo.equals("content")
+ && tagName.equals("meta") && (c == '=')) {
+ ignorar_espacos = true;
+ estado = META_TAG;
+ n++;
+ } else if (atributo.equals("alt")
+ && tagName.equals("img") && (c == '=')) {
+ ignorar_espacos = true;
+ estado = ALT_TAG;
+ n++;
+ } else {
+ ***/
                             if ((c == ' ') || (c == '\n')
                                     || (c == '\r')) {
                                 ignorar_espacos = true;
@@ -1388,361 +1400,361 @@ public class PaginaURL implements Pagina {
                             }
 //                        }
 
-                        // }
-                        break;
+                            // }
+                            break;
 
-                    case ALT_TAG: // nao usa mais, foi mudado, ver no estado VALOR 
-                        if (((c == ' ') || (c == '"')) && ehInicioALT) {
-                            ignorar_espacos = false;
+                        case ALT_TAG: // nao usa mais, foi mudado, ver no estado VALOR
+                            if (((c == ' ') || (c == '"')) && ehInicioALT) {
+                                ignorar_espacos = false;
 
-                            boolean adicionou = adicionaAoVetorDeTexto(str);
-                            if( adicionou ) {
-                                adicionaTermoPosicao(str,posicao_da_palavra);    // atualiza o centroide
-                                adicionaPontuacaoTermo(str,PONTUACAO_PALAVRAS_ALT);
-                                String str_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(str);
-                                if( !str_sem_acento.equals(str) ) {
-                                    adicionou = adicionaAoVetorDeTexto(str_sem_acento);
-                                    if( adicionou ) {
-                                        adicionaTermoPosicao(str_sem_acento,posicao_da_palavra);    // atualiza o centroide
-                                        adicionaPontuacaoTermo(str_sem_acento,PONTUACAO_PALAVRAS_ALT);
+                                boolean adicionou = adicionaAoVetorDeTexto(str);
+                                if (adicionou) {
+                                    adicionaTermoPosicao(str, posicao_da_palavra);    // atualiza o centroide
+                                    adicionaPontuacaoTermo(str, PONTUACAO_PALAVRAS_ALT);
+                                    String str_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(str);
+                                    if (!str_sem_acento.equals(str)) {
+                                        adicionou = adicionaAoVetorDeTexto(str_sem_acento);
+                                        if (adicionou) {
+                                            adicionaTermoPosicao(str_sem_acento, posicao_da_palavra);    // atualiza o centroide
+                                            adicionaPontuacaoTermo(str_sem_acento, PONTUACAO_PALAVRAS_ALT);
+                                        }
                                     }
+                                    posicao_da_palavra++;
                                 }
-                                posicao_da_palavra++;
-                            }
 
-                            str = "";
-                            ehInicioALT = false;
-                        } else {
-                            if (c == '>') {
-//                                estado = INICIO; //nao sei se esta' ok
-                                estado = VALOR;
-                                ehInicioALT = true;
+                                str = "";
+                                ehInicioALT = false;
                             } else {
-                                if (c == '.' || c == ',') {
+                                if (c == '>') {
+//                                estado = INICIO; //nao sei se esta' ok
+                                    estado = VALOR;
+                                    ehInicioALT = true;
                                 } else {
-                                    if ((c != '\0') && (c != '\r')
-                                            && (c != '\n') && (c != '"')) {
-                                        str += c;
+                                    if (c == '.' || c == ',') {
                                     } else {
-                                        if (c == '"') {
-                                            estado = ATRIBUTO;
-                                            ehInicioALT = true;
+                                        if ((c != '\0') && (c != '\r')
+                                                && (c != '\n') && (c != '"')) {
+                                            str += c;
+                                        } else {
+                                            if (c == '"') {
+                                                estado = ATRIBUTO;
+                                                ehInicioALT = true;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
 
-                        n++;
+                            n++;
 
-                        break;
+                            break;
 
-                    case META_TAG: // nao usa mais, foi mudado, ver no estado VALOR [ogm]
-                        if ((c == ' ') || (c == '"') || (c == '\n') || (c == ',')) {
-                            ignorar_espacos = false;
+                        case META_TAG: // nao usa mais, foi mudado, ver no estado VALOR [ogm]
+                            if ((c == ' ') || (c == '"') || (c == '\n') || (c == ',')) {
+                                ignorar_espacos = false;
 
-                            textoMeta.addElement(str);    // adiciona a palavra na variavel texto
+                                textoMeta.addElement(str);    // adiciona a palavra na variavel texto
 
-                            for (int contadorI = 0;
-                                    contadorI < PONTUACAO_PALAVRAS_META;
-                                    contadorI++) {
-                                adicionaTermoMetaPosicao(str, textoMeta.size());
-                            }
+                                for (int contadorI = 0;
+                                     contadorI < PONTUACAO_PALAVRAS_META;
+                                     contadorI++) {
+                                    adicionaTermoMetaPosicao(str, textoMeta.size());
+                                }
 
-                            str = "";
-                        } else {
-                            if (c == '>') {
-                                estado = INICIO;
-//                                estado = VALOR;
+                                str = "";
                             } else {
-                                if (c == '.' || c == ',') {
+                                if (c == '>') {
+                                    estado = INICIO;
+//                                estado = VALOR;
                                 } else {
-                                    if ((c != '\0') && (c != '\r')
-                                            && (c != '\n') && (c != '"')) {
-                                        str += c;
+                                    if (c == '.' || c == ',') {
+                                    } else {
+                                        if ((c != '\0') && (c != '\r')
+                                                && (c != '\n') && (c != '"')) {
+                                            str += c;
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        n++;
+                            n++;
 
-                        break;
+                            break;
 
-                    case VALOR:
+                        case VALOR:
 
                         /* expecting a value, or space, / (RDF only), or > indicating end of value. */
                         /* whether the current character should be included in value */
-                        boolean include = true;
+                            boolean include = true;
 //                        System.out.println("LENGTH:"+str.length());
 //                        if(str.length() > 300){
 //                          System.out.println("TEST");
 //                        }
-                        if (quote_char == c || str.length() > 10000) {
-                            quote_char = '\0';              /* close quote */
-                            include = false;
-                        } else if (((c == '"') || (c == '\''))
-                                   && (quote_char == '\0')) {
+                            if (quote_char == c || str.length() > 10000) {
+                                quote_char = '\0';              /* close quote */
+                                include = false;
+                            } else if (((c == '"') || (c == '\''))
+                                    && (quote_char == '\0')) {
 
                             /* start a quote if none is already in effect */
-                            quote_char = c;
-                            include = false;
+                                quote_char = c;
+                                include = false;
 
-                        }
+                            }
 
-                        if (quote_char == '\0') {
-                            if ((c == '/') && obj_isRDF) {
-                                fimDeString = true;
-                                estado = FECHANDO;
-                                n++;
+                            if (quote_char == '\0') {
+                                if ((c == '/') && obj_isRDF) {
+                                    fimDeString = true;
+                                    estado = FECHANDO;
+                                    n++;
 //                            } else if (c == '>' || str.length() > 10000) {
-                            } else if (c == '>' || str.length() > 100000) {
-                                fimDeString = true;
-                                estado = FECHANDO;
-                            } else if ((c == ' ') || (c == '\r')
-                                       || (c == '\n')) {
-                                fimDeString = true;
-                                ignorar_espacos = true;
-                                estado = ATRIBUTO;    /* if non-null value name */
-                                n++;
+                                } else if (c == '>' || str.length() > 100000) {
+                                    fimDeString = true;
+                                    estado = FECHANDO;
+                                } else if ((c == ' ') || (c == '\r')
+                                        || (c == '\n')) {
+                                    fimDeString = true;
+                                    ignorar_espacos = true;
+                                    estado = ATRIBUTO;    /* if non-null value name */
+                                    n++;
+                                } else if (include) {
+                                    str += c;
+                                    n++;
+                                } else {
+                                    n++;
+                                }
                             } else if (include) {
                                 str += c;
                                 n++;
                             } else {
                                 n++;
                             }
-                        } else if (include) {
-                            str += c;
-                            n++;
-                        } else {
-                            n++;
-                        }
 
-                        if (fimDeString) {
-                            tagName = tagName.toLowerCase();
+                            if (fimDeString) {
+                                tagName = tagName.toLowerCase();
 
 //                            System.out.println("TAG:"+tagName);
-                            atributo = atributo.toLowerCase();
+                                atributo = atributo.toLowerCase();
 
 //                            System.out.println("[VALOR, estado='"+estado+"', c="+c+"] "+tagName+"."+atributo+"="+str);
 
-                            if (tagName.equals("a")
-                                    && atributo.equals("href")) {
-                                  insideATag = true;
-                                  String urlTemp = adicionaLink(str, base);
+                                if (tagName.equals("a")
+                                        && atributo.equals("href")) {
+                                    insideATag = true;
+                                    String urlTemp = adicionaLink(str, base);
 //                                  System.out.println("----URL:"+urlTemp);
-                                  if(urlTemp!= null && urlTemp.startsWith("http")){
-                                	  if(ln!=null){
-                                		  Vector anchorTemp = new Vector();
-                                		  StringTokenizer tokenizer = new StringTokenizer(anchor," ");
-                                		  while(tokenizer.hasMoreTokens()){
-                                			  anchorTemp.add(tokenizer.nextToken());
-                                		  }
-                                		  String[] anchorArray = new String[anchorTemp.size()];
-                                		  anchorTemp.toArray(anchorArray);
-                                		  ln.setAnchor(anchorArray);
-                                		  ln.setAroundPosition(around.size());
-                                		  ln.setNumberOfWordsAnchor(numOfwordsAnchor);
-                                		  linkNeigh.add(ln.clone());
-                                		  anchor = "";
-                                		  ln = null;
-                                	  }
-                                	  ln = new LinkNeighborhood(new URL(urlTemp));
-                                  }
+                                    if (urlTemp != null && urlTemp.startsWith("http")) {
+                                        if (ln != null) {
+                                            Vector anchorTemp = new Vector();
+                                            StringTokenizer tokenizer = new StringTokenizer(anchor, " ");
+                                            while (tokenizer.hasMoreTokens()) {
+                                                anchorTemp.add(tokenizer.nextToken());
+                                            }
+                                            String[] anchorArray = new String[anchorTemp.size()];
+                                            anchorTemp.toArray(anchorArray);
+                                            ln.setAnchor(anchorArray);
+                                            ln.setAroundPosition(around.size());
+                                            ln.setNumberOfWordsAnchor(numOfwordsAnchor);
+                                            linkNeigh.add(ln.clone());
+                                            anchor = "";
+                                            ln = null;
+                                        }
+                                        ln = new LinkNeighborhood(new URL(urlTemp));
+                                    }
 //                                System.out.println("CREATE LINK:"  + urlTemp);
-                            } else if (tagName.equals("link")
-                                       && atributo.equals("href")) {
-                                String urlTemp = adicionaLink(str, base);
-                                if(urlTemp!= null && urlTemp.startsWith("http")){
-                                  ln = new LinkNeighborhood(new URL(urlTemp));
-                                }
+                                } else if (tagName.equals("link")
+                                        && atributo.equals("href")) {
+                                    String urlTemp = adicionaLink(str, base);
+                                    if (urlTemp != null && urlTemp.startsWith("http")) {
+                                        ln = new LinkNeighborhood(new URL(urlTemp));
+                                    }
 //                                System.out.println("CREATE LINK:"  + urlTemp);
-                            } else if (tagName.equals("area")
-                                       && atributo.equals("href")) {
-                                adicionaLink(str, base);
-                                String urlTemp = adicionaLink(str, base);
-                                if(urlTemp!= null && urlTemp.startsWith("http")){
-                                  ln = new LinkNeighborhood(new URL(urlTemp));
+                                } else if (tagName.equals("area")
+                                        && atributo.equals("href")) {
+                                    adicionaLink(str, base);
+                                    String urlTemp = adicionaLink(str, base);
+                                    if (urlTemp != null && urlTemp.startsWith("http")) {
+                                        ln = new LinkNeighborhood(new URL(urlTemp));
+                                    }
+                                } else if (tagName.equals("img")
+                                        && atributo.equals("src")) {
+                                    if (ln != null) {
+                                        ln.setImgSource(str);
+                                    }
+                                    try {
+                                        imagens.addElement(parseLink(base, str).toString());
+                                    } catch (Exception e) {
+                                        // TODO: handle exception
+                                    }
+
                                 }
-                            } else if (tagName.equals("img")
-                                       && atributo.equals("src")) {
-                            	if(ln != null){
-                            		ln.setImgSource(str);
-                            	}
-                            	try {
-                            		imagens.addElement(parseLink(base,str).toString());	
-								} catch (Exception e) {
-									// TODO: handle exception
-								}
-                                
-                            } 
 //                            else if((tagName.equals("area") || tagName.equals("a"))&& atributo.equals("alt")){
 //                            	anchor = anchor + " " + str.toLowerCase();
 //                            } 
-                            else if (tagName.equals("frame")
-                                       && atributo.equals("src")) {
-                                frames.addElement(str);
-                                adicionaLink(str, base);
-                            } else if (tagName.equals("img") && (atributo.equals("alt") || atributo.equals("title") || atributo.equals("id"))) {
+                                else if (tagName.equals("frame")
+                                        && atributo.equals("src")) {
+                                    frames.addElement(str);
+                                    adicionaLink(str, base);
+                                } else if (tagName.equals("img") && (atributo.equals("alt") || atributo.equals("title") || atributo.equals("id"))) {
 //                                System.out.println("img.alt.str="+str);
-                            	Vector<String> altWords = new Vector<String>();
-                            	StringTokenizer st = new StringTokenizer(str);
-                                while(st.hasMoreTokens()) {
-                                    String token = st.nextToken();
-                                	if(token.contains("ÃƒÂ±")){
-                                		token = token.replace("ÃƒÂ±", "n");
-                                    }
-                                	token = token.toLowerCase();
-                                    if(token.contains("&#241;")){
-                                    	token = token.replace("&#241;", "n");
-                                    }
-                                	if(token.contains("&ntilde;")){
-                                    	token = token.replace("&ntilde;", "n");
-                                    }
-                                    if(token.contains("Ã±")){
-                                    	token = token.replace("Ã±", "n");
-                                    }
+                                    Vector<String> altWords = new Vector<String>();
+                                    StringTokenizer st = new StringTokenizer(str);
+                                    while (st.hasMoreTokens()) {
+                                        String token = st.nextToken();
+                                        if (token.contains("ÃƒÂ±")) {
+                                            token = token.replace("ÃƒÂ±", "n");
+                                        }
+                                        token = token.toLowerCase();
+                                        if (token.contains("&#241;")) {
+                                            token = token.replace("&#241;", "n");
+                                        }
+                                        if (token.contains("&ntilde;")) {
+                                            token = token.replace("&ntilde;", "n");
+                                        }
+                                        if (token.contains("Ã±")) {
+                                            token = token.replace("Ã±", "n");
+                                        }
 
-                                    altWords.add(token);
-                                    if(!caracterFazParteDePalavra(token.charAt(0))){
-                                    	token = token.substring(1);
-                                    }
-                                    if(token.equals("")){
-                                    	break;
-                                    }
-                                    if(!caracterFazParteDePalavra(token.charAt(token.length()-1))){
-                                    	token = token.substring(0,token.length()-1);
-                                    }
-                                    if(token.equals("")){
-                                    	break;
-                                    }
-                                    boolean adicionou = adicionaAoVetorDeTexto(token);
-                                    if( adicionou ) {
-                                        adicionaTermoPosicao(token,posicao_da_palavra);    // atualbejiza o centroide
-                                        adicionaPontuacaoTermo(token,PONTUACAO_PALAVRAS_ALT);
-                                        String token_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(token);
-                                        if( !token_sem_acento.equals(token) ) {
-                                            adicionou = adicionaAoVetorDeTexto(token_sem_acento);
-                                            if( adicionou ) {
-                                                adicionaTermoPosicao(token_sem_acento,posicao_da_palavra);    // atualiza o centroide
-                                                adicionaPontuacaoTermo(token_sem_acento,PONTUACAO_PALAVRAS_ALT);
-                                            }
+                                        altWords.add(token);
+                                        if (!caracterFazParteDePalavra(token.charAt(0))) {
+                                            token = token.substring(1);
                                         }
-                                        posicao_da_palavra++;
-                                    }
-                                }
-                                if(ln != null){
-                                	String[] current = ln.getImgAlt();
-                                	if(current == null){
-                                    	String[] terms = new String[altWords.size()];
-                                    	altWords.toArray(terms);
-                                    	ln.setImgAlt(terms);
-                                	}else{
-                                		String[] terms = new String[altWords.size()+current.length];
-                                		int indexTerms = 0;
-                                		for (int i = 0; i < current.length; i++,indexTerms++) {
-											terms[indexTerms] = current[i];
-										}
-                                		for (int i = 0; i < altWords.size(); i++,indexTerms++) {
-                                			terms[indexTerms] = altWords.elementAt(i);
-										}
-                                		ln.setImgAlt(terms);
-                                	}
-                                }
-                            } else if (tagName.equals("meta")
-                                       && atributo.equals("content")) {
-                                if( em_meta_description ) {
-                                    str_da_metatag_description = str;
-                                    em_meta_description = false;
-                                    if( USAR_DESCRIPTION ) {
-                                        StringTokenizer st = new StringTokenizer(str);
-                                        while(st.hasMoreTokens()) {
-                                            String token = st.nextToken();
-                                            int posicao = texto.size();
-                                            boolean adicionou = adicionaAoVetorDeTexto(token);
-                                            if( adicionou ) {
-                                                adicionaTermoPosicao(token,posicao_da_palavra);    // atualiza o centroide
-                                                adicionaPontuacaoTermo(token,PONTUACAO_PALAVRAS_DESCRIPTION);
-                                                String token_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(token);
-                                                if( !token_sem_acento.equals(token) ) {
-                                                    adicionou = adicionaAoVetorDeTexto(token_sem_acento);
-                                                    if( adicionou ) {
-                                                        adicionaTermoPosicao(token_sem_acento,posicao_da_palavra);    // atualiza o centroide
-                                                        adicionaPontuacaoTermo(token_sem_acento,PONTUACAO_PALAVRAS_DESCRIPTION);
-                                                    }
+                                        if (token.equals("")) {
+                                            break;
+                                        }
+                                        if (!caracterFazParteDePalavra(token.charAt(token.length() - 1))) {
+                                            token = token.substring(0, token.length() - 1);
+                                        }
+                                        if (token.equals("")) {
+                                            break;
+                                        }
+                                        boolean adicionou = adicionaAoVetorDeTexto(token);
+                                        if (adicionou) {
+                                            adicionaTermoPosicao(token, posicao_da_palavra);    // atualbejiza o centroide
+                                            adicionaPontuacaoTermo(token, PONTUACAO_PALAVRAS_ALT);
+                                            String token_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(token);
+                                            if (!token_sem_acento.equals(token)) {
+                                                adicionou = adicionaAoVetorDeTexto(token_sem_acento);
+                                                if (adicionou) {
+                                                    adicionaTermoPosicao(token_sem_acento, posicao_da_palavra);    // atualiza o centroide
+                                                    adicionaPontuacaoTermo(token_sem_acento, PONTUACAO_PALAVRAS_ALT);
                                                 }
-                                                posicao_da_palavra++;
+                                            }
+                                            posicao_da_palavra++;
+                                        }
+                                    }
+                                    if (ln != null) {
+                                        String[] current = ln.getImgAlt();
+                                        if (current == null) {
+                                            String[] terms = new String[altWords.size()];
+                                            altWords.toArray(terms);
+                                            ln.setImgAlt(terms);
+                                        } else {
+                                            String[] terms = new String[altWords.size() + current.length];
+                                            int indexTerms = 0;
+                                            for (int i = 0; i < current.length; i++, indexTerms++) {
+                                                terms[indexTerms] = current[i];
+                                            }
+                                            for (int i = 0; i < altWords.size(); i++, indexTerms++) {
+                                                terms[indexTerms] = altWords.elementAt(i);
+                                            }
+                                            ln.setImgAlt(terms);
+                                        }
+                                    }
+                                } else if (tagName.equals("meta")
+                                        && atributo.equals("content")) {
+                                    if (em_meta_description) {
+                                        str_da_metatag_description = str;
+                                        em_meta_description = false;
+                                        if (USAR_DESCRIPTION) {
+                                            StringTokenizer st = new StringTokenizer(str);
+                                            while (st.hasMoreTokens()) {
+                                                String token = st.nextToken();
+                                                int posicao = texto.size();
+                                                boolean adicionou = adicionaAoVetorDeTexto(token);
+                                                if (adicionou) {
+                                                    adicionaTermoPosicao(token, posicao_da_palavra);    // atualiza o centroide
+                                                    adicionaPontuacaoTermo(token, PONTUACAO_PALAVRAS_DESCRIPTION);
+                                                    String token_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(token);
+                                                    if (!token_sem_acento.equals(token)) {
+                                                        adicionou = adicionaAoVetorDeTexto(token_sem_acento);
+                                                        if (adicionou) {
+                                                            adicionaTermoPosicao(token_sem_acento, posicao_da_palavra);    // atualiza o centroide
+                                                            adicionaPontuacaoTermo(token_sem_acento, PONTUACAO_PALAVRAS_DESCRIPTION);
+                                                        }
+                                                    }
+                                                    posicao_da_palavra++;
+                                                }
                                             }
                                         }
                                     }
-                                }
 
 //                                System.out.println("meta.content.str="+str);
-                                StringTokenizer st = new StringTokenizer(str);
-                                while(st.hasMoreTokens()) {
-                                    String token = st.nextToken();
-                                    textoMeta.addElement(token);    // adiciona a palavra na variavel texto
-                                    for (int contadorI = 0;
-                                            contadorI < PONTUACAO_PALAVRAS_META;
-                                            contadorI++) {
-                                        adicionaTermoMetaPosicao(token, textoMeta.size());
+                                    StringTokenizer st = new StringTokenizer(str);
+                                    while (st.hasMoreTokens()) {
+                                        String token = st.nextToken();
+                                        textoMeta.addElement(token);    // adiciona a palavra na variavel texto
+                                        for (int contadorI = 0;
+                                             contadorI < PONTUACAO_PALAVRAS_META;
+                                             contadorI++) {
+                                            adicionaTermoMetaPosicao(token, textoMeta.size());
+                                        }
                                     }
-                                }
-                            } else if (tagName.equals("meta")
-                                       && atributo.equals("name")) {
-                                if (str.toLowerCase().equals("robot")) {
-                                    em_meta_robots = true;
-                                }
-                                if (str.toLowerCase().equals("description") || str.toLowerCase().equals("descricao")) {
-                                    //System.out.println("meta.description.str="+str);
-                                    em_meta_description = true;
-                                }
-                            } else if (em_meta_robots
-                                       && atributo.equals("content")) {
-                                if (str.toLowerCase().indexOf("noindex")
-                                        != -1) {
-                                    noindex = true;
+                                } else if (tagName.equals("meta")
+                                        && atributo.equals("name")) {
+                                    if (str.toLowerCase().equals("robot")) {
+                                        em_meta_robots = true;
+                                    }
+                                    if (str.toLowerCase().equals("description") || str.toLowerCase().equals("descricao")) {
+                                        //System.out.println("meta.description.str="+str);
+                                        em_meta_description = true;
+                                    }
+                                } else if (em_meta_robots
+                                        && atributo.equals("content")) {
+                                    if (str.toLowerCase().indexOf("noindex")
+                                            != -1) {
+                                        noindex = true;
+                                    }
+
+                                    if (str.toLowerCase().indexOf("nofollow")
+                                            != -1) {
+                                        nofollow = true;
+                                    }
+                                } else if (tagName.equals("base")
+                                        && atributo.equals("href")) {
+                                    try {
+                                        base = parseLink(pagina, str);
+                                    } catch (Exception e) {
+                                    }                           // ignora
                                 }
 
-                                if (str.toLowerCase().indexOf("nofollow")
-                                        != -1) {
-                                    nofollow = true;
-                                }
-                            } else if (tagName.equals("base")
-                                       && atributo.equals("href")) {
-                                try {
-                                    base = parseLink(pagina, str);
-                                } catch (Exception e) {
-                                }                           // ignora
-                             }
+                                str = "";
+                                atributo = "";
+                                fimDeString = false;
+                            }
 
-                            str = "";
-                            atributo = "";
-                            fimDeString = false;
-                        }
-
-                        break;
-                    default:
-                        break;
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
-            if( USAR_DESCRIPTION ) {
-                if( str_da_metatag_description != null ) {
+            if (USAR_DESCRIPTION) {
+                if (str_da_metatag_description != null) {
                     paragrafo = str_da_metatag_description;
                 }
             }
-            if( estado == PALAVRA && str != null && !"".equals(str) ) {
+            if (estado == PALAVRA && str != null && !"".equals(str)) {
                 boolean adicionou = adicionaAoVetorDeTexto(str);
-                if( adicionou ) {
-                    adicionaTermoPosicao(str,posicao_da_palavra);    // atualiza o centroide
-                    adicionaPontuacaoTermo(str,PONTUACAO_PALAVRAS_TEXTO);
+                if (adicionou) {
+                    adicionaTermoPosicao(str, posicao_da_palavra);    // atualiza o centroide
+                    adicionaPontuacaoTermo(str, PONTUACAO_PALAVRAS_TEXTO);
                     String str_sem_acento = Acentos.retirarNotacaoHTMLAcentosANSI(str);
-                    if( !str_sem_acento.equals(str) ) {
+                    if (!str_sem_acento.equals(str)) {
                         adicionou = adicionaAoVetorDeTexto(str_sem_acento);
-                        if( adicionou ) {
-                            adicionaTermoPosicao(str_sem_acento,posicao_da_palavra);    // atualiza o centroide
-                            adicionaPontuacaoTermo(str_sem_acento,PONTUACAO_PALAVRAS_TEXTO);
+                        if (adicionou) {
+                            adicionaTermoPosicao(str_sem_acento, posicao_da_palavra);    // atualiza o centroide
+                            adicionaPontuacaoTermo(str_sem_acento, PONTUACAO_PALAVRAS_TEXTO);
                         }
                     }
                     posicao_da_palavra++;
@@ -1760,7 +1772,6 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @see
      */
     protected void organizaDados() {
@@ -1768,17 +1779,17 @@ public class PaginaURL implements Pagina {
         // Cria arrays temporarios a partir da Hashtable
         // System.out.println("ORGANIZA DADOS");
         //int      size = palavra_posicoes.size();
-        int      size = palavra_pontos.size();
+        int size = palavra_pontos.size();
         String[] words = new String[size];
-        int[]    numbers = new int[size];
+        int[] numbers = new int[size];
 
-        int      sizeMeta = palavra_posicoes_meta.size();
+        int sizeMeta = palavra_posicoes_meta.size();
         String[] wordsMeta = new String[sizeMeta];
-        int[]    numbersMeta = new int[sizeMeta];
-        int	i = 0;
+        int[] numbersMeta = new int[sizeMeta];
+        int i = 0;
 
         for (Enumeration seriewords = palavra_pontos.keys();
-                seriewords.hasMoreElements(); ) {
+             seriewords.hasMoreElements(); ) {
             words[i] = ((String) seriewords.nextElement());
             i++;
         }
@@ -1786,7 +1797,7 @@ public class PaginaURL implements Pagina {
         i = 0;
 
         for (Enumeration serienumbers = palavra_pontos.elements();
-                serienumbers.hasMoreElements(); ) {
+             serienumbers.hasMoreElements(); ) {
             //numbers[i] = ((Vector) serienumbers.nextElement()).size();
             numbers[i] = ((Integer) serienumbers.nextElement()).intValue();
             i++;
@@ -1795,7 +1806,7 @@ public class PaginaURL implements Pagina {
         i = 0;
 
         for (Enumeration seriewordsMeta = palavra_posicoes_meta.keys();
-                seriewordsMeta.hasMoreElements(); ) {
+             seriewordsMeta.hasMoreElements(); ) {
             wordsMeta[i] = ((String) seriewordsMeta.nextElement());
             i++;
         }
@@ -1803,7 +1814,7 @@ public class PaginaURL implements Pagina {
         i = 0;
 
         for (Enumeration serienumbersMeta = palavra_posicoes_meta.elements();
-                serienumbersMeta.hasMoreElements(); ) {
+             serienumbersMeta.hasMoreElements(); ) {
             numbersMeta[i] = ((Vector) serienumbersMeta.nextElement()).size();
             i++;
         }
@@ -1861,7 +1872,7 @@ public class PaginaURL implements Pagina {
      * <BR>obs: as palavras do centroide so conterao caracteres que esta funcao retorne true
      */
     protected boolean caracterFazParteDePalavra(char c) {
-    	int ascii = (int)c;
+        int ascii = (int) c;
         return (Character.isLetterOrDigit(c) || c == '-' || c == '&' || c == '#' || (ascii > 2305 && ascii < 2651));
     }
 
@@ -1995,32 +2006,33 @@ public class PaginaURL implements Pagina {
             return c;    // caracter comum
         }*/
 
-         return c;
+        return c;
     }
 
-    private HashMap<String,String> codes = new HashMap<String, String>();
-    
+    private HashMap<String, String> codes = new HashMap<String, String>();
+
 //    protected String codes2Words(String word){
 //
 //    }
-    
+
 //    protected String convertStr(String str) {
 //    	
 //    }
-    
+
     /**
      * Este metodo verifica se a partir daposicao dada a substring representa um simbolo
      * codificado tipo :   &aacute;   =  '\uFFFD'
      * retorna o caracter representado pelo simbolo no caso acima retorna '\uFFFD'
+     *
      * @param str o string buffer atual do processamento
      * @param pos a posicao inicial de testes
      */
     protected char caracterEspecial(String str, int pos) {
 //        System.out.println(str);
-    	int size = str.length() - pos;
+        int size = str.length() - pos;
         String resStr = codes.get(str.substring(pos));
-        if(resStr != null){
-        	return resStr.charAt(0);
+        if (resStr != null) {
+            return resStr.charAt(0);
         }
         if (size == 4) {
             if (str.endsWith("&lt;")) {
@@ -2201,7 +2213,7 @@ public class PaginaURL implements Pagina {
             // System.out.println("link2='"+link+"'");
             boolean existe = links.contains(link);
 
-            if (link != null &&!existe) {
+            if (link != null && !existe) {
                 if (base != null) {
                     if (!link.equals(base.toString())) {
                         link = processarRedirecionamentos(link);
@@ -2221,16 +2233,13 @@ public class PaginaURL implements Pagina {
         } catch (MalformedURLException mfue) {
         }    // ignora
         return link;
-     }
+    }
 
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @param link
-     *
      * @return
-     *
      * @see
      */
     protected String processarRedirecionamentos(String link) {
@@ -2239,11 +2248,9 @@ public class PaginaURL implements Pagina {
         if (link.indexOf("www.cade.com.br") > 0
                 && link.indexOf("&Redirect=") > 0) {
             return null;
-        }
-        else if (link.indexOf(" ") != -1) {
+        } else if (link.indexOf(" ") != -1) {
             return null;
-        }
-        else {
+        } else {
             return link;
         }
 
@@ -2277,28 +2284,24 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @param base
      * @param link
-     *
      * @return
-     *
      * @throws MalformedURLException
-     *
      * @see
      */
     protected URL parseLink(URL base,
                             String link) throws MalformedURLException {
-        String  original = link;
-        int     i, limit, c;
-        int     start = 0;
-        String  newProtocol = null;
+        String original = link;
+        int i, limit, c;
+        int start = 0;
+        String newProtocol = null;
         boolean aRef = false;
-        String  protocol = null;
-        String  host = null;
-        int     port = -1;
-        String  file = null;
-        String  ref = null;
+        String protocol = null;
+        String host = null;
+        int port = -1;
+        String file = null;
+        String ref = null;
 
         try {
             limit = link.length();
@@ -2326,8 +2329,8 @@ public class PaginaURL implements Pagina {
             }
 
             for (i = start;
-                    !aRef && (i < limit) && ((c = link.charAt(i)) != '/');
-                    i++) {
+                 !aRef && (i < limit) && ((c = link.charAt(i)) != '/');
+                 i++) {
                 if (c == ':') {
                     newProtocol = link.substring(start, i).toLowerCase();
                     start = i + 1;
@@ -2339,7 +2342,7 @@ public class PaginaURL implements Pagina {
             // Only use our context if the protocols match.
             if ((base != null)
                     && ((newProtocol == null)
-                        || newProtocol.equals(base.getProtocol()))) {
+                    || newProtocol.equals(base.getProtocol()))) {
                 protocol = base.getProtocol();
                 host = base.getHost();
                 port = base.getPort();
@@ -2365,7 +2368,7 @@ public class PaginaURL implements Pagina {
             // if ("http".equals(protocol)) return parseURL(protocol, host, port, file, ref, link, start, limit);
             if ("http".equals(protocol)) {
                 return parseURL(protocol, host, port, file, null, link,
-                                start, limit);
+                        start, limit);
             } else {
                 return new URL(base, link);
             }
@@ -2395,7 +2398,7 @@ public class PaginaURL implements Pagina {
             int index_barra = file.lastIndexOf('/');
             int index_ponto = file.lastIndexOf('.');
 
-            if (index_barra > index_ponto &&!file.endsWith("/")) {
+            if (index_barra > index_ponto && !file.endsWith("/")) {
                 file += '/';
 
                 // System.out.println("pu file2='"+file+"'");
@@ -2450,7 +2453,7 @@ public class PaginaURL implements Pagina {
 
                 if (questionMarkIndex > -1) {
                     int lastSlashIndex = file.lastIndexOf('?',
-                                                          questionMarkIndex);
+                            questionMarkIndex);
 
                     file = file.substring(0, ++lastSlashIndex);
                 }
@@ -2465,10 +2468,10 @@ public class PaginaURL implements Pagina {
                  * Unix separators || platform separators
                  */
                 int ind = Math.max(file.lastIndexOf('/'),
-                                   file.lastIndexOf(File.separatorChar));
+                        file.lastIndexOf(File.separatorChar));
 
                 file = file.substring(0, ind) + "/"
-                       + spec.substring(start, limit);
+                        + spec.substring(start, limit);
             } else {
                 file = "/" + spec.substring(start, limit);
             }
@@ -2623,19 +2626,19 @@ public class PaginaURL implements Pagina {
 
         termo = termo.toLowerCase();
         boolean dominio = termo.startsWith("#") && termo.endsWith("#");
-        if(!irrelevante(termo) || dominio) {
+        if (!irrelevante(termo) || dominio) {
             Integer p_pontos = (Integer) palavra_pontos.get(termo);
 
             if (p_pontos == null) {
                 p_pontos = new Integer(pontos);
-            }
-            else {
-                p_pontos = new Integer(p_pontos.intValue()+pontos);
+            } else {
+                p_pontos = new Integer(p_pontos.intValue() + pontos);
             }
 
             palavra_pontos.put(termo, p_pontos);
         }
     }
+
     /**
      * Este metodo incrementa a pontuacao de um termo na pagina.
      * E' usado quando a pagina e' construida
@@ -2654,9 +2657,8 @@ public class PaginaURL implements Pagina {
 
         if (p_pontos == null) {
             p_pontos = new Integer(pontos);
-        }
-        else {
-            p_pontos = new Integer(p_pontos.intValue()+pontos);
+        } else {
+            p_pontos = new Integer(p_pontos.intValue() + pontos);
         }
 
         palavra_pontos.put(termo, p_pontos);
@@ -2677,14 +2679,14 @@ public class PaginaURL implements Pagina {
         }
         termo = termo.toLowerCase().trim();
         resultado = !irrelevante(termo);
-        if( resultado ) {
+        if (resultado) {
             texto.addElement(termo);
         }
         return resultado;
     }
 
 
-        /**
+    /**
      * Este metodo adiciona um termo na lista de termos com suas posicoes
      * e' dado tambem uma posicao do termo.
      * E' usado quando a pagina e' construida
@@ -2699,19 +2701,18 @@ public class PaginaURL implements Pagina {
         }
 
         termo = termo.toLowerCase();
-         Vector posicoes = (Vector) palavra_posicoes.get(termo);
+        Vector posicoes = (Vector) palavra_posicoes.get(termo);
 
-            if (posicoes == null) {
-                    posicoes = new Vector();
+        if (posicoes == null) {
+            posicoes = new Vector();
 
-                    palavra_posicoes.put(termo, posicoes);
-                    posicoes.addElement(new Integer(pos));
+            palavra_posicoes.put(termo, posicoes);
+            posicoes.addElement(new Integer(pos));
 
-            } else {
-                posicoes.addElement(new Integer(pos));
-            }
+        } else {
+            posicoes.addElement(new Integer(pos));
+        }
     }
-
 
 
     /**
@@ -2723,15 +2724,15 @@ public class PaginaURL implements Pagina {
         if (noindex) {
             return;
         }
-        
-        
+
+
         if (palavra_posicoes == null) {
             palavra_posicoes = new Hashtable();
         }
 
         termo = termo.toLowerCase();
         boolean dominio = termo.startsWith("#") && termo.endsWith("#");
-        if(!irrelevante(termo) || dominio) {
+        if (!irrelevante(termo) || dominio) {
             Vector posicoes = (Vector) palavra_posicoes.get(termo);
 
             if (posicoes == null) {
@@ -2780,7 +2781,6 @@ public class PaginaURL implements Pagina {
     }
 
 
-
     /**
      * Identifica se uma palavra e considerada insignificante, isto e,
      * nao vale a pena ser armazenada.
@@ -2827,12 +2827,10 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @param a
      * @param left
      * @param right
      * @param b
-     *
      * @see
      */
     private void quicksort_num(int a[], int left, int right, String b[]) {
@@ -2876,11 +2874,9 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @param a
      * @param i
      * @param j
-     *
      * @see
      */
     private void troque1(int a[], int i, int j) {
@@ -2894,11 +2890,9 @@ public class PaginaURL implements Pagina {
     /**
      * Declara\uFFFD\uFFFDo do M\uFFFDtodo
      *
-     *
      * @param a
      * @param i
      * @param j
-     *
      * @see
      */
     private void troque2(String a[], int i, int j) {
@@ -2918,178 +2912,176 @@ public class PaginaURL implements Pagina {
 
 
 //+-------- IMPLEMENTANDO A INTERFACE PaginaAjustavel-------------+//
-        /**
-            Ajusta o endereco da pagina.
-         */
-        public void setEndereco(URL newEndereco) {
-        if( newEndereco != null ) {
+
+    /**
+     * Ajusta o endereco da pagina.
+     */
+    public void setEndereco(URL newEndereco) {
+        if (newEndereco != null) {
             this.pagina = newEndereco;
-          }
         }
+    }
 
-        /**
-        Ajusta a data de visitacao.
-         */
-        public void setDataQueFoiVisitado(Date newData) {
-        if( newData != null )
+    /**
+     * Ajusta a data de visitacao.
+     */
+    public void setDataQueFoiVisitado(Date newData) {
+        if (newData != null)
             this.visitado = newData.getTime();
-        }
+    }
 
-        /**
-            Ajusta a data de modificacao.
-         */
-        public void setDataQueFoiModificado(Date newData) {
-            if( newData != null )
-                setDataQueFoiModificado(newData.getTime());
-        }
+    /**
+     * Ajusta a data de modificacao.
+     */
+    public void setDataQueFoiModificado(Date newData) {
+        if (newData != null)
+            setDataQueFoiModificado(newData.getTime());
+    }
 
-        /**
-            Ajusta a data de modificacao.
-         */
-        public void setDataQueFoiModificado(long newData) {
-            this.modificado = newData;
-        }
+    /**
+     * Ajusta a data de modificacao.
+     */
+    public void setDataQueFoiModificado(long newData) {
+        this.modificado = newData;
+    }
 
-        /**
-            Ajusta o tamanho do arquivo.
-         */
-        public void setTamanhoDoArquivo(int newTamanho) {
-        if( newTamanho >= 0 )
+    /**
+     * Ajusta o tamanho do arquivo.
+     */
+    public void setTamanhoDoArquivo(int newTamanho) {
+        if (newTamanho >= 0)
             this.tamanho = newTamanho;
         else
             this.tamanho = 0;
-        }
+    }
 
-        public int getFileHashCode(){
-            return fileHashCode;
-        }
+    public int getFileHashCode() {
+        return fileHashCode;
+    }
 
-        public void setFileHashCode(int hashCode){
-            fileHashCode = hashCode ;
-        }
-        /**
-            Ajusta o titulo.
-         */
-        public void setTitulo(String newTitulo) {
-        if( newTitulo != null )
+    public void setFileHashCode(int hashCode) {
+        fileHashCode = hashCode;
+    }
+
+    /**
+     * Ajusta o titulo.
+     */
+    public void setTitulo(String newTitulo) {
+        if (newTitulo != null)
             this.titulo = newTitulo;
         else
             this.titulo = "";
-        }
+    }
 
-        /**
-            Ajusta o paragrafo.
-         */
-        public void setParagrafo(String newParagrafo) {
-        if( newParagrafo != null )
+    /**
+     * Ajusta o paragrafo.
+     */
+    public void setParagrafo(String newParagrafo) {
+        if (newParagrafo != null)
             this.paragrafo = newParagrafo;
         else
             this.paragrafo = "";
-        }
+    }
 
-        /**
-        Ajusta o array de palavras.
-        IMPORTANTE: Este metodo so aceita a substituicao do array de palavras por outro do mesmo tamanho,
-        onde as entradas sao na verdade os codigos dos seus respectivos termos obedecendo a ordem semantica.
-         */
-        public void setPalavras(String[] newPalavras) {
-        if( newPalavras != null ) {
+    /**
+     * Ajusta o array de palavras.
+     * IMPORTANTE: Este metodo so aceita a substituicao do array de palavras por outro do mesmo tamanho,
+     * onde as entradas sao na verdade os codigos dos seus respectivos termos obedecendo a ordem semantica.
+     */
+    public void setPalavras(String[] newPalavras) {
+        if (newPalavras != null) {
             this.palavras = newPalavras;
-        }
-        else
+        } else
             this.palavras = new String[0];
-        }
+    }
 
-        /**
-        Ajusta o array de ocorrencias.
-         */
-        public void setOcorrencias(int[] newOcorrencias) {
-            if( newOcorrencias != null )
+    /**
+     * Ajusta o array de ocorrencias.
+     */
+    public void setOcorrencias(int[] newOcorrencias) {
+        if (newOcorrencias != null)
             this.ocorrencias = newOcorrencias;
         else
             this.ocorrencias = new int[0];
-        }
+    }
 
-        /**
-            Ajusta o numero de frames.
-         */
-        public void setNumeroDeFrames(int newFrames) {
-            if( newFrames >= 0 )
+    /**
+     * Ajusta o numero de frames.
+     */
+    public void setNumeroDeFrames(int newFrames) {
+        if (newFrames >= 0)
             this.frames = newFrames;
         else
             this.frames = 0;
-        }
+    }
 
-        /**
-            Ajusta o numero de formularios.
-         */
-        public void setNumeroDeFormularios(int newForms) {
-        if( newForms >= 0 )
+    /**
+     * Ajusta o numero de formularios.
+     */
+    public void setNumeroDeFormularios(int newForms) {
+        if (newForms >= 0)
             this.forms = newForms;
         else
             this.forms = 0;
-        }
+    }
 
-        /**
-            Ajusta o numero de imagens.
-         */
-        public void setNumeroDeImagens(int newImages) {
-        if( newImages >= 0 )
+    /**
+     * Ajusta o numero de imagens.
+     */
+    public void setNumeroDeImagens(int newImages) {
+        if (newImages >= 0)
             this.images = newImages;
         else
             this.images = 0;
-        }
+    }
 
-        public Vector<String> getImages(){
-        	return this.imagens;
-        }
-        
-        /**
-            Ajusta o array de links.
-         */
-        public void setLinks(URL[] newLinks) {
-        if( newLinks != null )
-          {
+    public Vector<String> getImages() {
+        return this.imagens;
+    }
+
+    /**
+     * Ajusta o array de links.
+     */
+    public void setLinks(URL[] newLinks) {
+        if (newLinks != null) {
             this.links = new Vector(newLinks.length);
-            for( int i = 0; i < newLinks.length; i++ )
-                 links.addElement(newLinks[i]);
+            for (int i = 0; i < newLinks.length; i++)
+                links.addElement(newLinks[i]);
             this.URLabsolutas = newLinks;
-          }
-        else
-          {
+        } else {
             this.links = new Vector(0);
             this.URLabsolutas = newLinks;
-          }
         }
+    }
 
-        /**
-            Ajusta o vetor de e-mails.
-         */
-        public void setMails(Vector newMails) {
-        if( newMails != null )
+    /**
+     * Ajusta o vetor de e-mails.
+     */
+    public void setMails(Vector newMails) {
+        if (newMails != null)
             this.mailList = newMails;
         else
             this.mailList = new Vector(0);
-        }
+    }
 
-        /**
-            Substitui a entrada do termo na hastable que possui o mapeamento de posicoes.
-        */
-        public void substituirTermoPorCodigo(String termo,String codigo) {
-        Vector v = (Vector)palavra_posicoes.get(termo);
-        if( v != null ) {
+    /**
+     * Substitui a entrada do termo na hastable que possui o mapeamento de posicoes.
+     */
+    public void substituirTermoPorCodigo(String termo, String codigo) {
+        Vector v = (Vector) palavra_posicoes.get(termo);
+        if (v != null) {
             //System.out.println("<><><><>TROCANDO "+termo+" POR "+codigo);
             palavra_posicoes.remove(termo);
-            palavra_posicoes.put(codigo,v);
+            palavra_posicoes.put(codigo, v);
         }
     }
 
 //+-----------------------------------------------------------+//
 
-        
+
     /**
-    */
-    public Hashtable palavra_posicoes(){
+     */
+    public Hashtable palavra_posicoes() {
         return palavra_posicoes;
     }
 
@@ -3098,8 +3090,8 @@ public class PaginaURL implements Pagina {
     }
 
     /**
-    */
-    public Hashtable palavra_posicoes_meta(){
+     */
+    public Hashtable palavra_posicoes_meta() {
         return palavra_posicoes_meta;
     }
 
@@ -3108,13 +3100,13 @@ public class PaginaURL implements Pagina {
     }
 
 
-     /**
+    /**
      * metodo para testes
      */
     public static void main(String[] args) {
         try {
-        	        	
-            long          start = System.currentTimeMillis();
+
+            long start = System.currentTimeMillis();
 /*
             ParameterFile config = new ParameterFile(args[0].trim());
             StopList st = new StopListArquivo(config.getParam("STOPLIST_FILES"));
@@ -3129,8 +3121,7 @@ public class PaginaURL implements Pagina {
             StopList st = null;
             try {
                 st = new StopListArquivo(args[0]);
-            }
-            catch(Exception ioe) {
+            } catch (Exception ioe) {
             }
 
 //            StringBuffer content = new StringBuffer();
@@ -3148,14 +3139,14 @@ public class PaginaURL implements Pagina {
 //            PaginaURL p = new PaginaURL(new URL("http://www"), 0, 0,
 //                                           src.length(),
 //                                           src, st);
-            
+
             PaginaURL p = new PaginaURL(args[1].trim(), st);
             System.out.println(p.toString());
 //            Vector<String> images = p.getImages();
 //            for (int i = 0; i < images.size(); i++) {
 //				System.out.println(images.elementAt(i));
 //			}
-            
+
 //            System.out.println("USAR_DESCRIPTION = "+PaginaURL.USAR_DESCRIPTION);
 //            long          end = System.currentTimeMillis();
 //
@@ -3166,7 +3157,7 @@ public class PaginaURL implements Pagina {
 //            System.out.println("Title:");
 //            System.out.println("--");
 //            System.out.println(p.titulo());
-            
+
 //            System.out.println("Modified -> " + p.dataQueFoiModificado());
 //            System.out.println("Visited   -> " + p.dataQueFoiVisitado());
 //            System.out.println("Paragraph:");
@@ -3179,7 +3170,7 @@ public class PaginaURL implements Pagina {
 
             for (int i = 0; i < links.length; i++) {
 //                String str = i + " = " + links[i];
-                System.out.println(links[i]);	
+                System.out.println(links[i]);
             }
 //
 //            String[] termos = p.palavras();
@@ -3221,14 +3212,14 @@ public class PaginaURL implements Pagina {
 //
 //            Vector<HACCluster> vLinks = new Vector<HACCluster>();
 //            HashSet<String> uniqueURLs = new HashSet<String>();
-            LinkNeighborhood[] ln =  p.getLinkNeighboor();
+            LinkNeighborhood[] ln = p.getLinkNeighboor();
             System.out.println("SIZE:" + ln.length);
             for (int i = 0; i < ln.length; i++) {
-            	System.out.println("URL:" + ln[i].getLink().toString());
-            	System.out.println("ANC:" + ln[i].getAnchorString());
-            	System.out.println("ARO:" + ln[i].getAroundString());
-            	System.out.println("SRC:" + ln[i].getImgSrc());
-            	System.out.println("ALT:" + ln[i].getAltString());
+                System.out.println("URL:" + ln[i].getLink().toString());
+                System.out.println("ANC:" + ln[i].getAnchorString());
+                System.out.println("ARO:" + ln[i].getAroundString());
+                System.out.println("SRC:" + ln[i].getImgSrc());
+                System.out.println("ALT:" + ln[i].getAltString());
             }
 //            System.out.println(">>>>>>>>>>"+ln.length);
 //            for (int i = 0; i < ln.length; i++) {

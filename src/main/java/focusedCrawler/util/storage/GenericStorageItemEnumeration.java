@@ -37,39 +37,31 @@ import focusedCrawler.util.DataNotFoundException;
 public class GenericStorageItemEnumeration implements StorageItemEnumeration {
 
 
-
-    private ResultSet   rs;
+    private ResultSet rs;
 
     private Statement statement;
 
 
-
     private String table;
 
-	private String codeField;
+    private String codeField;
 
-	private String fieldList;
-
+    private String fieldList;
 
 
     private int blockSize;
 
     private long initialCode;
 
-    private int lastUsedCode=0;
-
-
-
+    private int lastUsedCode = 0;
 
 
     private GenericStorageItem result;
 
 
-
     public GenericStorageItemEnumeration() {
 
     }
-
 
 
     public void setItem(GenericStorageItem newResult) {
@@ -79,13 +71,11 @@ public class GenericStorageItemEnumeration implements StorageItemEnumeration {
     }
 
 
-
     public int getBlockSize() {
 
         return blockSize;
 
     }
-
 
 
     public void setBlockSize(int newSize) {
@@ -95,19 +85,17 @@ public class GenericStorageItemEnumeration implements StorageItemEnumeration {
     }
 
 
-
     public String getTable() {
 
         return table;
 
     }
 
-    public void setTable(String newTable){
+    public void setTable(String newTable) {
 
         table = newTable;
 
     }
-
 
 
     public String getCodeField() {
@@ -117,60 +105,55 @@ public class GenericStorageItemEnumeration implements StorageItemEnumeration {
     }
 
 
-
-    public void setCodeField(String newCode){
+    public void setCodeField(String newCode) {
 
         codeField = newCode;
 
     }
 
 
+    private String getFieldList() {
 
-	private String getFieldList() {
+        System.out.println("-----------------field list-----------------");
 
-		System.out.println("-----------------field list-----------------");
+        if (fieldList == null) {
 
-		if (fieldList==null) {
+            String strResult = "";
 
-	       String strResult = "";
+            for (int i = 0; i < result.getFieldNames().length; i++) {
 
-	       for (int i=0;i<result.getFieldNames().length;i++) {
+                strResult += result.getFieldNames()[i];
 
-				 strResult += result.getFieldNames()[i];
+                if (i != result.getFieldNames().length - 1) {
 
-				 if (i!=result.getFieldNames().length-1) {
+                    strResult += ",";
 
-					strResult+=",";
+                }
 
-				 }
+            }
 
-	       }
+            fieldList = strResult;
 
-		   fieldList = strResult;
+        }
 
-		}
+        return fieldList;
 
-		return fieldList;
-
-	}
-
+    }
 
 
     public void setStatement(Statement newStatement) throws SQLException {
 
         statement = newStatement;
 
-        ResultSet rs = statement.executeQuery("select max("+getCodeField()+") from "+getTable());
+        ResultSet rs = statement.executeQuery("select max(" + getCodeField() + ") from " + getTable());
 
         if (rs.next()) {
 
             lastUsedCode = rs.getInt(1);
 
-            System.out.println ("------MAX_CODE>> " + lastUsedCode);
+            System.out.println("------MAX_CODE>> " + lastUsedCode);
 
-        }
-
-        else {
+        } else {
 
             throw new SQLException("Could not get last code!");
 
@@ -181,7 +164,6 @@ public class GenericStorageItemEnumeration implements StorageItemEnumeration {
     }
 
 
-
     public Statement getStatement() {
 
         return statement;
@@ -189,46 +171,45 @@ public class GenericStorageItemEnumeration implements StorageItemEnumeration {
     }
 
 
+    public boolean hasNext() throws StorageException {
 
-    public boolean hasNext() throws StorageException{
-
-        try{
+        try {
 
             boolean next = false;
 
 //			System.out.println("-----------------has next ?-----------------");
 
-            if((rs == null) || (!(next=rs.next()))){
+            if ((rs == null) || (!(next = rs.next()))) {
 
 //				System.out.println("-----------------antes de while-----------------");
 
                 boolean canExit = false;
 
-                while ((initialCode <=lastUsedCode) && !canExit) {
+                while ((initialCode <= lastUsedCode) && !canExit) {
 
-                    if(rs!=null){
+                    if (rs != null) {
 
                         rs.close();
 
                     }
 
-					String sql = "select " +getFieldList() + " from " +getTable()+
+                    String sql = "select " + getFieldList() + " from " + getTable() +
 
-                                       " where " +getCodeField()+ ">="  +initialCode+ " and "
+                            " where " + getCodeField() + ">=" + initialCode + " and "
 
-                                                 +getCodeField()+ "<" +(initialCode+getBlockSize()) +
+                            + getCodeField() + "<" + (initialCode + getBlockSize()) +
 
-                                       " order by " + getCodeField();
+                            " order by " + getCodeField();
 
-					System.out.println("##sql>>"+sql);
+                    System.out.println("##sql>>" + sql);
 
                     rs = getStatement().executeQuery(sql);
 
-                    initialCode+=getBlockSize();
+                    initialCode += getBlockSize();
 
-					System.out.println("##blockSize::"+getBlockSize());
+                    System.out.println("##blockSize::" + getBlockSize());
 
-                    next =rs.next();
+                    next = rs.next();
 
                     canExit = next;
 
@@ -238,7 +219,7 @@ public class GenericStorageItemEnumeration implements StorageItemEnumeration {
 
             return next;
 
-        }catch(SQLException sqle){
+        } catch (SQLException sqle) {
 
             throw new StorageException(sqle.getMessage());
 
@@ -247,136 +228,131 @@ public class GenericStorageItemEnumeration implements StorageItemEnumeration {
     }
 
 
-
     public StorageItem next() throws StorageException {
 
         try {
 
-			for (int count=0;count<result.getFieldNames().length;count++) {
+            for (int count = 0; count < result.getFieldNames().length; count++) {
 
-				result.setValue(result.getFieldNames()[count],getObject(rs,result.getFieldNames()[count]));
+                result.setValue(result.getFieldNames()[count], getObject(rs, result.getFieldNames()[count]));
 
-			}
+            }
 
             return result;
 
         }//try
 
-        catch(SQLException sqle){
+        catch (SQLException sqle) {
 
             throw new StorageException(sqle.getMessage());
 
         }//catch
 
-        catch(DataNotFoundException sqle){
+        catch (DataNotFoundException sqle) {
 
             throw new StorageException(sqle.getMessage());
 
         }//catch
 
-        catch(IOException sqle){
+        catch (IOException sqle) {
 
             throw new StorageException(sqle.getMessage());
 
         }//catch
-
 
 
     }
 
 
+    public Object getObject(ResultSet _rs, String _fieldName) throws SQLException, DataNotFoundException, IOException {
 
-	public Object getObject(ResultSet _rs, String _fieldName ) throws SQLException, DataNotFoundException, IOException {
-
-	 int type = result.getTypeByName(_fieldName);
+        int type = result.getTypeByName(_fieldName);
 
 //         System.out.println("Tipo::"+type);
 
 
+        switch (type) {
 
-      switch (type) {
+            case Field.BYTE_TYPE:
 
-          case Field.BYTE_TYPE:
+            {
 
-          {
+                return new Byte(rs.getByte(_fieldName));
 
-             return new Byte(rs.getByte(_fieldName));
+            }
 
-          }
+            case Field.INT_TYPE:
 
-          case Field.INT_TYPE:
+            {
 
-          {
+                return new Integer(rs.getInt(_fieldName));
 
-             return new Integer(rs.getInt(_fieldName));
+            }
 
-          }
+            case Field.LONG_TYPE:
 
-          case Field.LONG_TYPE:
+            {
 
-          {
+                return new Long(rs.getLong(_fieldName));
 
-             return new Long(rs.getLong(_fieldName));
+            }
 
-          }
+            case Field.STRING_TYPE:
 
-          case Field.STRING_TYPE:
+            {
 
-          {
+                String word = rs.getString(_fieldName);
 
-             String word  = rs.getString(_fieldName);
+                if (word != null) {
 
-             if (word!=null) {
+                    word = replaceSpecialChars(word);
 
-                word = replaceSpecialChars(word);
+                }
 
-             }
+                return word;
 
-             return word;
+            }
 
-          }
+            case Field.DOUBLE_TYPE:
 
-          case Field.DOUBLE_TYPE:
+            {
 
-          {
+                return new Double(rs.getDouble(_fieldName));
 
-             return new Double(rs.getDouble(_fieldName));
+            }
 
-          }
+            default:
 
-          default:
+            {
 
-          {
+                throw new IOException("tipo invï¿½lido: " + type);
 
-             throw new IOException("tipo inválido: " + type);
+            }
 
-          }
+        }
 
-		}
-
-	}
-
+    }
 
 
     public void free() throws StorageException {
 
-        try{
+        try {
 
-			if (rs!=null) {
+            if (rs != null) {
 
-               rs.close();
+                rs.close();
 
-			}
+            }
 
-			if (getStatement()!=null) {
+            if (getStatement() != null) {
 
-               getStatement().close();
+                getStatement().close();
 
-			}
+            }
 
         } //try
 
-        catch(SQLException sqle){
+        catch (SQLException sqle) {
 
             throw new StorageException(sqle);
 
@@ -385,41 +361,39 @@ public class GenericStorageItemEnumeration implements StorageItemEnumeration {
     }
 
 
-
     private String replaceSpecialChars(String _line) {
 
-           String line = _line;
+        String line = _line;
 
 //           System.out.println("replace em : "+line);
 
-           while (line.lastIndexOf("\n")!=-1) {
+        while (line.lastIndexOf("\n") != -1) {
 
-              line = line.replace('\n',' ');
+            line = line.replace('\n', ' ');
 
 //              System.out.println("replace ql");
 
-           }
+        }
 
-           while (line.lastIndexOf("\t")!=-1) {
+        while (line.lastIndexOf("\t") != -1) {
 
-              line = line.replace('\t',' ');
+            line = line.replace('\t', ' ');
 
 //              System.out.println("replace tab");
 
-           }
+        }
 
-           while (line.lastIndexOf("\r")!=-1) {
+        while (line.lastIndexOf("\r") != -1) {
 
-              line = line.replace('\r',' ');
+            line = line.replace('\r', ' ');
 
 //              System.out.println("replace return");
 
-           }
+        }
 
-           return line.trim();
+        return line.trim();
 
-   }
-
+    }
 
 
 }

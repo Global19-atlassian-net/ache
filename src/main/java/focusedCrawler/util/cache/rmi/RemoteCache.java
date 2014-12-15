@@ -24,7 +24,6 @@
 package focusedCrawler.util.cache.rmi;
 
 
-
 import java.util.*;
 
 import java.rmi.RemoteException;
@@ -37,37 +36,23 @@ import focusedCrawler.util.cache.ObjectFactory;
 import focusedCrawler.util.distribution.rmi.RemoteObjectGenerator;
 
 
-
-
-
-
-
-
-
-
-
 /**
-
  * Classe que utiliza uma cache remota via RMI.
-
+ * <p/>
  * Permite a utilizacao de uma cache remota.
-
- *
-
+ * <p/>
+ * <p/>
+ * <p/>
  * <BR>Modo de usar:
-
+ * <p/>
  * <BR>--
-
+ * <p/>
  * <BR>Cache myCache = new RemoteCache("rmi://server:port/server-name");
-
+ * <p/>
  * <BR>--
-
  *
-
  * @see focusedCrawler.util.cache.rmi.RemoteCacheServer
-
  * @see focusedCrawler.util.cache.rmi.RemoteCacheServerImpl
-
  */
 
 public class RemoteCache implements Cache {
@@ -75,33 +60,19 @@ public class RemoteCache implements Cache {
     private int FAULT_TOLERANT = 1;
 
 
-
     private RemoteCacheServer server;
 
     private RemoteObjectGenerator objectGenerator;
 
 
-
     /**
-
      * Construtor da Classe
-
      *
-
      * @param url a url do servidor de cache
-
-     *
-
-     *
-
-     * @throws java.rmi.NotBoundException
-
-     * @throws java.rmi.UnknownHostException
-
-     * @throws java.rmi.RemoteException
-
      * @param url a url rmi da cache
-
+     * @throws java.rmi.NotBoundException
+     * @throws java.rmi.UnknownHostException
+     * @throws java.rmi.RemoteException
      */
 
     public RemoteCache(RemoteObjectGenerator _objectGenerator) throws CacheException {
@@ -111,7 +82,6 @@ public class RemoteCache implements Cache {
         createServer();
 
     }
-
 
 
     private void createServer() throws CacheException {
@@ -133,15 +103,12 @@ public class RemoteCache implements Cache {
     } //createServer
 
 
-
     /**
-
      * retorna o tamanho da cache
-
-     * @return  tamanho da cache, retorna -1 se nao conseguir conectar
-
-     *          com o servidor
-
+     *
+     * @return tamanho da cache, retorna -1 se nao conseguir conectar
+     * <p/>
+     * com o servidor
      */
 
     public int size() {
@@ -156,7 +123,7 @@ public class RemoteCache implements Cache {
 
             re.printStackTrace();
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -183,19 +150,16 @@ public class RemoteCache implements Cache {
     } //size
 
 
-
     /**
-
      * retorna o tamanho maximo da cache. Se algum objeto novo for
-
+     * <p/>
      * inserido e a cache estiver com o tamanho maximo algum ou alguns
-
+     * <p/>
      * outros objetos deverao ser removidos para o novo objeto ser inserido.
-
-     * @return  tamanho maximo da cache, retorna -1 se nao conseguir conectar
-
-     *          com o servidor
-
+     *
+     * @return tamanho maximo da cache, retorna -1 se nao conseguir conectar
+     * <p/>
+     * com o servidor
      */
 
     public int getMaxSize() {
@@ -208,7 +172,7 @@ public class RemoteCache implements Cache {
 
             re.printStackTrace();
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -235,15 +199,12 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * numero de objectos que serao removidos quando acontecer uma falta.
-
+     *
      * @return numero de objectos que serao removidos quando acontecer uma falta
-
-     *        retorna -1 se nao conseguir conectar com o servidor
-
+     * <p/>
+     * retorna -1 se nao conseguir conectar com o servidor
      */
 
     public int getRemoveQuantity() {
@@ -254,7 +215,7 @@ public class RemoteCache implements Cache {
 
         } catch (RemoteException re) {
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -281,15 +242,11 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * muda Tamanho maximo da cache.
-
-     * @param  newSize o novo tamanho maximo
-
+     *
+     * @param newSize o novo tamanho maximo
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
      */
 
     public void setMaxSize(int newSize) throws CacheException {
@@ -300,7 +257,7 @@ public class RemoteCache implements Cache {
 
         } catch (RemoteException re) {
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -343,17 +300,13 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Muda o numero de quantidade de objetos que devem ser removidos quando
-
+     * <p/>
      * acontece uma falta.
-
+     *
      * @param qtd o novo numero de quantos objetos serao removidos apos uma falha.
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
      */
 
     public void setRemoveQuantity(int qtd) throws CacheException {
@@ -364,7 +317,7 @@ public class RemoteCache implements Cache {
 
         } catch (RemoteException re) {
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -407,21 +360,13 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Retorna o dado associado a cache dada.
-
      *
-
-     * @param  key   Chave que representa o objeto na cache
-
+     * @param key Chave que representa o objeto na cache
      * @return o objeto procurado ou null se nao estiver na cache.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object get(CacheKey key) throws CacheException {
@@ -432,7 +377,7 @@ public class RemoteCache implements Cache {
 
         } catch (RemoteException re) {
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -473,19 +418,13 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Retorna um array com dados associados as caches dadas.
-
-     * @param  key   Array de chaves
-
+     *
+     * @param key Array de chaves
      * @return Retorna array de objetos, respeitando a ordem das chaves.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] get(CacheKey[] key) throws CacheException {
@@ -496,7 +435,7 @@ public class RemoteCache implements Cache {
 
         } catch (RemoteException re) {
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -537,23 +476,15 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Coloca o dado na cache., atualiza dado se a chave ja
-
+     * <p/>
      * estiver na cache.
-
      *
-
-     * @param  key   Chave que representa o objeto na cache
-
-     * @param  data  o objeto de dados.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
+     * @param key  Chave que representa o objeto na cache
+     * @param data o objeto de dados.
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object put(CacheKey key, Object data) throws CacheException {
@@ -564,7 +495,7 @@ public class RemoteCache implements Cache {
 
         } catch (RemoteException re) {
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -580,7 +511,7 @@ public class RemoteCache implements Cache {
 
                 try {
 
-                    return server.put(key,data);
+                    return server.put(key, data);
 
                 } //for
 
@@ -605,23 +536,14 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Coloca um array de dados na cache, sobrescrevendo os valores existentes.
-
      *
-
-     * @param  key[]   Array de chaves
-
-     * @param  data[]  Array com os novos dados.
-
+     * @param key[]  Array de chaves
+     * @param data[] Array com os novos dados.
      * @return Retorna os valores que estavam na cache antes do put.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
      */
 
     public Object[] put(CacheKey[] key, Object[] data) throws CacheException {
@@ -632,7 +554,7 @@ public class RemoteCache implements Cache {
 
         } catch (RemoteException re) {
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -648,7 +570,7 @@ public class RemoteCache implements Cache {
 
                 try {
 
-                    return server.put(key,data);
+                    return server.put(key, data);
 
                 } //for
 
@@ -673,23 +595,14 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Retorna o dado associado na cache remota.
-
      *
-
-     * @param  key   Chave que representa o objeto na cache
-
+     * @param key Chave que representa o objeto na cache
      * @return o objeto procurado
-
-     * @see focusedCrawler.util.cache.CacheKey
-
-     * @see focusedCrawler.util.cache.ObjectFactory
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
+     * @see focusedCrawler.util.cache.ObjectFactory
      */
 
     public Object getUpdate(CacheKey key) throws CacheException {
@@ -700,7 +613,7 @@ public class RemoteCache implements Cache {
 
         } catch (RemoteException re) {
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -741,29 +654,22 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Retorna um array de dados assoaciado um array de chaves fornecido.
-
+     * <p/>
      * caso o objeto nao esteja na cache, cria um novo utilizando o ObjectFactory
-
+     * <p/>
      * e coloca na cache. se a cache estiver cheia, remove alguns dado da cache.
-
+     * <p/>
      * Observe que existe uma correspondencia entre a posicao do objeto retornado e
-
+     * <p/>
      * a posicao da chave fornecida.
-
-     * @param  key[]   Array de chaves
-
+     *
+     * @param key[] Array de chaves
      * @return Array com os objetos procurados.
-
-     * @see focusedCrawler.util.cache.CacheKey
-
-     * @see focusedCrawler.util.cache.ObjectFactory
-
      * @throws focusedCrawler.util.cache.CacheException caso aconteca algum erro
-
+     * @see focusedCrawler.util.cache.CacheKey
+     * @see focusedCrawler.util.cache.ObjectFactory
      */
 
     public Object[] getUpdate(CacheKey[] key) throws CacheException {
@@ -774,7 +680,7 @@ public class RemoteCache implements Cache {
 
         } catch (RemoteException re) {
 
-            for (int counter=0; counter < FAULT_TOLERANT; counter++) {
+            for (int counter = 0; counter < FAULT_TOLERANT; counter++) {
 
                 try {
 
@@ -815,11 +721,8 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Sem implementacao
-
      */
 
     public void setFactory(ObjectFactory fac) {
@@ -827,11 +730,8 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Sem implementacao
-
      */
 
     public ObjectFactory getFactory() {
@@ -841,11 +741,9 @@ public class RemoteCache implements Cache {
     }
 
 
-
     public void setDestroyer(ObjectDestroyer d) {
 
     }
-
 
 
     public ObjectDestroyer getDestroyer() {
@@ -855,15 +753,10 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Remove o dado referente a chave dada da cache
-
      *
-
      * @return o dado removido ou null se nao existia na cache
-
      */
 
     public Object remove(CacheKey key) throws CacheException {
@@ -891,17 +784,10 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * Remove os dados referente as chaves dadas
-
      *
-
      * @return Array com dados removidos, se um dado nao estava na cache sua posicao sera nula
-
-     *
-
      */
 
     public Object[] remove(CacheKey[] key) throws CacheException {
@@ -929,11 +815,8 @@ public class RemoteCache implements Cache {
     }
 
 
-
     /**
-
      * retorna a enumeracao das chaves desta cache
-
      */
 
     public Iterator getKeys() throws CacheException {
@@ -959,7 +842,6 @@ public class RemoteCache implements Cache {
         }
 
     }
-
 
 
     public void clear() throws CacheException {

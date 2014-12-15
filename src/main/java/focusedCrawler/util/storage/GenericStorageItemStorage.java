@@ -24,7 +24,6 @@
 package focusedCrawler.util.storage;
 
 
-
 import java.sql.SQLException;
 
 import java.sql.Connection;
@@ -45,35 +44,21 @@ import focusedCrawler.util.storage.StorageDefault;
 import focusedCrawler.util.storage.StorageException;
 
 
-
-
-
-
-
-
-
-
-
-
-
 public class GenericStorageItemStorage extends StorageDefault {
-
 
 
     private Connection con = null;
 
 
+    private String table;
 
-	private String table;
+    private String fieldList;
 
-	private String fieldList;
+    private String fieldSpotList;
 
-	private String fieldSpotList;
+    private String[] fields;
 
-	private String[] fields;
-
-	private String codeField;
-
+    private String codeField;
 
 
     private PreparedStatement pstmt_insert;
@@ -85,7 +70,6 @@ public class GenericStorageItemStorage extends StorageDefault {
     private Statement stmt;
 
 
-
     public GenericStorageItemStorage() {
 
         super();
@@ -93,64 +77,53 @@ public class GenericStorageItemStorage extends StorageDefault {
     } //PageItemStorage
 
 
-
-
-
-    protected void setConnection(Connection con){
+    protected void setConnection(Connection con) {
 
         this.con = con;
 
     }
 
 
+    public String getTable() {
 
-	public String getTable() {
+        return table;
 
-		return table;
-
-	}
-
+    }
 
 
-	public void setTable(String _table) {
+    public void setTable(String _table) {
 
-		System.out.println("TABLE_NAME::"+_table);
+        System.out.println("TABLE_NAME::" + _table);
 
-		table = _table;
+        table = _table;
 
-	}
-
-
+    }
 
 
+    public void setFields(String[] _fields) {
 
-	public void setFields(String[] _fields){
+        fields = _fields;
 
-		fields = _fields;
-
-	}
-
+    }
 
 
-    protected Connection getConnection(){
+    protected Connection getConnection() {
 
         return con;
 
     }
 
     /**
-
      * Apaga todas as linhas da tabela
-
      */
 
-    private void deleteRows() throws SQLException{
+    private void deleteRows() throws SQLException {
 
         stmt = getConnection().createStatement();
 
-        String sql = "DELETE FROM "+getTable();
+        String sql = "DELETE FROM " + getTable();
 
-		System.out.println("sql>>"+sql);
+        System.out.println("sql>>" + sql);
 
         stmt.executeUpdate(sql);
 
@@ -163,104 +136,96 @@ public class GenericStorageItemStorage extends StorageDefault {
     }
 
 
+    private String getFieldList() {
 
-	private String getFieldList() {
+        if (fieldList == null) {
 
-		if (fieldList==null) {
+            String strResult = "";
 
-	       String strResult = "";
+            for (int i = 0; i < fields.length; i++) {
 
-	       for (int i=0;i<fields.length;i++) {
+                strResult += fields[i];
 
-				 strResult += fields[i];
+                if (i != fields.length - 1) {
 
-				 if (i!=fields.length-1) {
+                    strResult += ",";
 
-					strResult+=",";
+                }
 
-				 }
+            }
 
-	       }
+            fieldList = strResult;
 
-		   fieldList = strResult;
+        }
 
-		}
+        return fieldList;
 
-		return fieldList;
-
-	}
-
+    }
 
 
+    private String getFieldSpotList() {
+
+        if (fieldList == null) {
+
+            String strResult = "";
+
+            for (int i = 0; i < fields.length; i++) {
+
+                strResult += fields[i] + "= ?";
+
+                if (i != fields.length - 1) {
+
+                    strResult += ",";
+
+                }
+
+            }
+
+            fieldList = strResult;
+
+        }
+
+        return fieldList;
+
+    }
 
 
-	private String getFieldSpotList() {
+    private String getSpotList() {
 
-		if (fieldList==null) {
+        if (fieldSpotList == null) {
 
-	       String strResult = "";
+            String strResult = "";
 
-	       for (int i=0;i<fields.length;i++) {
+            for (int i = 0; i < fields.length; i++) {
 
-				 strResult += fields[i] + "= ?";
+                strResult += "?";
 
-				 if (i!=fields.length-1) {
+                if (i != fields.length - 1) {
 
-					strResult+=",";
+                    strResult += ",";
 
-				 }
+                }
 
-	       }
+            }
 
-		   fieldList = strResult;
+            fieldSpotList = strResult;
 
-		}
+        }
 
-		return fieldList;
+        return fieldSpotList;
 
-	}
-
-
-
-
-
-	private String getSpotList() {
-
-		if (fieldSpotList==null) {
-
-	       String strResult = "";
-
-	       for (int i=0;i<fields.length;i++) {
-
-				 strResult += "?";
-
-				 if (i!=fields.length-1) {
-
-					strResult+=",";
-
-				 }
-
-	       }
-
-		   fieldSpotList = strResult;
-
-		}
-
-		return fieldSpotList;
-
-	}
-
+    }
 
 
     public Object[] insertArray(Object[] objs) throws CommunicationException, StorageException {
 
         for (int counter = 0; counter < objs.length; counter++) {
 
-		   insert(objs[counter]);
+            insert(objs[counter]);
 
-         } //for
+        } //for
 
-         return null;
+        return null;
 
     } //insertArray
 
@@ -274,9 +239,9 @@ public class GenericStorageItemStorage extends StorageDefault {
 
         } //try
 
-        catch(Exception erro) {
+        catch (Exception erro) {
 
-            throw new StorageException ("Problemas com bd :" + erro.getMessage(),erro );
+            throw new StorageException("Problemas com bd :" + erro.getMessage(), erro);
 
         } //catch
 
@@ -285,22 +250,21 @@ public class GenericStorageItemStorage extends StorageDefault {
     } //insert
 
 
-
     private int insertGenericItem(GenericStorageItem info) throws SQLException, DataNotFoundException {
 
-		if (fields==null) {
+        if (fields == null) {
 
-		   setFields(info.getFieldNames());
+            setFields(info.getFieldNames());
 
-		}
+        }
 
         if (pstmt_insert == null) {
 
-            String sql = "INSERT INTO "+getTable()+" ("+getFieldList()+") ";
+            String sql = "INSERT INTO " + getTable() + " (" + getFieldList() + ") ";
 
-            sql += "VALUES ("+getSpotList()+")";
+            sql += "VALUES (" + getSpotList() + ")";
 
-			System.out.println("sql>>"+sql);
+            System.out.println("sql>>" + sql);
 
             pstmt_insert = getConnection().prepareStatement(sql);
 
@@ -308,7 +272,7 @@ public class GenericStorageItemStorage extends StorageDefault {
 
 //		System.out.println("vai setPreparedStatement");
 
-		setPreparedStatement(info,pstmt_insert);
+        setPreparedStatement(info, pstmt_insert);
 
 //		System.out.println("saiu de setPreparedStatement");
 
@@ -321,95 +285,91 @@ public class GenericStorageItemStorage extends StorageDefault {
     }
 
 
+    private void setPreparedStatement(GenericStorageItem info, PreparedStatement pstmt) throws DataNotFoundException, SQLException {
 
-    private void setPreparedStatement(GenericStorageItem info, PreparedStatement pstmt) throws DataNotFoundException, SQLException{
+        Object o;
 
-		Object o;
-
-		int type;
+        int type;
 
 //		System.out.println("num campos:"+fields.length);
 
-		for(int count=0;count<fields.length;count++) {
+        for (int count = 0; count < fields.length; count++) {
 
-		   o = info.getValue(fields[count]);
+            o = info.getValue(fields[count]);
 
-		   type = info.getTypeByName(fields[count]);
+            type = info.getTypeByName(fields[count]);
 
 //		   System.out.println("campo:"+fields[count]+", valor:"+o+", contador(select):"+(count+1));
 
 
+            switch (type) {
 
-		   switch (type) {
+                case Field.BYTE_TYPE:
 
-				  case Field.BYTE_TYPE:
+                {
 
-                  {
+                    pstmt.setByte(count + 1, ((Byte) o).byteValue());
 
-					pstmt.setByte(count+1,((Byte)o).byteValue());
+                    break;
 
-					break;
+                }
 
-                  }
+                case Field.INT_TYPE:
 
-                  case Field.INT_TYPE:
+                {
 
-                  {
+                    pstmt.setInt(count + 1, ((Integer) o).intValue());
 
-					pstmt.setInt(count+1,((Integer)o).intValue());
+                    break;
 
-					break;
+                }
 
-                  }
+                case Field.LONG_TYPE:
 
-                  case Field.LONG_TYPE:
+                {
 
-                  {
+                    pstmt.setLong(count + 1, ((Long) o).longValue());
 
-					pstmt.setLong(count+1,((Long)o).longValue());
+                    break;
 
-					break;
+                }
 
-                  }
+                case Field.STRING_TYPE:
 
-                  case Field.STRING_TYPE:
-
-                  {
-
+                {
 
 
-					pstmt.setString(count+1,(String)o);
+                    pstmt.setString(count + 1, (String) o);
 
-					break;
+                    break;
 
-                  }
+                }
 
-			      case Field.DOUBLE_TYPE:
+                case Field.DOUBLE_TYPE:
 
-                  {
+                {
 
 //					System.out.println("Double_Value::"+((Double)o).doubleValue());
 
-					pstmt.setDouble(count+1,((Double)o).doubleValue());
+                    pstmt.setDouble(count + 1, ((Double) o).doubleValue());
 
-					break;
+                    break;
 
-                  }
+                }
 
-                  default:
+                default:
 
-                  {
+                {
 
-					break;
+                    break;
 
-                  }
+                }
 
-		}//case
+            }//case
 
-      }//for
+        }//for
 
-  	}
-
+    }
 
 
     public Object[] updateArray(Object[] objs) throws CommunicationException, StorageException {
@@ -425,7 +385,6 @@ public class GenericStorageItemStorage extends StorageDefault {
     } //updateArray
 
 
-
     public Object update(Object obj) throws StorageException, CommunicationException {
 
         GenericStorageItem info = (GenericStorageItem) obj;
@@ -436,9 +395,9 @@ public class GenericStorageItemStorage extends StorageDefault {
 
         } //try
 
-        catch(SQLException erro) {
+        catch (SQLException erro) {
 
-            throw new StorageException ("Problemas com bd :" + erro.getMessage(),erro);
+            throw new StorageException("Problemas com bd :" + erro.getMessage(), erro);
 
         } //catch
 
@@ -447,21 +406,19 @@ public class GenericStorageItemStorage extends StorageDefault {
     } //update
 
 
+    private void updateGenericStorageItem(GenericStorageItem info) throws SQLException, StorageException {
 
-    private void updateGenericStorageItem(GenericStorageItem info) throws SQLException,StorageException {
-
-        if(stmt == null)
+        if (stmt == null)
 
             stmt = getConnection().createStatement();
 
-		int code = ((Integer)info.getValue(codeField)).intValue();
+        int code = ((Integer) info.getValue(codeField)).intValue();
 
-		String sql = "select count(*) from "+getTable()+" where "+codeField+"="+code;
+        String sql = "select count(*) from " + getTable() + " where " + codeField + "=" + code;
 
-		System.out.println("sql>>"+sql);
+        System.out.println("sql>>" + sql);
 
         ResultSet rs = stmt.executeQuery(sql);
-
 
 
         rs.next();
@@ -470,27 +427,27 @@ public class GenericStorageItemStorage extends StorageDefault {
 
         rs.close();
 
-        if(number == 1){
+        if (number == 1) {
 
             if (pstmt_update == null) {
 
-                sql = "UPDATE "+getTable()+" SET "+getFieldSpotList()+" WHERE "+codeField+" = ?";
+                sql = "UPDATE " + getTable() + " SET " + getFieldSpotList() + " WHERE " + codeField + " = ?";
 
-				System.out.println("sql>>"+sql);
+                System.out.println("sql>>" + sql);
 
                 pstmt_update = getConnection().prepareStatement(sql);
 
             }
 
-			try {
+            try {
 
-			    setPreparedStatement(info,pstmt_update);
+                setPreparedStatement(info, pstmt_update);
 
-			} catch (Exception e) {
+            } catch (Exception e) {
 
-				throw new StorageException(e.getMessage());
+                throw new StorageException(e.getMessage());
 
-			}
+            }
 
             pstmt_update.executeUpdate();
 
@@ -499,7 +456,6 @@ public class GenericStorageItemStorage extends StorageDefault {
         }
 
     }
-
 
 
     public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException {
@@ -515,12 +471,11 @@ public class GenericStorageItemStorage extends StorageDefault {
     } //removeArray
 
 
-
     public Object remove(Object obj) throws StorageException, CommunicationException {
 
         GenericStorageItem info = (GenericStorageItem) obj;
 
-        try{
+        try {
 
             if (stmt_remove == null) {
 
@@ -528,13 +483,13 @@ public class GenericStorageItemStorage extends StorageDefault {
 
             } //if
 
-			int code = ((Integer)info.getValue(codeField)).intValue();
+            int code = ((Integer) info.getValue(codeField)).intValue();
 
-            stmt_remove.executeUpdate("delete from "+getTable()+" where "+codeField+"="+code);
+            stmt_remove.executeUpdate("delete from " + getTable() + " where " + codeField + "=" + code);
 
         }//try
 
-        catch(SQLException sqle){
+        catch (SQLException sqle) {
 
             throw new StorageException(sqle);
 
@@ -545,37 +500,32 @@ public class GenericStorageItemStorage extends StorageDefault {
     } //remove
 
 
-
     public Object[] selectArray(Object[] objs) throws StorageException, CommunicationException {
 
-        throw new StorageException ("Metodo nao implementado!");
+        throw new StorageException("Metodo nao implementado!");
 
     } //selectArray
 
 
-
     public Object select(Object obj) throws StorageException, CommunicationException {
 
-        throw new StorageException ("Metodo nao implementado!");
+        throw new StorageException("Metodo nao implementado!");
 
     } //select
 
 
-
     public Enumeration selectEnumeration(Object obj) throws StorageException, CommunicationException {
 
-        throw new StorageException ("Metodo nao implementado!");
+        throw new StorageException("Metodo nao implementado!");
 
     } //selectEnumeration
 
 
-
     public Object finalize(Object obj) throws StorageException, CommunicationException {
 
-        return commit (obj);
+        return commit(obj);
 
     } //finalize
-
 
 
     public Object commit(Object obj) throws StorageException, CommunicationException {
@@ -588,14 +538,13 @@ public class GenericStorageItemStorage extends StorageDefault {
 
         catch (SQLException erro) {
 
-            throw new StorageException ("Nao conseguiu realizar commit: " +erro.getMessage());
+            throw new StorageException("Nao conseguiu realizar commit: " + erro.getMessage());
 
         } //catch
 
         return null;
 
     } //commit
-
 
 
     public Object rollback(Object obj) throws StorageException, CommunicationException {
@@ -608,7 +557,7 @@ public class GenericStorageItemStorage extends StorageDefault {
 
         catch (SQLException erro) {
 
-            throw new StorageException ("Nao conseguiu realizar commit: " +erro.getMessage());
+            throw new StorageException("Nao conseguiu realizar commit: " + erro.getMessage());
 
         } //catch
 
@@ -617,37 +566,32 @@ public class GenericStorageItemStorage extends StorageDefault {
     } //rollback
 
 
-
     public Object removeResource(Object obj) throws StorageException, CommunicationException {
 
-        throw new StorageException ("Metodo nao implementado!");
+        throw new StorageException("Metodo nao implementado!");
 
     } //removeResource
-
 
 
     public Object[] removeResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
-        throw new StorageException ("Metodo nao implementado!");
+        throw new StorageException("Metodo nao implementado!");
 
     } //removeResourceArray
-
 
 
     public Object addResource(Object obj) throws StorageException, CommunicationException {
 
-        throw new StorageException ("Metodo nao implementado!");
+        throw new StorageException("Metodo nao implementado!");
 
     } //removeResource
 
 
-
     public Object[] addResourceArray(Object[] obj) throws StorageException, CommunicationException {
 
-        throw new StorageException ("Metodo nao implementado!");
+        throw new StorageException("Metodo nao implementado!");
 
     } //removeResourceArray
-
 
 
     public static void main(String[] args) throws Exception {

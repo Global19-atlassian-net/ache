@@ -24,68 +24,53 @@
 package focusedCrawler.util.distribution;
 
 
-
-
-
 import focusedCrawler.util.DetailException;
 
-public class CommunicationException extends DetailException{
+public class CommunicationException extends DetailException {
 
 
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
 
-	/**
-
+    /**
      * Class constructor
-
      */
 
-    public CommunicationException () {
+    public CommunicationException() {
 
         super();
 
     } //CommunicationException
 
 
-
-	/**
-
+    /**
      * Class constructor
-
+     *
      * @param message Detailed message of the exception
-
      */
 
-    public CommunicationException (String message) {
+    public CommunicationException(String message) {
 
         super(message);
 
     } //CommunicationException
 
 
-
-	/**
-
+    /**
      * Class constructor
-
+     *
      * @param message detailed message of the exception
-
      * @param _detail detail of the exception
-
      */
 
-    public CommunicationException (String message, Throwable _detail) {
+    public CommunicationException(String message, Throwable _detail) {
 
-        super(message,_detail);        
+        super(message, _detail);
 
     } //CommunicationException
-
 
 
 } //CommunicationException

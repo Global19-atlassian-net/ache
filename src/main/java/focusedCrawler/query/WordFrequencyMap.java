@@ -28,6 +28,7 @@ package focusedCrawler.query;
  * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2003</p>
  * <p>Company: </p>
+ *
  * @author not attributable
  * @version 1.0
  */
@@ -43,24 +44,24 @@ public class WordFrequencyMap {
         this.frequency = freq;
     }
 
-    public String getWord(){
+    public String getWord() {
         return word;
     }
 
-    public int getFrequency(){
+    public int getFrequency() {
         return frequency;
     }
 
-    public void setWord(String word){
+    public void setWord(String word) {
         this.word = word;
     }
 
-    public void setFrequency(int freq){
+    public void setFrequency(int freq) {
         this.frequency = freq;
     }
 
-    public String toString(){
-    	return word + ":" + frequency;
+    public String toString() {
+        return word + ":" + frequency;
     }
 
 }

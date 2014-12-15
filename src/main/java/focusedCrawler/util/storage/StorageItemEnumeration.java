@@ -26,6 +26,8 @@ package focusedCrawler.util.storage;
 
 public interface StorageItemEnumeration {
     boolean hasNext() throws StorageException;
+
     StorageItem next() throws StorageException;
+
     void free() throws StorageException;
 }

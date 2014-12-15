@@ -24,29 +24,18 @@
 package focusedCrawler.util.cache;
 
 
-
 /**
-
  * Excessao na criacao de um objeto na fabrica de objetos
-
  *
-
- *
-
  * @author Oscar Miranda
-
  * @version 1.0, 1999
-
  */
 
 public class DestroyerException extends CacheException {
 
 
-
     /**
-
      * Construtor da excessao
-
      */
 
     public DestroyerException() {
@@ -56,15 +45,10 @@ public class DestroyerException extends CacheException {
     }
 
 
-
     /**
-
      * Construtor da excessao
-
      *
-
      * @param msg mensagem de erro
-
      */
 
     public DestroyerException(String msg) {
@@ -74,11 +58,8 @@ public class DestroyerException extends CacheException {
     }
 
 
-
     /**
-
      * Construtor da excessao
-
      */
 
     public DestroyerException(Throwable t) {
@@ -88,15 +69,10 @@ public class DestroyerException extends CacheException {
     }
 
 
-
     /**
-
      * Construtor da excessao
-
      *
-
      * @param msg mensagem de erro
-
      */
 
     public DestroyerException(String msg, Throwable t) {

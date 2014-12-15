@@ -34,97 +34,100 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import focusedCrawler.util.parser.PaginaURL;
 import focusedCrawler.util.ParameterFile;
 import focusedCrawler.util.string.StopListArquivo;
 import focusedCrawler.util.string.StopList;
+
 import java.io.IOException;
+
 import focusedCrawler.util.parser.LinkNeighborhood;
 
 /**
- *
  * <p> </p>
- *
+ * <p/>
  * <p>Description: This classifier uses the naive bayes link classifier to
  * set the link priority.</p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2004</p>
- *
+ * <p/>
  * <p> </p>
  *
  * @author Luciano Barbosa
  * @version 1.0
  */
 
-public class LinkClassifierImpl implements LinkClassifier{
+public class LinkClassifierImpl implements LinkClassifier {
 
-	private int[] weights;
-	private int intervalRandom = 100;
-	private LNClassifier lnClassifier;
-  
+    private int[] weights;
+    private int intervalRandom = 100;
+    private LNClassifier lnClassifier;
 
-	public LinkClassifierImpl(LNClassifier lnClassifier, int level) {
 
-		this.weights = new int[]{2,1,0};
-		this.lnClassifier = lnClassifier;
-	}
+    public LinkClassifierImpl(LNClassifier lnClassifier, int level) {
+
+        this.weights = new int[]{2, 1, 0};
+        this.lnClassifier = lnClassifier;
+    }
 
 //  public String[] getFeatures(){
 //    return attributes;
 //  }
 
 
-  /**
-   * This method classifies links based on the priority set by the
-   * naive bayes link classifier.
-   * @param page Page
-   * @return LinkRelevance[]
-   * @throws LinkClassifierException
-   */
+    /**
+     * This method classifies links based on the priority set by the
+     * naive bayes link classifier.
+     *
+     * @param page Page
+     * @return LinkRelevance[]
+     * @throws LinkClassifierException
+     */
 
-  public LinkRelevance[] classify(PaginaURL page) throws LinkClassifierException {
-	  LinkRelevance[] linkRelevance = null;
-	  try {
-		  LinkNeighborhood[] lns = page.getLinkNeighboor();
-		  linkRelevance = new LinkRelevance[lns.length];
-		  for (int i = 0; i < lns.length; i++) {
-			  linkRelevance[i] = classify(lns[i]);
-		  }
-	  }catch(Exception ex){
-		  ex.printStackTrace();
-		  throw new LinkClassifierException(ex.getMessage());
-	  }
-	  return linkRelevance;
-  }
+    public LinkRelevance[] classify(PaginaURL page) throws LinkClassifierException {
+        LinkRelevance[] linkRelevance = null;
+        try {
+            LinkNeighborhood[] lns = page.getLinkNeighboor();
+            linkRelevance = new LinkRelevance[lns.length];
+            for (int i = 0; i < lns.length; i++) {
+                linkRelevance[i] = classify(lns[i]);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new LinkClassifierException(ex.getMessage());
+        }
+        return linkRelevance;
+    }
 
-  public LinkRelevance classify(LinkNeighborhood ln) throws LinkClassifierException {
+    public LinkRelevance classify(LinkNeighborhood ln) throws LinkClassifierException {
 
-	  LinkRelevance linkRel = null;
-	  try {
-		  double[] prob = lnClassifier.classify(ln);
-		  int classificationResult = -1;
-		  double maxProb = -1;
-		  for (int i = 0; i < prob.length; i++) {
-			  if(prob[i] > maxProb){
-				  maxProb = prob[i];
-				  classificationResult = i;
-			  }
-		  }
-		  double probability = prob[classificationResult]*100;
-		  if(probability == 100){
-			  probability = 99;
-		  }
-		  classificationResult = weights[classificationResult];
-		  double result = (classificationResult * intervalRandom) + probability ;  	
-		  linkRel = new LinkRelevance(ln.getLink(),result);
-	  }catch (MalformedURLException ex) {
-		  ex.printStackTrace();
-		  throw new LinkClassifierException(ex.getMessage());
-	  }catch (Exception ex) {
-		  ex.printStackTrace();
-		  throw new LinkClassifierException(ex.getMessage());
-	  }
-	  return linkRel;
-  }
+        LinkRelevance linkRel = null;
+        try {
+            double[] prob = lnClassifier.classify(ln);
+            int classificationResult = -1;
+            double maxProb = -1;
+            for (int i = 0; i < prob.length; i++) {
+                if (prob[i] > maxProb) {
+                    maxProb = prob[i];
+                    classificationResult = i;
+                }
+            }
+            double probability = prob[classificationResult] * 100;
+            if (probability == 100) {
+                probability = 99;
+            }
+            classificationResult = weights[classificationResult];
+            double result = (classificationResult * intervalRandom) + probability;
+            linkRel = new LinkRelevance(ln.getLink(), result);
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+            throw new LinkClassifierException(ex.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new LinkClassifierException(ex.getMessage());
+        }
+        return linkRel;
+    }
 
 }

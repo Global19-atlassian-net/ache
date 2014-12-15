@@ -34,19 +34,10 @@ import focusedCrawler.util.storage.Storage;
 import focusedCrawler.util.storage.StorageException;
 
 
-
-
-
-
-
-
-
 public class StorageRemoteAdapter implements Storage {
 
 
-
     private StorageRemote storage;
-
 
 
     public StorageRemoteAdapter(StorageRemote storage) {
@@ -56,13 +47,11 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
     public void setStorage(StorageRemote newStorage) {
 
         storage = newStorage;
 
     }
-
 
 
     public StorageRemote getStorage() {
@@ -72,340 +61,289 @@ public class StorageRemoteAdapter implements Storage {
     }
 
 
-
-    public Object insert(Object obj) throws StorageException,CommunicationException {
+    public Object insert(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return storage.insert(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object[] insertArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] insertArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return storage.insertArray(objs);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object select(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object select(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         try {
 
             return storage.select(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object[] selectArray(Object[] objs) throws StorageException,DataNotFoundException,CommunicationException {
+    public Object[] selectArray(Object[] objs) throws StorageException, DataNotFoundException, CommunicationException {
 
         try {
 
             return storage.selectArray(objs);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Enumeration selectEnumeration(Object obj) throws StorageException,DataNotFoundException,CommunicationException {
+    public Enumeration selectEnumeration(Object obj) throws StorageException, DataNotFoundException, CommunicationException {
 
         try {
 
             return storage.selectEnumeration(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object update(Object obj) throws StorageException,CommunicationException {
+    public Object update(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return storage.update(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object[] updateArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] updateArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return storage.updateArray(objs);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object remove(Object obj) throws StorageException,CommunicationException {
+    public Object remove(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return storage.remove(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object[] removeArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] removeArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return storage.removeArray(objs);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object addResource(Object obj) throws StorageException,CommunicationException {
+    public Object addResource(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return storage.addResource(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object[] addResourceArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] addResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return storage.addResourceArray(objs);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object removeResource(Object obj) throws StorageException,CommunicationException {
+    public Object removeResource(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return storage.removeResource(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object[] removeResourceArray(Object[] objs) throws StorageException,CommunicationException {
+    public Object[] removeResourceArray(Object[] objs) throws StorageException, CommunicationException {
 
         try {
 
             return storage.removeResourceArray(objs);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object commit(Object obj) throws StorageException,CommunicationException {
+    public Object commit(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return storage.commit(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object rollback(Object obj) throws StorageException,CommunicationException {
+    public Object rollback(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return storage.rollback(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object finalize(Object obj) throws StorageException,CommunicationException {
+    public Object finalize(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return storage.finalize(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 
     }
 
 
-
-    public Object ping(Object obj) throws StorageException,CommunicationException {
+    public Object ping(Object obj) throws StorageException, CommunicationException {
 
         try {
 
             return storage.ping(obj);
 
-        }
-
-        catch( RemoteException exc ) {
+        } catch (RemoteException exc) {
 
             exc.printStackTrace();
 
-            throw new CommunicationException(exc.getMessage(),exc.detail );
+            throw new CommunicationException(exc.getMessage(), exc.detail);
 
         }
 

@@ -24,7 +24,6 @@
 package focusedCrawler.util.cache;
 
 
-
 import java.io.ObjectOutput;
 
 import java.io.ObjectInput;
@@ -34,15 +33,12 @@ import java.io.IOException;
 import java.io.Externalizable;
 
 
-
 /**
-
  * usa um int do hashCode como identificador
-
+ * <p/>
  * se o hashCode de dois objetos forem iguals entao os objetos sao iguais
-
+ * <p/>
  * esta regra deve ser mantida se for usada outra chave
-
  */
 
 public class IntCacheKey implements CacheKey, Externalizable {
@@ -50,13 +46,11 @@ public class IntCacheKey implements CacheKey, Externalizable {
     private int key;
 
 
-
     public IntCacheKey(int key) {
 
-       this.key = key;
+        this.key = key;
 
     }
-
 
 
     public IntCacheKey() {
@@ -64,17 +58,10 @@ public class IntCacheKey implements CacheKey, Externalizable {
     }
 
 
-
     /**
-
      * modifica o objeto chave
-
      *
-
-     *
-
      * @param key a nova chave
-
      */
 
     public void setKey(int key) {
@@ -84,13 +71,11 @@ public class IntCacheKey implements CacheKey, Externalizable {
     }
 
 
-
     public int getValue() {
 
         return key;
 
     }
-
 
 
     public int hashCode() {
@@ -100,7 +85,6 @@ public class IntCacheKey implements CacheKey, Externalizable {
     }
 
 
-
     public boolean equals(Object other) {
 
         return other.hashCode() == hashCode();
@@ -108,21 +92,11 @@ public class IntCacheKey implements CacheKey, Externalizable {
     }
 
 
-
     /**
-
      * retorna a chave de hash
-
      *
-
-     *
-
      * @return a chave de hash
-
-     *
-
      * @see focusedCrawler.util.cache.CacheKey
-
      */
 
     public Object hashKey() {
@@ -132,15 +106,11 @@ public class IntCacheKey implements CacheKey, Externalizable {
     }
 
 
-
-
-
     public String toString() {
 
         return "" + key;
 
     }
-
 
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -154,7 +124,6 @@ public class IntCacheKey implements CacheKey, Externalizable {
         key = in.readInt();
 
     }
-
 
 
 }

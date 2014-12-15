@@ -25,41 +25,40 @@ package focusedCrawler.util.vsm;
 
 /**
  * <p>Title: </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
  *
  * @author not attributable
  * @version 1.0
  */
 public class VSMElement {
 
-  private String word;
-  private double weight;
+    private String word;
+    private double weight;
 
-  public VSMElement(String word, double weight) {
-    this.word = word;
-    this.weight = weight;
-  }
+    public VSMElement(String word, double weight) {
+        this.word = word;
+        this.weight = weight;
+    }
 
-  public String getWord(){
-    return word;
-  }
+    public String getWord() {
+        return word;
+    }
 
-  public double getWeight(){
-    return weight;
-  }
+    public double getWeight() {
+        return weight;
+    }
 
-  public void setWord(String word){
-    this.word = word;
-  }
+    public void setWord(String word) {
+        this.word = word;
+    }
 
-  public void setWeight(double weight){
-    this.weight = weight;
-  }
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
 
-  public String toString(){
-      return word + " " + weight;
-  }
+    public String toString() {
+        return word + " " + weight;
+    }
 
 }

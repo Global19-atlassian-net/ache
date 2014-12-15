@@ -24,7 +24,6 @@
 package focusedCrawler.util.cache;
 
 
-
 import focusedCrawler.util.loader.Loadable;
 import focusedCrawler.util.loader.Loader;
 import focusedCrawler.util.loader.LoaderException;
@@ -32,9 +31,7 @@ import focusedCrawler.util.loader.LoaderException;
 public class CacheLoader implements Loader {
 
 
-
     private Cache cache;
-
 
 
     public CacheLoader() {
@@ -42,15 +39,12 @@ public class CacheLoader implements Loader {
     }
 
 
-
     public CacheLoader(Cache cache) {
 
         this.cache = cache;
 
 
-
     }
-
 
 
     public Loadable getLoadable() {
@@ -58,7 +52,6 @@ public class CacheLoader implements Loader {
         return this.cache;
 
     }
-
 
 
     public void setLoadable(Loadable loadable) {
@@ -72,24 +65,20 @@ public class CacheLoader implements Loader {
     }
 
 
-
     public void load() throws LoaderException {
 
     }
 
 
-
-    public void load (Object objeto) throws LoaderException {
+    public void load(Object objeto) throws LoaderException {
 
         try {
 
-            cache.getUpdate(new ObjectCacheKey (objeto));
+            cache.getUpdate(new ObjectCacheKey(objeto));
 
-        }
+        } catch (CacheException erro) {
 
-        catch (CacheException erro) {
-
-            throw new LoaderException ("Não conseguiu carregar a cache: " + erro.getMessage ());
+            throw new LoaderException("Nï¿½o conseguiu carregar a cache: " + erro.getMessage());
 
         }
 

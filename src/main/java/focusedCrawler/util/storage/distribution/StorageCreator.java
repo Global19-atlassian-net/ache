@@ -63,17 +63,17 @@ public class StorageCreator extends DefaultStorageFactory {
         return result;
     }
 
-      public static void main(String args[]) {
+    public static void main(String args[]) {
 
         try {
 
-            ParameterFile config = new ParameterFile (args);
+            ParameterFile config = new ParameterFile(args);
 
             StorageFactory run = new StorageCreator(config);
 
             Storage storage = run.produce();
 
-            System.out.println ("storage: " + storage);
+            System.out.println("storage: " + storage);
 
             if (args.length > 1) {
 
@@ -117,9 +117,9 @@ public class StorageCreator extends DefaultStorageFactory {
 
                 else if (command.equals("selectArray")) {
 
-                    String[] str = new String[args.length-2];
+                    String[] str = new String[args.length - 2];
 
-                    System.arraycopy(args,2,str,0,str.length);
+                    System.arraycopy(args, 2, str, 0, str.length);
 
                     Object[] obj = storage.selectArray(str);
 
@@ -127,15 +127,14 @@ public class StorageCreator extends DefaultStorageFactory {
 
                     for (int i = 0; i < obj.length; i++) {
 
-                        System.out.println("Select "+str[i]+"="+obj[i]);
+                        System.out.println("Select " + str[i] + "=" + obj[i]);
 
                     }
                 } //else
 
             } //if
 
-        }
-        catch(Exception exc) {
+        } catch (Exception exc) {
             exc.printStackTrace();
         }
     }

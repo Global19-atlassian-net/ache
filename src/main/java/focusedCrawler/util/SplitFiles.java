@@ -29,13 +29,14 @@ import java.io.IOException;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.OutputStream;
+
 /**
  * <p>Title: </p>
- *
+ * <p/>
  * <p>Description: </p>
- *
+ * <p/>
  * <p>Copyright: Copyright (c) 2006</p>
- *
+ * <p/>
  * <p>Company: </p>
  *
  * @author not attributable
@@ -52,10 +53,10 @@ public class SplitFiles {
             IOException {
         String[] files = inputDir.list();
         int count = 1;
-        int numOfFiles = files.length/numOfParts;
+        int numOfFiles = files.length / numOfParts;
         int countFiles = 0;
         for (int i = 0; i < files.length; i++) {
-            if(count < numOfParts && countFiles == numOfFiles){
+            if (count < numOfParts && countFiles == numOfFiles) {
                 count++;
                 countFiles = 0;
             }
@@ -66,23 +67,24 @@ public class SplitFiles {
 
 
     private void copy(File src, File dst) throws IOException {
-               InputStream in = new FileInputStream(src);
-               OutputStream out = new FileOutputStream(dst);
+        InputStream in = new FileInputStream(src);
+        OutputStream out = new FileOutputStream(dst);
 
-               // Transfer bytes from in to out
-               byte[] buf = new byte[1024];
-               int len;
-               while ((len = in.read(buf)) > 0) {
-                   out.write(buf, 0, len);
-               }
-               in.close();
-               out.close();
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
         }
+        in.close();
+        out.close();
+    }
+
     public static void main(String[] args) {
         SplitFiles splitfiles = new SplitFiles();
         try {
             splitfiles.split(new File(args[0]), new Integer(args[1]).intValue(),
-                             new File(args[2]));
+                    new File(args[2]));
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
