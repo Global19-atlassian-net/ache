@@ -21,7 +21,6 @@ dependencies {
     compile 'commons-codec:commons-codec:1.9'
     compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
 
-
     // TODO fill these in from Maven Central instead of that local libs dir
     // TODO recommend replacing these with:
     // compile 'com.cybozu.labs:langdetect:1.1-20120112'
