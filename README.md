@@ -9,7 +9,7 @@ some specific property, by carefully prioritizing the crawl frontier and managin
 
 ### Download with Conda
 
-You can download `ache` from Binstar[2] with Conda[3] by running:
+You can download `ache` from Binstar [2] with Conda [3] by running:
 
 ```bash
   conda install -c memex ache
@@ -50,11 +50,11 @@ To run the ache crawler, you'll first need to build a model.
 $ ache buildModel <target storage config path> <training data path> <output path>
 ```
 
-<target storage config path> is the path to the configuration of the target storage.
+`<target storage config path>` is the path to the configuration of the target storage.
 
-<training_data> is the path to the directory containing positive and negative examples.
+`<training_data>` is the path to the directory containing positive and negative examples.
 
-<output path> is the new directory where you want to save the generated model files: pageclassifier.model and
+`<output path>` is the new directory where you want to save the generated model files: pageclassifier.model and
 pageclassifier.features.
 
 For example:
@@ -71,15 +71,15 @@ To start a crawl, run:
 ```bash
 ache startCrawl <data output path> <config path> <seed path> <model path> <lang detect profile path>
 ```
-<data output path> is the path to the directory you want to store your output.
+`<data output path>` is the path to the directory you want to store your output.
 
-<config path> is the path to the config directory.
+`<config path>` is the path to the config directory.
 
-<seed path> is the path to the seed list file.
+`<seed path>` is the path to the seed list file.
 
-<model path> is the path to the model directory (containing pageclassifier.model and pageclassifier.features).
+`<model path>` is the path to the model directory (containing pageclassifier.model and pageclassifier.features).
 
-<lang detect profile path> is the path to the language detection profile. Note: We are currently refactoring the code.
+`<lang detect profile path>` is the path to the language detection profile. Note: We are currently refactoring the code.
 You'll be able to find it under resources in the near future. You can currently download here:
 [https://code.google.com/p/language-detection/wiki/Downloads](https://code.google.com/p/language-detection/wiki/Downloads).
 
