@@ -22,6 +22,6 @@ export TERM=${TERM:-dumb}
 ./gradlew clean installApp --stacktrace
 
 echo `pwd`
-pushd build/install/focused_crawler
+pushd build/install/ache
 cp -r bin/ ${PREFIX}/bin
 cp -r lib/ ${PREFIX}/lib
