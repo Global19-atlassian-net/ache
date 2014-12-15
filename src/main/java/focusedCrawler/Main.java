@@ -127,6 +127,7 @@ public class Main {
         System.out.println("Focused Crawler");
         System.out.println();
         // TODO package the profiles with gradle build or mash them into the resources
+        // lang detect profile can be downloaded from https://code.google.com/p/language-detection/wiki/Downloads
         System.out.println("startCrawl <data output path> <config path> <seed path> <model path> <lang detect profile path>");
         System.out.println("buildModel <target storage config path> <training data path> <output path>");
         System.out.println();
