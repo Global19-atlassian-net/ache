@@ -35,9 +35,4 @@ dependencies {
 
 // TODO profiles is hardcoded in the libs directory
 
-// TODO Non English comments are causing compile warnings if not included
-tasks.withType(JavaCompile) {
-    options.encoding = "ISO-8859-1"
-}
-
 // TODO create binary for running focusedCrawler.link.LinkStorage, focusedCrawler.crawler.CrawlerManager, focusedCrawler.link.frontier.AddSeeds
