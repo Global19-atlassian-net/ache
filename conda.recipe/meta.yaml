@@ -1,12 +1,13 @@
 package:
-    name: focused_crawler
+    name: ache
     version: 0.1.0
 
 build:
     number: 0
 
 source:
-    path: ../
+    git_url: git@github.com:chdoig/ache.git
+    git_tag: 0.1.0
 
 about:
     license: GPL 2.0
