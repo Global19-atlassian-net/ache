@@ -23,5 +23,10 @@ export TERM=${TERM:-dumb}
 
 echo `pwd`
 pushd build/install/ache
-cp -r bin/ ${PREFIX}/bin
-cp -r lib/ ${PREFIX}/lib
+cp -r bin/* ${PREFIX}/bin/
+cp -r lib/* ${PREFIX}/lib/
+
+mkdir -vp ${PREFIX}/bin;
+mkdir -vp ${PREFIX}/lib;
+mkdir -vp ${PREFIX}/plugins;
+mkdir -vp ${PREFIX}/conf;
