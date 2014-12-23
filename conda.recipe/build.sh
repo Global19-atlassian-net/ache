@@ -22,8 +22,8 @@ export TERM=${TERM:-dumb}
 ./gradlew clean installApp --stacktrace
 
 pushd build/install/ache
-
 cp -r bin/* ${PREFIX}/lib/ache/bin/
 cp -r lib/* ${PREFIX}/lib/ache/lib/
 
-ln -s "${PREFIX}/lib/ache/bin/ache" "${PREFIX}/bin/ache"
+pushd "${PREFIX}/bin"
+ln -vs "${PREFIX}/lib/ache/bin/ache" ache
