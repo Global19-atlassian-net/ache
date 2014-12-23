@@ -27,6 +27,3 @@ cp -r bin/* ${PREFIX}/lib/ache/bin/
 cp -r lib/* ${PREFIX}/lib/ache/lib/
 
 ln -s "${PREFIX}/lib/ache/bin/ache" "${PREFIX}/bin/ache"
-
-+ ln -s /Users/cdoig/anaconda/envs/_build/lib/ache/bin/ache /Users/cdoig/anaconda/envs/_build/bin/ache
-ln: /Users/cdoig/anaconda/envs/_build/bin/ache: No such file or directory
