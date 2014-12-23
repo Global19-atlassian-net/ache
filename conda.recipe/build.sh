@@ -26,4 +26,4 @@ cp -r bin/* ${PREFIX}/lib/ache/bin/
 cp -r lib/* ${PREFIX}/lib/ache/lib/
 
 pushd "${PREFIX}/bin"
-ln -vs "${PREFIX}/lib/ache/bin/ache" ache
+ln -vs "../lib/ache/bin/ache" ache
