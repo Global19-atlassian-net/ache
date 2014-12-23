@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [ "$(uname)" == "Darwin" ]; then
-    export JAVA_HOME=$(/usr/libexec/java_home)
-    export JRE_HOME=${JAVA_HOME}/jre
-else
-    export JAVA_HOME="/usr/lib/jvm/java"
-    export JRE_HOME="/usr/lib/jvm/jre"
-fi
+#if [ "$(uname)" == "Darwin" ]; then
+#    export JAVA_HOME=$(/usr/libexec/java_home)
+#    export JRE_HOME=${JAVA_HOME}/jre
+#else
+#    export JAVA_HOME="/usr/lib/jvm/java"
+#    export JRE_HOME="/usr/lib/jvm/jre"
+#fi
 
 #BLD_DIR=`pwd`
 
@@ -22,6 +22,7 @@ export TERM=${TERM:-dumb}
 ./gradlew clean installApp --stacktrace
 
 pushd build/install/ache
+
 cp -r bin/* ${PREFIX}/ache/bin/
 cp -r lib/* ${PREFIX}/ache/lib/
 
