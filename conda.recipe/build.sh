@@ -13,17 +13,16 @@
 #SRC_DIR=$RECIPE_DIR/..
 #pushd $SRC_DIR
 
-mkdir -vp ${PREFIX}/ache/bin;
-mkdir -vp ${PREFIX}/ache/lib;
+mkdir -vp ${PREFIX}/lib/ache/bin;
+mkdir -vp ${PREFIX}/lib/ache/lib;
 
 # build focused_crawler
-
 export TERM=${TERM:-dumb} 
 ./gradlew clean installApp --stacktrace
 
 pushd build/install/ache
 
-cp -r bin/* ${PREFIX}/ache/bin/
-cp -r lib/* ${PREFIX}/ache/lib/
+cp -r bin/* ${PREFIX}/lib/ache/bin/
+cp -r lib/* ${PREFIX}/lib/ache/lib/
 
-ln -s ${PREFIX}/ache/bin/ache ${PREFIX}/bin/ache
+ln -s "${PREFIX}/lib/ache/bin/ache" "${PREFIX}/bin/ache"
